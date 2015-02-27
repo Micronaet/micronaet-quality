@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Quality sequence: -->
+        <record model="ir.sequence.type" id="seq_claim_type">
+                <field name="name">Quality claim type</field>
+                <field name="code">quality.claim</field>
+        </record>
+        <record model="ir.sequence" id="seq_claim_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.claim</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">REC</field>
+        </record>
+
+        <record model="ir.sequence.type" id="seq_sampling_type">
+                <field name="name">Quality sampling type</field>
+                <field name="code">quality.sampling</field>
+        </record>
+        <record model="ir.sequence" id="seq_sampling_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.sampling</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">SAM</field>
+        </record>
+
+        <record model="ir.sequence.type" id="seq_conformed_type">
+                <field name="name">Quality conformed type</field>
+                <field name="code">quality.conformed</field>
+        </record>
+        <record model="ir.sequence" id="seq_conformed_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.conformed</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">NC</field>
+        </record>
+
+        <record model="ir.sequence.type" id="seq_action_type">
+                <field name="name">Quality action type</field>
+                <field name="code">quality.action</field>
+        </record>
+        <record model="ir.sequence" id="seq_action_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.action</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">ACP</field>
+        </record>
+
+        <record model="ir.sequence.type" id="seq_acceptation_type">
+                <field name="name">Quality acceptation type</field>
+                <field name="code">quality.acceptation</field>
+        </record>
+        <record model="ir.sequence" id="seq_acceptation_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.acceptation</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">ACPT</field>
+        </record>
+    </data>
+</openerp>
+

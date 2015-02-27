@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<openerp>
+  <data noupdate="0">
+    <record id="module_quality" model="ir.module.category">
+        <field name="name">Quality roles</field>
+        <field name="sequence">10</field>
+        <field name="description">Quality groups</field>
+        <field name="visible" eval="1" />
+    </record>
+    
+    <record id="group_quality_RDQ" model="res.groups">
+        <field name="name">Quality Manager</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Manager user</field>
+    </record>
+
+    <record id="group_quality_RAQ" model="res.groups">
+        <field name="name">Quality Responsible</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Responsible user</field>
+    </record>
+
+    <record id="group_quality_RCO" model="res.groups">
+        <field name="name">Quality Sale Responsible</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Sale Responsible user</field>
+    </record>
+
+    <record id="group_quality_SAQ" model="res.groups">
+        <field name="name">Quality Service Manager</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Service Manager user</field>
+    </record>
+
+    <record id="group_quality_SGO" model="res.groups">
+        <field name="name">Quality Order Manager</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Order Manager user</field>
+    </record>
+
+    <record id="group_quality_SFA" model="res.groups">
+        <field name="name">Quality Invoice Service</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality Invoice Service user</field>
+    </record>
+
+    <record id="group_quality_user" model="res.groups">
+        <field name="name">Quality standard user</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality user</field>
+    </record>
+ </data>
+</openerp>

@@ -1,0 +1,1664 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!--quality.claim-->
+        <record id="view_quality_claim_form" model="ir.ui.view">
+            <field name="name">quality.claim.form</field>
+            <field name="model">quality.claim</field>
+            <field name="arch" type="xml">
+                <form string="Claims" version="7.0">
+                <header>
+                   <button string="Opened" name="trigger_claim_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+                   <button string="Comunication" name="trigger_claim_draft_comunication" type="workflow" states="draft" icon="terp-mail-message-new"/>
+                   <button string="Cancel" name="trigger_claim_draft_cancel" type="workflow" states="draft" icon="gtk-cancel"/>
+
+                   <button string="Opened" name="trigger_claim_comunication_opened" type="workflow" states="comunication" icon="gtk-execute"/>
+                   <button string="Cancel" name="trigger_claim_comunication_cancel" type="workflow" states="comunication" icon="gtk-cancel"/>
+
+                   <button string="Closed" name="trigger_claim_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                   <button string="Credit Note" name="trigger_claim_opened_nc" type="workflow" states="opened" icon="gtk-paste"/>
+                   <button string="Cancel" name="trigger_claim_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                   <button string="Done" name="trigger_claim_nc_done" type="workflow" states="nc" icon="gtk-paste-v"/>
+                   <button string="Cancel" name="trigger_claim_nc_cancel" type="workflow" states="nc" icon="gtk-cancel"/>
+
+                   <button string="Closed" name="trigger_claim_done_closed" type="workflow" states="done" icon="gtk-ok"/>
+                   <button string="Cancel" name="trigger_claim_done_cancel" type="workflow" states="done" icon="gtk-cancel"/>
+
+                   <button string="Saw" name="trigger_claim_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                   <button string="Cancel" name="trigger_claim_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                   <button string="Cancel" name="trigger_claim_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>                
+                   
+                   <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+
+                    <field name="state" widget="statusbar" readonly='1'/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="ref"/>
+                    </h1>
+                    <group col='4'>
+                        <field name="name" />
+                        <field name="date"/>
+                        
+                        <field name="search_code" on_change="onchange_search_code(search_code)"/>
+                        <newline/>
+
+                        <field name="partner_id" domain="[('customer','=',True),('is_address','=',False)]" context="{'default_is_company':True}"/>
+                        <field name="partner_address_id" domain="[('parent_id','=',partner_id),('is_address','=',True)]" context="{'default_is_address':True,'default_parent_id':partner_id,'show_naked':True}"/>
+
+                        <field name="partner_ref"/>
+                        <field name="customer_ref"/>                        
+
+                        <field name="receive_user_id"/>
+                        <field name="reference_user_id"/>
+
+                        <field name="request_return"/>
+                        <field name="RTR_request"/>
+                    </group>
+                    <newline/>
+                    <group colspan="4" col='4'>
+                        <group colspan="2">
+                           <separator string='Subject' colspan='2'/>
+                           <field name="subject" nolabel='1' colspan='2'/>
+                        </group>
+                        <group colspan="2">
+                           <separator string='Analysis of the cause' colspan='2'/>
+                           <field name="analysis" nolabel='1' colspan='2'/>
+                        </group>
+                    </group>
+                    <notebook colspan='4'>
+                        <page string='Product'>
+                            <group colspan="4" col="4">
+                            <field name="ddt_ref" />
+                            <field name="ddt_date" />
+                            <field name="product_ids" editable="bottom" colspan='4' nolabel='1'>
+                                <tree string="Products" editable="bottom">
+                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)"/>
+                                    <field name="real_product_id"  readonly="1"/>
+                                    <field name="real_supplier_id" readonly="1"/>
+                                    <field name="label_lot" />
+                                    <field name="label_supplier" />
+                                    <field name="lot_deadline" readonly='1'/>
+                                    <field name="return_date"/>
+                                    <field name="return_qty"/>
+                                </tree>
+                            </field>
+                            </group>
+                        </page>
+                        <page string='Management'>
+                            <group colspan="4" col="6">
+                                <field name="origin_id" domain="[('type','=','claim')]" context="{'default_type':'claim'}"/>
+                                <field name="cause_id"/>
+                                <field name="gravity_id"/>
+                                
+                                <field name="NC_comment" />
+                                <field name="NC_comment_text" attrs="{'invisible':[('NC_comment','=',False)]}" />
+                                <field name="NC_ref" attrs="{'invisible':[('state','!=','nc'),('NC_ref','=',False)]}"/>
+                                
+                                <separator string='Comunication' attrs="{'invisible':['|',('state','!=','comunication'),('comunication_user_id','=',False)]}" colspan="6" />
+                                <field name="comunication" nolabel='1' attrs="{'invisible':['|',('state','!=','comunication'),('comunication_user_id','=',False)]}" colspan="6" />
+                                <group colspan="2">
+                                     <separator string='Treatment of Not Conformed' colspan="2"/>
+                                     <field name="treatment_conformed" nolabel='1' colspan="2"/>
+                                </group>
+                                <group colspan="2">
+                                    <separator string='Concorded solution' colspan="2" />
+                                    <field name="solution" nolabel='1' colspan="2"/>
+                                </group>
+                                <group colspan="2">
+                                    <separator string='Consideration' colspan="2"/>
+                                    <field name="consideration" nolabel='1' colspan="2" />    
+                                </group>
+                            </group>
+                        </page>
+                        <page string='Internal note'>
+                            <group colspan="4" col="1">
+                                <separator string='Causes and Responsability' />
+                                <field name="responsability" nolabel='1'/>
+                            </group>
+                        </page>
+                            
+                        <page string='Workflow'>
+                            <group col='4'>
+                                <field name="insert_user_id"/>
+                                <field name="date_insert_user"/>
+                                <field name="comunication_user_id"/>
+                                <field name="date_comunication"/>
+                                <field name="open_user_id"/>
+                                <field name="date_open"/>
+                                <field name="nc_user_id"/>
+                                <field name="date_nc"/>
+                                <field name="close_user_id"/>
+                                <field name="closed_date"/>
+                                <field name="RAQ_id"/>
+                                <field name="date_RAQ"/>
+                                <field name="cancel_user_id"/>
+                                <field name="date_cancel"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group colspan="4" col="6" attrs="{'invisible':[('state','in',('draft','comunication'))]}">
+                        <separator string="Linked forms:" colspan="6" />
+                        <group colspan="2" col="2">
+                            <field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                            <field name="action_state" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                            <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />
+                        </group>
+                        <group colspan="2" col="2">
+                            <field name="sampling_id" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
+                            <field name="sampling_state" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
+                            <button name="create_sampling" string="Create Sampling" type="object" attrs="{'invisible':[('sampling_id','!=',False)]}" />
+                        </group>
+                        <group colspan="2" col="2">
+                            <field name="conformed_id" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                            <field name="conformed_state" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                            <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+               		<field name="message_follower_ids" widget="mail_followers" />
+            		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+            	</div>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_claim_tree" model="ir.ui.view" >
+            <field name="name">quality.claim.tree</field>
+            <field name="model">quality.claim</field>
+            <field name="arch" type="xml">
+                <tree string="Claims" colors="grey:state == 'draft';blue:state == 'opened';brown:state == 'nc';orange:state == 'done';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
+                   <field name="ref"/>
+                   <field name="name"/>
+                   <field name="partner_id"/>
+                   <field name="action_id" />
+                   <field name="sampling_id" />
+                   <field name="conformed_id" />
+                   <button string="Opened" name="trigger_claim_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+                   <button string="Comunication" name="trigger_claim_draft_comunication" type="workflow" states="draft" icon="terp-mail-message-new"/>
+                   <button string="Cancel" name="trigger_claim_draft_cancel" type="workflow" states="draft" icon="gtk-cancel"/>
+
+                   <button string="Opened" name="trigger_claim_comunication_opened" type="workflow" states="comunication" icon="gtk-execute"/>
+                   <button string="Cancel" name="trigger_claim_comunication_cancel" type="workflow" states="comunication" icon="gtk-cancel"/>
+
+                   <button string="Closed" name="trigger_claim_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                   <button string="Credit Note" name="trigger_claim_opened_nc" type="workflow" states="opened" icon="gtk-paste"/>
+                   <button string="Cancel" name="trigger_claim_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                   <button string="Done" name="trigger_claim_nc_done" type="workflow" states="nc" icon="gtk-paste-v"/>
+                   <button string="Cancel" name="trigger_claim_nc_cancel" type="workflow" states="nc" icon="gtk-cancel"/>
+
+                   <button string="Closed" name="trigger_claim_done_closed" type="workflow" states="done" icon="gtk-ok"/>
+                   <button string="Cancel" name="trigger_claim_done_cancel" type="workflow" states="done" icon="gtk-cancel"/>
+
+                   <button string="Saw" name="trigger_claim_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                   <button string="Cancel" name="trigger_claim_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                   <button string="Cancel" name="trigger_claim_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+                   <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_claim_search" model="ir.ui.view" >
+            <field name="name">quality.claim.search</field>
+            <field name="model">quality.claim</field>
+            <field name="arch" type="xml">
+                <search string="Claims">
+                   <field name="ref"/>
+                   <field name="name"/>
+                   <field name="date"/>
+                   <field name="partner_id" domain="[('is_address', '=', False)]"/>
+                   <field name="receive_user_id"/>
+                   <field name="insert_user_id"/>
+                   <field name="partner_address_id" domain="[('is_address', '=', True)]"/>
+                   <field name="customer_ref"/>
+                   
+                   <separator/>
+                   <filter string="Draft" domain="[('state','=','draft')]"/>
+                   <filter string="Comunication" domain="[('state','=','comunication')]"/>
+                   <filter string="Opened" domain="[('state','=','opened')]"/>
+                   <filter string="Credit Note" domain="[('state','=','nc')]"/>
+                   <filter string="Credit Note Done" domain="[('state','=','done')]"/>
+                   <filter string="Closed" domain="[('state','=','closed')]"/>
+                   <filter string="Cancel" domain="[('state','=','cancel')]"/>
+                   <filter string="Saw" domain="[('state','=','saw')]"/>
+
+                   <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Customers" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin_id'}"/>
+                        <filter string="Cause" domain="[]" context="{'group_by':'cause_id'}"/>
+                        <filter string="Gravity" domain="[]" context="{'group_by':'gravity_id'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_quality_claim_calendar">
+            <field name="name">quality.claim.calendar</field>
+            <field name="model">quality.claim</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="date" string="Claims">
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_quality_claim_form" model="ir.actions.act_window" >
+            <field name="name">Claim</field>
+            <field name="res_model">quality.claim</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_claim_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+        <!--quality.claim.product-->
+        
+        <record id="view_quality_claim_product_form" model="ir.ui.view" >
+            <field name="name">quality.claim.product.form</field>
+            <field name="model">quality.claim.product</field>
+            <field name="arch" type="xml">
+                <form string="Product Claim">
+                    <field name="claim_id"/>
+                    <field name="lot_id"/>
+                    <field name="product_id"/>
+                    <field name="real_lot_id"/>
+                    <field name="real_product_id"/>
+                    <field name="real_supplier_id"/>
+                    <field name="label_lot"/>
+                    <field name="label_supplier"/>
+                    <field name="lot_deadline"/>
+                    <field name="return_date"/>
+                    <field name="return_qty"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_claim_product_tree" model="ir.ui.view" >
+            <field name="name">quality.claim.product.tree</field>
+            <field name="model">quality.claim.product</field>
+            <field name="arch" type="xml">
+                <tree string="Product Claim">
+                    <field name="claim_id"/>
+                    <field name="lot_id"/>
+                    <field name="product_id"/>
+                    <field name="real_lot_id"/>
+                    <field name="real_product_id"/>
+                    <field name="real_supplier_id"/>
+                    <field name="label_lot"/>
+                    <field name="label_supplier"/>
+                    <field name="lot_deadline"/>
+                    <field name="return_date"/>
+                    <field name="return_qty"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_claim_product_search" model="ir.ui.view" >
+            <field name="name">quality.claim.product.search</field>
+            <field name="model">quality.claim.product</field>
+            <field name="arch" type="xml">
+                <search string="Product Claim">
+                   <field name="claim_id"/>
+                   <field name="lot_id"/>
+                   <field name="product_id"/>
+                   <field name="real_lot_id"/>
+                   <field name="real_product_id"/>
+                   <field name="real_supplier_id"/>
+                   <field name="label_lot"/>
+                   <field name="label_supplier"/>
+                   <field name="return_date"/>
+                   <field name="return_qty"/>
+
+                   <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Claim" domain="[]" context="{'group_by':'claim_id'}"/>
+                        <filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>
+                        <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Real lot" domain="[]" context="{'group_by':'real_lot_id'}"/>
+                        <filter string="Real product" domain="[]" context="{'group_by':'real_product_id'}"/>
+                        <filter string="Real supplier" domain="[]" context="{'group_by':'real_supplier_id'}"/>
+                        <filter string="Date return" domain="[]" context="{'group_by':'return_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_quality_claim_product_form" model="ir.actions.act_window" >
+            <field name="name">Claim</field>
+            <field name="res_model">quality.claim.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_claim_product_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.action-->
+        <record id="view_quality_action_form" model="ir.ui.view">
+            <field name="name">quality.action.form</field>
+            <field name="model">quality.action</field>
+            <field name="arch" type="xml">
+                <form string="Actions" version="7.0">
+                    <header>
+                        <button string="Opened" name="trigger_action_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                        <button string="Closed" name="trigger_action_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                        <button string="Cancel" name="trigger_action_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                        <button string="Saw" name="trigger_action_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                        <button string="Cancel" name="trigger_action_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                        <button string="Cancel" name="trigger_action_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                        <button string="Draft" name="trigger_action_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+
+                        <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+
+                        <field name="state" widget="statusbar" readonly='1'/>
+                    </header>
+                    <sheet>
+                    <group col='4'>
+                        <h1>
+                            <field name="ref" colspan='4' nolabel='1'/>
+                        </h1>
+                        <button string="New" name="new_action" type="object" icon="gtk-add" colspan="1" attrs="{'invisible':[('state','!=','closed')]}"/>
+                        <group colspan="4" col="4">
+                            <field name="parent_id" attrs="{'invisible':[('parent_id','=',False)]}"/>
+                            <field name="child_id" attrs="{'invisible':[('child_id','=',False)]}"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="proposing_entity"/>
+                            <field name="origin"/>
+                            <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
+                            <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                            <field name="conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
+                        </group>
+                        <group colspan="2" col="2">
+                            <separator string="Subject proposed" colspan='2'/>
+                            <field name="proposed_subject" colspan='2' nolabel='1'/>
+                        </group>
+                        <group colspan="2" col="2">
+                            <separator string="Note" colspan='2'/>
+                            <field name="note" colspan='2' nolabel='1'/>
+                        </group>
+                        <notebook colspan='4'>
+                            <page string='Intervents'>
+                                <field name="intervent_ids" colspan='4' nolabel='1'>
+                                    <tree string="Intervents"><!--colors="red:deadline&lt;datetime.now().strftime('%%Y/%%mm/%%dd')"-->
+                                        <field name="name"/>
+                                        <field name="manager_id"/>
+                                        <field name="deadline"/>
+                                    </tree>
+                                    <form string="Intervents">
+                                        <field name="deadline"/>
+                                        <field name="manager_id" />
+                                        <separator string="Proposed activity" colspan="4" />
+                                        <field name="name" colspan="4" nolabel="1"/>
+                                        <separator string="Work in progress" colspan="4" />
+                                        <field name="working_ids" colspan="4" nolabel="1" >
+                                            <tree string="Work in progress" editable="bottom" >
+                                                <field name="date"/>
+                                                <field name="note"/>
+                                                <field name="name"/>
+                                                <field name="user_id"/>
+                                                <field name="internal"/>
+                                                <field name="intervent_id" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string='Esit'>
+                                <group col='4'>
+                                    <field name="esit_date"/>
+                                    <field name="closed_date"/>
+                                    <separator string="Judgment" colspan='4'/>
+                                    <field name="esit_note" colspan='4' nolabel='1'/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                   		<field name="message_follower_ids" widget="mail_followers" />
+                		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+                	</div>                    
+                </form>
+            </field>
+        </record>
+
+        <record id="view_quality_action_tree" model="ir.ui.view" >
+            <field name="name">quality.action.tree</field>
+            <field name="model">quality.action</field>
+            <field name="arch" type="xml">
+                <tree string="Actions" colors="grey:state == 'draft';blue:state == 'opened';black:state == 'closed';red:state == 'cancel';green:state == 'saw'">
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="origin"/>
+                    <field name="parent_id" />
+                    <field name="child_id" />
+                    <field name="closed_date"/>
+                    <button string="Opened" name="trigger_action_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                    <button string="Closed" name="trigger_action_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                    <button string="Cancel" name="trigger_action_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                    <button string="Saw" name="trigger_action_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                    <button string="Cancel" name="trigger_action_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                    <button string="Cancel" name="trigger_action_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                    <button string="Draft" name="trigger_action_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>                    
+                    <field name="state" widget="statusbar" readonly='1'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_quality_action_search" model="ir.ui.view" >
+            <field name="name">quality.action.search</field>
+            <field name="model">quality.action</field>
+            <field name="arch" type="xml">
+                <search string="Actions">
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="origin"/>
+                    <field name="type"/>
+
+                    <separator string='State'/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Opened" domain="[('state','=','opened')]"/>
+                    <filter string="Closed" domain="[('state','=','closed')]"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]"/>
+
+                    <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Esit Date" domain="[]" context="{'group_by':'esit_date'}"/>
+                        <filter string="Closed Date" domain="[]" context="{'group_by':'closed_date'}"/>
+                        <filter string="Action Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_quality_action_calendar" model="ir.ui.view" >
+            <field name="name">quality.action.calendar</field>
+            <field name="model">quality.action</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="date" string="Actions">
+                    <field name="ref"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_quality_action_form" model="ir.actions.act_window" >
+            <field name="name">Actions</field>
+            <field name="res_model">quality.action</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_action_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.origin-->
+        <record id="view_quality_origin_form" model="ir.ui.view">
+            <field name="name">quality.origin.form</field>
+            <field name="model">quality.origin</field>
+            <field name="arch" type="xml">
+                <form string="Origin" version="7.0">
+                    <sheet>
+                    <group col='4'>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <separator string='Note'/>
+                        <field name="note" colspan='4' nolabel='1'/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_origin_tree" model="ir.ui.view" >
+            <field name="name">quality.origin.tree</field>
+            <field name="model">quality.origin</field>
+            <field name="arch" type="xml">
+                <tree string="Origin">
+                   <field name="name"/>
+                   <field name="type"/>
+                   <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_quality_origin_form" model="ir.actions.act_window" >
+            <field name="name">Origin</field>
+            <field name="res_model">quality.origin</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_origin_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.claim.cause-->
+        <record id="view_quality_claim_cause_form" model="ir.ui.view">
+            <field name="name">quality.claim.cause.form</field>
+            <field name="model">quality.claim.cause</field>
+            <field name="arch" type="xml">
+                <form string="Cause" version="7.0">
+                    <sheet>
+                    <group col='4'>
+                        <field name="name"/>
+                        <newline/>
+                        <separator string='Note'/>
+                        <field name="note" colspan='4' nolabel='1'/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_claim_cause_tree" model="ir.ui.view" >
+            <field name="name">quality.claim.cause.tree</field>
+            <field name="model">quality.claim.cause</field>
+            <field name="arch" type="xml">
+                <tree string="Cause">
+                   <field name="name"/>
+                   <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_quality_claim_cause_form" model="ir.actions.act_window" >
+            <field name="name">Cause</field>
+            <field name="res_model">quality.claim.cause</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_claim_cause_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.gravity-->
+        <record id="view_quality_gravity_form" model="ir.ui.view">
+            <field name="name">quality.gravity.form</field>
+            <field name="model">quality.gravity</field>
+            <field name="arch" type="xml">
+                <form string="Gravity" version="7.0">
+                    <sheet>
+                    <group col='4'>
+                        <field name="name"/>
+                        <newline/>
+                        <separator string='Note'/>
+                        <field name="note" colspan='4' nolabel='1'/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_quality_gravity_tree" model="ir.ui.view" >
+            <field name="name">quality.gravity.tree</field>
+            <field name="model">quality.gravity</field>
+            <field name="arch" type="xml">
+                <tree string="Gravity">
+                   <field name="name"/>
+                   <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_quality_gravity_form" model="ir.actions.act_window" >
+            <field name="name">Gravity</field>
+            <field name="res_model">quality.gravity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_gravity_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--stock.production.lot-->
+
+        <record id="view_stock_production_lot_form" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
+                    <field name="deadline"/>
+                    <field name="obsolete" invisible='1'/>
+                    <button string="Obsolete" name="set_obsolete" type="object" attrs="{'invisible': [('obsolete','=',True)]}" icon="STOCK_NO"/>
+                    <button string="Not obsolete" name="set_not_obsolete" type="object" attrs="{'invisible': [('obsolete','=',False)]}" icon="STOCK_YES"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_stock_production_lot_tree" model="ir.ui.view">
+            <field name="name">stock.production.lot.tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
+                    <field name="deadline"/>
+                    <field name="obsolete" invisible='1'/>
+                    <button string="Obsolete" name="set_obsolete" type="object" attrs="{'invisible': [('obsolete','=',True)]}" icon="STOCK_NO"/>
+                    <button string="Not obsolete" name="set_not_obsolete" type="object" attrs="{'invisible': [('obsolete','=',False)]}" icon="STOCK_YES"/>
+                </field>
+            </field>
+        </record>
+        <record id="action_stock_production_lot_form" model="ir.actions.act_window" >
+            <field name="name">Lot</field>
+            <field name="res_model">stock.production.lot</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.not.conformed-->
+        <record id="view_quality_conformed_form" model="ir.ui.view">
+            <field name="name">quality.conformed.form</field>
+            <field name="model">quality.conformed</field>
+            <field name="arch" type="xml">
+                <form string="Not conformed" version="7.0">
+                    <header>
+                        <button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                        <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                        <button string="Cancel" name="trigger_conformed_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                        <button string="Saw" name="trigger_conformed_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                        <button string="Cancel" name="trigger_conformed_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                        <button string="Cancel" name="trigger_conformed_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                        <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+
+                        <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+                        <button name="print_form_customer" string="Print customer" icon="gtk-print" type="object"/>
+          
+                        <field name="state" widget="statusbar" readonly='1'/>
+                    </header>
+                    <sheet>
+                        <group col='4'>
+                            <h1>
+                                <field name="ref" colspan='4'/>
+                            </h1>
+                            <newline/>
+                            <group colspan="4" col='4'>
+                                <field name="insert_date"/>
+                                <field name="lot_id"/>
+                                <field name="supplier_lot"/>
+                                <field name="descr_product"/>
+                                <field name="ddt_ref"/>
+                                <field name="label_lot" attrs="{'readonly':[('origin','not in','other')]}"/>
+                                <field name="gravity_id"/>
+                                <field name="lot_deadline"/>
+                                <field name="origin"/>
+                                <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
+                                <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                                <field name="acceptation_id" attrs="{'invisible':[('origin','!=','acceptation')]}"/>
+                                <field name="parent_sampling_id" attrs="{'invisible':[('origin','!=','sampling')]}"/>
+                            </group>
+                            <notebook colspan='4'>
+                                <page string='Description'>
+                                    <group col='4'>
+                                        <separator string='Type' colspan='4'/>
+                                        <group colspan="4" col='6'>
+                                           <field name="quantity"/>
+                                           <field name="temperature"/>
+                                           <field name="label"/>
+                                           <field name="aesthetic_packaging"/>
+                                           <field name="quality"/>
+                                           <field name="deadline"/>
+                                           <field name="sanitation"/>
+                                        </group>
+                                        <separator string='Type of not conformed' colspan='4'/>
+                                        <field name="name" colspan='4' nolabel='1'/>
+                                    </group>
+                                </page>
+                                <page string='Treatment'>
+                                    <group colspan="4" col='4'>
+                                        <separator string='Treatments:' colspan='4'/>
+                                        <field name='treatment_ids' nolabel='1' colspan='4'/>
+                                        <field name='comunication_note' colspan='4'/>
+                                        <separator string='Note RAQ' colspan='4'/>
+                                        <field name="note_RAQ" nolabel='1' colspan='4'/>                                        
+                                        <separator string='Comunication Note' colspan='4'/>
+                                        <field name="stock_note" nolabel='1' colspan='4'/>
+                                    </group>
+                                </page>
+                                <page string='Comunications'>
+                                    <group colspan="4" col='4'>
+                                        <field name='comunication_ids' nolabel='1' colspan='4'/>
+                                    </group>
+                                </page>
+                            </notebook>
+                            <group colspan="4" col="6" attrs="{'invisible':[('state','=','draft')]}">
+                                <separator string="Linked forms:" colspan="6" />
+                                <group colspan="2" col="2">
+                                    <field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                                    <field name="action_state" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                                    <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />
+                                </group>
+                                <group colspan="2" col="2">
+                                    <field name="sampling_id" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
+                                    <field name="sampling_state" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
+                                    <button name="create_sampling" string="Create Sampling" type="object" attrs="{'invisible':[('sampling_id','!=',False)]}" />
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                   		<field name="message_follower_ids" widget="mail_followers" />
+                		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+                	</div>                    
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_conformed_tree" model="ir.ui.view" >
+            <field name="name">quality.conformed.tree</field>
+            <field name="model">quality.conformed</field>
+            <field name="arch" type="xml">
+                <tree string="Not conformed" colors="grey:state == 'draft';blue:state == 'opened';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
+                    <field name="ref"/>
+                    <field name="insert_date"/>
+                    <field name="name"/>
+                    <field name="lot_id"/>
+                    <field name="action_id"/>
+                    <field name="sampling_id"/>
+                    <button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                    <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                    <button string="Cancel" name="trigger_conformed_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                    <button string="Saw" name="trigger_conformed_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                    <button string="Cancel" name="trigger_conformed_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                    <button string="Cancel" name="trigger_conformed_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                    <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+
+                    <field name="state" widget="statusbar" readonly='1'/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_conformed_search" model="ir.ui.view" >
+            <field name="name">quality.conformed.search</field>
+            <field name="model">quality.conformed</field>
+            <field name="arch" type="xml">
+                <search string="Not conformed">
+                    <field name="ref"/>
+                    <field name="insert_date"/>
+                    <field name="origin"/>
+                    <field name="lot_id"/>
+                    <field name="label_lot"/>
+                    <field name="label_supplier"/>
+                    <field name="supplier_lot"/>
+                    <field name="descr_product"/>
+
+                    <separator string='State'/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Opened" domain="[('state','=','opened')]"/>
+                    <filter string="Closed" domain="[('state','=','closed')]"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]"/>
+                    <separator string='Type'/>
+                    <filter string="Aesthetic/Packaging" domain="[('aesthetic_packaging','=',True)]"/>
+                    <filter string="Quantity" domain="[('quantity','=',True)]"/>
+                    <filter string="Sanitation" domain="[('sanitation','=',True)]"/>
+
+                    <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'insert_date'}"/>
+                        <filter string="Gravity" domain="[]" context="{'group_by':'gravity_id'}"/>
+                        <filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_quality_conformed_calendar" model="ir.ui.view" >
+            <field name="name">quality.conformed.calendar</field>
+            <field name="model">quality.conformed</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="insert_date" string="Not conformed">
+                    <field name="ref"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="action_quality_conformed_form" model="ir.actions.act_window" >
+            <field name="name">Not conformed</field>
+            <field name="res_model">quality.conformed</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_conformed_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.sampling-->
+        <record id="view_quality_sampling_form" model="ir.ui.view">
+            <field name="name">quality.sampling.form</field>
+            <field name="model">quality.sampling</field>
+            <field name="arch" type="xml">
+                <form string="Sampling" version="7.0">
+                    <header>
+                        <button string="Opened" name="trigger_sampling_draft_opened" type="workflow" states="draft" icon="gtk-execute" class=""/>
+                        <button string="Cancel" name="trigger_sampling_draft_cancel" type="workflow" states="draft" icon="gtk-cancel" class=""/>
+                        
+                        <button string="Passed" name="trigger_sampling_opened_passed" type="workflow" states="opened" icon="gtk-yes" class=""/>
+                        <button string="Not Passed" name="trigger_sampling_opened_notpassed" type="workflow" states="opened" icon="gtk-no" class=""/>
+                        <button string="Cancel" name="trigger_sampling_opened_cancel" type="workflow" states="opened" icon="gtk-cancel" class=""/>
+                        
+                        <button string="Cancel" name="trigger_sampling_notpassed_cancel" type="workflow" states="notpassed" icon="gtk-cancel" class=""/>
+                        
+                        <button string="Cancel" name="trigger_sampling_passed_cancel" type="workflow" states="passed" icon="gtk-cancel" class=""/>
+                        
+                        <button string="Draft" name="trigger_sampling_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh" class=""/>
+
+                        <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+                        <field name="state" widget="statusbar" readonly='1'/>
+                    </header>
+                    <sheet>
+                        <group col='4'>
+                            <h1>
+                                <field name="ref" colspan='8'/>
+                            </h1>
+                            <newline/>
+                            <field name="date"/>
+                            <field name="lot_id"/>
+                            <field name="sampling_plan_id" attrs="{'invisible':[('origin','in',['claim','nc'])]}"/>
+                            <field name="lot_deadline"/>
+                            <field name="origin"/>
+                            <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
+                            <field name="parent_conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
+                            <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                            <notebook colspan='4'>
+                                <page string='Tests to be performed'>
+                                    <group colspan='6' col='8'>
+                                        <separator string='Test informations:' colspan="8"/>
+                                        <group colspan='2' col='2'>
+                                            <field name="do_visual" on_change="onchange_do_visual(do_visual)"/>
+                                            <group name='visual' colspan='2' col='2' attrs="{'invisible':[('do_visual','=',False)]}">
+                                                <group colspan='3' col='3'>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_YES" context="{'button': '1t'}"/>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_NO" context="{'button': '1f'}"/>
+                                                    <field name="visual_state" nolabel='1'/>
+                                                </group>
+                                                <group colspan='2' col='2'>
+                                                    <field name="visual" nolabel='1' colspan='3' placeholder="Visual examination" attrs="{'readonly':[('visual_ok','=',True),('visual_state','in',['passed','not_passed'])]}"/>
+                                                </group>
+                                                <field name="visual_ok" invisible='1'/>
+                                            </group>
+                                        </group>
+                                        <group colspan='2' col='2'>
+                                            <field name="do_analysis" on_change="onchange_do_analysis(do_analysis)"/>
+                                            <group name='analysis' colspan='2' col='2' attrs="{'invisible':[('do_analysis','=',False)]}">
+                                                <group colspan='3' col='3'>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_YES" context="{'button': '2t'}"/>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_NO" context="{'button': '2f'}"/>
+                                                    <field name="analysis_state" nolabel='1'/>
+                                                </group>
+                                                <group colspan='2' col='2'>
+                                                    <field name="analysis" nolabel='1' colspan='3' placeholder="Analysis" attrs="{'readonly':[('analysis_ok','=',True),('analysis_state','in',['passed','not_passed'])]}"/>
+                                                </group>
+                                                <field name="analysis_ok" invisible='1'/>
+                                            </group>
+                                        </group>
+                                        <group colspan='2' col='2'>
+                                            <field name="do_taste" on_change="onchange_do_taste(do_taste)"/>
+                                            <group name='taste' colspan='2' col='2' attrs="{'invisible':[('do_taste','=',False)]}">
+                                                <group colspan='3' col='3'>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_YES" context="{'button': '3t'}"/>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_NO" context="{'button': '3f'}"/>
+                                                    <field name="taste_state" nolabel='1'/>
+                                                </group>
+                                                <group colspan='2' col='2'>
+                                                    <field name="taste" nolabel='1' colspan='3' placeholder='Taste (After cooking the product in elemental form - simple cooking in salted water)' attrs="{'readonly':[('taste_ok','=',True),('taste_state','in',['passed','not_passed'])]}"/>
+                                                </group>
+                                                <field name="taste_ok" invisible='1'/>
+                                            </group>
+                                        </group>
+                                        <group colspan='2' col='2'>
+                                            <field name="do_glazing" on_change="onchange_do_glazing(do_glazing)"/>
+                                            <group name='glazing' colspan='2' col='2' attrs="{'invisible':[('do_glazing','=',False)]}">
+                                                <group colspan='3' col='3'>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_YES" context="{'button': '4t'}"/>
+                                                    <button string="" name="set_passed" type="object" icon="STOCK_NO" context="{'button': '4f'}"/>
+                                                    <field name="glazing_state" nolabel='1'/>
+                                                </group>
+                                                <group colspan='3' col='3'>
+                                                    <field name="weight_glazing" colspan='3' attrs="{'readonly':[('glazing_ok','=',True),('glazing_state','in',['passed','not_passed'])]}"/>
+                                                    <field name="weight_drained" colspan='3' attrs="{'readonly':[('glazing_ok','=',True),('glazing_state','in',['passed','not_passed'])]}"/>
+                                                    <field name="perc_glazing_indicated" colspan='3' attrs="{'readonly':[('glazing_ok','=',True),('glazing_state','in',['passed','not_passed'])]}"/>
+                                                    <field name="perc_glazing_calculated" colspan='3' attrs="{'readonly':[('glazing_ok','=',True),('glazing_state','in',['passed','not_passed'])]}"/>
+                                                </group>
+                                                <field name="glazing_ok" invisible='1'/>
+                                            </group>
+                                        </group>
+                                    </group>
+                                    <group colspan="4" col="4">
+                                        <separator string='Tasters:' colspan="4"/>
+                                        <field name="taster_ids" editable="bottom" colspan='4' nolabel='1'>
+                                            <tree string="Tasters" editable="bottom">
+                                                <field name="name"/>
+                                                <field name="note"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string='Note'>
+                                    <separator string='Note' colspan='4'/>
+                                    <field name="note" nolabel='1'/>
+                                </page>
+                            </notebook>
+                            <group colspan="4" col="6" attrs="{'invisible':[('state','=','draft')]}">
+                                <separator string="Linked forms:" colspan="6" />
+                                <group colspan="2" col="2">
+                                    <field name="conformed_id" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                                    <field name="conformed_state" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                                    <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                   		<field name="message_follower_ids" widget="mail_followers" />
+                		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+                	</div>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_sampling_tree" model="ir.ui.view" >
+            <field name="name">quality.sampling.tree</field>
+            <field name="model">quality.sampling</field>
+            <field name="arch" type="xml">
+                <tree string="Sampling" colors="grey:state == 'draft';blue:state == 'opened';green:state == 'passed';brown:state == 'notpassed';red:state == 'cancel'">
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="origin"/>
+                    <field name="lot_id"/>
+                    <field name="conformed_id" />
+                    <button string="Opened" name="trigger_sampling_draft_opened" type="workflow" states="draft" icon="gtk-execute" class=""/>
+                    <button string="Cancel" name="trigger_sampling_draft_cancel" type="workflow" states="draft" icon="gtk-cancel" class=""/>
+                    
+                    <button string="Passed" name="trigger_sampling_opened_passed" type="workflow" states="opened" icon="gtk-yes" class=""/>
+                    <button string="Not Passed" name="trigger_sampling_opened_notpassed" type="workflow" states="opened" icon="gtk-no" class=""/>
+                    <button string="Cancel" name="trigger_sampling_opened_cancel" type="workflow" states="opened" icon="gtk-cancel" class=""/>
+                    
+                    <button string="Cancel" name="trigger_sampling_notpassed_cancel" type="workflow" states="notpassed" icon="gtk-cancel" class=""/>
+                    
+                    <button string="Cancel" name="trigger_sampling_passed_cancel" type="workflow" states="passed" icon="gtk-cancel" class=""/>
+                    
+                    <button string="Draft" name="trigger_sampling_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh" class=""/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_sampling_search" model="ir.ui.view" >
+            <field name="name">quality.sampling.search</field>
+            <field name="model">quality.sampling</field>
+            <field name="arch" type="xml">
+                <search string="Sampling">
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="origin"/>
+                    <field name="lot_id"/>
+
+                    <separator string='State'/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Opened" domain="[('state','=','opened')]"/>
+                    <filter string="Passed" domain="[('state','=','passed')]"/>
+                    <filter string="Not Passed" domain="[('state','=','notpassed')]"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]"/>
+                    <separator string='Visual test'/>
+                    <filter string="Visual to do" domain="[('do_visual','=',True)]"/>
+                    <filter string="Visual conformed" domain="[('visual_ok','=',True)]"/>
+                    <separator string='Analysis test'/>
+                    <filter string="Analysis to do" domain="[('do_analysis','=',True)]"/>
+                    <filter string="Analysis conformed" domain="[('analysis_ok','=',True)]"/>
+                    <separator string='Taste test'/>
+                    <filter string="Taste to do" domain="[('do_taste','=',True)]"/>
+                    <filter string="Taste conformed" domain="[('taste_ok','=',True)]"/>
+
+                    <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>
+                        <filter string="Visual test state" domain="[]" context="{'group_by':'visual_state'}"/>
+                        <filter string="Analysis test state" domain="[]" context="{'group_by':'analysis_state'}"/>
+                        <filter string="Taste test state" domain="[]" context="{'group_by':'taste_state'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_quality_sampling_calendar" model="ir.ui.view" >
+            <field name="name">quality.sampling.calendar</field>
+            <field name="model">quality.sampling</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="date" string="Sampling">
+                    <field name="ref"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="action_quality_sampling_form" model="ir.actions.act_window" >
+            <field name="name">sampling</field>
+            <field name="res_model">quality.sampling</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_sampling_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+    <!--quality.sampling.plan-->
+            <record id="view_quality_sampling_plan_form" model="ir.ui.view">
+            <field name="name">quality.sampling.plan.form</field>
+            <field name="model">quality.sampling.plan</field>
+            <field name="arch" type="xml">
+                <form string="Sampling plan" version="7.0">
+                    <sheet>
+                        <group col='4'>
+                            <field name="name"/>
+                            <field name="period"/>
+                            <separator string="Test" colspan='4'/>
+                            <group col='8' colspan='4'>
+                                <field name="visual"/>
+                                <field name="taste"/>
+                                <field name="glazing"/>
+                                <field name="analysis"/>
+                            </group>
+                            <separator string="Note" colspan='4'/>
+                            <field name="note" nolabel='1' colspan='4'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_sampling_plan_tree" model="ir.ui.view" >
+            <field name="name">quality.sampling.plan.tree</field>
+            <field name="model">quality.sampling.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Sampling plan">
+                    <field name="name"/>
+                    <field name="period"/>
+                    <field name="visual"/>
+                    <field name="taste"/>
+                    <field name="glazing"/>
+                    <field name="analysis"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_quality_sampling_plan_form" model="ir.actions.act_window" >
+            <field name="name">Sampling plan</field>
+            <field name="res_model">quality.sampling.plan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_sampling_plan_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+    <!--quality.comunication.type-->
+
+        <record id="view_quality_comunication_type_form" model="ir.ui.view">
+            <field name="name">quality.comunication.type.form</field>
+            <field name="model">quality.comunication.type</field>
+            <field name="arch" type="xml">
+                <form string="Comunication type" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name='name'/>
+                            <field name='note'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_comunication_type_tree" model="ir.ui.view" >
+            <field name="name">quality.comunication.type.tree</field>
+            <field name="model">quality.comunication.type</field>
+            <field name="arch" type="xml">
+                <tree string="Comunication type">
+                    <field name='name'/>
+                    <field name='note'/>
+                </tree>
+            </field>
+        </record>
+
+    <!--quality.comunication-->
+        <record id="view_quality_comunication_form" model="ir.ui.view">
+            <field name="name">quality.comunication.form</field>
+            <field name="model">quality.comunication</field>
+            <field name="arch" type="xml">
+                <form string="Comunication" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name='type_id'/>
+                            <field name='prot_date'/>
+                            <field name='name'/>
+                            <field name='conformed_id'/>
+                            <field name='prot_number'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_comunication_tree" model="ir.ui.view" >
+            <field name="name">quality.comunication.tree</field>
+            <field name="model">quality.comunication</field>
+            <field name="arch" type="xml">
+                <tree string='Comunication' editable='bottom'>
+                    <field name='type_id'/>
+                    <field name='prot_date'/>
+                    <field name='name'/>
+                    <field name='conformed_id' invisible='1'/>
+                    <field name='prot_number'/>
+                </tree>
+            </field>
+        </record>
+
+    <!--quality.treatment-->
+        <record id="view_quality_treatment_form" model="ir.ui.view">
+            <field name="name">quality.treatment.form</field>
+            <field name="model">quality.treatment</field>
+            <field name="arch" type="xml">
+                <form string="Treatment" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name='type'/>
+                            <field name='name'/>
+                            <field name='qty'/>
+                            <field name='conformed_id'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_treatment_tree" model="ir.ui.view" >
+            <field name="name">quality.treatment.tree</field>
+            <field name="model">quality.treatment</field>
+            <field name="arch" type="xml">
+                <tree string='Treatment' editable='bottom'>
+                    <field name='type'/>
+                    <field name='name'/>
+                    <field name='qty' sum='total'/>
+                    <field name='conformed_id' invisible='1'/>
+                </tree>
+            </field>
+        </record>
+
+    <!--quality.acceptation-->
+        <record id="view_quality_acceptation_form" model="ir.ui.view">
+            <field name="name">quality.acceptation.form</field>
+            <field name="model">quality.acceptation</field>
+            <field name="arch" type="xml">
+                <form string="Acceptation" version="7.0">
+                    <header>
+                        <button string="Closed" name="trigger_acceptation_opened_closed" type="workflow" states="opened" icon="gtk-ok" />
+
+                        <button string="Cancel" name="trigger_acceptation_closed_cancel" type="workflow" states="closed" icon="gtk-cancel" />
+                        <field name='state' widget="statusbar" readonly='1'/>
+                    </header>
+                    <sheet>
+                        <group col='4'>
+                            <h1>
+                                <field name="ref" colspan='4' readonly="1"/>
+                            </h1>
+                            <newline/>
+                            <field name='date' readonly="1"/>
+                            <field name='origin' readonly="1"/>
+                            <field name='partner_id' readonly="1"/>
+                            <separator string='Lines' colspan='4'/>
+                            <field name="line_ids" colspan='4' nolabel='1'>
+                                <tree string='Lines' editable="bottom" colors="blue:conformed_id==False">
+                                    <field name='acceptation_id' invisible='1'/>
+                                    <field name='lot_id' readonly="1"/>
+                                    <field name='product_id' readonly="1"/>
+                                    <field name='qty_arrived' readonly="1"/>
+                                    <field name='qty_expected'/>
+                                    <field name='um' readonly="1"/>
+                                    <field name='qty'/>
+                                    <field name='temp'/>
+                                    <field name='label'/>
+                                    <field name='package'/>
+                                    <field name='quality'/>
+                                    <field name='expired'/>
+                                    <field name="conformed_id" />
+                                    <field name="conformed_state" readonly="1" invisible='1'/>
+                                    <button name="open_conformed" string="Open not conformed" icon="STOCK_SAVE" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                                </tree>
+                            </field>
+                            <separator string='Note' colspan='4'/>
+                            <field name='note' nolabel='1' colspan='4'/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                   		<field name="message_follower_ids" widget="mail_followers" />
+                		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+                	</div>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_acceptation_tree" model="ir.ui.view" >
+            <field name="name">quality.acceptation.tree</field>
+            <field name="model">quality.acceptation</field>
+            <field name="arch" type="xml">
+                <tree string='Acceptation'>
+                    <field name='ref'/>
+                    <field name='date'/>
+                    <field name='origin'/>
+                    <field name='partner_id'/>
+                    <field name='note'/>
+                    <button string="Closed" name="trigger_acceptation_opened_closed" type="workflow" states="opened" icon="gtk-ok" />
+                    <button string="Cancel" name="trigger_acceptation_closed_cancel" type="workflow" states="closed" icon="gtk-cancel" />
+                    <field name='state'/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_acceptation_search" model="ir.ui.view" >
+            <field name="name">quality.acceptation.search</field>
+            <field name="model">quality.acceptation</field>
+            <field name="arch" type="xml">
+                <search string="Acceptation">
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="origin"/>
+
+                    <separator string='State'/>
+                    <filter string="Opened" domain="[('state','=','opened')]"/>
+                    <filter string="Closed" domain="[('state','=','closed')]"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]"/>
+
+                    <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_quality_acceptation_calendar" model="ir.ui.view" >
+            <field name="name">quality.acceptation.calendar</field>
+            <field name="model">quality.acceptation</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="date" string="Acceptation">
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="action_quality_acceptation_form" model="ir.actions.act_window" >
+            <field name="name">accepatation</field>
+            <field name="res_model">quality.acceptation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_acceptation_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+    <!--quality.acceptation.line-->
+        <record id="view_quality_acceptation_line_form" model="ir.ui.view">
+            <field name="name">quality.acceptation.line.form</field>
+            <field name="model">quality.acceptation.line</field>
+            <field name="arch" type="xml">
+                <form string="Acceptation Line" version="7.0">
+                    <sheet>
+                        <group col='4'>
+                            <field name='acceptation_id'/>
+                            <field name='lot_id'/>
+                            <field name='product_id'/>
+                            <field name='qty_arrived'/>
+                            <field name='qty_expected'/>
+                            <field name='um'/>
+                            <field name='qty'/>
+                            <field name='temp'/>
+                            <field name='label'/>
+                            <field name='package'/>
+                            <field name='quality'/>
+                            <field name='expired'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quality_acceptation_line_tree" model="ir.ui.view" >
+            <field name="name">quality.acceptation.line.tree</field>
+            <field name="model">quality.acceptation.line</field>
+            <field name="arch" type="xml">
+                <tree string='Acceptation Line'>
+                    <field name='acceptation_id'/>
+                    <field name='lot_id'/>
+                    <field name='product_id'/>
+                    <field name='qty_arrived'/>
+                    <field name='qty_expected'/>
+                    <field name='um'/>
+                    <field name='qty'/>
+                    <field name='temp'/>
+                    <field name='label'/>
+                    <field name='package'/>
+                    <field name='quality'/>
+                    <field name='expired'/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_quality_acceptation_line_form" model="ir.actions.act_window" >
+            <field name="name">accepatation line</field>
+            <field name="res_model">quality.acceptation.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_acceptation_line_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--Action res.partner-->
+        <record id="action_res_partner_supplier_form" model="ir.actions.act_window" >
+            <field name="name">partner</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[('supplier','=',True),('is_company','=',True)]</field>
+        </record>
+
+        <record id="action_res_partner_customer_form" model="ir.actions.act_window" >
+            <field name="name">partner</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[('customer','=',True),('is_company','=',True)]</field>
+        </record>
+
+        <!--Action product.product-->
+        <record id="action_product_product_form" model="ir.actions.act_window" >
+            <field name="name">product</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product.product_product_tree_view"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--quality.supplier.rating-->
+        <record id="view_quality_supplier_rating_form" model="ir.ui.view">
+            <field name="name">quality.supplier.rating.form</field>
+            <field name="model">quality.supplier.rating</field>
+            <field name="arch" type="xml">
+                <form string="Supplier raging" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4' nolabel='1'>
+                            <field name='date'/>
+                            <field name='name'/>
+                            <field name='type'/>
+                            <field name='deadline'/>
+                            <field name='obsolete'/>
+                            <field name='qualification'/>
+                            <field name='partner_id' invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="view_quality_supplier_rating_tree" model="ir.ui.view">
+            <field name="name">quality.supplier.rating.tree</field>
+            <field name="model">quality.supplier.rating</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier raging" editable="bottom" colors="green:obsolete!=False">
+                    <field name='date'/>
+                    <field name='name'/>
+                    <field name='type'/>
+                    <field name='deadline'/>
+                    <field name='obsolete'/>
+                    <field name='qualification'/>
+                    <field name='partner_id' invisible="1"/>
+                </tree>   
+            </field>
+        </record>
+        
+        <!--quality.supplier.check-->
+        <record id="view_quality_supplier_check_form" model="ir.ui.view">
+            <field name="name">quality.supplier.check.form</field>
+            <field name="model">quality.supplier.check</field>
+            <field name="arch" type="xml">
+                <form string="Supplier check" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4' nolabel='1'>
+                            <field name='date'/>
+                            <field name='name'/>
+                            <field name='note'/>
+                            <field name='partner_id' invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="view_quality_supplier_check_tree" model="ir.ui.view">
+            <field name="name">quality.supplier.check.tree</field>
+            <field name="model">quality.supplier.check</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier check" editable="bottom">
+                    <field name='date'/>
+                    <field name='name'/>
+                    <field name='note'/>
+                    <field name='partner_id' invisible="1"/>
+                </tree>   
+            </field>
+        </record>
+
+        <!--quality.supplier.certification-->
+        <record id="view_quality_supplier_certification_form" model="ir.ui.view">
+            <field name="name">quality.supplier.certification.form</field>
+            <field name="model">quality.supplier.certification</field>
+            <field name="arch" type="xml">
+                <form string="Supplier certification" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4' nolabel='1'>
+                            <field name='date'/>
+                            <field name='entity'/>
+                            <field name='name'/>
+                            <field name='deadline'/>
+                            <field name='rule'/>
+                            <field name='number'/>
+                            <field name='note'/>
+                            <field name='partner_id' invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="view_quality_supplier_certification_tree" model="ir.ui.view">
+            <field name="name">quality.supplier.certification.tree</field>
+            <field name="model">quality.supplier.certification</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier certification" editable="bottom">
+                    <field name='date'/>
+                    <field name='entity'/>
+                    <field name='name'/>
+                    <field name='deadline'/>
+                    <field name='rule'/>
+                    <field name='number'/>
+                    <field name='note'/>
+                    <field name='partner_id' invisible="1"/>
+                </tree>   
+            </field>
+        </record>
+
+        <!--quality.supplier.reference-->
+        <record id="view_quality_supplier_reference_form" model="ir.ui.view">
+            <field name="name">quality.supplier.reference.form</field>
+            <field name="model">quality.supplier.reference</field>
+            <field name="arch" type="xml">
+                <form string="Supplier reference" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4' nolabel='1'>
+                            <field name='date'/>
+                            <field name='name'/>
+                            <field name='note'/>
+                            <field name='partner_id' invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="view_quality_supplier_reference_tree" model="ir.ui.view">
+            <field name="name">quality.supplier.reference.tree</field>
+            <field name="model">quality.supplier.reference</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier reference" editable="bottom">
+                    <field name='date'/>
+                    <field name='name'/>
+                    <field name='note'/>
+                    <field name='partner_id' invisible="1"/>
+                </tree>   
+            </field>
+        </record>
+
+        <!--res.partner-->
+        <record id="view_res_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="email" position="after">
+                    <field name="quality_email" groups="quality.module_quality,quality.group_quality_RDQ,quality.group_quality_RCO,quality.group_quality_SAQ,quality.group_quality_SGO,quality.group_quality_SFA,quality.group_quality_RAQ"/>
+                </field>
+                <xpath expr="//notebook/page" position="after">
+                    <page string="Qualification" attrs="{'invisible':[('supplier','=',False)]}">
+                        <group colspan="4" col="4">
+                            <field name="quality_class_id" />
+                            <field name="quality_update_date" />
+                            <field name="quality_start_supplier" />
+                            <field name="quality_end_supplier" />    
+                        </group>
+                        <notebook colspan="4">
+                                <page string="Note">
+                                    <group colspan="4" col="4">
+                                        <field name="quality_activity" />
+                                        <field name="quality_rating_info" />
+                                        <field name="quality_commercial_reference"/>
+                                        <field name="quality_product"/>
+                                    </group>    
+                                </page>
+                                <!--<page string="Rating">
+                                   <field name="rating_ids" nolabel='1' colspan="4" />
+                                </page>-->
+                                <page string="Reference">
+                                   <field name="rating_ids" nolabel='1' colspan="4"/>
+                                </page>
+                                <page string="Check">
+                                   <field name="check_ids" nolabel='1' colspan="4"/>
+                                </page>
+                                <page string="Certification">
+                                   <field name="certification_ids" nolabel='1' colspan="4"/>
+                                </page>
+                        </notebook>
+                    </page>   
+                    <page string="Index" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}">
+                        <group colspan="4" col="4">
+                              <group col='6' colspan='6'>
+                              <field name="custom_range"/>
+                                <field name='index_from' attrs="{'invisible': [('custom_range','=',False)], 'required':[('custom_range','=',True)]}" />
+                                <field name='index_to' attrs="{'invisible': [('custom_range','=',False)], 'required':[('custom_range','=',True)]}"/>
+                              </group>
+                              <field name="index_info" widget="html" nolabel="1"/>
+                              <notebook colspan="4">
+                                  <page string="Claim">
+                                      <field name="index_claim" nolabel="1" colspan="3" widget="html"/>
+                                      <button name="open_claim_list" type="object" string="Claim list" colspan="1" attrs="{'invisible':[('index_claim_list','=','[]')]}"/>
+                                      <field name="index_claim_list" invisible="1"/>
+                                  </page>
+                                  <page string="Not conformed">
+                                      <field name="index_conformed" nolabel="1" colspan="3" widget="html" />
+                                      <button name="open_conformed_list" type="object" string="Conformed list" colspan="1" attrs="{'invisible':[('index_conformed_list','=','[]')]}"/>
+                                      <field name="index_conformed_list" invisible="1"/>
+                                  </page>
+                                  <page string="Sampling">
+                                      <field name="index_sampling" nolabel="1" colspan="3" widget="html" />
+                                      <button name="open_sampling_list" type="object" string="Sampling list" colspan="1" attrs="{'invisible':[('index_sampling_list','=','[]')]}"/>
+                                      <field name="index_sampling_list" invisible="1"/>
+                                  </page>
+                              </notebook>
+                        </group>                        
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!--res.company-->
+        <record id="view_res_company_range_form" model="ir.ui.view">
+            <field name="name">res.company.range</field>
+            <field name="model">res.company</field>
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <form string="Company range date" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4'>
+                            <field name='index_from'/>
+                            <field name='index_to'/>
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="action_res_company_range_form" model="ir.actions.act_window" >
+            <field name="name">Index date range</field>
+            <field name="res_model">res.company</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'form_view_ref':'quality.view_res_company_range_form'}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--MENUITEM-->
+        <menuitem id="menu_quality_root" name="Quality" sequence="1" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+            <menuitem parent="menu_quality_root" id="menu_quality_form" name="Form" sequence="10"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10"/>
+                    <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_product" name="Product Claim" action="action_quality_claim_product_form" sequence="10"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_acceptation" name="Acceptation" action="action_quality_acceptation_form" sequence="50"/>
+            <menuitem parent="menu_quality_root" id="menu_quality_root_configuration" name="Configuration" sequence="99" />
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_customer" name="Customer" action="action_res_partner_customer_form" sequence="10"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_supplier" name="Supplier" action="action_res_partner_supplier_form" sequence="20"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_lot" name="Lot" action="action_stock_production_lot_form" sequence="30"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_product" name="Product" action="action_product_product_form" sequence="40"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_plan" name="Sampling plan" action="action_quality_sampling_plan_form" sequence="50"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_range" name="Index range" action="action_res_company_range_form" sequence="60"/>
+                <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_claim" name="Claims" sequence="70"/>
+                    <menuitem parent="menu_quality_root_configuration_claim" id="menu_quality_root_configuration_claim_origin" name="Origin" action="action_quality_origin_form" sequence="10"/>
+                    <menuitem parent="menu_quality_root_configuration_claim" id="menu_quality_root_configuration_claim_gravity" name="Gravity" action="action_quality_gravity_form" sequence="20"/>
+                    <menuitem parent="menu_quality_root_configuration_claim" id="menu_quality_root_configuration_claim_cause" name="Claim Cause" action="action_quality_claim_cause_form" sequence="30"/>
+   </data>
+</openerp>   

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Workflow Sampling: -->
+        <record model="workflow" id="wkf_quality_sampling">
+            <field name="name">quality.sampling.wkf</field>
+            <field name="osv">quality.sampling</field>
+            <field name="on_create">True</field>
+        </record>
+        
+        <!-- Activity: -->
+        <record model="workflow.activity" id="act_sampling_draft">
+            <field name="wkf_id" ref="wkf_quality_sampling" />
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">sampling_draft()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_sampling_opened">
+            <field name="wkf_id" ref="wkf_quality_sampling" />
+            <field name="name">opened</field>
+            <field name="kind">function</field>
+            <field name="action">sampling_opened()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_sampling_passed">
+            <field name="wkf_id" ref="wkf_quality_sampling" />
+            <field name="name">passed</field>
+            <field name="kind">function</field>
+            <field name="action">sampling_passed()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_sampling_notpassed">
+            <field name="wkf_id" ref="wkf_quality_sampling" />
+            <field name="name">notpassed</field>
+            <field name="kind">function</field>
+            <field name="action">sampling_notpassed()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_sampling_cancel">
+            <field name="wkf_id" ref="wkf_quality_sampling" />
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="action">sampling_cancel()</field>
+        </record>
+        
+        <!-- Trigger: -->
+        <record model="workflow.transition" id="sm01a">
+            <field name="act_from" ref="act_sampling_draft" />
+            <field name="act_to" ref="act_sampling_opened" />
+            <field name="signal">trigger_sampling_draft_opened</field>
+        </record>
+        <record model="workflow.transition" id="sm01b">
+            <field name="act_from" ref="act_sampling_draft" />
+            <field name="act_to" ref="act_sampling_cancel" />
+            <field name="signal">trigger_sampling_draft_cancel</field>
+        </record>
+        
+        <record model="workflow.transition" id="sm02a">
+            <field name="act_from" ref="act_sampling_opened" />
+            <field name="act_to" ref="act_sampling_notpassed" />
+            <field name="signal">trigger_sampling_opened_notpassed</field>
+        </record>
+        <record model="workflow.transition" id="sm02b">
+            <field name="act_from" ref="act_sampling_opened" />
+            <field name="act_to" ref="act_sampling_passed" />
+            <field name="signal">trigger_sampling_opened_passed</field>
+        </record>
+        <record model="workflow.transition" id="sm02c">
+            <field name="act_from" ref="act_sampling_opened" />
+            <field name="act_to" ref="act_sampling_cancel" />
+            <field name="signal">trigger_sampling_opened_cancel</field>
+        </record>
+        
+        <record model="workflow.transition" id="sm03">
+            <field name="act_from" ref="act_sampling_notpassed" />
+            <field name="act_to" ref="act_sampling_cancel" />
+            <field name="signal">trigger_sampling_notpassed_cancel</field>
+        </record>
+        
+        <record model="workflow.transition" id="sm04">
+            <field name="act_from" ref="act_sampling_passed" />
+            <field name="act_to" ref="act_sampling_cancel" />
+            <field name="signal">trigger_sampling_passed_cancel</field>
+        </record>
+        
+        <record model="workflow.transition" id="sm05">
+            <field name="act_from" ref="act_sampling_cancel" />
+            <field name="act_to" ref="act_sampling_draft" />
+            <field name="signal">trigger_sampling_cancel_draft</field>
+        </record>
+    </data>
+</openerp>

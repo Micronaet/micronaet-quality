@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Workflow Actions: -->
+        <record model="workflow" id="wkf_quality_action">
+            <field name="name">quality.action.wkf</field>
+            <field name="osv">quality.action</field>
+            <field name="on_create">True</field>
+        </record>
+        
+    <!-- Activity: -->
+        <record model="workflow.activity" id="act_action_draft">
+            <field name="wkf_id" ref="wkf_quality_action" />
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">action_draft()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_action_opened">
+            <field name="wkf_id" ref="wkf_quality_action" />
+            <field name="name">opened</field>
+            <field name="kind">function</field>
+            <field name="action">action_opened()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_action_closed">
+            <field name="wkf_id" ref="wkf_quality_action" />
+            <field name="name">closed</field>
+            <field name="kind">function</field>
+            <field name="action">action_closed()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_action_saw">
+            <field name="wkf_id" ref="wkf_quality_action" />
+            <field name="name">saw</field>
+            <field name="kind">function</field>
+            <field name="action">action_saw()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_action_cancel">
+            <field name="wkf_id" ref="wkf_quality_action" />
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="action">action_cancel()</field>
+        </record>
+    <!-- Trigger: -->
+        <record model="workflow.transition" id="ac01">
+            <field name="act_from" ref="act_action_draft" />
+            <field name="act_to" ref="act_action_opened" />
+            <field name="signal">trigger_action_draft_opened</field>
+        </record>
+
+        <record model="workflow.transition" id="ac02a">
+            <field name="act_from" ref="act_action_opened" />
+            <field name="act_to" ref="act_action_closed" />
+            <field name="signal">trigger_action_opened_closed</field>
+        </record>
+        <record model="workflow.transition" id="ac02b">
+            <field name="act_from" ref="act_action_opened" />
+            <field name="act_to" ref="act_action_cancel" />
+            <field name="signal">trigger_action_opened_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="ac03a">
+            <field name="act_from" ref="act_action_closed" />
+            <field name="act_to" ref="act_action_saw" />
+            <field name="signal">trigger_action_closed_saw</field>
+        </record>
+        <record model="workflow.transition" id="ac03b">
+            <field name="act_from" ref="act_action_closed" />
+            <field name="act_to" ref="act_action_cancel" />
+            <field name="signal">trigger_action_closed_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="ac04">
+            <field name="act_from" ref="act_action_saw" />
+            <field name="act_to" ref="act_action_cancel" />
+            <field name="signal">trigger_action_saw_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="ac05">
+            <field name="act_from" ref="act_action_cancel" />
+            <field name="act_to" ref="act_action_draft" />
+            <field name="signal">trigger_action_cancel_draft</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,360 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!--quality.gravity-->
+    <record model="quality.gravity" id="quality_gravity_secondary">
+        <field name="name">Secondary</field>
+    </record>
+    <record model="quality.gravity" id="quality_gravity_serious">
+        <field name="name">Serious</field>
+    </record>
+    <record model="quality.gravity" id="quality_gravity_important">
+        <field name="name">Important</field>
+    </record>
+
+    <!--quality.cause-->
+    <record model="quality.claim.cause" id="quality_cause_hygiene">
+        <field name="name">Hygiene</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_quality">
+        <field name="name">Quality</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_quantity">
+        <field name="name">Quantity</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_delay">
+        <field name="name">Delay</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_product">
+        <field name="name">Wrong product</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_package">
+        <field name="name">Package</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_customer">
+        <field name="name">Customer error</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_price">
+        <field name="name">Price</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_notdefined">
+        <field name="name">Not defined</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_glazing">
+        <field name="name">Glazing</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_temperature">
+        <field name="name">Temperature</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_size">
+        <field name="name">Size</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_foreign">
+        <field name="name">Foreign Bodies</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_lack">
+        <field name="name">Lack of product</field>
+    </record>
+    <record model="quality.claim.cause" id="quality_cause_stock">
+        <field name="name">Break of stock</field>
+    </record>
+
+    <!--quality.origin-->
+    <record model="quality.origin" id="quality_origin_order">
+        <field name="name">Order</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_warehouse">
+        <field name="name">Warehouse</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_supplier">
+        <field name="name">Supplier</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_customer">
+        <field name="name">Customer</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_transport">
+        <field name="name">Transport</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_billing">
+        <field name="name">Billing</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_notdefined">
+        <field name="name">Not defined</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_commercial">
+        <field name="name">Commercial</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_logistics">
+        <field name="name">Logistics</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_packaging">
+        <field name="name">Packaging</field>
+        <field name="type">claim</field>
+    </record>
+    <record model="quality.origin" id="quality_origin_purchases">
+        <field name="name">Purchases</field>
+        <field name="type">claim</field>
+    </record>
+
+    <!--quality.comunication-->
+    <record model="quality.comunication.type" id="quality_comunication_customer">
+        <field name="name">Customer</field>
+    </record>
+    <record model="quality.comunication.type" id="quality_comunication_supplier">
+        <field name="name">Supplier</field>
+    </record>
+    <record model="quality.comunication.type" id="quality_comunication_asl">
+        <field name="name">ASL</field>
+    </record>
+    
+    <!--quality.sampling.plan-->
+    <record model="quality.sampling.plan" id="quality_sampling_plan_bieta">
+        <field name="name">Bieta erbetta</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+        <field name="note">Glassatura per perdita liquidi</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_broccoli">
+        <field name="name">Broccoli calabri IGF</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_carote">
+        <field name="name">Carote Baby e rondelle</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_cavolfiore">
+        <field name="name">Cavolfiore 30/60</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_carciofi">
+        <field name="name">Carciofi cuore, fondi e spicchi</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_crocchette">
+        <field name="name">Patate crocchette</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_fagiolini">
+        <field name="name">Fagiolini fini e finissimi</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_finocchi">
+        <field name="name">Finocchi spicchi</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_minestrone">
+        <field name="name">Minestrone Verdure</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_patate">
+        <field name="name">Patate</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_piselli">
+        <field name="name">Piselli</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_spinaci">
+        <field name="name">Spinaci foglia</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+        <field name="note">Perdita liquidi</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_zucchine">
+        <field name="name">Zucchine rondelle / grigliate</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_halibut">
+        <field name="name">Halibut filetto</field>
+        <field name="period">6</field>
+        <field name="visual" eval='False'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_bastoncini">
+        <field name="name">Bastoncini e cotolette di pesce</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_calamari">
+        <field name="name">Calamari-totani tubi/anelli</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_cozze">
+        <field name="name">Cozze o vongole</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+        <field name="note">+ Sabbia</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_merluzzo">
+        <field name="name">Merluzzo Fil. Con o senza pelle</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_palombo">
+        <field name="name">Palombo tranci</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_platessa">
+        <field name="name">Platessa Filetto</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_seppie">
+        <field name="name">Seppie IGF</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_trota">
+        <field name="name">Trota filetto salmonata</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='True'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_coscette">
+        <field name="name">Coscette pollo</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+        <field name="note">Scongelamento/Odori</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_pollo">
+        <field name="name">Pollo Busto / Fusello</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+        <field name="note">Scongelamento/Odori</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_suino">
+        <field name="name">Suino lonza</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='True'/>
+        <field name="note">Perdita liquidi</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_peperoni">
+        <field name="name">Peperoni cubetti-falde grill/nat</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_tacchino">
+        <field name="name">Tacchino</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_asparagi">
+        <field name="name">Asparagi</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_macinato">
+        <field name="name">Macinato / Polpette</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+        <field name="note">Scongelamento/Odori</field>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_spada">
+        <field name="name">Pesce spada</field>
+        <field name="period">6</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='False'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_mais">
+        <field name="name">Mais</field>
+        <field name="period">12</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_pangasio">
+        <field name="name">Pangasio</field>
+        <field name="period">12</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+    </record>
+    <record model="quality.sampling.plan" id="quality_sampling_plan_aromi">
+        <field name="name">Aromi e sedano</field>
+        <field name="period">12</field>
+        <field name="visual" eval='True'/>
+        <field name="taste" eval='True'/>
+        <field name="glazing" eval='False'/>
+        <field name="note">Colore e aroma</field>
+    </record>
+  </data>
+</openerp>

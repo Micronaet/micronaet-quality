@@ -1,0 +1,124 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* quality_import_bf
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-17 12:53+0000\n"
+"PO-Revision-Date: 2014-09-17 14:54+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: quality_import_bf
+#: field:quality.acceptation.wizard.import,file:0
+msgid "File to import"
+msgstr "File da importare"
+
+#. module: quality_import_bf
+#: field:quality.acceptation.wizard.import,note:0
+msgid "Import information"
+msgstr "Info importazione"
+
+#. module: quality_import_bf
+#: view:quality.acceptation.wizard.import:0
+msgid "Importation note:"
+msgstr "Importazione note:"
+
+#. module: quality_import_bf
+#: view:quality.acceptation.wizard.import:0
+msgid "Confirm"
+msgstr "Confermare"
+
+#. module: quality_import_bf
+#: code:addons/quality_import_bf/wizard_import.py:264
+#, python-format
+msgid ""
+"See the preview info about file above and decide to import if is correct!"
+msgstr ""
+"Visualizzare l'anteprima delle info su un file e decidere di importare se è "
+"corretto!"
+
+#. module: quality_import_bf
+#: code:addons/quality_import_bf/wizard_import.py:245
+#, python-format
+msgid ""
+"<tr class='table_bf'><th>Supplier</th><th>Document</th><th>Lot</"
+"th><th>Description</th><th>Code</th><th>Quantity</th></tr>"
+msgstr ""
+"<tr class='table_bf'><th>Fornitore</th><th>Documento</th><th>Lot</"
+"th><th>Descrizione</th><th>Codice</th><th>Quant.</th></tr>"
+
+#. module: quality_import_bf
+#: model:ir.model,name:quality_import_bf.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: quality_import_bf
+#: code:addons/quality_import_bf/wizard_import.py:89
+#, python-format
+msgid "Supplier: %s"
+msgstr "Fornitore: %s"
+
+#. module: quality_import_bf
+#: view:quality.acceptation.wizard.import:0
+msgid "File to import:"
+msgstr "File da importare:"
+
+#. module: quality_import_bf
+#: model:ir.actions.act_window,name:quality_import_bf.action_quality_acceptation_wizard_import
+#: model:ir.model,name:quality_import_bf.model_quality_acceptation_wizard_import
+#: view:quality.acceptation.wizard.import:0
+msgid "Import acceptation"
+msgstr "Importa accettazione"
+
+#. module: quality_import_bf
+#: model:ir.ui.menu,name:quality_import_bf.menu_quality_form_acceptation_import
+msgid "Import acceptation form"
+msgstr "Importa scheda accettazione"
+
+#. module: quality_import_bf
+#: view:quality.acceptation.wizard.import:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: quality_import_bf
+#: code:addons/quality_import_bf/wizard_import.py:143
+#: code:addons/quality_import_bf/wizard_import.py:255
+#, python-format
+msgid "Error reading filename for import, missing parameter in Company form!"
+msgstr ""
+"Errore di lettura file di importazione, parametro mancante nella scheda "
+"Azienda!"
+
+#. module: quality_import_bf
+#: code:addons/quality_import_bf/wizard_import.py:282
+#, python-format
+msgid "Error trying to read filename parameters"
+msgstr "Errore cercando di leggere i parametri del nome file"
+
+#. module: quality_import_bf
+#: view:res.company:0
+msgid "Quality"
+msgstr "Qualità"
+
+#. module: quality_import_bf
+#: model:ir.ui.menu,name:quality_import_bf.menu_quality_wizard
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: quality_import_bf
+#: help:res.company,quality_import_file:0
+msgid "Tuple value, like: ('~', 'etl', 'demo', 'BF.txt')"
+msgstr "Valore 'tupla', esempio: ('~', 'etl', 'demo', 'BF.txt')"
+
+#. module: quality_import_bf
+#: field:res.company,quality_import_file:0
+msgid "Quality import file"
+msgstr "Importa file per qualità"
