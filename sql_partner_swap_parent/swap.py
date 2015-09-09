@@ -73,7 +73,7 @@ class ResPartner(osv.osv):
         # Call original function:
         # -----------------------
         res = super(ResPartner, self).schedule_sql_partner_import(
-            self, cr, uid, verbose_log_count=verbose_log_count, 
+            cr, uid, verbose_log_count=verbose_log_count, 
             capital=capital, write_date_from=write_date_from, 
             write_date_to=write_date_to, create_date_from=create_date_from, 
             create_date_to=create_date_to, sync_vat=sync_vat,

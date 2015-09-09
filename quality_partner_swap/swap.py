@@ -44,7 +44,7 @@ class ResPartner(osv.osv):
         ''' Replace in all form the from_id and put to_id
             (used for swap function but also for a possibly wizard
         '''
-        subtitution = [
+        substitution = [
             ('quality.claim', 'partner_id'),
             #('quality.claim', 'partner_address_id'), # TODO address to check!
             #('quality.claim.product', 'partner_id'), # TODO check (is related)
@@ -53,7 +53,7 @@ class ResPartner(osv.osv):
             ('stock.production.lot', 'default_supplier_id'),
             ('quality.supplier.rating', 'partner_id'),
             ('quality.supplier.check', 'partner_id'),
-            ('quality.supplier.certificate', 'partner_id'),
+            ('quality.supplier.certification', 'partner_id'),
             ]
 
         for (pool, field) in substitution:
@@ -65,6 +65,8 @@ class ResPartner(osv.osv):
                     field: to_id}, context=context)
                 _logger.info('Swapped partner in %s: from %s to %s [%s]' % (
                     pool, from_id, to_id, len(form_ids)))
+            else:        
+                _logger.info('No swap for %s' % pool)
         return 
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
