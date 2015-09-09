@@ -23,7 +23,8 @@ import openerp.netsvc
 import logging
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 
@@ -33,17 +34,18 @@ _logger = logging.getLogger(__name__)
 class product_product(osv.osv):
     ''' Extend product.product (override schedule function)
     '''    
-    _name = 'product.product'
     _inherit = 'product.product'
 
     # -------------------------------------------------------------------------
     #                              Scheduled action (overrided)
     # -------------------------------------------------------------------------
-    def schedule_sql_product_import(self, cr, uid, verbose_log_count=100, write_date_from=False, write_date_to=False, create_date_from=False, create_date_to=False, context=None):
+    def schedule_sql_product_import(self, cr, uid, verbose_log_count=100, 
+            write_date_from=False, write_date_to=False, create_date_from=False, 
+            create_date_to=False, context=None):
         ''' Import product from external DB 
             product has a code like [product_code][product_lot] (separator is 
             the char lenght of product_code)
-            1. Create product for product code lenght = separator
+            1. Create product for product code length = separator
             2. Create lot for product code lenght > separator, link to product 
             3. Nothing for code < separator (in context)
         '''
@@ -52,7 +54,7 @@ class product_product(osv.osv):
             
         lot_pool = self.pool.get('stock.production.lot')
         accounting_pool = self.pool.get('micronaet.accounting')
-        separator = context.get('separator', 11) # default
+        separator = context.get('separator', 11) # default (parametrize)
         
         # ---------------------------------------------------------------------
         #                            Function
@@ -68,18 +70,18 @@ class product_product(osv.osv):
                     
                 partner_ids = partner_pool.search(cr, uid, [
                     ('sql_supplier_code', '=', sql_supplier_code),
-                ], context=context)
+                    ], context=context)
                 
                 if partner_ids:
                     return partner_ids[0]
                 else:
                    return partner_pool.create(cr, uid, {
-                       'name': _("Supplier: %s") % (sql_supplier_code, ),
+                       'name': _('Supplier: %s') % sql_supplier_code,
                        'sql_supplier_code': sql_supplier_code,
                        'sql_import': True,
                        'is_company': True,
                        'supplier': True,
-                   }, context=context)
+                       }, context=context)
             except:
                 return False       
 
@@ -90,13 +92,17 @@ class product_product(osv.osv):
             
             data = {
                 # TODO IFL_ART_DBP o DBV for supply_method='produce'
-                'name': "%s%s" % (record['CDS_ART'] or "", record['CDS_AGGIUN_ART'] or ""),
+                'name': "%s%s" % (
+                    record['CDS_ART'] or "", 
+                    record['CDS_AGGIUN_ART'] or ""),
                 'default_code': default_code,
                 'sql_import': True,
                 'active': True,
                 'statistic_category': "%s%s" % (
                     record['CKY_CAT_STAT_ART'] or '', 
-                    "%02d" % int(record['NKY_CAT_STAT_ART'] or '0') if record['CKY_CAT_STAT_ART'] else '',
+                    "%02d" % int(
+                        record['NKY_CAT_STAT_ART'] or '0') if record[
+                            'CKY_CAT_STAT_ART'] else '',
                 ),
             }
             if accounting_pool.is_active(record):
@@ -109,9 +115,9 @@ class product_product(osv.osv):
                 
             if product_ids: # update
                 product_id = product_ids[0]
-                self.write(cr, uid, product_id, data, context = context)
+                self.write(cr, uid, product_id, data, context=context)
             else:          # create
-                product_id = self.create(cr, uid, data, context = context)
+                product_id = self.create(cr, uid, data, context=context)
             return product_id
 
         def create_update_lot(self, cr, uid, record, context=None):
@@ -119,6 +125,9 @@ class product_product(osv.osv):
             '''
             lot_pool = self.pool.get('stock.production.lot')
             
+            # --------
+            # Product:
+            # --------
             product_code = record['CKY_ART'][:separator]
             lot_code = record['CKY_ART'][separator:]
             product_ids = self.search(cr, uid, [
@@ -129,6 +138,15 @@ class product_product(osv.osv):
                 product_id = create_update_product(
                     self, cr, uid, record, context=context)
             
+            # ------------
+            # Product lot:
+            # ------------
+            try: # test if lot is integer
+                int(lot_code)
+            except:
+                _logger.warning('Not a lot: %s' % record['CKY_ART'])
+                return False
+                
             default_supplier_id = create_update_supplier(
                 self, cr, uid, record, context=context)            
             deadline = lot_pool.get_lot_from_alternative_code(
@@ -139,7 +157,7 @@ class product_product(osv.osv):
                 ('name', '=', lot_code),
                 ('product_id', '=', product_id),
                 #('supplier_id', '=', supplier_id),
-            ], context=context)
+                ], context=context)
             
             if lot_ids:
                 lot_id = lot_ids[0]
@@ -150,15 +168,15 @@ class product_product(osv.osv):
                     #'date': date,
                     'deadline': deadline,
                     #'default_supplier_id': default_supplier_id,
-                }, context=context)                
-            else:
+                    }, context=context)                
+            else: # production lot or not imported
                 lot_id = lot_pool.create(cr, uid, {
                     'name': lot_code,
                     'product_id': product_id,
                     #'date': date,
                     'deadline': deadline,
                     'default_supplier_id': default_supplier_id,
-                }, context=context)
+                    }, context=context)
 
             # Duplicate flag:
             lot_ids = lot_pool.search(cr, uid, [
@@ -167,7 +185,7 @@ class product_product(osv.osv):
             if len(lot_ids) > 1:
                 lot_pool.write(cr, uid, lot_ids, {
                     'duplicated': True,
-                }, context=context)            
+                    }, context=context)            
             return lot_id
 
         try:
@@ -185,11 +203,12 @@ class product_product(osv.osv):
                 i += 1
                 try:
                     if verbose_log_count and i % verbose_log_count == 0:
-                        _logger.info('Import %s: record imported / updated!' % (i, ))
+                        _logger.info(
+                            'Import %s: record imported / updated!' % i)
                     default_code = record['CKY_ART']
 
                     # Less code:
-                    if len(default_code) < separator: # Code less than separator
+                    if len(default_code) < separator: # Code < separator
                         continue
                         
                     # Product code:
@@ -203,7 +222,7 @@ class product_product(osv.osv):
                             self, cr, uid, record, context=context)
                 except:
                     _logger.error(
-                        'Record: %s Error importing product / lot [%s], jumped: %s' % (
+                        'Record: %s On import product/lot [%s], jumped: %s' % (
                             i, record['CDS_ART'], sys.exc_info(), ))
                         
             _logger.info('All product is updated!')
@@ -216,10 +235,10 @@ class product_product(osv.osv):
 class stock_production_lot(osv.osv):
     ''' Add extra fields
     '''    
-    _name = 'stock.production.lot'
     _inherit = 'stock.production.lot'
         
-    def get_lot_from_alternative_code(self, cr, uid, code, creation_date, context=None):
+    def get_lot_from_alternative_code(self, cr, uid, code, creation_date, 
+            context=None):
         ''' Custom function for get deadline for particular customer
             The deadline is insert in first 5 char of alternative code, like:
             01-10, 01/10, 01.10 and so on
@@ -233,7 +252,7 @@ class stock_production_lot(osv.osv):
                     creation_date.year,
                     code[:2],
                     code[3:],
-                )
+                    )
                 test = datetime.strptime(deadline, DEFAULT_SERVER_DATE_FORMAT)
                 return deadline
             except: 
@@ -242,9 +261,9 @@ class stock_production_lot(osv.osv):
             
     _columns = {
         'duplicated': fields.boolean('Duplicated', required=False),
-    }
+        }
     
     _defaults = {
         'duplicated': lambda *a: False,
-    }
+        }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
