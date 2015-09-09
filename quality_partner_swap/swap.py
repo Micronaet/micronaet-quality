@@ -60,9 +60,11 @@ class ResPartner(osv.osv):
             form_pool = self.pool.get(pool)
             form_ids = form_pool.search(cr, uid, [
                 (field, '=', from_id)], context=context)
-            if form_ids:   
+            if form_ids:
                 form_pool.write(cr, uid, form_ids, {
                     field: to_id}, context=context)
+                _logger.info('Swapped partner in %s: from %s to %s' % (
+                    pool, from_id, to_id))
         return 
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
