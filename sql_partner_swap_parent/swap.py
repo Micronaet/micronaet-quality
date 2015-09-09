@@ -52,8 +52,8 @@ class ResPartner(osv.osv):
     # -------------------------------------------------------------------------
     # Virtual function that calculate swap dict:
     def get_swap_parent(self, cr, uid, context=None):
-    ''' Override with function that load override fields
-    '''
+        ''' Override with function that load override fields
+        '''
         res = {}
         swap_pool = self.pool.get('res.partner.swap')
         swap_ids = swap_pool.search(cr, uid, [], context=None)
@@ -80,9 +80,19 @@ class ResPartner(osv.osv):
         # Update form if there's swap list 
         swap_list = self.get_swap_parent(cr, uid, context=context)  
         if swap_list: # Update forms:
-            for origin, swap in swap_list.itetitems():
+            for origin, swap in swap_list.iteritems():
+                from_id = self.get_partner_from_sql_code(
+                    cr, uid, origin, context=context)
+                to_id = self.get_partner_from_sql_code(
+                    cr, uid, swap, context=context)
+                
+                if not from_id or not to_id: # check both present
+                    _logger.error(
+                        'Partner not found for origin: %s destination: %s' % (
+                            origin, swap))
+                    continue
+                    
                 # Claims:
-                pass
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
