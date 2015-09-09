@@ -244,7 +244,7 @@ class stock_production_lot(osv.osv):
             01-10, 01/10, 01.10 and so on
             year is from creation_date
         '''
-        separator = ('.', ',', '-', ' ', ':', '_', ';', '/', r'\')
+        separator = ('.', ',', '-', ' ', ':', '_', ';', '/', '\\')
         code = code[:5]
         if len(code) == 5 and code[2] in separator:
             try:
