@@ -48,8 +48,8 @@ class ResPartner(osv.osv):
             ('quality.claim', 'partner_id'),
             #('quality.claim', 'partner_address_id'), # TODO address to check!
             #('quality.claim.product', 'partner_id'), # TODO check (is related)
-            ('quality.conformed', 'partner_id'),
-            #('quality.acceptation', 'partner_id'), # TODO check (is related)
+            #('quality.conformed', 'supplier_lot'), # TODO check (is related)
+            ('quality.acceptation', 'partner_id'),
             ('stock.production.lot', 'default_supplier_id'),
             ('quality.supplier.rating', 'partner_id'),
             ('quality.supplier.check', 'partner_id'),
