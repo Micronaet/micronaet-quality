@@ -2238,7 +2238,8 @@ class res_partner(osv.osv):
             method=True, 
             type='text', string='Claim list', store=False,
             help='Used for button claims', multi="index"),
-        #'index_lot_claimed': fields.function(_get_index_information, method=True, 
+        #'index_lot_claimed': fields.function(_get_index_information, 
+        #    method=True, 
         #    type='text', string='Lot claimed', store=False,
         #    help='Total lot claimed', multi="index"),
             

@@ -48,6 +48,15 @@ class ResPartner(osv.osv):
     _inherit = 'res.partner'
 
     # -------------------------------------------------------------------------
+    #                         Utility function:
+    # -------------------------------------------------------------------------
+    def replace_partner_id(self, cr, uid, from_id, to_id, context=context):
+        ''' Replace in all form the from_id and put to_id
+            (used for swap function but also for a possibly wizard
+        '''
+        
+    
+    # -------------------------------------------------------------------------
     #                         Override function:
     # -------------------------------------------------------------------------
     # Virtual function that calculate swap dict:
