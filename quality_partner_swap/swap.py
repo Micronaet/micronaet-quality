@@ -40,76 +40,29 @@ class ResPartner(osv.osv):
     # -------------------------------------------------------------------------
     #                         Utility function:
     # -------------------------------------------------------------------------
-    def replace_partner_id(self, cr, uid, from_id, to_id, context=context):
+    def replace_partner_id(self, cr, uid, from_id, to_id, context=None):
         ''' Replace in all form the from_id and put to_id
             (used for swap function but also for a possibly wizard
         '''
         subtitution = [
             ('quality.claim', 'partner_id'),
+            #('quality.claim', 'partner_address_id'), # TODO address to check!
             #('quality.claim.product', 'partner_id'), # TODO check (is related)
             ('quality.conformed', 'partner_id'),
             #('quality.acceptation', 'partner_id'), # TODO check (is related)
             ('stock.production.lot', 'default_supplier_id'),
-            ('quality.claim', 'partner_id'),
-            ('quality.claim', 'partner_id'),
+            ('quality.supplier.rating', 'partner_id'),
+            ('quality.supplier.check', 'partner_id'),
+            ('quality.supplier.certificate', 'partner_id'),
             ]
-        # -------
-        # Claims:
-        # -------
-        # > quality.claim [partner_id - partner_address_id]
-        form_pool = self.pool.get('quality.claim')
-        # TODO partner_address_id check??
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-        if form_ids:   
-            form_pool.write(cr, uid, form_ids, {
-                'partner_id': to_id}, context=context)
 
-        # > quality.claim.product [partner_id > supplier]
-        # TODO check related change:
-        #form_pool = self.pool.get('quality.claim.product')
-        
-        # ------------
-        # Acceptation:
-        # ------------
-        # > quality.acceptation [supplier_lot related (no store)]
-        # TODO check related change:
-        #form_pool = self.pool.get('quality.acceptation') 
-        
-        # ----------
-        # Conformed:
-        # ----------
-        # > quality.conformed [partner_id]
-        form_pool = self.pool.get('quality.conformed')
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-        
-        # ----
-        # Lot:
-        # ----
-        # > stock.production.lot [default_supplier_id > supplier]
-        form_pool = self.pool.get('stock.production.lot')
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-        
-        # ---------------
-        # Supplier index:
-        # ---------------
-        # > quality.supplier.rating [partner_id > supplier]        
-        form_pool = self.pool.get('quality.supplier.rating')
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-
-        # > quality.supplier.check [partner_id > supplier]
-        form_pool = self.pool.get('quality.supplier.check')
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-
-        # > quality.supplier.certificate [partner_id > supplier]
-        form_pool = self.pool.get('quality.supplier.certificate')
-        form_ids = form_pool.search(cr, uid, [
-            ('partner_id', '=', from_id)], context=context)
-
+        for (pool, field) in substitution:
+            form_pool = self.pool.get(pool)
+            form_ids = form_pool.search(cr, uid, [
+                (field, '=', from_id)], context=context)
+            if form_ids:   
+                form_pool.write(cr, uid, form_ids, {
+                    field: to_id}, context=context)
         return 
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

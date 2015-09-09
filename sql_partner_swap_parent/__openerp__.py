@@ -33,6 +33,7 @@
     'depends': [
         'base',
         'sql_partner',
+        'quality_partner_swap',
         'quality',
     ],
     'init_xml': [], 

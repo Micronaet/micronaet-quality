@@ -48,15 +48,6 @@ class ResPartner(osv.osv):
     _inherit = 'res.partner'
 
     # -------------------------------------------------------------------------
-    #                         Utility function:
-    # -------------------------------------------------------------------------
-    def replace_partner_id(self, cr, uid, from_id, to_id, context=context):
-        ''' Replace in all form the from_id and put to_id
-            (used for swap function but also for a possibly wizard
-        '''
-        
-    
-    # -------------------------------------------------------------------------
     #                         Override function:
     # -------------------------------------------------------------------------
     # Virtual function that calculate swap dict:
@@ -78,7 +69,9 @@ class ResPartner(osv.osv):
         create_date_from=False, create_date_to=False, sync_vat=False,
         address_link=False, only_block=False, context=None):
         
+        # -----------------------
         # Call original function:
+        # -----------------------
         res = super(ResPartner, self).schedule_sql_partner_import(
             self, cr, uid, verbose_log_count=verbose_log_count, 
             capital=capital, write_date_from=write_date_from, 
@@ -86,7 +79,9 @@ class ResPartner(osv.osv):
             create_date_to=create_date_to, sync_vat=sync_vat,
             address_link=address_link, only_block=only_block, context=context)
         
-        # Update form if there's swap list 
+        # ---------------------------------
+        # Update form if there's swap list:
+        # ---------------------------------
         swap_list = self.get_swap_parent(cr, uid, context=context)  
         if swap_list: # Update forms:
             for origin, swap in swap_list.iteritems():
@@ -101,7 +96,9 @@ class ResPartner(osv.osv):
                             origin, swap))
                     continue
                     
-                # Claims:
+                # Replace function:    
+                self.replace_partner_id(
+                    cr, uid, from_id, to_id, context=context)
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
