@@ -1,0 +1,239 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* quality_statistic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-10 09:40+0000\n"
+"PO-Revision-Date: 2015-09-10 11:42+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Temperatura"
+msgstr "Temperatura"
+
+#. module: quality_statistic
+#: field:quality.statistic.wizard,from_date:0
+msgid "From"
+msgstr "Da"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Non definito"
+msgstr "Non definito"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Ordini"
+msgstr "Ordini"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Ritardo"
+msgstr "Ritardo"
+
+#. module: quality_statistic
+#: model:ir.ui.menu,name:quality_statistic.menu_quality_form_acceptation_import
+msgid "Status claims"
+msgstr "Stato reclami"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Errore cliente"
+msgstr "Errore cliente"
+
+#. module: quality_statistic
+#: view:quality.statistic.wizard:0
+msgid "Print"
+msgstr "Stampa"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Commerciale"
+msgstr "Commerciale"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Prodotto errato"
+msgstr "Prodotto errato"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Prezzo"
+msgstr "Prezzo"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Secondario"
+msgstr "Secondario"
+
+#. module: quality_statistic
+#: model:ir.actions.report.xml,name:quality_statistic.aeroo_claim_status_report_id
+msgid "Claim status"
+msgstr "Stato reclami"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Mancanza prodotto"
+msgstr "Mancanza prodotto"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Corpi estranei"
+msgstr "Corpi estranei"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Qualità"
+msgstr "Qualità"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Quantità"
+msgstr "Quantità"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Fornitore"
+msgstr "Fornitore"
+
+#. module: quality_statistic
+#: model:ir.actions.act_window,name:quality_statistic.action_quality_statistic_wizard
+msgid "Status claims report"
+msgstr "Stampa stato reclami"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Important"
+msgstr "Importante"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Acquisti"
+msgstr "Acquisti"
+
+#. module: quality_statistic
+#: model:ir.ui.menu,name:quality_statistic.menu_report_wizard
+msgid "Report"
+msgstr "Report"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Grave"
+msgstr "Grave"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Secondary"
+msgstr "Secondario"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Importante"
+msgstr "Importante"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Confezione"
+msgstr "Confezione"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Igiene"
+msgstr "Igiene"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Fatturazione"
+msgstr "Fatturazione"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Magazzino"
+msgstr "Magazzino"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Serious"
+msgstr "Grave"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Cliente"
+msgstr "Cliente"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Foreign Bodies"
+msgstr "Corpi estranei"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Rottura degli stock"
+msgstr "Rottura degli stock"
+
+#. module: quality_statistic
+#: model:ir.model,name:quality_statistic.model_quality_statistic_wizard
+#: view:quality.statistic.wizard:0
+msgid "Statistic report"
+msgstr "Report statistico"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Pezzatura"
+msgstr "Pezzatura"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Supplier"
+msgstr "Fornitore"
+
+#. module: quality_statistic
+#: field:quality.statistic.wizard,to_date:0
+msgid "To"
+msgstr "A"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Quality"
+msgstr "Qualita'"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Nessuna"
+msgstr "Nessuna"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Logistica"
+msgstr "Logistica"
+
+#. module: quality_statistic
+#: view:quality.statistic.wizard:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Glassatura"
+msgstr "Glassatura"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Confezionamento"
+msgstr "Confezionamento"
+
+#. module: quality_statistic
+#: report:ir.actions.report.xml:quality_statistic.aeroo_claim_status_report_id
+msgid "Trasporto"
+msgstr "Trasporto"
