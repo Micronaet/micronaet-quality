@@ -103,8 +103,15 @@ class Parser(report_sxw.rml_parse):
     def get_total_lot(self, data=None):
         ''' All lot created in the domain period
         '''
-        # TODO Acceptation line for lots
-        return 0
+        domain = self._get_domain(data)
+        domain.append(('state', '!=', 'cancel'))
+        acceptation_pool = self.pool.get('quality.acceptation')
+        acceptation_ids = acceptation_pool.search(self.cr, self.uid, domain)
+        res = 0
+        for item in acceptation_pool.browse(
+                self.cr, self.uid, acceptation_ids):
+            res += len(item.line_ids)            
+        return res
     
     def get_objects(self, data=None):
         ''' Create statistic obj for report
