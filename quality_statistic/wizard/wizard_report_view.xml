@@ -12,10 +12,8 @@
                        <button name="action_print_report" string="Print" type="object" icon="gtk-jump-to" class="oe_highlight" />
                    </header>                   
                    <group colspan="4" col="4">
-                       <separator string="File to import:" colspan="4"/>
-                       <field name="file" nolabel="1" colspan="4" readonly="1" widget="html"/>
-                       <separator string="Importation note:" colspan="4"/>
-                       <field name="note" nolabel="1" colspan="4" readonly="1"/>
+                       <field name="from_date" />
+                       <field name="to_date" />
                    </group>
                 </form>
             </field>

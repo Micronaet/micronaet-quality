@@ -20,10 +20,11 @@
 import os
 import sys
 import logging
-from openerp.osv import osv, fields
 import shutil
+from openerp.osv import osv, fields, orm
 from datetime import datetime, timedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 
@@ -39,7 +40,7 @@ class QualityStatisticWizard(orm.TransientModel):
     # -------------
     # Button event: 
     # -------------
-    def action_print_report(self, cr, uid, ids, context=context):
+    def action_print_report(self, cr, uid, ids, context=None):
         ''' Wizard for paremeter of the report
         '''
         if context is None: 

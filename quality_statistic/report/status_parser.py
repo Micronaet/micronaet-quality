@@ -43,12 +43,118 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
-class Parser(report_sxw.rml_parse):
+class Parser(report_sxw.rml_parse):    
     def __init__(self, cr, uid, name, context):
+    
+        # Reset totals:
+        self.totals = {
+            'not_conformed': 0
+            }     
+        
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            
-        })
+            'get_objects': self.get_objects,
+            'get_total_lot': self.get_total_lot,
+            'get_filter': self.get_filter,
+            'get_total': self.get_total,
+            })
 
+    # --------
+    # Utility:
+    # --------
+    def get_total(self, name):
+        return self.totals['not_conformed']
+        
+    # ------------------
+    # Exported function:
+    # ------------------
+    def _get_domain(self, data=None, description=False):
+        ''' Get domain from data passed with wizard
+            create domain for search filter depend on data
+            if description is True, return description of filter instead 
+        '''
+        if data is None:
+            data = {}
+
+        if description:
+            res = ''
+            if data.get('from_date', False):
+                res += _('from date >= %s 00:00:00') % data['from_date']
+            if data.get('to_date', False):
+                res += _(' to date <= %s 23:59:59') % data['to_date']
+        else:
+            res = []
+            if data.get('from_date', False):
+                res.append(
+                    ('date', '>=', '%s 00:00:00' % data['from_date']))
+            if data.get('to_date', False):
+                res.append(
+                    ('date', '<=', '%s 23:59:59' % data['to_date']))
+        return res
+
+    def get_filter(self, data=None):
+        ''' Return string for filter conditions
+        '''
+        return self._get_domain(data, description=True)
+       
+    def get_total_lot(self, data=None):
+        ''' All lot created in the domain period
+        '''
+        # Acceptation line for lots
+        return 0
+    
+    def get_objects(self, data=None):
+        ''' Create statistic obj for report
+        '''
+        # Reset totals:
+        self.totals['not_conformed'] = 0
+
+        domain = self._get_domain(data)
+        claim_pool = self.pool.get('quality.claim')
+        claim_ids = claim_pool.search(self.cr, self.uid, domain)
+
+        res = {
+            'Origine': {},
+            'Cause': {},
+            'Gravita\'': {},
+            }
+
+        import pdb; pdb.set_trace()
+        total = 0
+        for item in claim_pool.browse(self.cr, self.uid, claim_ids):
+            total += 1
+            
+            # --------------
+            # Caracteristic:
+            # --------------
+            # Origin:
+            block = res['Origine'] # for fast replace
+            name = _(item.origin_id.name) if item.origin_id else 'Nessuna'
+            
+            if name not in block: # Create totalizer
+                block[name] = 0                
+            block[name] += 1
+            
+            #  Cause
+            block = res['Cause'] # for fast replace
+            name = _(item.cause_id.name) if item.cause_id else 'Nessuna'
+            if name not in block: # Create totalizer
+                block[name] = 0                
+            block[name] += 1
+            
+            # Gravity
+            block = res['Gravita\''] # for fast replace
+            name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
+            if name not in block: # Create totalizer
+                block[name] = 0                
+            block[name] += 1
+            
+            # -------
+            # Totals:
+            # -------
+            if item.conformed_id:
+                self.totals['not_conformed'] += 1
+            
+        return res
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
