@@ -48,7 +48,8 @@ class Parser(report_sxw.rml_parse):
     
         # Reset totals:
         self.totals = {
-            'not_conformed': 0
+            'not_conformed': 0,
+            'claims': 0,
             }     
         
         super(Parser, self).__init__(cr, uid, name, context)
@@ -62,12 +63,6 @@ class Parser(report_sxw.rml_parse):
     # --------
     # Utility:
     # --------
-    def get_total(self, name):
-        return self.totals['not_conformed']
-        
-    # ------------------
-    # Exported function:
-    # ------------------
     def _get_domain(self, data=None, description=False):
         ''' Get domain from data passed with wizard
             create domain for search filter depend on data
@@ -91,6 +86,14 @@ class Parser(report_sxw.rml_parse):
                 res.append(
                     ('date', '<=', '%s 23:59:59' % data['to_date']))
         return res
+        
+    # ------------------
+    # Exported function:
+    # ------------------
+    def get_total(self, name):
+        ''' Return total loaded in report procedure
+        '''
+        return self.totals.get(name, 0.0)
 
     def get_filter(self, data=None):
         ''' Return string for filter conditions
@@ -100,7 +103,7 @@ class Parser(report_sxw.rml_parse):
     def get_total_lot(self, data=None):
         ''' All lot created in the domain period
         '''
-        # Acceptation line for lots
+        # TODO Acceptation line for lots
         return 0
     
     def get_objects(self, data=None):
@@ -108,21 +111,25 @@ class Parser(report_sxw.rml_parse):
         '''
         # Reset totals:
         self.totals['not_conformed'] = 0
+        self.totals['claims'] = 0
 
         domain = self._get_domain(data)
+        domain.append(('state', 'not in', ('draft', 'cancel')))
         claim_pool = self.pool.get('quality.claim')
         claim_ids = claim_pool.search(self.cr, self.uid, domain)
 
         res = {
             'Origine': {},
             'Cause': {},
-            'Gravita\'': {},
+            "Gravita'": {},
             }
 
-        import pdb; pdb.set_trace()
-        total = 0
-        for item in claim_pool.browse(self.cr, self.uid, claim_ids):
-            total += 1
+        # Language:
+        context = {}
+        context['lang'] = 'it_IT'
+        
+        for item in claim_pool.browse(self.cr, self.uid, claim_ids, context):
+            self.totals['claims'] += 1
             
             # --------------
             # Caracteristic:
@@ -143,7 +150,7 @@ class Parser(report_sxw.rml_parse):
             block[name] += 1
             
             # Gravity
-            block = res['Gravita\''] # for fast replace
+            block = res["Gravita'"] # for fast replace
             name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
             if name not in block: # Create totalizer
                 block[name] = 0                
