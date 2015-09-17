@@ -74,9 +74,9 @@ class Parser(report_sxw.rml_parse):
         if description:
             res = ''
             if data.get('from_date', False):
-                res += _('from date >= %s 00:00:00') % data['from_date']
+                res += _('da data >= %s 00:00:00') % data['from_date']
             if data.get('to_date', False):
-                res += _(' to date <= %s 23:59:59') % data['to_date']
+                res += _(' a data <= %s 23:59:59') % data['to_date']
         else:
             res = []
             if data.get('from_date', False):
