@@ -113,62 +113,117 @@ class Parser(report_sxw.rml_parse):
             res += len(item.line_ids)            
         return res
     
-    def get_objects(self, data=None):
+    def get_objects(self, block_type, data=None):
         ''' Create statistic obj for report
         '''
-        # Reset totals:
-        self.totals['not_conformed'] = 0
-        self.totals['claims'] = 0
+        if block_type == 'claim':
+            # Reset totals:
+            self.totals['not_conformed'] = 0
+            self.totals['claims'] = 0
 
-        domain = self._get_domain(data)
-        domain.append(('state', 'not in', ('draft', 'cancel')))
-        claim_pool = self.pool.get('quality.claim')
-        claim_ids = claim_pool.search(self.cr, self.uid, domain)
+            domain = self._get_domain(data)
+            domain.append(('state', 'not in', ('draft', 'cancel')))
+            claim_pool = self.pool.get('quality.claim')
+            claim_ids = claim_pool.search(self.cr, self.uid, domain)
 
-        res = {
-            'Origine': {},
-            'Cause': {},
-            "Gravita'": {},
-            }
+            res = {
+                'Origine': {},
+                'Cause': {},
+                "Gravita'": {},
+                }
 
-        # Language:
-        context = {}
-        context['lang'] = 'it_IT'
+            # Language:
+            context = {}
+            context['lang'] = 'it_IT'
+            
+            for item in claim_pool.browse(self.cr, self.uid, claim_ids, context):
+                self.totals['claims'] += 1
+                
+                # --------------
+                # Caracteristic:
+                # --------------
+                # Origin:
+                block = res['Origine'] # for fast replace
+                name = _(item.origin_id.name) if item.origin_id else 'Nessuna'
+                
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                #  Cause
+                block = res['Cause'] # for fast replace
+                name = _(item.cause_id.name) if item.cause_id else 'Nessuna'
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                # Gravity
+                block = res["Gravita'"] # for fast replace
+                name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                # -------
+                # Totals:
+                # -------
+                if item.conformed_id:
+                    self.totals['not_conformed'] += 1
         
-        for item in claim_pool.browse(self.cr, self.uid, claim_ids, context):
-            self.totals['claims'] += 1
+        if block_type == 'conformed':
+            # Reset totals:
+            self.totals['not_conformed'] = 0
+
+            domain = self._get_domain(data)
+            domain.append(('state', 'not in', ('draft', 'cancel')))
+            claim_pool = self.pool.get('quality.conformed')
+            claim_ids = claim_pool.search(self.cr, self.uid, domain)
+
+            res = {
+                'Origine': {},
+                'Cause': {},
+                "Gravita'": {},
+                }
+
+            # Language:
+            context = {}
+            context['lang'] = 'it_IT'
             
-            # --------------
-            # Caracteristic:
-            # --------------
-            # Origin:
-            block = res['Origine'] # for fast replace
-            name = _(item.origin_id.name) if item.origin_id else 'Nessuna'
-            
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            #  Cause
-            block = res['Cause'] # for fast replace
-            name = _(item.cause_id.name) if item.cause_id else 'Nessuna'
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            # Gravity
-            block = res["Gravita'"] # for fast replace
-            name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            # -------
-            # Totals:
-            # -------
-            if item.conformed_id:
-                self.totals['not_conformed'] += 1
-            
+            for item in claim_pool.browse(self.cr, self.uid, claim_ids, context):
+                self.totals['claims'] += 1
+                
+                # --------------
+                # Caracteristic:
+                # --------------
+                # Origin:
+                block = res['Origine'] # for fast replace
+                name = _(item.origin_id.name) if item.origin_id else 'Nessuna'
+                
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                #  Cause
+                block = res['Cause'] # for fast replace
+                name = _(item.cause_id.name) if item.cause_id else 'Nessuna'
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                # Gravity
+                block = res["Gravita'"] # for fast replace
+                name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
+                if name not in block: # Create totalizer
+                    block[name] = 0                
+                block[name] += 1
+                
+                # -------
+                # Totals:
+                # -------
+                if item.conformed_id:
+                    self.totals['not_conformed'] += 1
+        
+                
         return res
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
