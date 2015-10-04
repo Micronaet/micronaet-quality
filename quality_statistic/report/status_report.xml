@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-<data ><!--quality_claim_report-->
+<data noupdate="1">
     <record id="aeroo_claim_status_report_id" model="ir.actions.report.xml">
         <field name="name">Quality status</field>
         <field name="type">ir.actions.report.xml</field>
