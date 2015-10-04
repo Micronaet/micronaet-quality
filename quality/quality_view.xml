@@ -705,7 +705,7 @@
                                 <field name="supplier_lot"/>
                                 <field name="descr_product"/>
                                 <field name="ddt_ref"/>
-                                <field name="label_lot" attrs="{'readonly':[('origin','not in','other')]}"/>
+                                <field name="label_lot" /> <!--attrs="{'readonly':[('origin','not in','other')]}"-->
                                 <field name="gravity_id"/>
                                 <field name="lot_deadline"/>
                                 <field name="origin"/>
