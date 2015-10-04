@@ -248,10 +248,14 @@ class stock_production_lot(osv.osv):
         code = code[:5]
         if len(code) == 5 and code[2] in separator:
             try:
-                deadline = "%s-%s-%s" % (
-                    creation_date.year,
-                    code[:2],
+                #deadline = "%s-%s-%s" % (
+                #    creation_date.year,
+                #    code[:2],
+                #    code[3:],
+                #    )
+                deadline = "20%s-%s-01" % (
                     code[3:],
+                    code[:2],
                     )
                 test = datetime.strptime(deadline, DEFAULT_SERVER_DATE_FORMAT)
                 return deadline
@@ -260,7 +264,7 @@ class stock_production_lot(osv.osv):
         return False            
             
     _columns = {
-        'duplicated': fields.boolean('Duplicated', required=False),
+        'duplicated': fields.boolean('Duplicated'),
         }
     
     _defaults = {
