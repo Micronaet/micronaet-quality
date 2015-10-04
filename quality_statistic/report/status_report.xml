@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <openerp>
-<data noupdate="1">
+<data ><!--quality_claim_report-->
     <record id="aeroo_claim_status_report_id" model="ir.actions.report.xml">
         <field name="name">Quality status</field>
         <field name="type">ir.actions.report.xml</field>
         <field name="model">quality.claim</field>
-        <field name="report_name">quality_claim_report</field>
+        <field name="report_name">quality_claim_status_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
         <field name="parser_loc">quality_statistic/report/status_parser.py</field>
