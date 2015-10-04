@@ -729,8 +729,8 @@ class quality_acceptation_line(osv.osv):
             'lot_id': line_proxy and line_proxy.lot_id.id,
             
         }, context=context)
-        self.write(cr, uid, ids, {'conformed_id': conformed_id, }, 
-            context=context)
+        self.write(cr, uid, ids, {
+            'conformed_id': conformed_id},  context=context)
         
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
@@ -741,17 +741,17 @@ class quality_acceptation_line(osv.osv):
     # ------------------
     # Override function:
     # ------------------
-    # TODO togliere e finire (dopo l'importazione)
-    '''def create(self, cr, uid, vals, context=None):
+    def create(self, cr, uid, vals, context=None):
         """ Generate not conformed if one problem is fount
         """    
+        # Technically during creation there's not check operation (automated)
         res_id = osv.osv.create(self, cr, uid, vals, context=context)
         
         # If theres a problems create a not conformed:
         if (vals.get('qty', False) or vals.get('temp', False) or 
             vals.get('label', False) or vals.get('package', False) or 
             vals.get('expired', False)):
-                create_conformed(self, cr, uid, ids, context=context)
+                self.create_conformed(cr, uid, ids, context=context)
         return res_id
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -764,8 +764,8 @@ class quality_acceptation_line(osv.osv):
             # If there's a problems create a not conformed:
             if (line_proxy.qty or line_proxy.temp or line_proxy.label or 
                 line_proxy.package or line_proxy.expired):
-                    create_conformed(self, cr, uid, ids, context=context)
-            return res_id'''
+                    self.create_conformed(cr, uid, ids, context=context)
+            return True
     
     _columns = {
         'acceptation_id': fields.many2one('quality.acceptation', 'Acceptation'),
