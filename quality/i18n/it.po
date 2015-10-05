@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-26 14:52+0000\n"
-"PO-Revision-Date: 2014-09-26 16:55+0100\n"
+"PO-Revision-Date: 2015-10-05 23:39+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.10\n"
+"Language: it\n"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_claim_product
@@ -59,9 +60,7 @@ msgstr "Secondario"
 #. module: quality
 #: help:res.partner,custom_range:0
 msgid "If checked specify custom range else use company default"
-msgstr ""
-"Se spuntato permette di specificare il range di date alternativo rispetto a "
-"quello fisso aziendale"
+msgstr "Se spuntato permette di specificare il range di date alternativo rispetto a quello fisso aziendale"
 
 #. module: quality
 #: model:res.groups,name:quality.group_quality_SAQ
@@ -119,8 +118,7 @@ msgstr "Peso campione sgocciolato"
 #. module: quality
 #: help:res.partner,quality_activity:0
 msgid "Extra information about activity used in quality manage"
-msgstr ""
-"Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
+msgstr "Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
 
 #. module: quality
 #: view:res.partner:0 field:res.partner,reference_ids:0
@@ -159,13 +157,8 @@ msgstr "Entità"
 #: help:quality.action,message_summary:0 help:quality.claim,message_summary:0
 #: help:quality.conformed,message_summary:0
 #: help:quality.sampling,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
-"Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo "
-"riepilogo è direttamente in formato HTML per essere inserito nelle viste "
-"Kanban."
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo riepilogo è direttamente in formato HTML per essere inserito nelle viste Kanban."
 
 #. module: quality
 #: view:quality.claim:0 selection:quality.claim,state:0
@@ -532,9 +525,7 @@ msgstr "prodotto"
 #. module: quality
 #: help:res.partner,quality_commercial_reference:0
 msgid "Extra information about commercial reference used in quality manage"
-msgstr ""
-"Informazioni extra circa il referente commerciale utilizzato nella gestione "
-"qualità"
+msgstr "Informazioni extra circa il referente commerciale utilizzato nella gestione qualità"
 
 #. module: quality
 #: field:quality.claim,comunication:0
@@ -571,7 +562,7 @@ msgstr "Gestione ordini qualità"
 #. module: quality
 #: view:quality.conformed:0
 msgid "Print customer"
-msgstr "Stampa (cliente)"
+msgstr "Stampa (fornitore)"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_acceptation_line
@@ -794,9 +785,7 @@ msgstr "Piena qualificazione"
 #. module: quality
 #: help:res.partner,quality_end_supplier:0
 msgid "Extra information about stop supplier service, used in quality manage"
-msgstr ""
-"Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della "
-"qualità"
+msgstr "Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della qualità"
 
 #. module: quality
 #: model:ir.actions.report.xml,name:quality.aeroo_quality_action
@@ -860,12 +849,8 @@ msgstr "Conferma RAQ"
 
 #. module: quality
 #: view:quality.sampling:0
-msgid ""
-"Taste (After cooking the product in elemental form - simple cooking in "
-"salted water)"
-msgstr ""
-"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
-"cottura in acqua salata)"
+msgid "Taste (After cooking the product in elemental form - simple cooking in salted water)"
+msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
 
 #. module: quality
 #: field:quality.sampling,do_glazing:0
@@ -1002,9 +987,7 @@ msgstr "Rif. Utente"
 #. module: quality
 #: help:res.partner,quality_rating_info:0
 msgid "Extra information about rating info used in quality manage"
-msgstr ""
-"Ulteriori informazioni sulla valutazione utilizzata nella gestione della "
-"qualità"
+msgstr "Ulteriori informazioni sulla valutazione utilizzata nella gestione della qualità"
 
 #. module: quality
 #: view:quality.acceptation:0 field:quality.acceptation,cancel:0
@@ -1491,9 +1474,7 @@ msgstr "Visualizza esame"
 #. module: quality
 #: help:res.partner,quality_update_date:0
 msgid "Extra information about information updared, used in quality manage"
-msgstr ""
-"Ulteriori info sull'aggiornamento info, utilizzato nella gestione della "
-"qualità"
+msgstr "Ulteriori info sull'aggiornamento info, utilizzato nella gestione della qualità"
 
 #. module: quality
 #: field:res.partner,quality_email:0
@@ -1641,9 +1622,7 @@ msgstr "Ordini"
 #. module: quality
 #: help:res.partner,quality_start_supplier:0
 msgid "Extra information about start supplier service, used in quality manage"
-msgstr ""
-"Informazioni exra circa la data inizio del servizio di fornitura, utilizzato "
-"nella gestione della qualità"
+msgstr "Informazioni exra circa la data inizio del servizio di fornitura, utilizzato nella gestione della qualità"
 
 #. module: quality
 #: field:quality.sampling.plan,glazing:0
@@ -1939,12 +1918,8 @@ msgstr "Richiesto rientro prodotti"
 
 #. module: quality
 #: help:quality.claim,comunication:0
-msgid ""
-"Comunication message, if sent by mail could be the body text, instead could "
-"be phone contact dialog"
-msgstr ""
-"Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo "
-"del testo, altrimenti potrebbe essere un dialogo telefonico"
+msgid "Comunication message, if sent by mail could be the body text, instead could be phone contact dialog"
+msgstr "Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo del testo, altrimenti potrebbe essere un dialogo telefonico"
 
 #. module: quality
 #: field:quality.claim,need_accredit:0
@@ -2135,12 +2110,8 @@ msgstr "Scopo"
 
 #. module: quality
 #: field:quality.sampling,taste:0
-msgid ""
-"Taste(After cooking the product in elemental form - simple cooking in salted "
-"water)"
-msgstr ""
-"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
-"cottura in acqua salata)"
+msgid "Taste(After cooking the product in elemental form - simple cooking in salted water)"
+msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
 
 #. module: quality
 #: selection:quality.treatment,type:0
@@ -2199,3 +2170,4 @@ msgstr "Trattamenti qualità"
 #: model:ir.model,name:quality.model_quality_gravity
 msgid "Claim gravity"
 msgstr "Gravità reclamo"
+
