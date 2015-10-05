@@ -39,8 +39,19 @@ class Parser(report_sxw.rml_parse):
             'get_counter': self.get_counter,
             'set_counter': self.set_counter,
             'get_context_parameter': self.get_context_parameter,
+            'get_accept_quantity': self.get_accept_quantity,
         })
 
+    def get_accept_quantity(self, acceptation, conformed_id):
+        ''' Try to locate acceptation q. from conformed
+        '''
+        if not acceptation:
+            return '/'
+        for item in acceptation.line_ids:
+            if item.conformed_id.id == conformed_id:
+                return item.qty_arrived
+        return '/'
+        
     def get_context_parameter(self, parameter):
         ''' Return context value
         '''
