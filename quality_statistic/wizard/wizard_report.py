@@ -55,7 +55,7 @@ class QualityStatisticWizard(orm.TransientModel):
         return {
              # action report
             'type': 'ir.actions.report.xml',
-            'report_name': 'quality_claim_report',
+            'report_name': 'quality_claim_status_report',
             'datas': datas,
             }            
         
