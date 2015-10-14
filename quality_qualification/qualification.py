@@ -43,18 +43,23 @@ class QualityQualificationParameter(orm.Model):
     ''' Manage qualification parameters for assign automatically the
         value su supplier depend on claims and other forms
     '''
-    
     _name = 'quality.qualification.parameter'
     _description = 'Qualification parameter'
-    _order = 'name'
+    _order = 'name,sequence'
     
     _columns = {
+        'sequence': fields.integer('Sequence', required=True), 
         'name': fields.selection([
             ('claim', 'From Claim'),
             ('acceptation', 'From acceptation'),
             ('sampling', 'From sampling'),
             ('packaging', 'From packaging'),
             ], 'Origin', select=True, required=True),        
+
+        # Furniture:
+        'from': fields.integer('Range From (>=)')),
+        'to': fields.integer('Range To (<)')),
+
         'note': fields.text('Note'),
         }
 
@@ -65,20 +70,15 @@ class QualityQualificationParameter(orm.Model):
 
 class QualityQualificationParameterLine(orm.Model):
     ''' Line for every form type
-    '''
-    
+    '''    
     _name = 'quality.qualification.parameter.line'
     _description = 'Qualification parameter line'
     
     _columns = {
-        # Furniture:
-        'from': fields.integer('Range From (>=)')),
-        'to': fields.integer('Range To (<)')),
         
         # Total forms:
         'perc_from': fields.float('% from (>=)', digits=(16, 3))),
         'perc_to': fields.float('% to (<)', digits=(16, 3))),
-
         'qualification': fields.selection([
             ('reserve', 'With reserve'),
             ('full', 'Full qualification'),
@@ -87,6 +87,17 @@ class QualityQualificationParameterLine(orm.Model):
         'parameter_id': fields.many2one('quality.qualification.parameter', 
             'Parameter'),        
         # UOM?    
+        }
+
+class QualityQualificationParameter(orm.Model):
+    ''' Extra *many relation fields
+    '''
+    
+    _inherit = 'quality.qualification.parameter'
+    
+    _columns = {
+        'line_ids': fields.one2many('quality.qualification.parameter.line',
+            'parameter_id', 'Details'),
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

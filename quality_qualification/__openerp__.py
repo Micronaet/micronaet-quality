@@ -37,6 +37,9 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
+        'security/ir.model.access.csv',
+        'data/parameter.xml',
+        # TODO
         #'wizard/wizard_report_view.xml',
         #'report/status_report.xml',
         ],

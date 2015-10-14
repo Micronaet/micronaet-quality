@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_quality_qualification_parameter_user","quality.qualification.parameter","model_quality_qualification_parameter","base.group_user",1,1,1,1
+"access_quality_qualification_parameter_line_user","quality.qualification.parameter.line","model_quality_qualification_parameter_line","base.group_user",1,1,1,1
+

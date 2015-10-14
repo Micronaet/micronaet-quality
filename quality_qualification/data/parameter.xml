@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<openerp>
+    <data> <!--TODO load only once-->
+        <!--quality.qualification.parameter-->
+            <!--ACCEPTATION-->
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_1">
+            <field name="sequence" eval="1"/>
+            <field name="name">acceptation</field>
+            <field name="note">Not conformed that has origin from acceptation form range 1</field>
+            <field name="from" eval="1.0"/>
+            <field name="to" eval="5.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_2">
+            <field name="sequence" eval="2"/>
+            <field name="name">acceptation</field>
+            <field name="note">Not conformed that has origin from acceptation form range 2</field>
+            <field name="from" eval="5.0"/>
+            <field name="to" eval="20.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_3">
+            <field name="sequence" eval="3"/>
+            <field name="name">acceptation</field>
+            <field name="note">Not conformed that has origin from acceptation form range 3</field>
+            <field name="from" eval="20.0"/>
+            <field name="to" eval="False"/>
+        </record>
+
+            <!-- CLAIM -->
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_claim_1">
+            <field name="sequence" eval="1"/>
+            <field name="name">claim</field>
+            <field name="note">Not conformed that has origin from claim form range 1</field>
+            <field name="from" eval="False"/>
+            <field name="to" eval="5.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_claim_2">
+            <field name="sequence" eval="2"/>
+            <field name="name">claim</field>
+            <field name="note">Not conformed that has origin from claim form range 2</field>
+            <field name="from" eval="5.0"/>
+            <field name="to" eval="50.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_claim_3">
+            <field name="sequence" eval="3"/>
+            <field name="name">claim</field>
+            <field name="note">Not conformed that has origin from claim form range 3</field>
+            <field name="from" eval="50.0"/>
+            <field name="to" eval="False"/>
+        </record>
+
+            <!-- SAMPLING -->
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_sample_1">
+            <field name="sequence" eval="1"/>
+            <field name="name">sample</field>
+            <field name="note">Not conformed that has origin from sample form range 1</field>
+            <field name="from" eval="False"/>
+            <field name="to" eval="5.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_sample_2">
+            <field name="sequence" eval="2"/>
+            <field name="name">sample</field>
+            <field name="note">Not conformed that has origin from sample form range 2</field>
+            <field name="from" eval="5.0"/>
+            <field name="to" eval="50.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_sample_3">
+            <field name="sequence" eval="3"/>
+            <field name="name">sample</field>
+            <field name="note">Not conformed that has origin from sample form range 3</field>
+            <field name="from" eval="50.0"/>
+            <field name="to" eval="False"/>
+        </record>
+
+            <!--PACKAGING-->
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_packaging_1">
+            <field name="sequence" eval="1"/>
+            <field name="name">packaging</field>
+            <field name="note">Not conformed that has origin from packaging range 1</field>
+            <field name="from" eval="False"/>
+            <field name="to" eval="5.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_packaging_2">
+            <field name="sequence" eval="2"/>
+            <field name="name">packaging</field>
+            <field name="note">Not conformed that has origin from packaging range 2</field>
+            <field name="from" eval="5.0"/>
+            <field name="to" eval="50.0"/>
+        </record>
+        <record model="quality.qualification.parameter" id="quality_qualification_parameter_packaging_3">
+            <field name="sequence" eval="3"/>
+            <field name="name">packaging</field>
+            <field name="note">Not conformed that has origin from packaging range 3</field>
+            <field name="from" eval="50.0"/>
+            <field name="to" eval="False"/>
+        </record>
+        
+        <!--quality.qualification.parameter-->
+            <!--ACCEPTATION-->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_1">
+            <field name="perc_from" eval="0.500"/> <!--perc. value-->
+            <field name="perc_to" eval="1.00"/>
+            <field name="qualification">discarded<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_2">
+            <field name="perc_from" eval="0.200"/>
+            <field name="perc_to" eval="1.000"/>
+            <field name="qualification">discarded<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_3">
+            <field name="perc_from" eval="0.150"/>
+            <field name="perc_to" eval="1.000"/>
+            <field name="qualification">discarded<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
+        </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_1">
+            <field name="perc_from" eval="0.200"/> <!--perc. value-->
+            <field name="perc_to" eval="0.500"/>
+            <field name="qualification">reserve<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_2">
+            <field name="perc_from" eval="0.100"/>
+            <field name="perc_to" eval="0.200"/>
+            <field name="qualification">reserve<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_3">
+            <field name="perc_from" eval="0.050"/>
+            <field name="perc_to" eval="1.000"/>
+            <field name="qualification">reserve<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
+        </record>
+        
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_1">
+            <field name="perc_from" eval="0.000"/> <!--perc. value-->
+            <field name="perc_to" eval="0.200"/>
+            <field name="qualification">full<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_2">
+            <field name="perc_from" eval="0.000"/>
+            <field name="perc_to" eval="0.100"/>
+            <field name="qualification">full<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_3">
+            <field name="perc_from" eval="0.000"/>
+            <field name="perc_to" eval="0.050"/>
+            <field name="qualification">full<field/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
+        </record>
+        
+        <!--TODO-->        
+            <!-- CLAIM -->
+
+            <!-- SAMPLING -->
+
+            <!--PACKAGING-->
+    </data>
+</openerp>
