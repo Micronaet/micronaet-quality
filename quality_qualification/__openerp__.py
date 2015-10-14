@@ -40,9 +40,9 @@
         'security/ir.model.access.csv',
         'data/parameter.xml',
         'qualification_view.xml',
+        'report/qualification_report.xml',
         # TODO
         #'wizard/wizard_report_view.xml',
-        #'report/status_report.xml',
         ],
     'active': False,
     'installable': True,
