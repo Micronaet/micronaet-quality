@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!--quality.qualification.parameter-->
+        <record id="view_quality_qualification_parameter_form" model="ir.ui.view">
+            <field name="name">quality.qualification.parameter.form</field>
+            <field name="model">quality.qualification.parameter</field>
+            <field name="arch" type="xml">
+                <form string="Supplier qualification parameter" version="7.0">
+                    <sheet>
+                        <group col='4' colspan='4' nolabel='1'>
+                            <field name='sequence'/>
+                            <field name='name'/>
+                            <field name='from'/>
+                            <field name='to'/>
+                            <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
+                                <tree string="Details:">
+                                    <field name="qualification" />
+                                    <field name="perc_from" />
+                                    <field name="perc_to" />
+                                </tree> 
+                                <form string="Details:">
+                                    <sheet>
+                                        <group col='4' colspan='4' nolabel='1'>                                       
+                                            <field name="qualification" />
+                                            <field name="perc_from" />
+                                            <field name="perc_to" />
+                                        </group>    
+                                    </sheet>                                        
+                                </form> 
+                            </field>                             
+                        </group>
+                    </sheet>
+                </form>   
+            </field>
+        </record>
+        <record id="view_quality_qualification_parameter_tree" model="ir.ui.view">
+            <field name="name">quality.qualification.parameter.tree</field>
+            <field name="model">quality.qualification.parameter</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier qualification parameter">
+                    <field name='sequence'/>
+                    <field name='name'/>
+                    <field name='from'/>
+                    <field name='to'/>
+                </tree>   
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_supplier_qualification_form">
+            <field name="name">Qualification parameter</field>
+            <field name="res_model">quality.qualification.parameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_qualification_parameter_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--res.partner-->
+        <record id="view_res_partner_qualification_form" model="ir.ui.view">
+            <field name="name">res.partner.qualification.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="quality.view_res_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="quality_end_supplier" position="after">
+                    <separator string="Auto qualification" colspan="4" />
+                    <field name="qualification_date" readonly="1" />
+                    <newline />
+                    <field name="qualification_claim" readonly="1"/>
+                    <field name="qualification_acceptation" readonly="1" />
+                    <field name="qualification_sampling" readonly="1" />
+                    <field name="qualification_packaging" readonly="1" />
+                </field>
+            </field>
+        </record>
+
+        <!--MENUITEM-->
+        <menuitem parent="quality.menu_quality_root_configuration" id="menu_quality_root_configuration_qualification_parameter" 
+            name="Supplier qualification" action="action_supplier_qualification_form" sequence="10"/>
+   </data>
+</openerp>   
