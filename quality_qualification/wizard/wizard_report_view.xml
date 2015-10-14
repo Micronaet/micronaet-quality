@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!-- quality.statistic.wizard -->
+       <record id="form_quality_statistic_wizard_view" model="ir.ui.view">
+            <field name="name">Quality statistic</field>
+            <field name="model">quality.statistic.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Statistic report" version="7.0">
+                   <header>                       
+                       <button string="Cancel" special="cancel" />
+                       <button name="action_print_report" string="Print" type="object" icon="gtk-jump-to" class="oe_highlight" />
+                   </header>                   
+                   <group colspan="4" col="4">
+                       <field name="from_date" />
+                       <field name="to_date" />
+                   </group>
+                </form>
+            </field>
+      </record>
+      <record model="ir.actions.act_window" id="action_quality_statistic_wizard">
+          <field name="name">Status claims report</field>
+          <field name="res_model">quality.statistic.wizard</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="target">new</field>
+          <field name="view_id" ref="form_quality_statistic_wizard_view"/>
+      </record>
+
+    <menuitem parent="quality.menu_quality_root" id="menu_report_wizard" name="Report" sequence="60"/>
+        <menuitem parent="menu_report_wizard" id="menu_quality_form_acceptation_import" name="Status claims" action="action_quality_statistic_wizard" sequence="10"/>
+    </data>
+</openerp>
