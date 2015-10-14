@@ -45,24 +45,11 @@ _logger = logging.getLogger(__name__)
 
 class Parser(report_sxw.rml_parse):    
     def __init__(self, cr, uid, name, context):
-    
-        # Reset totals:
-        self.totals = {
-            'not_conformed': 0,
-            'claims': 0,
-            }     
-        
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_objects': self.get_objects,
-            'get_total_lot': self.get_total_lot,
             'get_filter': self.get_filter,
-            'get_total': self.get_total,
             })
-
-
-
-
 
     # --------
     # Utility:
@@ -72,33 +59,30 @@ class Parser(report_sxw.rml_parse):
             create domain for search filter depend on data
             if description is True, return description of filter instead 
         '''
+        # TODO need also other information?!?!
         if data is None:
             data = {}
 
         if description:
             res = ''
             if data.get('from_date', False):
-                res += _('da data >= %s 00:00:00') % data['from_date']
+                res += _('da data >= %s') % data['from_date']
             if data.get('to_date', False):
-                res += _(' a data <= %s 23:59:59') % data['to_date']
+                res += _(' a data < %s') % data['to_date']
+                
         else:
             res = []
             if data.get('from_date', False):
                 res.append(
-                    (field, '>=', '%s 00:00:00' % data['from_date']))
+                    (field, '>=', '%s' % data['from_date']))
             if data.get('to_date', False):
                 res.append(
-                    (field, '<=', '%s 23:59:59' % data['to_date']))
+                    (field, '<', '%s' % data['to_date']))
         return res
         
     # ------------------
     # Exported function:
     # ------------------
-    def get_total(self, name):
-        ''' Return total loaded in report procedure
-        '''
-        return self.totals.get(name, 0.0)
-
     def get_filter(self, data=None):
         ''' Return string for filter conditions
         '''
@@ -125,7 +109,7 @@ class Parser(report_sxw.rml_parse):
         domain = [('supplier', '=', True)]
         if data.get('quality_class_id', False):
             domain.append(
-                ('quality_class_id', '', data.get('quality_class_id', False))
+                ('quality_class_id', '=', data.get('quality_class_id', False))
                 )
         if data.get('partner_id', False):
             domain.append(
@@ -136,61 +120,8 @@ class Parser(report_sxw.rml_parse):
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
         
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
-            res.append((partner, 0.0, 0.0, 0.0, 0.0))
+            # TODO complete with evaluation
+            # partner obj, total lot, total q, accept, claim, sample, pack
+            res.append((partner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
         return res
-            
-        """# Reset totals:
-        self.totals['not_conformed'] = 0
-        self.totals['claims'] = 0
-
-        domain = self._get_domain(data)
-        domain.append(('state', 'not in', ('draft', 'cancel')))
-        claim_pool = self.pool.get('quality.claim')
-        claim_ids = claim_pool.search(self.cr, self.uid, domain)
-
-        res = {
-            'Origine': {},
-            'Cause': {},
-            "Gravita'": {},
-            }
-
-        # Language:
-        context = {}
-        context['lang'] = 'it_IT'
-        
-        for item in claim_pool.browse(self.cr, self.uid, claim_ids, 
-                context):
-            self.totals['claims'] += 1
-            
-            # --------------
-            # Caracteristic:
-            # --------------
-            # Origin:
-            block = res['Origine'] # for fast replace
-            name = _(item.origin_id.name) if item.origin_id else 'Nessuna'
-            
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            #  Cause
-            block = res['Cause'] # for fast replace
-            name = _(item.cause_id.name) if item.cause_id else 'Nessuna'
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            # Gravity
-            block = res["Gravita'"] # for fast replace
-            name = _(item.gravity_id.name) if item.gravity_id else 'Nessuna'
-            if name not in block: # Create totalizer
-                block[name] = 0                
-            block[name] += 1
-            
-            # -------
-            # Totals:
-            # -------
-            if item.conformed_id:
-                self.totals['not_conformed'] += 1"""
-            
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

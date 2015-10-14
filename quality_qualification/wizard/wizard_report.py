@@ -76,8 +76,8 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'quality_class_id': fields.many2one('quality.partner.class', 'Class'),
         
         # Statistic filter information:
-        'from_date': fields.date('From'),
-        'to_date': fields.date('To'),
+        'from_date': fields.date('From (>=)'),
+        'to_date': fields.date('To (<)'),
         'ref_date': fields.date('Ref date'),        
         }
         
@@ -85,6 +85,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'report_type': lambda *x: 'report',
         'from_date': lambda *x: datetime.now().strftime(
             '%Y-01-01'), # first
+        'to_date': lambda *x: '%s-01-01' % (int(datetime.now().year) + 1), 
         'ref_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
         }
