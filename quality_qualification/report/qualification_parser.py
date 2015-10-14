@@ -113,15 +113,37 @@ class Parser(report_sxw.rml_parse):
                 )
         if data.get('partner_id', False):
             domain.append(
-                ('id', '', data.get('partner_id', False))
+                ('id', '=', data.get('partner_id', False))
                 )
 
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
         
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
-            # TODO complete with evaluation
+            # TODO complete with evaluation            
+            acc_esit = _('full')
+            claim_esit = _('full')
+            sample_esit = _('full')
+            pack_esit = _('full')            
+            esit = _('full')
+            
             # partner obj, total lot, total q, accept, claim, sample, pack
-            res.append((partner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            res.append((
+                partner, # partner obj
+                0.0, # total lot
+                0.0, # total q. 
+                
+                0.0, # acceptation NC
+                0.0, # claim NC
+                0.0, # sampling NC
+                0.0, # pack NC
+                
+                acc_esit, # acceptation result
+                claim_esit, # claim result
+                sample_esit, # sampling result
+                pack_esit, # pack result
+
+                esit, # general result
+                ))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
