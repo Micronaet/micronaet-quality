@@ -93,21 +93,59 @@
             <field name="from" eval="50.0"/>
             <field name="to" eval="False"/>
         </record>
-        
-        
+
+
         <!--quality.qualification.parameter-->
             <!--ACCEPTATION-->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_1">
+            <field name="perc_from" eval="0.0"/> <!--perc. value-->
+            <field name="perc_to" eval="0.2"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_1">
+            <field name="perc_from" eval="0.2"/> <!--perc. value-->
+            <field name="perc_to" eval="0.5"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_1">
             <field name="perc_from" eval="0.5"/> <!--perc. value-->
             <field name="perc_to" eval="1.0"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
         </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_2">
+            <field name="perc_from" eval="0.0"/>
+            <field name="perc_to" eval="0.1"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_2">
+            <field name="perc_from" eval="0.1"/>
+            <field name="perc_to" eval="0.2"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_2">
             <field name="perc_from" eval="0.2"/>
             <field name="perc_to" eval="1.0"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
+        </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_3">
+            <field name="perc_from" eval="0.0"/>
+            <field name="perc_to" eval="0.05"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_3">
+            <field name="perc_from" eval="0.05"/>
+            <field name="perc_to" eval="0.15"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_3">
             <field name="perc_from" eval="0.15"/>
@@ -116,70 +154,32 @@
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
         </record>
 
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_1">
-            <field name="perc_from" eval="0.2"/> <!--perc. value-->
-            <field name="perc_to" eval="0.5"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_2">
-            <field name="perc_from" eval="0.1"/>
-            <field name="perc_to" eval="0.2"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_3">
-            <field name="perc_from" eval="0.05"/>
-            <field name="perc_to" eval="0.15"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
-        </record>
-        
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_1">
-            <field name="perc_from" eval="0.0"/> <!--perc. value-->
-            <field name="perc_to" eval="0.2"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_2">
-            <field name="perc_from" eval="0.0"/>
-            <field name="perc_to" eval="0.1"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_3">
-            <field name="perc_from" eval="0.0"/>
-            <field name="perc_to" eval="0.05"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
-        </record>
-        
-        <!--TODO-->        
+        <!--TODO-->
             <!-- CLAIM -->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_full_1">
+            <field name="perc_from" eval="0.0"/> <!--perc. value-->
+            <field name="perc_to" eval="2.0"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_1">
+            <field name="perc_from" eval="3.0"/> <!--perc. value-->
+            <field name="perc_to" eval="5.0"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_1">
             <field name="perc_from" eval="5.0"/> <!--perc. value-->
             <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
         </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_2">
-            <field name="perc_from" eval="10.0"/>
-            <field name="perc_to" eval="False"/>
-            <field name="qualification">discarded</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_3">
-            <field name="perc_from" eval="20.0"/>
-            <field name="perc_to" eval="False"/>
-            <field name="qualification">discarded</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
-        </record>
 
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_1">
-            <field name="perc_from" eval="3.0"/> <!--perc. value-->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_full_2">
+            <field name="perc_from" eval="2.0"/>
             <field name="perc_to" eval="5.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_2"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_2">
             <field name="perc_from" eval="5.0"/>
@@ -187,44 +187,82 @@
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_2"/>            
         </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_3">
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_2">
             <field name="perc_from" eval="10.0"/>
-            <field name="perc_to" eval="20.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
-        </record>
-        
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_full_1">
-            <field name="perc_from" eval="0.0"/> <!--perc. value-->
-            <field name="perc_to" eval="2.0"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_full_2">
-            <field name="perc_from" eval="2.0"/>
-            <field name="perc_to" eval="5.0"/>
-            <field name="qualification">full</field>
+            <field name="perc_to" eval="False"/>
+            <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_2"/>            
         </record>
+
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_full_3">
             <field name="perc_from" eval="5.0"/>
             <field name="perc_to" eval="10.0"/>
             <field name="qualification">full</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
         </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_3">
+            <field name="perc_from" eval="10.0"/>
+            <field name="perc_to" eval="20.0"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_3">
+            <field name="perc_from" eval="20.0"/>
+            <field name="perc_to" eval="False"/>
+            <field name="qualification">discarded</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
+        </record>        
 
             <!-- SAMPLING -->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_1">
+            <field name="perc_from" eval="False"/> <!--perc. value-->
+            <field name="perc_to" eval="2.0"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_1"/>
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_1">
+            <field name="perc_from" eval="2.0"/>
+            <field name="perc_to" eval="3.0"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_1"/>
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_discarded_1">
             <field name="perc_from" eval="3.0"/>
             <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_1"/>
         </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_2">
+            <field name="perc_from" eval="False"/>
+            <field name="perc_to" eval="3.0"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_2"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_2">
+            <field name="perc_from" eval="3.0"/>
+            <field name="perc_to" eval="5.0"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_2"/>            
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_discarded_2">
             <field name="perc_from" eval="5.0"/>
             <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_2"/>            
+        </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_3">
+            <field name="perc_from" eval="False"/>
+            <field name="perc_to" eval="5.0"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_3"/>            
+        </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_3">
+            <field name="perc_from" eval="5.0"/>
+            <field name="perc_to" eval="10.0"/>
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_3"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_discarded_3">
             <field name="perc_from" eval="10.0"/>
@@ -233,69 +271,31 @@
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_3"/>            
         </record>
 
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_1">
-            <field name="perc_from" eval="2.0"/>
-            <field name="perc_to" eval="3.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_1"/>
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_2">
-            <field name="perc_from" eval="3.0"/>
-            <field name="perc_to" eval="5.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_reserve_3">
-            <field name="perc_from" eval="5.0"/>
-            <field name="perc_to" eval="10.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_3"/>            
-        </record>
-        
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_1">
+            <!--PACKAGING-->
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_1">
             <field name="perc_from" eval="False"/> <!--perc. value-->
             <field name="perc_to" eval="2.0"/>
             <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_1"/>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_1"/>
         </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_2">
-            <field name="perc_from" eval="False"/>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_reserve_1">
+            <field name="perc_from" eval="2.0"/>
             <field name="perc_to" eval="3.0"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_2"/>            
+            <field name="qualification">reserve</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_1"/>
         </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_sampling_full_3">
-            <field name="perc_from" eval="False"/>
-            <field name="perc_to" eval="5.0"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_sampling_3"/>            
-        </record>
-
-            <!--PACKAGING-->
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_discarded_1">
             <field name="perc_from" eval="3.0"/>
             <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_1"/>
         </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_discarded_2">
-            <field name="perc_from" eval="5.0"/>
-            <field name="perc_to" eval="False"/>
-            <field name="qualification">discarded</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_discarded_3">
-            <field name="perc_from" eval="10.0"/>
-            <field name="perc_to" eval="False"/>
-            <field name="qualification">discarded</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_3"/>            
-        </record>
 
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_reserve_1">
-            <field name="perc_from" eval="2.0"/>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_2">
+            <field name="perc_from" eval="False"/>
             <field name="perc_to" eval="3.0"/>
-            <field name="qualification">reserve</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_1"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_2"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_reserve_2">
             <field name="perc_from" eval="3.0"/>
@@ -303,29 +303,29 @@
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_2"/>            
         </record>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_discarded_2">
+            <field name="perc_from" eval="5.0"/>
+            <field name="perc_to" eval="False"/>
+            <field name="qualification">discarded</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_2"/>            
+        </record>
+
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_3">
+            <field name="perc_from" eval="False"/>
+            <field name="perc_to" eval="5.0"/>
+            <field name="qualification">full</field>
+            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_3"/>            
+        </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_reserve_3">
             <field name="perc_from" eval="5.0"/>
             <field name="perc_to" eval="10.0"/>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_3"/>            
         </record>
-        
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_1">
-            <field name="perc_from" eval="False"/> <!--perc. value-->
-            <field name="perc_to" eval="2.0"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_1"/>
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_2">
-            <field name="perc_from" eval="False"/>
-            <field name="perc_to" eval="3.0"/>
-            <field name="qualification">full</field>
-            <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_2"/>            
-        </record>
-        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_full_3">
-            <field name="perc_from" eval="False"/>
-            <field name="perc_to" eval="5.0"/>
-            <field name="qualification">full</field>
+        <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_packaging_discarded_3">
+            <field name="perc_from" eval="10.0"/>
+            <field name="perc_to" eval="False"/>
+            <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_packaging_3"/>            
         </record>
     </data>
