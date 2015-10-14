@@ -41,8 +41,7 @@
         'data/parameter.xml',
         'qualification_view.xml',
         'report/qualification_report.xml',
-        # TODO
-        #'wizard/wizard_report_view.xml',
+        'wizard/wizard_report_view.xml',
         ],
     'active': False,
     'installable': True,

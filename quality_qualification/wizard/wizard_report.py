@@ -31,11 +31,11 @@ from openerp.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
-class QualityStatisticWizard(orm.TransientModel):
+class QualitySupplierQualificationWizard(orm.TransientModel):
     ''' Parameter for report
     '''
-    _name = 'quality.statistic.wizard'
-    _description = 'Statistic report'
+    _name = 'quality.supplier.qualification.wizard'
+    _description = 'Supplier qualitication'
 
     # -------------
     # Button event: 
@@ -49,23 +49,44 @@ class QualityStatisticWizard(orm.TransientModel):
         wiz_browse = self.browse(cr, uid, ids, context=context)[0]
         
         datas = {}
+        datas['report_type'] = wiz_browse.report_type
         datas['from_date'] = wiz_browse.from_date
         datas['to_date'] = wiz_browse.to_date
+        datas['ref_date'] = wiz_browse.ref_date
+        datas['partner_id'] = (
+            wiz_browse.partner_id.id if wiz_browse.partner_id else False)
+        datas['quality_class_id'] = (
+            wiz_browse.quality_class_id.id if wiz_browse.quality_class_id else False)
 
         return {
              # action report
             'type': 'ir.actions.report.xml',
-            'report_name': 'quality_claim_status_report',
+            'report_name': 'quality_qualification_supplier_report',
             'datas': datas,
             }            
         
     _columns = {
+        'report_type': fields.selection([
+            ('report', 'Report'),
+            ('force', 'Force'),
+            ], 'Wizard type'),
+            
+        # Partner filter information:
+        'partner_id': fields.many2one('res.partner', 'Partner'),
+        'quality_class_id': fields.many2one('quality.partner.class', 'Class'),
+        
+        # Statistic filter information:
         'from_date': fields.date('From'),
         'to_date': fields.date('To'),
+        'ref_date': fields.date('Ref date'),        
         }
         
     _defaults = {
-        'from_date': lambda *x: datetime.now().strftime('%Y-01-01'), # first
+        'report_type': lambda *x: 'report',
+        'from_date': lambda *x: datetime.now().strftime(
+            '%Y-01-01'), # first
+        'ref_date': lambda *x: datetime.now().strftime(
+            DEFAULT_SERVER_DATE_FORMAT),
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
