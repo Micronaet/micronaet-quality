@@ -124,18 +124,30 @@ class Parser(report_sxw.rml_parse):
         # ---------------------------------------------------------------------
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
-        
-        # TODO: Range date must be present!:
+
+        # Load parameter dict for controls:
+        parameter_pool = self.pool.get('quality.qualification.parameter')
+        parameter_pool._load_parameters(self.cr, self.uid)
+
+        # Range date must be present (if comes from wizard):
         index_from = data.get('from_date', False)
         index_to = data.get('to_date', False)
+        if not index_to or not index_from:
+            return osv.except_osv(
+                _('Error'), 
+                _('This report will be lauched from wizard!'),
+                )
+            
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
-            # TODO Total delivery: are we need this total?
-            #total_acceptation = self._get_index_delivery(
-            #cr, uid, index_from, index_to, supplier_id, context=context)
+            # NOTE Total delivery: are we need this total?
+            #total_acceptation = partner_pool._get_index_delivery(
+            #    self.cr, self.uid, index_from, index_to, partnerid)
 
             # Total lots:
-            total_acceptation_lot = self._get_index_lot(
-            cr, uid, index_from, index_to, supplier_id, context=context)
+            total_acceptation_lot = partner_pool._get_index_lot(
+                self.cr, self.uid, index_from, index_to, partner.id)
+            
+            # TODO Check lot/q. range for get evaluation range:
 
             # TODO complete with evaluation            
             acc_esit = _('full')
@@ -147,7 +159,7 @@ class Parser(report_sxw.rml_parse):
             # partner obj, total lot, total q, accept, claim, sample, pack
             res.append((
                 partner, # partner obj
-                0.0, # total lot
+                total_acceptation_lot, # total lot
                 0.0, # total q. 
                 
                 0.0, # acceptation NC

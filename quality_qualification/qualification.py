@@ -53,6 +53,24 @@ class QualityQualificationParameter(orm.Model):
     _description = 'Qualification parameter'
     _order = 'name,sequence'
     
+    # --------
+    # Utility:
+    # --------
+    def _load_parameters(self, cr, uid, context=None):
+        ''' Load all parameters in dict database for code purpose
+            format:
+            key = name of parameter (claim etc.)
+            value = (from, to range), lines browseable obj
+        '''
+        res = {}
+        parameter_ids = self.search(cr, uid, [], context=context)
+        for item in self.browse(cr, uid, parameter_ids, context=context):
+            res[item.name] = [
+                (item.from, item.to), # from to lot / q. range
+                item.line_ids, # list of line for evaluation
+                ]
+        return res
+    
     _columns = {
         'sequence': fields.integer('Sequence', required=True), 
         'name': fields.selection([
@@ -62,7 +80,7 @@ class QualityQualificationParameter(orm.Model):
             ('packaging', 'From packaging'),
             ], 'Origin', select=True, required=True),        
 
-        # Furniture:
+        # Furniture range:
         'from': fields.integer('Range From (>=)'),
         'to': fields.integer('Range To (<)'),
 
@@ -110,7 +128,7 @@ class ResPartner(orm.Model):
     '''
     
     _inherit = 'res.partner'
-    
+        
     _columns = {
         'qualification_date': fields.date('Qualification date'),
         'qualification_claim': fields.selection(qualification_list, 
