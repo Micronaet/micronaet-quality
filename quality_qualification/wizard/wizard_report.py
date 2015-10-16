@@ -58,12 +58,17 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         datas['quality_class_id'] = (
             wiz_browse.quality_class_id.id if wiz_browse.quality_class_id else False)
 
-        return {
-             # action report
-            'type': 'ir.actions.report.xml',
-            'report_name': 'quality_qualification_supplier_report',
-            'datas': datas,
-            }            
+        if wiz_browse.report_type == 'report':
+            return {
+                 # action report
+                'type': 'ir.actions.report.xml',
+                'report_name': 'quality_qualification_supplier_report',
+                'datas': datas,
+                }
+
+        # Force qualification in supplier:
+        # TODO
+        return
         
     _columns = {
         'report_type': fields.selection([
