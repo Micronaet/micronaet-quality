@@ -129,9 +129,9 @@ class Parser(report_sxw.rml_parse):
         index_from = data.get('from_date', False)
         index_to = data.get('to_date', False)
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
-            # Total delivery: TODO needed?
-            total_acceptation = self._get_index_delivery(
-            cr, uid, index_from, index_to, supplier_id, context=context)
+            # TODO Total delivery: are we need this total?
+            #total_acceptation = self._get_index_delivery(
+            #cr, uid, index_from, index_to, supplier_id, context=context)
 
             # Total lots:
             total_acceptation_lot = self._get_index_lot(

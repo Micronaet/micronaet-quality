@@ -1791,9 +1791,9 @@ class res_partner(osv.osv):
     # ----------------
     def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id, 
             context=None):
-        ''' Quary database for total acceptation in period passed (not 
+        ''' Query database for total acceptation in period passed (not 
         '''
-            if index_to and index_from:
+        if index_to and index_from:
             cr.execute("""
                 SELECT count(*) 
                 FROM quality_acceptation
