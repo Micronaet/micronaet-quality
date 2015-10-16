@@ -81,8 +81,8 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'quality_class_id': fields.many2one('quality.partner.class', 'Class'),
         
         # Statistic filter information:
-        'from_date': fields.date('From (>=)'),
-        'to_date': fields.date('To (<)'),
+        'from_date': fields.date('From (>=)', required=True),
+        'to_date': fields.date('To (<)', required=True),
         'ref_date': fields.date('Ref date'),        
         }
         
