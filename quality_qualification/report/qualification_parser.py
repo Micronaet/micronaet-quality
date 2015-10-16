@@ -105,7 +105,10 @@ class Parser(report_sxw.rml_parse):
         ''' Load all supplier for statistic
         '''
         res = []
-        # Create a domain:
+        
+        # ---------------------------------------------------------------------
+        #                           Create a domain:
+        # ---------------------------------------------------------------------
         domain = [('supplier', '=', True)]
         if data.get('quality_class_id', False):
             domain.append(
@@ -116,6 +119,9 @@ class Parser(report_sxw.rml_parse):
                 ('id', '=', data.get('partner_id', False))
                 )
 
+        # ---------------------------------------------------------------------
+        #                           Load partner list:
+        # ---------------------------------------------------------------------
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
         

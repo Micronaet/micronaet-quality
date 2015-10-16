@@ -1787,6 +1787,48 @@ class res_partner(osv.osv):
             }  
 
     # ----------------
+    # Utility function
+    # ----------------
+    def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id, 
+            context=None):
+        ''' Quary database for total acceptation in period passed (not 
+        '''
+            if index_to and index_from:
+            cr.execute("""
+                SELECT count(*) 
+                FROM quality_acceptation
+                WHERE 
+                    state not in ('cancel') AND
+                    date >= %s AND
+                    date <= %s AND
+                    partner_id = %s;""", 
+                (index_from, index_to, supplier_id))
+            total_acceptation = cr.fetchone()[0]    
+        else:
+            total_acceptation = 0
+        return total_acceptation    
+
+    def _get_index_lot(self, cr, uid, index_from, index_to, supplier_id, 
+            context=None):
+        ''' Total lot in period passed
+        '''
+        if index_to and index_from:
+            cr.execute("""
+                SELECT count(*) 
+                FROM quality_acceptation_line qal JOIN quality_acceptation qa 
+                    ON (qal.acceptation_id = qa.id)
+                WHERE 
+                    qa.state not in ('cancel') AND
+                    qa.date >= %s AND
+                    qa.date <= %s AND
+                    qa.partner_id = %s;""",
+                (index_from, index_to, supplier_id))
+            total_acceptation_lot = cr.fetchone()[0]    
+        else:
+            total_acceptation_lot = 0
+        return total_acceptation_lot
+            
+    # ----------------
     # Fields function:
     # ----------------
     def _get_index_information(self, cr, uid, ids, field_name, arg, 
@@ -1856,38 +1898,12 @@ class res_partner(osv.osv):
         #                           INFORMATION:
         # ---------------------------------------------------------------------
         # Total acceptation:
-        if index_to and index_from:
-            cr.execute("""
-                SELECT count(*) 
-                FROM quality_acceptation
-                WHERE 
-                    state not in ('cancel') AND
-                    date >= %s AND
-                    date <= %s AND
-                    partner_id = %s;""", 
-                (index_from, index_to, supplier_id))
-            total_acceptation = cr.fetchone()[0]    
-        else:
-            total_acceptation = 0
-    
-
+        total_acceptation = self._get_index_delivery(
+            cr, uid, index_from, index_to, supplier_id, context=context)
 
         # Total acceptation lots:
-        if index_to and index_from:
-            cr.execute("""
-                SELECT count(*) 
-                FROM quality_acceptation_line qal JOIN quality_acceptation qa 
-                    ON (qal.acceptation_id = qa.id)
-                WHERE 
-                    qa.state not in ('cancel') AND
-                    qa.date >= %s AND
-                    qa.date <= %s AND
-                    qa.partner_id = %s;""",
-                (index_from, index_to, supplier_id))
-            total_acceptation_lot = cr.fetchone()[0]    
-        else:
-            total_acceptation_lot = 0
-            
+        total_acceptation_lot = self._get_index_lot(
+            cr, uid, index_from, index_to, supplier_id, context=context)
 
         html = parameter_mask % (_("Range date"), "[%s - %s]" % (
             index_from, index_to))

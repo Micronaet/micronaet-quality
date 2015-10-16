@@ -45,6 +45,25 @@ qualification_list = [
     ('discarded', 'Discarded'),
     ]
 
+class ResPartner(orm.Model):
+    ''' Add extra function for calculate partner statistics:
+    '''
+    # -------------------------------------------------------------------------
+    #                   Statistics utility function:
+    # -------------------------------------------------------------------------
+    def partner_lot_for_period(self, cr, uid, ids, from_date, to_date, 
+            context=None):
+        ''' Load statistics for partner passed in range of date
+            ids: partner list
+            from_date: acceptation date
+            to_date: to acceptation date
+            
+        '''
+    
+    
+    _inherit = 'res.partner'
+    
+
 class QualityQualificationParameter(orm.Model):
     ''' Manage qualification parameters for assign automatically the
         value su supplier depend on claims and other forms
