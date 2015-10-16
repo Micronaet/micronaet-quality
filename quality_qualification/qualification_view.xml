@@ -11,8 +11,8 @@
                         <group col='4' colspan='4' nolabel='1'>
                             <field name='sequence'/>
                             <field name='name'/>
-                            <field name='from'/>
-                            <field name='to'/>
+                            <field name='from_value'/>
+                            <field name='to_value'/>
                             <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
                                 <tree string="Details:">
                                     <field name="qualification" />
@@ -41,8 +41,8 @@
                 <tree string="Supplier qualification parameter">
                     <field name='sequence'/>
                     <field name='name'/>
-                    <field name='from'/>
-                    <field name='to'/>
+                    <field name='from_value'/>
+                    <field name='to_value'/>
                 </tree>   
             </field>
         </record>

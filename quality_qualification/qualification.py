@@ -66,7 +66,7 @@ class QualityQualificationParameter(orm.Model):
         parameter_ids = self.search(cr, uid, [], context=context)
         for item in self.browse(cr, uid, parameter_ids, context=context):
             res[item.name] = [
-                (item.from, item.to), # from to lot / q. range
+                (item.from_value, item.to_value), # from to lot / q. range
                 item.line_ids, # list of line for evaluation
                 ]
         return res
@@ -81,8 +81,8 @@ class QualityQualificationParameter(orm.Model):
             ], 'Origin', select=True, required=True),        
 
         # Furniture range:
-        'from': fields.integer('Range From (>=)'),
-        'to': fields.integer('Range To (<)'),
+        'from_value': fields.integer('Range From (>=)'),
+        'to_value': fields.integer('Range To (<)'),
 
         'note': fields.text('Note'),
         }

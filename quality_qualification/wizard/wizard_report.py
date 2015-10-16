@@ -50,6 +50,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         
         datas = {}
         datas['report_type'] = wiz_browse.report_type
+        datas['report_type'] = wiz_browse.only_active
         datas['from_date'] = wiz_browse.from_date
         datas['to_date'] = wiz_browse.to_date
         datas['ref_date'] = wiz_browse.ref_date
@@ -84,6 +85,8 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'from_date': fields.date('From (>=)', required=True),
         'to_date': fields.date('To (<)', required=True),
         'ref_date': fields.date('Ref date'),        
+        'only_active': fields.boolean('Only active', 
+            help='Only the one who has lot in period'),
         }
         
     _defaults = {
@@ -93,6 +96,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'to_date': lambda *x: '%s-01-01' % (int(datetime.now().year) + 1), 
         'ref_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
+        'only_active': lambda *x: True,
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

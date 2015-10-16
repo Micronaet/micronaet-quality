@@ -20,6 +20,8 @@
                        
                        <field name="partner_id" />
                        <field name="quality_class_id" />
+
+                       <field name="only_active" />
                    </group>
                 </form>
             </field>

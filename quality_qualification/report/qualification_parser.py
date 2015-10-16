@@ -125,6 +125,7 @@ class Parser(report_sxw.rml_parse):
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
 
+        only_active = data.get('only_active', False)
         # Load parameter dict for controls:
         parameter_pool = self.pool.get('quality.qualification.parameter')
         parameter_pool._load_parameters(self.cr, self.uid)
@@ -146,6 +147,8 @@ class Parser(report_sxw.rml_parse):
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
+            if only_active and not total_acceptation_lot:
+                continue # jump line without lot in period (if request)    
             
             # TODO Check lot/q. range for get evaluation range:
 
