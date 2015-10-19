@@ -13,6 +13,7 @@
                             <field name='name'/>
                             <field name='from_value'/>
                             <field name='to_value'/>
+                            <field name='uom'/>
                             <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
                                 <tree string="Details:">
                                     <field name="qualification" />
@@ -43,6 +44,7 @@
                     <field name='name'/>
                     <field name='from_value'/>
                     <field name='to_value'/>
+                    <field name='uom'/>
                 </tree>   
             </field>
         </record>

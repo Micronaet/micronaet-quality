@@ -82,9 +82,17 @@ class QualityQualificationParameter(orm.Model):
         # Furniture range:
         'from_value': fields.integer('Range From (>=)'),
         'to_value': fields.integer('Range To (<)'),
+        'uom': fields.selection([
+            ('lot', 'Lot'),
+            ('weight', 'Weight'),
+            ], 'uom', required=True),
 
         'note': fields.text('Note'),
         }
+
+    _defauls = {
+        'uom': lambda *x: 'lot',
+        }    
 
     _sql_constraints = [(
         'name_from_to_uniq', 'unique(name, from, to)', 
@@ -104,23 +112,12 @@ class QualityQualificationParameterLine(orm.Model):
         # Total forms:
         'perc_from': fields.float('% from (>=)', digits=(16, 3)),
         'perc_to': fields.float('% to (<)', digits=(16, 3)),
-        'uom': fields.selection([
-            ('lot', 'Lot'),
-            ('weight', 'Weight'),
-            ], 'uom', required=True)
-            
-            # Default value:
-            'uom': lambda *x: 'uom',
             
         'qualification': fields.selection(qualification_list, 
             'Qualification type', select=True, required=True),        
         'parameter_id': fields.many2one('quality.qualification.parameter', 
             'Parameter'),        
         }
-
-    _defauls = {
-        'uom': lambda *x: 'lot',
-        }    
 
 class QualityQualificationParameter(orm.Model):
     ''' Extra *many relation fields
