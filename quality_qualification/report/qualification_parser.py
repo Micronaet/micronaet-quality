@@ -184,49 +184,77 @@ class Parser(report_sxw.rml_parse):
 
             # Total weight (t so converted)    
             try:
-                total_acceptation_weight = float(partner_pool._get_index_weight(
-                    self.cr, self.uid, index_from, index_to, partner.id
-                    )) / 1000.0
+                total_acceptation_weight = float(
+                    partner_pool._get_index_weight(
+                        self.cr, self.uid, index_from, index_to, partner.id
+                        )) / 1000.0
             except:
                 total_acceptation_weight = 0.0
 
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
-            acc_failed = nc_stat['acceptation'].get(partner.id, 0)
-            acc_esit = description.get(
-                parameter_pool._check_parameters(
-                    parameters, 'acceptation', 
-                    total_acceptation_weight, # weight
-                    acc_failed,
-                    ), '# Error')
+            outcome_list = []
+            
+            # % total:
+            if total_acceptation_lot:
+                acc_failed = nc_stat[
+                    'acceptation'].get(partner.id, 0) / total_acceptation_lot
+                claim_failed = .0 * nc_stat[
+                    'claim'].get(partner.id, 0) / total_acceptation_lot
+                sample_failed = nc_stat[
+                    'sampling'].get(partner.id, 0) / total_acceptation_lot           
+                pack_failed = nc_stat[
+                    'packaging'].get(partner.id, 0) / total_acceptation_lot
+            else:                    
+                acc_failed = 0.0
+                claim_failed = 0.0
+                sample_failed = 0.0
+                pack_failed = 0.0                
+                
+            outcome = parameter_pool._check_parameters(
+                parameters, 'acceptation', 
+                total_acceptation_weight, # weight
+                acc_failed,
+                )
+            acc_outcome = description.get(outcome, '# Error')
+            outcome_list.append(outcome)
 
-            claim_failed = 100.0 * nc_stat[
-                'claim'].get(partner.id, 0) / total_acceptation_lot
-            claim_esit = description.get(
-                parameter_pool._check_parameters(
-                    parameters, 'claim', 
-                    total_acceptation_lot, # Note:  % lot
-                    claim_failed,
-                    ), '# Error')
+            outcome = parameter_pool._check_parameters(
+                parameters, 'claim', 
+                total_acceptation_lot, # Note:  % lot
+                claim_failed,
+                )
+            claim_outcome = description.get(outcome, '# Error')
+            outcome_list.append(outcome)
 
-            sample_failed = nc_stat['sampling'].get(partner.id, 0)            
-            sample_esit = description.get(
-                parameter_pool._check_parameters(
-                    parameters, 'sampling', 
-                    total_acceptation_weight, # weight
-                    sample_failed,
-                    ), '# Error')
+            outcome = parameter_pool._check_parameters(
+                parameters, 'sampling', 
+                total_acceptation_weight, # weight
+                sample_failed,
+                )
+            sample_outcome = description.get(outcome, '# Error')
+            outcome_list.append(outcome)
 
-            pack_failed = nc_stat['packaging'].get(partner.id, 0) 
-            pack_esit = description.get(
-                parameter_pool._check_parameters(
-                    parameters, 'packaging', 
-                    total_acceptation_weight, # weight
-                    pack_failed,
-                    ), '# Error')
+            outcome = parameter_pool._check_parameters(
+                parameters, 'packaging', 
+                total_acceptation_weight, # weight
+                pack_failed,
+                )
+            pack_outcome = description.get(outcome, '# Error')
+            outcome_list.append(outcome)
 
-            esit = _('full') # TODO
+            if 'discarded' in outcome_list:
+                outcome = description.get('discarded')
+            else:    
+                if 'reserve' in outcome_list:
+                    outcome = description.get('reserve')
+                else:
+                   if 'full' in outcome_list:
+                       outcome = description.get('full')
+                   else:
+                       outcome = description.get('error')
+                
             res.append((
                 partner, # 0. browse obj
 
@@ -239,14 +267,14 @@ class Parser(report_sxw.rml_parse):
                 sample_failed, # 5. sample failed
                 pack_failed, # 6. packaging failed
                 
-                # Esit for origin:
-                acc_esit, # 7. acc. esit
-                claim_esit, # 8. claim esit
-                sample_esit, # 9. sample esit
-                pack_esit, # 10. packaging esit
+                # Outcome for origin:
+                acc_outcome, # 7. acc. outcome
+                claim_outcome, # 8. claim outcome
+                sample_outcome, # 9. sample outcome
+                pack_outcome, # 10. packaging outcome
 
                 # General result:
-                esit, # 11. total esit
+                outcome, # 11. total outcome
                 ))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

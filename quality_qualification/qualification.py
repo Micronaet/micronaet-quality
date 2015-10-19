@@ -90,6 +90,16 @@ class QualityQualificationParameter(orm.Model):
                     if (failed >= line.perc_from) and (
                             not line.perc_to or failed < line.perc_to):
                         return line.qualification
+                        
+        #import pdb; pdb.set_trace()
+        #for item in parameter:      
+        #    #check range in parameter for block
+        #    if (total >= item[1][0]) and (
+        #            not item[1][1] or total < item[1][1]):
+        #        for line in item[2]:
+        #            if (failed >= line.perc_from) and (
+        #                    not line.perc_to or failed < line.perc_to):
+        #                return line.qualification
         return 'error'        
 
     _columns = {
