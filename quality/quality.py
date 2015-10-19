@@ -1837,7 +1837,7 @@ class res_partner(osv.osv):
         if index_to and index_from:
             # total arrived not expected:
             cr.execute("""
-                SELECT sum(quantity_arrived) 
+                SELECT sum(qty_arrived) 
                 FROM quality_acceptation_line qal JOIN quality_acceptation qa 
                     ON (qal.acceptation_id = qa.id)
                 WHERE 

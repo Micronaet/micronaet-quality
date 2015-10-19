@@ -133,7 +133,7 @@ class Parser(report_sxw.rml_parse):
                 _('Error'), 
                 _('This report will be lauched from wizard!'),
                 )
-            
+
         # ---------------------------------------------------------------------
         #                        Load NC for that partner:
         # ---------------------------------------------------------------------        
@@ -180,19 +180,32 @@ class Parser(report_sxw.rml_parse):
                 continue # jump line without lot in period (if request)    
             
             acc_failed = nc_stat['acceptation'].get(partner.id, 0)
-            acc_esit = _('full') # TODO
+            acc_esit = parameter_pool._check_parameters(
+                parameters, 'acceptation', 
+                total_acceptation_weight, # weight
+                acc_failed,
+                )
 
             claim_failed = nc_stat['claim'].get(partner.id, 0)            
             claim_esit = parameter_pool._check_parameters(
-                parameters, 'claim', total_acceptation_lot, 
+                parameters, 'claim', 
+                total_acceptation_lot, # lot
                 claim_failed,
                 )
 
             sample_failed = nc_stat['sampling'].get(partner.id, 0)            
-            sample_esit = _('full') # TODO
+            sample_esit = parameter_pool._check_parameters(
+                parameters, 'sampling', 
+                total_acceptation_weight, # weight
+                sample_failed,
+                )
 
             pack_failed = nc_stat['packaging'].get(partner.id, 0) 
-            pack_esit = _('full') # TODO            
+            pack_esit = parameter_pool._check_parameters(
+                parameters, 'packaging', 
+                total_acceptation_weight, # weight
+                pack_failed,
+                )
 
             esit = _('full') # TODO
             res.append((
