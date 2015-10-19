@@ -54,6 +54,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         datas['from_date'] = wiz_browse.from_date
         datas['to_date'] = wiz_browse.to_date
         datas['ref_date'] = wiz_browse.ref_date
+        datas['only_active'] = wiz_browse.only_active
         datas['partner_id'] = (
             wiz_browse.partner_id.id if wiz_browse.partner_id else False)
         datas['quality_class_id'] = (
