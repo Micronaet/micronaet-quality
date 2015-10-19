@@ -69,7 +69,7 @@ class QualityQualificationParameter(orm.Model):
                 item.line_ids, # list of line for evaluation
                 ]
         return res
-    
+
     _columns = {
         'sequence': fields.integer('Sequence', required=True), 
         'name': fields.selection([
@@ -104,12 +104,23 @@ class QualityQualificationParameterLine(orm.Model):
         # Total forms:
         'perc_from': fields.float('% from (>=)', digits=(16, 3)),
         'perc_to': fields.float('% to (<)', digits=(16, 3)),
+        'uom': fields.selection([
+            ('lot', 'Lot'),
+            ('weight', 'Weight'),
+            ], 'uom', required=True)
+            
+            # Default value:
+            'uom': lambda *x: 'uom',
+            
         'qualification': fields.selection(qualification_list, 
             'Qualification type', select=True, required=True),        
         'parameter_id': fields.many2one('quality.qualification.parameter', 
             'Parameter'),        
-        # UOM?    
         }
+
+    _defauls = {
+        'uom': lambda *x: 'lot',
+        }    
 
 class QualityQualificationParameter(orm.Model):
     ''' Extra *many relation fields

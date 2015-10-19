@@ -9,6 +9,7 @@
             <field name="note">Not conformed that has origin from acceptation form range 1</field>
             <field name="from_value" eval="1.0"/>
             <field name="to_value" eval="5.0"/>
+            <field name="uom">lot</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_2">
             <field name="sequence" eval="2"/>
@@ -16,6 +17,7 @@
             <field name="note">Not conformed that has origin from acceptation form range 2</field>
             <field name="from_value" eval="5.0"/>
             <field name="to_value" eval="20.0"/>
+            <field name="uom">lot</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_3">
             <field name="sequence" eval="3"/>
@@ -23,6 +25,7 @@
             <field name="note">Not conformed that has origin from acceptation form range 3</field>
             <field name="from_value" eval="20.0"/>
             <field name="to_value" eval="False"/>
+            <field name="uom">lot</field>
         </record>
 
             <!-- CLAIM -->
@@ -32,6 +35,7 @@
             <field name="note">Not conformed that has origin from claim form range 1</field>
             <field name="from_value" eval="False"/>
             <field name="to_value" eval="5.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_claim_2">
             <field name="sequence" eval="2"/>
@@ -39,6 +43,7 @@
             <field name="note">Not conformed that has origin from claim form range 2</field>
             <field name="from_value" eval="5.0"/>
             <field name="to_value" eval="50.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_claim_3">
             <field name="sequence" eval="3"/>
@@ -46,6 +51,7 @@
             <field name="note">Not conformed that has origin from claim form range 3</field>
             <field name="from_value" eval="50.0"/>
             <field name="to_value" eval="False"/>
+            <field name="uom">weight</field>
         </record>
 
             <!-- SAMPLING -->
@@ -55,6 +61,7 @@
             <field name="note">Not conformed that has origin from sample form range 1</field>
             <field name="from_value" eval="False"/>
             <field name="to_value" eval="5.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_sampling_2">
             <field name="sequence" eval="2"/>
@@ -62,6 +69,7 @@
             <field name="note">Not conformed that has origin from sample form range 2</field>
             <field name="from_value" eval="5.0"/>
             <field name="to_value" eval="50.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_sampling_3">
             <field name="sequence" eval="3"/>
@@ -69,6 +77,7 @@
             <field name="note">Not conformed that has origin from sample form range 3</field>
             <field name="from_value" eval="50.0"/>
             <field name="to_value" eval="False"/>
+            <field name="uom">weight</field>
         </record>
 
             <!--PACKAGING-->
@@ -78,6 +87,7 @@
             <field name="note">Not conformed that has origin from packaging range 1</field>
             <field name="from_value" eval="False"/>
             <field name="to_value" eval="5.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_packaging_2">
             <field name="sequence" eval="2"/>
@@ -85,6 +95,7 @@
             <field name="note">Not conformed that has origin from packaging range 2</field>
             <field name="from_value" eval="5.0"/>
             <field name="to_value" eval="50.0"/>
+            <field name="uom">weight</field>
         </record>
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_packaging_3">
             <field name="sequence" eval="3"/>
@@ -92,6 +103,7 @@
             <field name="note">Not conformed that has origin from packaging range 3</field>
             <field name="from_value" eval="50.0"/>
             <field name="to_value" eval="False"/>
+            <field name="uom">weight</field>
         </record>
 
         <!--quality.qualification.parameter-->
