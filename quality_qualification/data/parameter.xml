@@ -110,57 +110,57 @@
             <!--ACCEPTATION-->
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_1">
             <field name="perc_from" eval="0.0"/> <!--perc. value-->
-            <field name="perc_to" eval="0.2"/>
+            <field name="perc_to" eval="20.0"/>
             <field name="qualification">full</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_1">
-            <field name="perc_from" eval="0.2"/> <!--perc. value-->
-            <field name="perc_to" eval="0.5"/>
+            <field name="perc_from" eval="20.0"/> <!--perc. value-->
+            <field name="perc_to" eval="50.0"/>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_1">
-            <field name="perc_from" eval="0.5"/> <!--perc. value-->
-            <field name="perc_to" eval="1.0"/>
+            <field name="perc_from" eval="50.0"/> <!--perc. value-->
+            <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_1"/>
         </record>
 
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_2">
             <field name="perc_from" eval="0.0"/>
-            <field name="perc_to" eval="0.1"/>
+            <field name="perc_to" eval="10.0"/>
             <field name="qualification">full</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_2">
-            <field name="perc_from" eval="0.1"/>
-            <field name="perc_to" eval="0.2"/>
+            <field name="perc_from" eval="10.0"/>
+            <field name="perc_to" eval="20.0"/>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_2">
-            <field name="perc_from" eval="0.2"/>
-            <field name="perc_to" eval="1.0"/>
+            <field name="perc_from" eval="20.0"/>
+            <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_2"/>            
         </record>
 
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_full_3">
             <field name="perc_from" eval="0.0"/>
-            <field name="perc_to" eval="0.05"/>
+            <field name="perc_to" eval="5.0"/>
             <field name="qualification">full</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_reserve_3">
-            <field name="perc_from" eval="0.05"/>
-            <field name="perc_to" eval="0.15"/>
+            <field name="perc_from" eval="5.0"/>
+            <field name="perc_to" eval="15.0"/>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_acceptation_discarded_3">
-            <field name="perc_from" eval="0.15"/>
-            <field name="perc_to" eval="1.0"/>
+            <field name="perc_from" eval="15.0"/>
+            <field name="perc_to" eval="False"/>
             <field name="qualification">discarded</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_acceptation_3"/>            
         </record>

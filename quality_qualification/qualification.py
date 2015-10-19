@@ -71,19 +71,24 @@ class QualityQualificationParameter(orm.Model):
                 item.uom,
                 (item.from_value, item.to_value), # from to lot / q. range
                 item.line_ids, # list of line for evaluation
-                ))
+                ))                
         return res
     
-    def _check_parameters(self, parameters, block, total, failed):
+    def _check_parameters(self, parameters, block, weight, lot, failed):
         ''' Check in parameters and return qualification value
             parametes: database for all evaluation
             block: key value for parameters
-            total: number of lot/weight totals
+            weight: weight delivered
+            lot: number of lot delivered
             failed: number of lot/weith failed
         '''
         parameter = parameters.get(block, {})        
-        for item in parameter:      
-            #check range in parameter for block
+        for item in parameter: #check range in parameter for block
+            if item[0] == 'lot': # uom
+                total = lot
+            else:
+                total = weight
+                    
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
                 for line in item[2]:

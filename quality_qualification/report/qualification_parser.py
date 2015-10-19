@@ -194,17 +194,15 @@ class Parser(report_sxw.rml_parse):
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
-            outcome_list = []
-            
             # % total:
             if total_acceptation_lot:
-                acc_failed = nc_stat[
+                acc_failed = 100.0 * nc_stat[
                     'acceptation'].get(partner.id, 0) / total_acceptation_lot
-                claim_failed = .0 * nc_stat[
+                claim_failed = 100.0 * nc_stat[
                     'claim'].get(partner.id, 0) / total_acceptation_lot
-                sample_failed = nc_stat[
+                sample_failed = 100.0 * nc_stat[
                     'sampling'].get(partner.id, 0) / total_acceptation_lot           
-                pack_failed = nc_stat[
+                pack_failed = 100.0 * nc_stat[
                     'packaging'].get(partner.id, 0) / total_acceptation_lot
             else:                    
                 acc_failed = 0.0
@@ -212,9 +210,11 @@ class Parser(report_sxw.rml_parse):
                 sample_failed = 0.0
                 pack_failed = 0.0                
                 
+            outcome_list = []
             outcome = parameter_pool._check_parameters(
                 parameters, 'acceptation', 
                 total_acceptation_weight, # weight
+                total_acceptation_lot, # Note:  % lot
                 acc_failed,
                 )
             acc_outcome = description.get(outcome, '# Error')
@@ -222,6 +222,7 @@ class Parser(report_sxw.rml_parse):
 
             outcome = parameter_pool._check_parameters(
                 parameters, 'claim', 
+                total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 claim_failed,
                 )
@@ -231,6 +232,7 @@ class Parser(report_sxw.rml_parse):
             outcome = parameter_pool._check_parameters(
                 parameters, 'sampling', 
                 total_acceptation_weight, # weight
+                total_acceptation_lot, # Note:  % lot
                 sample_failed,
                 )
             sample_outcome = description.get(outcome, '# Error')
@@ -239,6 +241,7 @@ class Parser(report_sxw.rml_parse):
             outcome = parameter_pool._check_parameters(
                 parameters, 'packaging', 
                 total_acceptation_weight, # weight
+                total_acceptation_lot, # Note:  % lot
                 pack_failed,
                 )
             pack_outcome = description.get(outcome, '# Error')
