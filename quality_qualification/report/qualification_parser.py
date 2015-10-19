@@ -194,16 +194,20 @@ class Parser(report_sxw.rml_parse):
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
+            acc_total = 100.0 * nc_stat[
+                'acceptation'].get(partner.id, 0)
+            claim_total = 100.0 * nc_stat[
+                'claim'].get(partner.id, 0) 
+            sample_total = 100.0 * nc_stat[
+                'sampling'].get(partner.id, 0) 
+            pack_total = 100.0 * nc_stat[
+                'packaging'].get(partner.id, 0)
             # % total:
             if total_acceptation_lot:
-                acc_failed = 100.0 * nc_stat[
-                    'acceptation'].get(partner.id, 0) / total_acceptation_lot
-                claim_failed = 100.0 * nc_stat[
-                    'claim'].get(partner.id, 0) / total_acceptation_lot
-                sample_failed = 100.0 * nc_stat[
-                    'sampling'].get(partner.id, 0) / total_acceptation_lot           
-                pack_failed = 100.0 * nc_stat[
-                    'packaging'].get(partner.id, 0) / total_acceptation_lot
+                acc_failed = acc_total / total_acceptation_lot
+                claim_failed = claim_total / total_acceptation_lot
+                sample_failed = sample_total / total_acceptation_lot           
+                pack_failed = pack_total / total_acceptation_lot
             else:                    
                 acc_failed = 0.0
                 claim_failed = 0.0
@@ -276,8 +280,14 @@ class Parser(report_sxw.rml_parse):
                 sample_outcome, # 9. sample outcome
                 pack_outcome, # 10. packaging outcome
 
+                # Total NC in number:
+                acc_total, # 11. acc failed
+                claim_total, # 12. claim failed
+                sample_total, # 13. sample failed
+                pack_total, # 14. packaging failed
+
                 # General result:
-                outcome, # 11. total outcome
+                outcome, # 15. total outcome
                 ))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
