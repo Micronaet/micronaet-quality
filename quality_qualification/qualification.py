@@ -82,7 +82,8 @@ class QualityQualificationParameter(orm.Model):
             failed: number of lot/weith failed
         '''
         parameter = parameters.get(block, {})        
-        for item in parameter:        
+        for item in parameter:      
+            #check range in parameter for block
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
                 for line in item[2]:

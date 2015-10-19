@@ -201,11 +201,12 @@ class Parser(report_sxw.rml_parse):
                     acc_failed,
                     ), '# Error')
 
-            claim_failed = nc_stat['claim'].get(partner.id, 0)            
+            claim_failed = 100.0 * nc_stat[
+                'claim'].get(partner.id, 0) / total_acceptation_lot
             claim_esit = description.get(
                 parameter_pool._check_parameters(
                     parameters, 'claim', 
-                    total_acceptation_lot, # lot
+                    total_acceptation_lot, # Note:  % lot
                     claim_failed,
                     ), '# Error')
 

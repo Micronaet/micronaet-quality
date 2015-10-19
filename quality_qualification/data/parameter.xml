@@ -7,7 +7,7 @@
             <field name="sequence" eval="1"/>
             <field name="name">acceptation</field>
             <field name="note">Not conformed that has origin from acceptation form range 1</field>
-            <field name="from_value" eval="1.0"/>
+            <field name="from_value" eval="0.0"/>
             <field name="to_value" eval="5.0"/>
             <field name="uom">lot</field>
         </record>
