@@ -194,20 +194,20 @@ class Parser(report_sxw.rml_parse):
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
-            acc_total = 100.0 * nc_stat[
+            acc_total = nc_stat[
                 'acceptation'].get(partner.id, 0)
-            claim_total = 100.0 * nc_stat[
+            claim_total = nc_stat[
                 'claim'].get(partner.id, 0) 
-            sample_total = 100.0 * nc_stat[
+            sample_total = nc_stat[
                 'sampling'].get(partner.id, 0) 
-            pack_total = 100.0 * nc_stat[
+            pack_total = nc_stat[
                 'packaging'].get(partner.id, 0)
             # % total:
             if total_acceptation_lot:
-                acc_failed = acc_total / total_acceptation_lot
-                claim_failed = claim_total / total_acceptation_lot
-                sample_failed = sample_total / total_acceptation_lot           
-                pack_failed = pack_total / total_acceptation_lot
+                acc_failed = 100.0 * acc_total / total_acceptation_lot
+                claim_failed = 100.0 * claim_total / total_acceptation_lot
+                sample_failed = 100.0 * sample_total / total_acceptation_lot           
+                pack_failed = 100.0 * pack_total / total_acceptation_lot
             else:                    
                 acc_failed = 0.0
                 claim_failed = 0.0
