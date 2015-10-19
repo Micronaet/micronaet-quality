@@ -169,43 +169,61 @@ class Parser(report_sxw.rml_parse):
         # Load parameter dict for controls:
         parameter_pool = self.pool.get('quality.qualification.parameter')
         parameters = parameter_pool._load_parameters(self.cr, self.uid)
-        
+         
+        # Description conversion: 
+        description = { # TODO usare quella nel modulo!!
+            'reserve': _('Reserve'),
+            'full': _('Full'),
+            'discarded': _('Discarded'),
+            'error': _('Error'), # TODO needed?
+            }
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):            
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
-            total_acceptation_weight = partner_pool._get_index_weight(
-                self.cr, self.uid, index_from, index_to, partner.id)
+
+            # Total weight (t so converted)    
+            try:
+                total_acceptation_weight = float(partner_pool._get_index_weight(
+                    self.cr, self.uid, index_from, index_to, partner.id
+                    )) / 1000.0
+            except:
+                total_acceptation_weight = 0.0
+
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
             acc_failed = nc_stat['acceptation'].get(partner.id, 0)
-            acc_esit = parameter_pool._check_parameters(
-                parameters, 'acceptation', 
-                total_acceptation_weight, # weight
-                acc_failed,
-                )
+            acc_esit = description.get(
+                parameter_pool._check_parameters(
+                    parameters, 'acceptation', 
+                    total_acceptation_weight, # weight
+                    acc_failed,
+                    ), '# Error')
 
             claim_failed = nc_stat['claim'].get(partner.id, 0)            
-            claim_esit = parameter_pool._check_parameters(
-                parameters, 'claim', 
-                total_acceptation_lot, # lot
-                claim_failed,
-                )
+            claim_esit = description.get(
+                parameter_pool._check_parameters(
+                    parameters, 'claim', 
+                    total_acceptation_lot, # lot
+                    claim_failed,
+                    ), '# Error')
 
             sample_failed = nc_stat['sampling'].get(partner.id, 0)            
-            sample_esit = parameter_pool._check_parameters(
-                parameters, 'sampling', 
-                total_acceptation_weight, # weight
-                sample_failed,
-                )
+            sample_esit = description.get(
+                parameter_pool._check_parameters(
+                    parameters, 'sampling', 
+                    total_acceptation_weight, # weight
+                    sample_failed,
+                    ), '# Error')
 
             pack_failed = nc_stat['packaging'].get(partner.id, 0) 
-            pack_esit = parameter_pool._check_parameters(
-                parameters, 'packaging', 
-                total_acceptation_weight, # weight
-                pack_failed,
-                )
+            pack_esit = description.get(
+                parameter_pool._check_parameters(
+                    parameters, 'packaging', 
+                    total_acceptation_weight, # weight
+                    pack_failed,
+                    ), '# Error')
 
             esit = _('full') # TODO
             res.append((
