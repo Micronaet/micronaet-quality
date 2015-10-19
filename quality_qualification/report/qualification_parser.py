@@ -170,7 +170,7 @@ class Parser(report_sxw.rml_parse):
         parameter_pool = self.pool.get('quality.qualification.parameter')
         parameters = parameter_pool._load_parameters(self.cr, self.uid)
         
-        for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
+        for partner in partner_pool.browse(self.cr, self.uid, partner_ids):            
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
@@ -178,9 +178,6 @@ class Parser(report_sxw.rml_parse):
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
-            # TODO Check lot/q. range for get evaluation range:
-
-            # TODO complete with evaluation            
             acc_failed = nc_stat['acceptation'].get(partner.id, 0)
             acc_esit = _('full') # TODO
 
@@ -198,25 +195,25 @@ class Parser(report_sxw.rml_parse):
 
             esit = _('full') # TODO
             res.append((
-                partner, # browse obj
+                partner, # 0. browse obj
 
-                total_acceptation_lot, # total lot
-                total_acceptation_weight, # total q.                
+                total_acceptation_lot, # 1. total lot
+                total_acceptation_weight, # 2. total q.                
                 
                 # Total NC present comes from:
-                acc_failed,
-                claim_failed,
-                sample_failed,
-                pack_failed,
+                acc_failed, # 3. acc failed
+                claim_failed, # 4. claim failed
+                sample_failed, # 5. sample failed
+                pack_failed, # 6. packaging failed
                 
                 # Esit for origin:
-                acc_esit,
-                claim_esit,
-                sample_esit,
-                pack_esit,
+                acc_esit, # 7. acc. esit
+                claim_esit, # 8. claim esit
+                sample_esit, # 9. sample esit
+                pack_esit, # 10. packaging esit
 
                 # General result:
-                esit, 
+                esit, # 11. total esit
                 ))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

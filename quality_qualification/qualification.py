@@ -81,15 +81,15 @@ class QualityQualificationParameter(orm.Model):
             total: number of lot/weight totals
             failed: number of lot/weith failed
         '''
-        parameter = parameters.get(block, {})
+        parameter = parameters.get(block, {})        
         for item in parameter:        
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
                 for line in item[2]:
-                    if (total >= line.perc_from) and (
-                            not line.perc_to or total < line.perc_to):
+                    if (failed >= line.perc_from) and (
+                            not line.perc_to or failed < line.perc_to):
                         return line.qualification
-        return 'error'
+        return 'error'        
 
     _columns = {
         'sequence': fields.integer('Sequence', required=True), 
