@@ -65,14 +65,16 @@ class QualityQualificationParameter(orm.Model):
         res = {}
         parameter_ids = self.search(cr, uid, [], context=context)
         for item in self.browse(cr, uid, parameter_ids, context=context):
-            res[item.name] = [
+            if item.name not in res:
+                res[item.name] = []    
+            res[item.name].append((
                 item.uom,
                 (item.from_value, item.to_value), # from to lot / q. range
                 item.line_ids, # list of line for evaluation
-                ]
+                ))
         return res
     
-    def _check_paremeters(self, parameters, block, total, failed):
+    def _check_parameters(self, parameters, block, total, failed):
         ''' Check in parameters and return qualification value
             parametes: database for all evaluation
             block: key value for parameters
@@ -80,12 +82,12 @@ class QualityQualificationParameter(orm.Model):
             failed: number of lot/weith failed
         '''
         parameter = parameters.get(block, {})
-        for item in parameter:
-            if (item[1][0] and total >= item[1][0]) and (
-                    item[1][1] and total < item[1][1]):
-                for line in item[1][2]:
-                    if (line.perc_from and total >= line.perc_from) and (
-                            line.perc_to and total < line.perc_to):
+        for item in parameter:        
+            if (total >= item[1][0]) and (
+                    not item[1][1] or total < item[1][1]):
+                for line in item[2]:
+                    if (total >= line.perc_from) and (
+                            not line.perc_to or total < line.perc_to):
                         return line.qualification
         return 'error'
 

@@ -146,14 +146,19 @@ class Parser(report_sxw.rml_parse):
             }
         nc_pool = self.pool.get('quality.conformed')
 
-        nc_ids = partner_pool.search(self.cr, self.uid, [
-            ('state', 'in', ())
+        nc_ids = nc_pool.search(self.cr, self.uid, [
+            ('state', '!=', 'cancel'),
             ('insert_date', '>=', index_from),
             ('insert_date', '<', index_to),
-            ('supplier_lot', 'in', partner_ids),
+            #('supplier_lot', 'in', tuple(partner_ids)),
             ])
             
         for nc in nc_pool.browse(self.cr, self.uid, nc_ids):
+            if not nc.origin or nc.origin not in nc_stat:
+                _logger.error(
+                    'Origin not found or not in list: %s!' % nc.origin)
+                continue    
+
             if not nc.supplier_lot.id: # TODO send alert!!!
                 _logger.error('Not found supplier lot!')
             if nc.supplier_lot.id not in nc_stat[nc.origin]:
@@ -164,43 +169,54 @@ class Parser(report_sxw.rml_parse):
         # Load parameter dict for controls:
         parameter_pool = self.pool.get('quality.qualification.parameter')
         parameters = parameter_pool._load_parameters(self.cr, self.uid)
-            
+        
         for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
+            total_acceptation_weight = 0.0    
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
             # TODO Check lot/q. range for get evaluation range:
 
             # TODO complete with evaluation            
-            acc_esit = _('full')
-            claim_esit = self._check_paremeters(
-                parameters, 'claim', total_acceptation_lot, 
-                nc_stat['claim'].get(partner.id, 0),
-                )
-            sample_esit = _('full')
-            pack_esit = _('full')            
-            esit = _('full')
-            
-            # partner obj, total lot, total q, accept, claim, sample, pack
-            res.append((
-                partner, # partner obj
-                total_acceptation_lot, # total lot
-                0.0, # total q. 
-                
-                0.0, # acceptation NC
-                0.0, # claim NC
-                0.0, # sampling NC
-                0.0, # pack NC
-                
-                acc_esit, # acceptation result
-                claim_esit, # claim result
-                sample_esit, # sampling result
-                pack_esit, # pack result
+            acc_failed = nc_stat['acceptation'].get(partner.id, 0)
+            acc_esit = _('full') # TODO
 
-                esit, # general result
+            claim_failed = nc_stat['claim'].get(partner.id, 0)            
+            claim_esit = parameter_pool._check_parameters(
+                parameters, 'claim', total_acceptation_lot, 
+                claim_failed,
+                )
+
+            sample_failed = nc_stat['sampling'].get(partner.id, 0)            
+            sample_esit = _('full') # TODO
+
+            pack_failed = nc_stat['packaging'].get(partner.id, 0) 
+            pack_esit = _('full') # TODO            
+
+            esit = _('full') # TODO
+            res.append((
+                partner, # browse obj
+
+                total_acceptation_lot, # total lot
+                total_acceptation_weight, # total q.                
+                
+                # Total NC present comes from:
+                acc_failed,
+                claim_failed,
+                sample_failed,
+                pack_failed,
+                
+                # Esit for origin:
+                acc_esit,
+                claim_esit,
+                sample_esit,
+                pack_esit,
+
+                # General result:
+                esit, 
                 ))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
