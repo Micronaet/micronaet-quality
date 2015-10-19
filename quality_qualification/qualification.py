@@ -42,6 +42,7 @@ qualification_list = [
     ('reserve', 'With reserve'),
     ('full', 'Full qualification'),
     ('discarded', 'Discarded'),
+    ('error', 'Error, not found'), # TODO needed?
     ]
 
 class QualityQualificationParameter(orm.Model):
@@ -59,16 +60,34 @@ class QualityQualificationParameter(orm.Model):
         ''' Load all parameters in dict database for code purpose
             format:
             key = name of parameter (claim etc.)
-            value = (from, to range), lines browseable obj
+            value = uom, (from, to range), lines browseable obj
         '''
         res = {}
         parameter_ids = self.search(cr, uid, [], context=context)
         for item in self.browse(cr, uid, parameter_ids, context=context):
             res[item.name] = [
+                item.uom,
                 (item.from_value, item.to_value), # from to lot / q. range
                 item.line_ids, # list of line for evaluation
                 ]
         return res
+    
+    def _check_paremeters(self, parameters, block, total, failed):
+        ''' Check in parameters and return qualification value
+            parametes: database for all evaluation
+            block: key value for parameters
+            total: number of lot/weight totals
+            failed: number of lot/weith failed
+        '''
+        parameter = parameters.get(block, {})
+        for item in parameter:
+            if (item[1][0] and total >= item[1][0]) and (
+                    item[1][1] and total < item[1][1]):
+                for line in item[1][2]:
+                    if (line.perc_from and total >= line.perc_from) and (
+                            line.perc_to and total < line.perc_to):
+                        return line.qualification
+        return 'error'
 
     _columns = {
         'sequence': fields.integer('Sequence', required=True), 
@@ -76,7 +95,7 @@ class QualityQualificationParameter(orm.Model):
             ('claim', 'From Claim'),
             ('acceptation', 'From acceptation'),
             ('sampling', 'From sampling'),
-            ('packaging', 'From packaging'),
+            ('packaging', 'From packaging'),            
             ], 'Origin', select=True, required=True),        
 
         # Furniture range:

@@ -105,10 +105,13 @@ class Parser(report_sxw.rml_parse):
         ''' Load all supplier for statistic
         '''
         res = []
-        
+
         # ---------------------------------------------------------------------
-        #                           Create a domain:
-        # ---------------------------------------------------------------------
+        #                           Load partner list:
+        # ---------------------------------------------------------------------        
+        partner_pool = self.pool.get('res.partner')
+
+        # Create a domain:
         domain = [('supplier', '=', True)]
         if data.get('quality_class_id', False):
             domain.append(
@@ -119,16 +122,8 @@ class Parser(report_sxw.rml_parse):
                 ('id', '=', data.get('partner_id', False))
                 )
 
-        # ---------------------------------------------------------------------
-        #                           Load partner list:
-        # ---------------------------------------------------------------------
-        partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(self.cr, self.uid, domain)
-
         only_active = data.get('only_active', False)
-        # Load parameter dict for controls:
-        parameter_pool = self.pool.get('quality.qualification.parameter')
-        parameter_pool._load_parameters(self.cr, self.uid)
 
         # Range date must be present (if comes from wizard):
         index_from = data.get('from_date', False)
@@ -139,11 +134,38 @@ class Parser(report_sxw.rml_parse):
                 _('This report will be lauched from wizard!'),
                 )
             
-        for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
-            # NOTE Total delivery: are we need this total?
-            #total_acceptation = partner_pool._get_index_delivery(
-            #    self.cr, self.uid, index_from, index_to, partnerid)
+        # ---------------------------------------------------------------------
+        #                        Load NC for that partner:
+        # ---------------------------------------------------------------------        
+        nc_stat = {
+            'acceptation': {},
+            'claim': {},
+            'packaging': {},
+            'sampling': {},
+            'other': {}, # not used!
+            }
+        nc_pool = self.pool.get('quality.conformed')
 
+        nc_ids = partner_pool.search(self.cr, self.uid, [
+            ('state', 'in', ())
+            ('insert_date', '>=', index_from),
+            ('insert_date', '<', index_to),
+            ('supplier_lot', 'in', partner_ids),
+            ])
+            
+        for nc in nc_pool.browse(self.cr, self.uid, nc_ids):
+            if not nc.supplier_lot.id: # TODO send alert!!!
+                _logger.error('Not found supplier lot!')
+            if nc.supplier_lot.id not in nc_stat[nc.origin]:
+                nc_stat[nc.origin][nc.supplier_lot.id] = 1
+            else:    
+                nc_stat[nc.origin][nc.supplier_lot.id] += 1
+
+        # Load parameter dict for controls:
+        parameter_pool = self.pool.get('quality.qualification.parameter')
+        parameters = parameter_pool._load_parameters(self.cr, self.uid)
+            
+        for partner in partner_pool.browse(self.cr, self.uid, partner_ids):
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
@@ -154,7 +176,10 @@ class Parser(report_sxw.rml_parse):
 
             # TODO complete with evaluation            
             acc_esit = _('full')
-            claim_esit = _('full')
+            claim_esit = self._check_paremeters(
+                parameters, 'claim', total_acceptation_lot, 
+                nc_stat['claim'].get(partner.id, 0),
+                )
             sample_esit = _('full')
             pack_esit = _('full')            
             esit = _('full')
