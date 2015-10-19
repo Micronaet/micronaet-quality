@@ -569,7 +569,9 @@ class quality_claim_product(osv.osv):
     _description = 'Claim product'
     _rec_name = 'lot_id'
 
+    # ---------
     # On change
+    # ---------
     def onchange_lot_id(self, cr, uid, ids, lot_id, context=None):
         ''' Find the product
         '''
@@ -1828,6 +1830,26 @@ class res_partner(osv.osv):
             total_acceptation_lot = 0
         return total_acceptation_lot
             
+    def _get_index_weight(self, cr, uid, index_from, index_to, supplier_id, 
+            context=None):
+        ''' Total lot in period passed
+        '''
+        if index_to and index_from:
+            # total arrived not expected:
+            cr.execute("""
+                SELECT sum(quantity_arrived) 
+                FROM quality_acceptation_line qal JOIN quality_acceptation qa 
+                    ON (qal.acceptation_id = qa.id)
+                WHERE 
+                    qa.state not in ('cancel') AND
+                    qa.date >= %s AND
+                    qa.date <= %s AND
+                    qa.partner_id = %s;""",
+                (index_from, index_to, supplier_id))
+            total_acceptation_lot = cr.fetchone()[0]    
+        else:
+            total_acceptation_lot = 0
+        return total_acceptation_lot
     # ----------------
     # Fields function:
     # ----------------

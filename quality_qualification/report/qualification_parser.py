@@ -174,7 +174,8 @@ class Parser(report_sxw.rml_parse):
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
                 self.cr, self.uid, index_from, index_to, partner.id)
-            total_acceptation_weight = 0.0    
+            total_acceptation_weight = partner_pool._get_index_weight(
+                self.cr, self.uid, index_from, index_to, partner.id)
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
