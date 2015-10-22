@@ -74,13 +74,15 @@ class QualityQualificationParameter(orm.Model):
                 ))                
         return res
     
-    def _check_parameters(self, parameters, block, weight, lot, failed):
+    def _check_parameters(self, parameters, block, weight, lot, failed, 
+           failed_n):
         ''' Check in parameters and return qualification value
             parametes: database for all evaluation
             block: key value for parameters
             weight: weight delivered
             lot: number of lot delivered
-            failed: number of lot/weith failed
+            failed: number of lot/weigth failed (perc value)
+            failed_n: number of NC failed
         '''
         parameter = parameters.get(block, {})        
         for item in parameter: #check range in parameter for block
@@ -92,8 +94,14 @@ class QualityQualificationParameter(orm.Model):
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
                 for line in item[2]:
-                    if (failed >= line.perc_from) and (
-                            not line.perc_to or failed < line.perc_to):
+                    # Choose % value or number:
+                    if line.value == 'perc':
+                        fail = failed
+                    else: # 'number'
+                        fail = failed_n
+                        
+                    if (fail >= line.perc_from) and (
+                            not line.perc_to or fail < line.perc_to):
                         return line.qualification
         return 'error'        
 
@@ -134,8 +142,7 @@ class QualityQualificationParameterLine(orm.Model):
     _rec_name = 'qualification'
     _order = 'parameter_id,perc_from,perc_to'
     
-    _columns = {
-        
+    _columns = {        
         # Total forms:
         'perc_from': fields.float('from (>=)', digits=(16, 3)),
         'perc_to': fields.float('to (<)', digits=(16, 3)),

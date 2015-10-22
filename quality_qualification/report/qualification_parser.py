@@ -204,6 +204,7 @@ class Parser(report_sxw.rml_parse):
                 'packaging'].get(partner.id, 0)
             # % total:
             if total_acceptation_lot:
+                # Perc on total:
                 acc_failed = 100.0 * acc_total / total_acceptation_lot
                 claim_failed = 100.0 * claim_total / total_acceptation_lot
                 sample_failed = 100.0 * sample_total / total_acceptation_lot           
@@ -220,6 +221,7 @@ class Parser(report_sxw.rml_parse):
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 acc_failed,
+                acc_total, 
                 )
             acc_outcome = description.get(outcome, '# Error')
             outcome_list.append(outcome)
@@ -229,6 +231,7 @@ class Parser(report_sxw.rml_parse):
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 claim_failed,
+                claim_total, 
                 )
             claim_outcome = description.get(outcome, '# Error')
             outcome_list.append(outcome)
@@ -238,6 +241,7 @@ class Parser(report_sxw.rml_parse):
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 sample_failed,
+                sample_total, 
                 )
             sample_outcome = description.get(outcome, '# Error')
             outcome_list.append(outcome)
@@ -247,6 +251,7 @@ class Parser(report_sxw.rml_parse):
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 pack_failed,
+                pack_total, 
                 )
             pack_outcome = description.get(outcome, '# Error')
             outcome_list.append(outcome)
