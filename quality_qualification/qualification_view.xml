@@ -16,7 +16,8 @@
                             <field name='uom'/>
                             <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
                                 <tree string="Details:">
-                                    <field name="qualification" />
+                                    <field name="qualification" />                                    
+                                    <field name="value" />
                                     <field name="perc_from" />
                                     <field name="perc_to" />
                                 </tree> 
@@ -24,6 +25,7 @@
                                     <sheet>
                                         <group col='4' colspan='4' nolabel='1'>                                       
                                             <field name="qualification" />
+                                            <field name="value" />
                                             <field name="perc_from" />
                                             <field name="perc_to" />
                                         </group>    

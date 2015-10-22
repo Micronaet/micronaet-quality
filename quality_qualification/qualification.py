@@ -95,16 +95,6 @@ class QualityQualificationParameter(orm.Model):
                     if (failed >= line.perc_from) and (
                             not line.perc_to or failed < line.perc_to):
                         return line.qualification
-                        
-        #import pdb; pdb.set_trace()
-        #for item in parameter:      
-        #    #check range in parameter for block
-        #    if (total >= item[1][0]) and (
-        #            not item[1][1] or total < item[1][1]):
-        #        for line in item[2]:
-        #            if (failed >= line.perc_from) and (
-        #                    not line.perc_to or failed < line.perc_to):
-        #                return line.qualification
         return 'error'        
 
     _columns = {
@@ -147,13 +137,21 @@ class QualityQualificationParameterLine(orm.Model):
     _columns = {
         
         # Total forms:
-        'perc_from': fields.float('% from (>=)', digits=(16, 3)),
-        'perc_to': fields.float('% to (<)', digits=(16, 3)),
+        'perc_from': fields.float('from (>=)', digits=(16, 3)),
+        'perc_to': fields.float('to (<)', digits=(16, 3)),
+        'value': fields.selection([
+            ('perc', '% on total'),
+            ('number', 'Number'),
+            ], 'value', required=True),
             
         'qualification': fields.selection(qualification_list, 
             'Qualification type', select=True, required=True),        
         'parameter_id': fields.many2one('quality.qualification.parameter', 
             'Parameter'),        
+        }
+        
+    _defaults = {
+        'value': lambda *x: 'number',
         }
 
 class QualityQualificationParameter(orm.Model):
