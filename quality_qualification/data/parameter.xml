@@ -186,13 +186,13 @@
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_1">
             <field name="perc_from" eval="3.0"/> <!--perc. value-->
-            <field name="perc_to" eval="5.0"/>
+            <field name="perc_to" eval="6.0"/>
             <field name="value">number</field>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_1"/>
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_1">
-            <field name="perc_from" eval="5.0"/> <!--perc. value-->
+            <field name="perc_from" eval="6.0"/> <!--perc. value-->
             <field name="perc_to" eval="False"/>
             <field name="value">number</field>
             <field name="qualification">discarded</field>
@@ -230,13 +230,13 @@
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_reserve_3">
             <field name="perc_from" eval="10.0"/>
-            <field name="perc_to" eval="20.0"/>
+            <field name="perc_to" eval="21.0"/>
             <field name="value">number</field>
             <field name="qualification">reserve</field>
             <field name="parameter_id" ref="quality_qualification.quality_qualification_parameter_claim_3"/>            
         </record>
         <record model="quality.qualification.parameter.line" id="quality_qualification_parameter_claim_discarded_3">
-            <field name="perc_from" eval="20.0"/>
+            <field name="perc_from" eval="21.0"/>
             <field name="perc_to" eval="False"/>
             <field name="value">number</field>
             <field name="qualification">discarded</field>
