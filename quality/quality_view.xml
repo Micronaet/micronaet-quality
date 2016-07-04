@@ -1618,6 +1618,10 @@
                                       <button name="open_sampling_list" type="object" string="Sampling list" colspan="1" attrs="{'invisible':[('index_sampling_list','=','[]')]}"/>
                                       <field name="index_sampling_list" invisible="1"/>
                                   </page>
+                                  <page string="Claim">
+                                      <button name="open_acceptation_list" type="object" string="Acceptation list" colspan="1"/>
+                                  </page>
+                                  
                               </notebook>
                         </group>                        
                     </page>

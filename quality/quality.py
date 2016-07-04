@@ -717,7 +717,7 @@ class quality_acceptation(osv.osv):
             for line in acceptation.line_ids:
                 if line.sampling_id:
                     res[acceptation.id] += '%s ' % (
-                        line.sampling_id.ref)
+                        line.sampling_id.ref or '??')
         return res            
         
     _columns = {
@@ -1893,6 +1893,22 @@ class res_partner(osv.osv):
             'view_mode': 'tree,form',
             'res_model': 'quality.sampling',
             'domain': [('id', 'in', sampling_ids)],
+            'type': 'ir.actions.act_window',
+            }  
+
+    def open_acceptation_list(self, cr, uid, ids, context=None):
+        ''' Return view for see all claims:
+        '''
+        acceptation_pool = self.pool.get('quality.sampling')
+        acceptation_ids = sampling_pool.search(cr, uid, [
+            ('partner_id', '=', ids[0]),
+            ], context=context)
+        
+        return {          
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'quality.acceptation',
+            'domain': [('id', 'in', acceptation_ids)],
             'type': 'ir.actions.act_window',
             }  
 
