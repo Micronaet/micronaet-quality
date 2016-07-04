@@ -701,7 +701,7 @@ class quality_acceptation(osv.osv):
         'state':fields.selection(acceptation_state, 'State', select=True, 
             readonly=True),
         'cancel': fields.boolean('Cancel'),
-
+        
         'access_id': fields.integer('Access ID'),
     }
 
@@ -843,16 +843,6 @@ class quality_acceptation_line(osv.osv):
         'quality': False,
         'expired': False,
     }
-
-class quality_acceptation(osv.osv):
-    ''' Acceptation form
-    '''
-    _inherit = 'quality.acceptation'
-
-    _columns = {
-        'line_ids': fields.one2many('quality.acceptation.line', 
-            'acceptation_id', 'Lines'),
-        }
 
 # -----------------------------------------------------------------------------
 #                                     SAMPLING          
@@ -2410,6 +2400,17 @@ class quality_sampling(osv.osv):
         'conformed_state': fields.related('conformed_id', 'state', 
             type='selection', selection=conformed_state, 
             string='Conformed state', store=False),
+        }
+
+class quality_acceptation(osv.osv):
+    ''' Acceptation form
+    '''
+    _inherit = 'quality.acceptation'
+
+    _columns = {
+        'line_ids': fields.one2many('quality.acceptation.line', 
+            'acceptation_id', 'Lines'),
+        'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         }
 
 class quality_acceptation_line(osv.osv):

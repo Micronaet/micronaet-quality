@@ -1236,18 +1236,24 @@
                                     <field name='acceptation_id' invisible='1'/>
                                     <field name='lot_id' readonly="1"/>
                                     <field name='product_id' readonly="1"/>
-                                    <field name='qty_arrived' readonly="1"/>
-                                    <field name='qty_expected'/>
+                                    <field name='qty_arrived' readonly="1" string="Q. arr."/>
+                                    <field name='qty_expected' string="Q. prev."/>
                                     <field name='um' readonly="1"/>
-                                    <field name='qty'/>
-                                    <field name='temp'/>
-                                    <field name='label'/>
-                                    <field name='package'/>
-                                    <field name='quality'/>
-                                    <field name='expired'/>
-                                    <field name="conformed_id" />
+                                    <field name='qty' string="Q.tà" />
+                                    <field name='temp' string="Temp." />
+                                    <field name='label' string="Eti." />
+                                    <field name='package' string="Conf." />
+                                    <field name='quality' string="Qual." />
+                                    <field name='expired' string="Scad." />
+                                    
+                                    <!--NC-->
+                                    <button name="open_conformed" string="Open not conformed" icon="gtk-goto-last" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                                    <field name="conformed_id" string="NC"/>
                                     <field name="conformed_state" readonly="1" invisible='1'/>
-                                    <button name="open_conformed" string="Open not conformed" icon="STOCK_SAVE" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+
+                                    <!--Sample-->
+                                    <button name="open_sampling" string="Create or open sampling" icon="gtk-goto-last" type="object"/>
+                                    <field name="sampling_id" string="Sampling"/>
                                 </tree>
                             </field>
                             <separator string='Note' colspan='4'/>
@@ -1361,12 +1367,12 @@
                     <field name='qty_arrived'/>
                     <field name='qty_expected'/>
                     <field name='um'/>
-                    <field name='qty'/>
-                    <field name='temp'/>
-                    <field name='label'/>
-                    <field name='package'/>
-                    <field name='quality'/>
-                    <field name='expired'/>
+                    <field name='qty' string="Q.tà"/>
+                    <field name='temp' string="Temp."/>
+                    <field name='label' string="Eti."/>
+                    <field name='package' string="Imb."/>
+                    <field name='quality' string="Qual." />
+                    <field name='expired' string="Scad."/>
                 </tree>
             </field>
         </record>
