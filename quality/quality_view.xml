@@ -176,6 +176,7 @@
                 <tree string="Claims" colors="grey:state == 'draft';blue:state == 'opened';brown:state == 'nc';orange:state == 'done';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
                    <field name="ref"/>
                    <field name="name"/>
+                   <button string="Open" name="open_real_lot_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('real_lot_list','=','')]}"/>
                    <field name="real_lot_list" />
                    <field name="partner_id"/>
                    <field name="action_id" />
@@ -1609,8 +1610,12 @@
                               <field name="index_info" widget="html" nolabel="1"/>
                               <notebook colspan="4">
                                   <page string="Claim">
-                                      <field name="index_claim" nolabel="1" colspan="3" widget="html"/>
                                       <button name="open_claim_list" type="object" string="Claim list" colspan="1" attrs="{'invisible':[('index_claim_list','=','[]')]}"/>
+                                      <button name="open_claimed_line_real_lot" type="object" string="Claim line list (real)" colspan="1" />
+                                      <button name="open_claimed_real_lot_list" type="object" string="Claim lot list (real)" colspan="1" />
+                                      <newline/>
+                                      
+                                      <field name="index_claim" nolabel="1" colspan="3" widget="html"/>
                                       <field name="index_claim_list" invisible="1"/>
                                   </page>
                                   <page string="Not conformed">

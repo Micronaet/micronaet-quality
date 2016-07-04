@@ -1898,6 +1898,53 @@ class res_partner(osv.osv):
     # -------------
     # Button event:
     # -------------
+    def open_claimed_line_real_lot(self, cr, uid, ids, context=None):
+        ''' Return view for see all claims:
+        '''
+        product_pool = self.pool.get('quality.claim.product')
+        product_ids = product_pool.search(cr, uid, [
+            ('real_lot_id.default_supplier_id', '=', ids[0]),
+            ], context=context)
+        
+        return {
+            #'target': 'new',           
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'quality.claim.product',
+            'domain': [('id', 'in', product_ids)],
+            #'views': [(view_id, 'form')],
+            #'view_id': False,
+            'type': 'ir.actions.act_window',
+            #'res_id': res_id,  # IDs selected
+            }  
+
+    def open_claimed_real_lot_list(self, cr, uid, ids, context=None):
+        ''' Return view for see all claims:
+        '''
+        product_pool = self.pool.get('quality.claim.product')
+        product_ids = product_pool.search(cr, uid, [
+            ('real_lot_id.default_supplier_id', '=', ids[0]),
+            ], context=context)
+        
+        lot_ids = []
+        for product in product_pool.browse(
+                cr, uid, product_ids, context=context):
+            real_lot_id = product.real_lot_id.id
+            if real_lot_id and real_lot_id not in lot_ids:
+                lot_ids.append(real_lot_id)
+        
+        return {
+            #'target': 'new',           
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'stock.production.lot',
+            'domain': [('id', 'in', lot_ids)],
+            #'views': [(view_id, 'form')],
+            #'view_id': False,
+            'type': 'ir.actions.act_window',
+            #'res_id': res_id,  # IDs selected
+            }  
+            
     def open_claim_list(self, cr, uid, ids, context=None):
         ''' Return view for see all claims:
         '''
