@@ -176,8 +176,8 @@
                 <form string="Claims" version="7.0">
                 <sheet>
                     <group col='4'>
-                        <field name="name" />
-                        <field name="date"/>
+                        <field name="name" colspan="4"/>
+                        <field name="date" invisible="1"/>
                         
                         <field name="search_code" on_change="onchange_search_code(search_code)"/>
                         <newline/>
@@ -186,7 +186,7 @@
                         <field name="partner_address_id" domain="[('parent_id','=',partner_id),('is_address','=',True)]" context="{'default_is_address':True,'default_parent_id':partner_id,'show_naked':True}"/>
 
                         <field name="partner_ref"/>
-                        <field name="customer_ref"/>                        
+                        <field name="customer_ref" invisible="1"/>                        
 
                         <field name="receive_user_id" invisible="1"/>
                         <field name="reference_user_id" invisible="1"/>
