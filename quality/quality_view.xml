@@ -781,6 +781,7 @@
                     <field name="insert_date"/>
                     <field name="name"/>
                     <field name="lot_id"/>
+                    <field name="supplier_lot"/>
                     <field name="action_id"/>
                     <field name="sampling_id"/>
                     <button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
