@@ -646,12 +646,30 @@ class quality_acceptation(osv.osv):
     _order = 'ref desc'
     _rec_name = 'ref'
     
+    def _get_nc_from_lines(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for acceptation in self.browse(cr, uid, ids, context=context):            
+            res['nc_ids'] = []
+            for line in acceptation.line_ids:
+                if line.conformed_id:
+                    res['nc_ids'].append(line.conformed_id.id)
+        return res            
+        
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'date': fields.date('Date', required=True),
         'origin': fields.char('BF document', size=50),
         'partner_id': fields.many2one('res.partner', 'Supplier'),
         'note': fields.text('Note'),
+        
+        # Function fields:
+        'nc_ids': fields.function(
+            _get_nc_from_lines, method=True, type='one2many', 
+            relation='quality.conformed', string='NC opened', 
+            store=False),                         
+        
         'state':fields.selection(acceptation_state, 'State', select=True, 
             readonly=True),
         'cancel': fields.boolean('Cancel'),
