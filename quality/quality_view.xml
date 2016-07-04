@@ -1000,9 +1000,10 @@
                 <tree string="Sampling" colors="grey:state == 'draft';blue:state == 'opened';green:state == 'passed';brown:state == 'notpassed';red:state == 'cancel'">
                     <field name="ref"/>
                     <field name="date"/>
-                    <field name="origin"/>
                     <field name="lot_id"/>
+                    <field name="origin"/>
                     <field name="conformed_id" />
+                    <field name="acceptation_id" />
                     <button string="Opened" name="trigger_sampling_draft_opened" type="workflow" states="draft" icon="gtk-execute" class=""/>
                     <button string="Cancel" name="trigger_sampling_draft_cancel" type="workflow" states="draft" icon="gtk-cancel" class=""/>
                     
