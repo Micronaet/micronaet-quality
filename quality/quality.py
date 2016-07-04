@@ -365,6 +365,18 @@ class quality_claim(osv.osv):
             res['value']['partner_id'] = partner_proxy.id
         return res
 
+    def _get_lot_from_claim(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for claim in self.browse(cr, uid, ids, context=context):            
+            res[claim.id] = ''
+            for line in claim.product_ids:
+                if line.real_lot_id:
+                    res[claim.id] += '%s ' % (
+                        line.real_lot_id.name or '??')
+        return res            
+        
     _columns = {
         'name':fields.char('Description', size=80, required=True),
         'ref': fields.char('Ref', size=12, readonly=True),
@@ -375,7 +387,7 @@ class quality_claim(osv.osv):
 
         'subject': fields.text('Description of not conformed'),
         'comunication': fields.text('Comunication message', 
-            help="Comunication message, if sent by mail could be the body text, instead could be phone contact dialog"),
+            help='Comunication message, if sent by mail could be the body text, instead could be phone contact dialog'),
         'analysis': fields.text('Cause analysis'),
         'responsability': fields.text('Responsability'),
         'solution': fields.text('Action correptive / preventive'),
@@ -433,6 +445,10 @@ class quality_claim(osv.osv):
         'search_code': fields.char('Search code', size=8),
 
         #'one': fields.integer('Total'),
+
+        'real_lot_list': fields.function(
+            _get_lot_from_claim, method=True, type='char', size=50,
+            string='Real lot', store=False),
         
         'state': fields.selection([
             ('draft', 'Draft'),
@@ -728,14 +744,12 @@ class quality_acceptation(osv.osv):
         'note': fields.text('Note'),
         
         # Function fields:
-        'nc_ids': fields.function(
-            _get_nc_from_lines, method=True, type='one2many', 
-            relation='quality.conformed', string='NC opened', 
-            store=False),
-        'sampling_ids': fields.function(
-            _get_sampling_from_lines, method=True, type='one2many', 
-            relation='quality.sampling', string='Sampling opened', 
-            store=False),
+        'nc_list': fields.function(
+            _get_nc_from_lines, method=True, type='char', size=100,
+            string='NC opened', store=False),
+        'sampling_list': fields.function(
+            _get_sampling_from_lines, method=True, type='char', size=100,
+            string='Sampling opened', store=False),
         
         'state':fields.selection(acceptation_state, 'State', select=True, 
             readonly=True),
@@ -803,18 +817,22 @@ class quality_acceptation_line(osv.osv):
     def open_sampling(self, cr, uid, ids, context=None):
         ''' Return view for see all claims:
         '''
+        sampling_pool = self.pool.get('quality.sampling')
+        
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
         if line_proxy.sampling_id:
             sampling_id = line_proxy.sampling_id.id
-        else: # create
-            sampling_pool = self.pool.get('quality.sampling')
+        else: 
+            # create sampling
             sampling_id = sampling_pool.create(cr, uid, {
                 'lot_id': line_proxy.lot_id.id,
                 'date': datetime.now().strftime(
                     DEFAULT_SERVER_DATE_FORMAT),
                 'origin': 'acceptation',
-                'acceptation_id': ids[0],
+                'acceptation_id': line_proxy.acceptation_id.id,
                 }, context=context)
+            
+            # Save reference:    
             self.write(cr, uid, ids, {
                 'sampling_id': sampling_id,
                 }, context=context)    

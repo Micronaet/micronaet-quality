@@ -176,6 +176,7 @@
                 <tree string="Claims" colors="grey:state == 'draft';blue:state == 'opened';brown:state == 'nc';orange:state == 'done';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
                    <field name="ref"/>
                    <field name="name"/>
+                   <field name="real_lot_list" />
                    <field name="partner_id"/>
                    <field name="action_id" />
                    <field name="sampling_id" />
@@ -1280,10 +1281,10 @@
                     <field name='date'/>
                     <field name='origin'/>
                     <field name='partner_id'/>
-                    <button string="Open" name="open_nc_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('nc_ids','=','')]}"/>
-                    <field name='nc_ids' />
-                    <button string="Open" name="open_sampling_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('sampling_ids','=','')]}"/>
-                    <field name='sampling_ids' />
+                    <button string="Open" name="open_nc_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('nc_list','=','')]}"/>
+                    <field name='nc_list' />
+                    <button string="Open" name="open_sampling_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('sampling_list','=','')]}"/>
+                    <field name='sampling_list' />
                     <field name='note'/>
                     <button string="Closed" name="trigger_acceptation_opened_closed" type="workflow" states="opened" icon="gtk-ok" />
                     <button string="Cancel" name="trigger_acceptation_closed_cancel" type="workflow" states="closed" icon="gtk-cancel" />
