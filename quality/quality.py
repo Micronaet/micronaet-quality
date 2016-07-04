@@ -670,8 +670,31 @@ class quality_acceptation(osv.osv):
             'target': 'current', # 'new'
             'nodestroy': False,
             }
+
+    def open_sampling_elements(self, cr, uid, ids, context=None):
+        ''' Open sampling present
+        '''
+        assert len(ids), 'Works only for one accepation a time!'
+        
+        res = []
+        for line in self.browse(cr, uid, ids, context=context)[0].line_ids:
+            if line.sampling_id:
+                res.append(line.sampling_id.id)
+                
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Sampling from acceptation'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'quality.sampling',
+            #'view_id': view_id, # False
+            'views': [(False, 'tree'), (False, 'form')],
+            'domain': [('id', 'in', res)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
             
-    
     # Fields function:
     def _get_nc_from_lines(self, cr, uid, ids, fields, args, context=None):
         ''' Fields function for calculate 
@@ -683,6 +706,18 @@ class quality_acceptation(osv.osv):
                 if line.conformed_id:
                     res[acceptation.id] += '%s ' % (
                         line.conformed_id.ref)
+        return res            
+
+    def _get_sampling_from_lines(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for acceptation in self.browse(cr, uid, ids, context=context):            
+            res[acceptation.id] = ''
+            for line in acceptation.line_ids:
+                if line.sampling_id:
+                    res[acceptation.id] += '%s ' % (
+                        line.sampling_id.ref)
         return res            
         
     _columns = {
@@ -696,6 +731,10 @@ class quality_acceptation(osv.osv):
         'nc_ids': fields.function(
             _get_nc_from_lines, method=True, type='one2many', 
             relation='quality.conformed', string='NC opened', 
+            store=False),
+        'sampling_ids': fields.function(
+            _get_sampling_from_lines, method=True, type='one2many', 
+            relation='quality.sampling', string='Sampling opened', 
             store=False),
         
         'state':fields.selection(acceptation_state, 'State', select=True, 
@@ -750,7 +789,7 @@ class quality_acceptation_line(osv.osv):
     
     # --------------
     # Button action:
-    # --------------    
+    # --------------
     def open_conformed(self, cr, uid, ids, context=None):
         ''' Open NC element
         '''
@@ -760,6 +799,39 @@ class quality_acceptation_line(osv.osv):
             'module': 'quality',
             'record': line_proxy.conformed_id.id or False,
             })
+
+    def open_sampling(self, cr, uid, ids, context=None):
+        ''' Return view for see all claims:
+        '''
+        line_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if line_proxy.sampling_id:
+            sampling_id = line_proxy.sampling_id.id
+        else: # create
+            sampling_pool = self.pool.get('quality.sampling')
+            sampling_id = sampling_pool.create(cr, uid, {
+                'lot_id': line_proxy.lot_id.id,
+                'date': datetime.now().strftime(
+                    DEFAULT_SERVER_DATE_FORMAT),
+                'origin': 'acceptation',
+                }, context=context)
+            self.write(cr, uid, ids, {
+                'sampling_id': sampling_id,
+                }, context=context)    
+            
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Acceptation sampling'),
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_id': sampling_id,
+            'res_model': 'quality.sampling',
+            #'view_id': view_id, # False
+            'views': [(False, 'form'),(False, 'tree')],
+            'domain': [('id', '=', sampling_id)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+        }
     
     # --------
     # Utility:

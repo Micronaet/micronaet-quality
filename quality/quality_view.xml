@@ -1253,7 +1253,7 @@
 
                                     <!--Sample-->
                                     <button name="open_sampling" string="Create or open sampling" icon="gtk-goto-last" type="object"/>
-                                    <field name="sampling_id" string="Sampling"/>
+                                    <field name="sampling_id" string="Sampling" readonly="1"/>
                                 </tree>
                             </field>
                             <separator string='Note' colspan='4'/>
