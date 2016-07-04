@@ -687,7 +687,7 @@ msgstr "Prodotti reclamo"
 #. module: quality
 #: view:quality.action:0
 msgid "Subject proposed"
-msgstr "Oggetto / Causa evidenziante"
+msgstr "Oggetto"
 
 #. module: quality
 #: model:ir.module.category,description:quality.module_quality

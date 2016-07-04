@@ -1625,7 +1625,7 @@ class quality_action(osv.osv):
             ('audit', 'Audit'), # TODO coretta? c'è nella impostazione
         ], 'Origin', select=True),
         'origin_other': fields.char('Other', size=60),
-        'note': fields.text('Note'),
+        'note': fields.text('Cause analysis'),
         'proposed_subject': fields.text('Subject proposing'),
         'proposing_entity': fields.char('Proposing entity', size=100),
         'esit_date': fields.date('Esit date'),
