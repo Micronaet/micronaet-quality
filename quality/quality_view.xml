@@ -885,14 +885,22 @@
                                 <field name="ref" colspan='8'/>
                             </h1>
                             <newline/>
-                            <field name="date"/>
-                            <field name="lot_id"/>
-                            <field name="sampling_plan_id" attrs="{'invisible':[('origin','in',['claim','nc'])]}"/>
-                            <field name="lot_deadline"/>
-                            <field name="origin"/>
-                            <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
-                            <field name="parent_conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
-                            <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                            <group colspan="2" col="2">
+                                <field name="date"/>
+                                <field name="sampling_plan_id" attrs="{'invisible':[('origin','in',['claim','nc'])]}"/>
+                                <field name="parent_conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
+                                <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                                <field name="origin"/>
+                                <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>        
+                            </group>
+
+                            <group colspan="2" col="2">
+                                <field name="lot_id"/>
+                                <field name="lot_deadline"/>
+                                <field name="lot_supplier_id"/>
+                                <field name="lot_product_id"/>
+                            </group>
+        
                             <notebook colspan='4'>
                                 <page string='Tests to be performed'>
                                     <group colspan='6' col='8'>
@@ -1001,6 +1009,8 @@
                     <field name="ref"/>
                     <field name="date"/>
                     <field name="lot_id"/>
+                    <field name="lot_supplier_id"/>
+                    <field name="lot_product_id"/>
                     <field name="origin"/>
                     <field name="conformed_id" />
                     <field name="acceptation_id" />
