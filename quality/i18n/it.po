@@ -638,7 +638,7 @@ msgstr "Responsabile delle vendite"
 #. module: quality
 #: field:quality.sampling,do_visual:0
 msgid "Request visual analysis"
-msgstr "Richiesta visualizzazione"
+msgstr "Esame visivo"
 
 #. module: quality
 #: field:quality.claim,RAQ_id:0
@@ -855,7 +855,7 @@ msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice co
 #. module: quality
 #: field:quality.sampling,do_glazing:0
 msgid "Request glazing analysis"
-msgstr "Richiesta analisi congelamento"
+msgstr "Prova di glassatura"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1102,7 +1102,7 @@ msgstr "Indica che il lotto è vecchio"
 #. module: quality
 #: field:quality.sampling,do_taste:0
 msgid "Request taste analysis"
-msgstr "Richiesto analisi assaggio"
+msgstr "Assaggio"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1304,7 +1304,7 @@ msgstr "Campione"
 #. module: quality
 #: field:quality.sampling,do_analysis:0
 msgid "Request analysis"
-msgstr "Richiesta analisi"
+msgstr "Analisi"
 
 #. module: quality
 #: view:stock.production.lot:0
