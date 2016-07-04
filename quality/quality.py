@@ -813,6 +813,7 @@ class quality_acceptation_line(osv.osv):
                 'date': datetime.now().strftime(
                     DEFAULT_SERVER_DATE_FORMAT),
                 'origin': 'acceptation',
+                'acceptation_id': ids[0],
                 }, context=context)
             self.write(cr, uid, ids, {
                 'sampling_id': sampling_id,
@@ -1001,6 +1002,8 @@ class quality_sampling(osv.osv):
         'claim_id': fields.many2one('quality.claim', 'Claim'),
         'conformed_id': fields.many2one('quality.conformed', 'Not conformed', 
             required=False),
+        'acceptation_id': fields.many2one('quality.acceptation', 
+            'Acceptation'),
         'lot_deadline': fields.related('lot_id','deadline', type='date', 
             string='Lot deadline'),
 

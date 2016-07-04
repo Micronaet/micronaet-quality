@@ -972,9 +972,13 @@
                             <group colspan="4" col="6" attrs="{'invisible':[('state','=','draft')]}">
                                 <separator string="Linked forms:" colspan="6" />
                                 <group colspan="2" col="2">
+                                    <field name="acceptation_id" readonly="1" attrs="{'invisible':[('acceptation_id','=',False)]}"/>
+                                    <newline/>
+
                                     <field name="conformed_id" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
                                     <field name="conformed_state" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
-                                    <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />
+                                    <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />                                    
+                                    
                                 </group>
                             </group>
                         </group>
