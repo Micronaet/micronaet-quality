@@ -188,23 +188,19 @@
                         <field name="partner_ref"/>
                         <field name="customer_ref"/>                        
 
-                        <field name="receive_user_id"/>
-                        <field name="reference_user_id"/>
+                        <field name="receive_user_id" invisible="1"/>
+                        <field name="reference_user_id" invisible="1"/>
 
-                        <field name="request_return"/>
-                        <field name="RTR_request"/>
+                        <field name="request_return" invisible="1"/>
+                        <field name="RTR_request" invisible="1"/>
 
                         <field name="fast_insert" invisible="1" />
                     </group>
                     <newline/>
                     <group colspan="4" col='4'>
-                        <group colspan="2">
+                        <group colspan="4" col="2">
                            <separator string='Subject' colspan='2'/>
                            <field name="subject" nolabel='1' colspan='2'/>
-                        </group>
-                        <group colspan="2">
-                           <separator string='Analysis of the cause' colspan='2'/>
-                           <field name="analysis" nolabel='1' colspan='2'/>
                         </group>
                     </group>
                     <notebook colspan='4'>
@@ -343,6 +339,16 @@
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_quality_claim_fast_insert_form"/>
             <field name="domain">[]</field>
+            <field name="context">{'default_fast_insert':True}</field>
+        </record>
+        <record id="action_quality_claim_fast_insert_tree" model="ir.actions.act_window" >
+            <field name="name">Claim to complete</field>
+            <field name="res_model">quality.claim</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_claim_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[('fast_insert', '=', True)]</field>
         </record>
         
         <!--quality.claim.product-->
@@ -1758,6 +1764,8 @@
             <menuitem parent="menu_quality_root" id="menu_quality_form" name="Form" sequence="10"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_product" name="Product Claim" action="action_quality_claim_product_form" sequence="10"/>
+                    <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_to_complete" name="Claim to complete" action="action_quality_claim_fast_insert_tree" sequence="20"/>
+                    
                 <menuitem parent="menu_quality_form" id="menu_quality_form_fast_insert_claim" name="Fast claim" action="action_quality_claim_fast_insert_form" sequence="11"/>
                     
                 <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"/>
