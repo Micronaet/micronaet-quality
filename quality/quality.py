@@ -1899,18 +1899,19 @@ class res_partner(osv.osv):
     def open_acceptation_list(self, cr, uid, ids, context=None):
         ''' Return view for see all claims:
         '''
-        acceptation_pool = self.pool.get('quality.sampling')
-        acceptation_ids = sampling_pool.search(cr, uid, [
+        acceptation_pool = self.pool.get('quality.acceptation')
+        acceptation_ids = acceptation_pool.search(cr, uid, [
             ('partner_id', '=', ids[0]),
             ], context=context)
-        
-        return {          
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'quality.acceptation',
-            'domain': [('id', 'in', acceptation_ids)],
-            'type': 'ir.actions.act_window',
-            }  
+        if acceptation_ids:
+            return {          
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'quality.acceptation',
+                'domain': [('id', 'in', acceptation_ids)],
+                'type': 'ir.actions.act_window',
+                }  
+        return True # nothing        
 
     # ----------------
     # Utility function
