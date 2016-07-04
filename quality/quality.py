@@ -1057,9 +1057,9 @@ class quality_sampling(osv.osv):
             store=False,
             ),
 
-        'visual':fields.text('Visual examination'),
+        'visual': fields.text('Visual examination'),
         'do_visual': fields.boolean('Request visual analysis'),
-        'visual_state':fields.selection([
+        'visual_state': fields.selection([
             ('to_examined', 'To be examined'),
             ('passed', 'Passed'),
             ('not_passed', 'Not passed'),
@@ -1068,7 +1068,7 @@ class quality_sampling(osv.osv):
 
         'analysis': fields.text('Analysis'),
         'do_analysis': fields.boolean('Request analysis'),
-        'analysis_state':fields.selection([
+        'analysis_state': fields.selection([
             ('to_examined', 'To be examined'),
             ('passed', 'Passed'),
             ('not_passed', 'Not passed'),
@@ -1078,7 +1078,7 @@ class quality_sampling(osv.osv):
         'taste': fields.text(
             'Taste(After cooking the product in elemental form - simple cooking in salted water)'),
         'do_taste': fields.boolean('Request taste analysis'),
-        'taste_state':fields.selection([
+        'taste_state': fields.selection([
             ('to_examined', 'To be examined'),
             ('passed', 'Passed'),
             ('not_passed', 'Not passed'),
@@ -1103,11 +1103,11 @@ class quality_sampling(osv.osv):
         'taster_ids': fields.one2many('quality.sampling.taster', 'sample_id'),
         'note': fields.text('Note'),
 
-        'state':fields.selection(sampling_state, 'State', select=True, 
+        'state': fields.selection(sampling_state, 'State', select=True, 
             readonly=True),
 
         'access_id': fields.integer('Access ID'),
-    }
+        }
 
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
