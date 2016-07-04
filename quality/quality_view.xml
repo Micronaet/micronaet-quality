@@ -169,6 +169,75 @@
                 </form>
             </field>
         </record>
+        <record id="view_quality_claim_fast_insert_form" model="ir.ui.view">
+            <field name="name">quality.claim.fast.form</field>
+            <field name="model">quality.claim</field>
+            <field name="arch" type="xml">
+                <form string="Claims" version="7.0">
+                <sheet>
+                    <group col='4'>
+                        <field name="name" />
+                        <field name="date"/>
+                        
+                        <field name="search_code" on_change="onchange_search_code(search_code)"/>
+                        <newline/>
+
+                        <field name="partner_id" domain="[('customer','=',True),('is_address','=',False)]" context="{'default_is_company':True}"/>
+                        <field name="partner_address_id" domain="[('parent_id','=',partner_id),('is_address','=',True)]" context="{'default_is_address':True,'default_parent_id':partner_id,'show_naked':True}"/>
+
+                        <field name="partner_ref"/>
+                        <field name="customer_ref"/>                        
+
+                        <field name="receive_user_id"/>
+                        <field name="reference_user_id"/>
+
+                        <field name="request_return"/>
+                        <field name="RTR_request"/>
+
+                        <field name="fast_insert" invisible="1" />
+                    </group>
+                    <newline/>
+                    <group colspan="4" col='4'>
+                        <group colspan="2">
+                           <separator string='Subject' colspan='2'/>
+                           <field name="subject" nolabel='1' colspan='2'/>
+                        </group>
+                        <group colspan="2">
+                           <separator string='Analysis of the cause' colspan='2'/>
+                           <field name="analysis" nolabel='1' colspan='2'/>
+                        </group>
+                    </group>
+                    <notebook colspan='4'>
+                        <page string='Product'>
+                            <group colspan="4" col="4">
+                            <field name="ddt_ref" />
+                            <field name="ddt_date" />
+                            <field name="product_ids" editable="bottom" colspan='4' nolabel='1'>
+                                <tree string="Products" editable="bottom">
+                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)"/>
+                                    <field name="real_product_id"  readonly="1"/>
+                                    <field name="real_supplier_id" readonly="1"/>
+                                    <field name="label_lot" />
+                                    <field name="label_supplier" />
+                                    <field name="lot_deadline" readonly='1'/>
+                                    <field name="return_date"/>
+                                    <field name="return_qty"/>
+                                </tree>
+                            </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+               		<field name="message_follower_ids" widget="mail_followers" />
+            		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
+            	</div>
+                </form>
+            </field>
+        </record>
+
         <record id="view_quality_claim_tree" model="ir.ui.view" >
             <field name="name">quality.claim.tree</field>
             <field name="model">quality.claim</field>
@@ -265,6 +334,14 @@
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_quality_claim_tree"/>
             <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        <record id="action_quality_claim_fast_insert_form" model="ir.actions.act_window" >
+            <field name="name">Fast Claim</field>
+            <field name="res_model">quality.claim</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_claim_fast_insert_form"/>
             <field name="domain">[]</field>
         </record>
         
@@ -1681,6 +1758,8 @@
             <menuitem parent="menu_quality_root" id="menu_quality_form" name="Form" sequence="10"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_product" name="Product Claim" action="action_quality_claim_product_form" sequence="10"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_fast_insert_claim" name="Fast claim" action="action_quality_claim_fast_insert_form" sequence="11"/>
+                    
                 <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40"/>

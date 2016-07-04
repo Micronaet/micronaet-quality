@@ -401,13 +401,14 @@ class quality_claim(osv.osv):
                         line.real_lot_id.name or '??')
         return res            
         
-    _columns = {
-        'name':fields.char('Description', size=80, required=True),
+    _columns = {    
+        'name': fields.char('Description', size=80, required=True),
         'ref': fields.char('Ref', size=12, readonly=True),
         'customer_ref': fields.char('Customer ref', size=30),
         'date': fields.datetime('Date'),
         'receive_user_id':fields.many2one('res.users', 'Receive user', 
             required=True), 
+        'fast_insert': fields.boolean('Fast insert'),    
 
         'subject': fields.text('Description of not conformed'),
         'comunication': fields.text('Comunication message', 
@@ -493,7 +494,7 @@ class quality_claim(osv.osv):
     _defaults = {
         'gravity_id': lambda s, cr, uid, ctx: s.pool.get(
             'ir.model.data').get_object_reference(
-                cr,  uid,  'quality',  'quality_gravity_serious')[1],
+                cr, uid, 'quality', 'quality_gravity_serious')[1],
         'date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATETIME_FORMAT),
         'date_insert_user': lambda *x: datetime.now().strftime(
@@ -546,6 +547,7 @@ class quality_claim(osv.osv):
         else:
             ref = self.pool.get('ir.sequence').get(cr, uid, 'quality.claim')
         self.write(cr, uid, ids, {
+            'fast_insert': False, # reset
             'state': 'opened',
             'ref': ref,
             'open_user_id':uid,
