@@ -646,15 +646,43 @@ class quality_acceptation(osv.osv):
     _order = 'ref desc'
     _rec_name = 'ref'
     
+    # Button event:
+    def open_nc_elements(self, cr, uid, ids, context=None):
+        ''' Open NC present
+        '''
+        assert len(ids), 'Works only for one accepation a time!'
+        
+        res = []
+        for line in self.browse(cr, uid, ids, context=context)[0].line_ids:
+            if line.conformed_id:
+                res.append(line.conformed_id.id)
+                
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('NC from acceptation'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'quality.conformed',
+            #'view_id': view_id, # False
+            'views': [(False, 'tree'), (False, 'form')],
+            'domain': [('id', 'in', res)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+            
+    
+    # Fields function:
     def _get_nc_from_lines(self, cr, uid, ids, fields, args, context=None):
         ''' Fields function for calculate 
         '''
         res = {}
         for acceptation in self.browse(cr, uid, ids, context=context):            
-            res['nc_ids'] = []
+            res[acceptation.id] = ''
             for line in acceptation.line_ids:
                 if line.conformed_id:
-                    res['nc_ids'].append(line.conformed_id.id)
+                    res[acceptation.id] += '%s ' % (
+                        line.conformed_id.ref)
         return res            
         
     _columns = {
@@ -668,7 +696,7 @@ class quality_acceptation(osv.osv):
         'nc_ids': fields.function(
             _get_nc_from_lines, method=True, type='one2many', 
             relation='quality.conformed', string='NC opened', 
-            store=False),                         
+            store=False),
         
         'state':fields.selection(acceptation_state, 'State', select=True, 
             readonly=True),

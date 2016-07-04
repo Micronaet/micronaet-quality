@@ -1270,7 +1270,8 @@
                     <field name='date'/>
                     <field name='origin'/>
                     <field name='partner_id'/>
-                    <field name='nc_ids' tags="many2many_tags"/>
+                    <button string="Open" name="open_nc_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('nc_ids','=','')]}"/>
+                    <field name='nc_ids' />
                     <field name='note'/>
                     <button string="Closed" name="trigger_acceptation_opened_closed" type="workflow" states="opened" icon="gtk-ok" />
                     <button string="Cancel" name="trigger_acceptation_closed_cancel" type="workflow" states="closed" icon="gtk-cancel" />
