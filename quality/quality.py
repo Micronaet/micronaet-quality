@@ -218,6 +218,30 @@ class quality_claim(osv.osv):
     # -------------
     # Button event:
     # -------------
+    def open_real_lot_elements(self, cr, uid, ids, context=None):
+        ''' Open sampling present
+        '''
+        assert len(ids), 'Works only for one claim a time!'
+        
+        res = []
+        for line in self.browse(cr, uid, ids, context=context)[0].product_ids:
+            if line.real_lot_id:
+                res.append(line.real_lot_id.id)
+                
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Real lot claimed'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'stock.production.lot',
+            #'view_id': view_id, # False
+            'views': [(False, 'tree'), (False, 'form')],
+            'domain': [('id', 'in', res)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+
     def print_form(self, cr, uid, ids, context=None):
         ''' Print report directly in form (for calendar form)
         '''
