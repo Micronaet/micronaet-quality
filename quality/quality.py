@@ -2410,7 +2410,6 @@ class quality_acceptation(osv.osv):
     _columns = {
         'line_ids': fields.one2many('quality.acceptation.line', 
             'acceptation_id', 'Lines'),
-        'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         }
 
 class quality_acceptation_line(osv.osv):
@@ -2424,5 +2423,6 @@ class quality_acceptation_line(osv.osv):
         'conformed_state': fields.related('conformed_id', 'state', 
             type='selection', selection=conformed_state, 
             string='Conformed state', store=False),
+        'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
