@@ -174,6 +174,9 @@
             <field name="model">quality.claim</field>
             <field name="arch" type="xml">
                 <form string="Claims" version="7.0">
+                <header>
+                    <button name="open_fast_report" string="Claim report" type="object" class="oe_highlight"/>
+                </header>
                 <sheet>
                     <group col='4'>
                         <field name="name" colspan="4"/>
@@ -186,22 +189,21 @@
                         <field name="partner_address_id" domain="[('parent_id','=',partner_id),('is_address','=',True)]" context="{'default_is_address':True,'default_parent_id':partner_id,'show_naked':True}"/>
 
                         <field name="partner_ref"/>
+                        <field name="request_quantity" />
+                        
                         <field name="customer_ref" invisible="1"/>                        
-
                         <field name="receive_user_id" invisible="1"/>
                         <field name="reference_user_id" invisible="1"/>
-
                         <field name="request_return" invisible="1"/>
                         <field name="RTR_request" invisible="1"/>
-
                         <field name="fast_insert" invisible="1" />
                     </group>
                     <newline/>
                     <group colspan="4" col='4'>
-                        <group colspan="4" col="2">
-                           <separator string='Subject' colspan='2'/>
-                           <field name="subject" nolabel='1' colspan='2'/>
-                        </group>
+                        <separator string='Subject' colspan='2'/>
+                        <separator string='Fast note' colspan='2'/>
+                        <field name="fast_note" nolabel='1' colspan='2'/>
+                        <field name="subject" nolabel='1' colspan='2'/>
                     </group>
                     <notebook colspan='4'>
                         <page string='Product'>

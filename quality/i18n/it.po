@@ -1637,7 +1637,7 @@ msgstr "Attività Proposta"
 #. module: quality
 #: field:res.company,index_to:0 field:res.partner,index_to:0
 msgid "To date"
-msgstr "To date"
+msgstr "Alla data"
 
 #. module: quality
 #: field:quality.claim,subject:0
@@ -1658,7 +1658,7 @@ msgstr "Richiesto Assaggio"
 #: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_tree
 #: model:ir.ui.menu,name:quality.menu_quality_form_claim_to_complete
 msgid "Claim to complete"
-msgstr "Claim to complete"
+msgstr "Reclami da completare"
 
 #. module: quality
 #: view:quality.sampling:0

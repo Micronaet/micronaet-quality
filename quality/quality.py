@@ -218,6 +218,16 @@ class quality_claim(osv.osv):
     # -------------
     # Button event:
     # -------------
+    def open_fast_report(self, cr, uid, ids, context=None):
+        ''' Open fast report
+        '''        
+        return {
+           'type': 'ir.actions.report.xml',
+           'report_name': 'quality_fast_claim_report',
+           'model': 'quality.claim',
+           }
+        
+        
     def open_real_lot_elements(self, cr, uid, ids, context=None):
         ''' Open sampling present
         '''
@@ -408,7 +418,12 @@ class quality_claim(osv.osv):
         'date': fields.datetime('Date'),
         'receive_user_id':fields.many2one('res.users', 'Receive user', 
             required=True), 
+            
+        # Fast insert:
         'fast_insert': fields.boolean('Fast insert'),    
+        'request_quantity': fields.char('Request quantity', size=40),
+        'fast_note': fields.text('Fast note',
+            help='Note from fast insert user (not write in reports)'),            
 
         'subject': fields.text('Description of not conformed'),
         'comunication': fields.text('Comunication message', 
