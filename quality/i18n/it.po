@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-06 06:02+0000\n"
-"PO-Revision-Date: 2016-07-06 08:08+0100\n"
+"POT-Creation-Date: 2016-07-06 12:27+0000\n"
+"PO-Revision-Date: 2016-07-06 14:31+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -276,7 +276,7 @@ msgstr "Responsabile qualità"
 #. module: quality
 #: field:quality.claim,search_code:0
 msgid "Search code"
-msgstr "Codice di ricerca"
+msgstr "Search code"
 
 #. module: quality
 #: field:quality.claim,partner_ref:0
@@ -385,6 +385,11 @@ msgstr "Stato analisi"
 #: view:quality.acceptation.line:0
 msgid "Imb."
 msgstr "Imb."
+
+#. module: quality
+#: field:quality.claim,request_quantity:0
+msgid "Request quantity"
+msgstr "Quantità richiesta"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -535,6 +540,15 @@ msgid "To date (used in index valorization"
 msgstr "Alla data (utilizzato nella valorizzazione degli indici)"
 
 #. module: quality
+#: field:quality.sampling,taste:0
+msgid ""
+"Taste(After cooking the product in elemental form - simple cooking in salted "
+"water)"
+msgstr ""
+"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
+"cottura in acqua salata)"
+
+#. module: quality
 #: model:quality.claim.cause,name:quality.quality_cause_product
 msgid "Wrong product"
 msgstr "Prodotto errato"
@@ -565,6 +579,11 @@ msgstr "Messaggio comunicazione"
 #: field:quality.claim,NC_comment:0
 msgid "NC comment"
 msgstr "Info Accredito"
+
+#. module: quality
+#: view:quality.claim:0
+msgid "Claim report"
+msgstr "Report reclamo"
 
 #. module: quality
 #: model:res.groups,comment:quality.group_quality_SAQ
@@ -615,6 +634,11 @@ msgstr "Utente compilatore"
 #: view:quality.supplier.check:0
 msgid "Supplier check"
 msgstr "Verifica fornitore"
+
+#. module: quality
+#: view:quality.claim:0 field:quality.claim,fast_note:0
+msgid "Fast note"
+msgstr "Fast note"
 
 #. module: quality
 #: field:quality.claim,nc_user_id:0
@@ -714,7 +738,7 @@ msgstr "Prodotti reclamo"
 #. module: quality
 #: view:quality.action:0
 msgid "Subject proposed"
-msgstr "Oggetto"
+msgstr "Oggetto / Causa evidenziante"
 
 #. module: quality
 #: model:ir.module.category,description:quality.module_quality
@@ -1115,6 +1139,11 @@ msgid "With reserve"
 msgstr "Con riserva"
 
 #. module: quality
+#: model:ir.actions.report.xml,name:quality.aeroo_quality_fast_claim
+msgid "Quality fast claim"
+msgstr "Reclamo veloce"
+
+#. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_sampling_plan_form
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_plan
 #: view:quality.sampling.plan:0
@@ -1329,11 +1358,6 @@ msgid "Quality Manager"
 msgstr "Manager qualità"
 
 #. module: quality
-#: field:quality.sampling.taster,sample_id:0
-msgid "Sample"
-msgstr "Campione"
-
-#. module: quality
 #: field:quality.sampling,do_analysis:0
 msgid "Request analysis"
 msgstr "Richiesta analisi"
@@ -1372,11 +1396,6 @@ msgstr "Calcolo Glassatura (%)"
 #: selection:quality.action,type:0
 msgid "Corrective"
 msgstr "Correttiva"
-
-#. module: quality
-#: view:quality.claim:0 field:quality.claim,consideration:0
-msgid "Consideration"
-msgstr "Considerazioni"
 
 #. module: quality
 #: help:res.partner,index_claim_list:0
@@ -1443,6 +1462,11 @@ msgstr "Lotto interno"
 #: view:res.partner:0 field:res.partner,index_sampling_list:0
 msgid "Sampling list"
 msgstr "Lista campionamenti"
+
+#. module: quality
+#: help:quality.claim,fast_note:0
+msgid "Note from fast insert user (not write in reports)"
+msgstr "Note inserimento rapido (non scritte sui report)"
 
 #. module: quality
 #: field:quality.conformed,parent_sampling_id:0
@@ -1666,6 +1690,11 @@ msgid "Tests to be performed"
 msgstr "Test da effettuare"
 
 #. module: quality
+#: view:quality.claim:0 view:quality.conformed:0 view:quality.sampling:0
+msgid "Linked forms:"
+msgstr "Link delle schede:"
+
+#. module: quality
 #: view:quality.acceptation:0 field:quality.acceptation,line_ids:0
 msgid "Lines"
 msgstr "Linee"
@@ -1689,8 +1718,8 @@ msgstr "Ordini"
 #: help:res.partner,quality_start_supplier:0
 msgid "Extra information about start supplier service, used in quality manage"
 msgstr ""
-"Informazioni exra circa la data inizio del servizio di fornitura, utilizzato "
-"nella gestione della qualità"
+"Informazioni extra circa la data inizio del servizio di fornitura, "
+"utilizzato nella gestione della qualità"
 
 #. module: quality
 #: field:quality.sampling.plan,glazing:0
@@ -2126,9 +2155,9 @@ msgid "Enhance intervent"
 msgstr "Intervento di miglioramento"
 
 #. module: quality
-#: view:quality.claim:0 view:quality.conformed:0 view:quality.sampling:0
-msgid "Linked forms:"
-msgstr "Link delle schede:"
+#: field:quality.sampling.taster,sample_id:0
+msgid "Sample"
+msgstr "Campione"
 
 #. module: quality
 #: view:quality.acceptation:0 view:quality.acceptation.line:0
@@ -2154,13 +2183,9 @@ msgid "Purpose"
 msgstr "Scopo"
 
 #. module: quality
-#: field:quality.sampling,taste:0
-msgid ""
-"Taste(After cooking the product in elemental form - simple cooking in salted "
-"water)"
-msgstr ""
-"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
-"cottura in acqua salata)"
+#: view:quality.claim:0 field:quality.claim,consideration:0
+msgid "Consideration"
+msgstr "Considerazioni"
 
 #. module: quality
 #: selection:quality.treatment,type:0
