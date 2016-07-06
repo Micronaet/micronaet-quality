@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-26 14:52+0000\n"
-"PO-Revision-Date: 2015-10-05 23:39+0100\n"
+"POT-Creation-Date: 2016-07-06 06:02+0000\n"
+"PO-Revision-Date: 2016-07-06 08:08+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.6.10\n"
 "Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_claim_product
@@ -23,7 +23,13 @@ msgid "Claim product"
 msgstr "Prodotto reclamo"
 
 #. module: quality
-#: view:quality.claim.product:0 field:quality.claim.product,real_lot_id:0
+#: field:quality.sampling,lot_supplier_id:0
+msgid "Lot supplier"
+msgstr "Lotto fornitore"
+
+#. module: quality
+#: field:quality.claim,real_lot_list:0 view:quality.claim.product:0
+#: field:quality.claim.product,real_lot_id:0
 msgid "Real lot"
 msgstr "Lotto reale"
 
@@ -60,7 +66,9 @@ msgstr "Secondario"
 #. module: quality
 #: help:res.partner,custom_range:0
 msgid "If checked specify custom range else use company default"
-msgstr "Se spuntato permette di specificare il range di date alternativo rispetto a quello fisso aziendale"
+msgstr ""
+"Se spuntato permette di specificare il range di date alternativo rispetto a "
+"quello fisso aziendale"
 
 #. module: quality
 #: model:res.groups,name:quality.group_quality_SAQ
@@ -97,8 +105,6 @@ msgid "If checked new messages require your attention."
 msgstr "Se spuntato i nuovi messaggi richiedono la vostra attenzione"
 
 #. module: quality
-#: code:addons/quality/quality.py:1942 code:addons/quality/quality.py:2022
-#: code:addons/quality/quality.py:2081
 #: model:ir.actions.act_window,name:quality.action_quality_origin_form
 #: model:ir.model,name:quality.model_quality_origin
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_claim_origin
@@ -106,7 +112,6 @@ msgstr "Se spuntato i nuovi messaggi richiedono la vostra attenzione"
 #: field:quality.claim,origin_id:0 view:quality.conformed:0
 #: field:quality.conformed,origin:0 view:quality.origin:0
 #: view:quality.sampling:0 field:quality.sampling,origin:0
-#, python-format
 msgid "Origin"
 msgstr "Origine"
 
@@ -118,17 +123,16 @@ msgstr "Peso campione sgocciolato"
 #. module: quality
 #: help:res.partner,quality_activity:0
 msgid "Extra information about activity used in quality manage"
-msgstr "Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
+msgstr ""
+"Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
 
 #. module: quality
 #: view:res.partner:0 field:res.partner,reference_ids:0
 msgid "Reference"
-msgstr "Qualifiche"
+msgstr "Riferimento"
 
 #. module: quality
-#: code:addons/quality/quality.py:2088 view:quality.action:0
-#: field:quality.supplier.check,name:0
-#, python-format
+#: view:quality.action:0 field:quality.supplier.check,name:0
 msgid "Esit"
 msgstr "Esito"
 
@@ -157,8 +161,13 @@ msgstr "Entità"
 #: help:quality.action,message_summary:0 help:quality.claim,message_summary:0
 #: help:quality.conformed,message_summary:0
 #: help:quality.sampling,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo riepilogo è direttamente in formato HTML per essere inserito nelle viste Kanban."
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo "
+"riepilogo è direttamente in formato HTML per essere inserito nelle viste "
+"Kanban."
 
 #. module: quality
 #: view:quality.claim:0 selection:quality.claim,state:0
@@ -195,13 +204,11 @@ msgid "Index"
 msgstr "Indici"
 
 #. module: quality
-#: code:addons/quality/quality.py:1935 code:addons/quality/quality.py:2015
 #: model:ir.actions.act_window,name:quality.action_quality_gravity_form
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_claim_gravity
 #: view:quality.claim:0 field:quality.claim,gravity_id:0
 #: view:quality.conformed:0 field:quality.conformed,gravity_id:0
 #: view:quality.gravity:0
-#, python-format
 msgid "Gravity"
 msgstr "Gravità"
 
@@ -238,8 +245,23 @@ msgstr "Scheda"
 
 #. module: quality
 #: view:quality.acceptation:0
+msgid "Q. arr."
+msgstr "Q. arr."
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
+msgid "Qual."
+msgstr "Qual."
+
+#. module: quality
+#: view:quality.acceptation:0
 msgid "Open not conformed"
 msgstr "Apri non conformità"
+
+#. module: quality
+#: field:quality.acceptation,nc_list:0
+msgid "NC opened"
+msgstr "NC aperte"
 
 #. module: quality
 #: field:quality.claim,comunication_user_id:0
@@ -247,9 +269,9 @@ msgid "Comunication user"
 msgstr "Utente comunicazione"
 
 #. module: quality
-#: field:quality.action,esit_date:0
-msgid "Esit date"
-msgstr "Data esito"
+#: model:res.groups,name:quality.group_quality_RAQ
+msgid "Quality Responsible"
+msgstr "Responsabile qualità"
 
 #. module: quality
 #: field:quality.claim,search_code:0
@@ -267,21 +289,24 @@ msgid "Internal note"
 msgstr "Note interne"
 
 #. module: quality
-#: code:addons/quality/quality.py:2029
 #: field:quality.acceptation.line,motivation:0
-#, python-format
 msgid "Motivation"
 msgstr "Motivazione"
 
 #. module: quality
 #: field:quality.action,proposed_subject:0
 msgid "Subject proposing"
-msgstr "Oggetto / Causa evidenziante"
+msgstr "Oggetto"
 
 #. module: quality
 #: view:quality.sampling:0
 msgid "Visual test"
 msgstr "Test visualizzazione"
+
+#. module: quality
+#: model:res.groups,comment:quality.group_quality_user
+msgid "Quality user"
+msgstr "Utente qualita"
 
 #. module: quality
 #: field:quality.conformed,aesthetic_packaging:0
@@ -337,12 +362,6 @@ msgid "Closed user"
 msgstr "Utente chiuso"
 
 #. module: quality
-#: code:addons/quality/quality.py:82
-#, python-format
-msgid "Changing state:"
-msgstr "Cambio stato:"
-
-#. module: quality
 #: view:quality.conformed:0 view:quality.treatment:0
 msgid "Treatment"
 msgstr "Trattamento"
@@ -361,6 +380,11 @@ msgstr "Clienti"
 #: field:quality.sampling,analysis_state:0
 msgid "Analysis State"
 msgstr "Stato analisi"
+
+#. module: quality
+#: view:quality.acceptation.line:0
+msgid "Imb."
+msgstr "Imb."
 
 #. module: quality
 #: view:quality.sampling:0
@@ -413,7 +437,7 @@ msgstr "Quantità"
 #: view:quality.claim.product:0 field:quality.claim.product,claim_id:0
 #: field:quality.conformed,claim_id:0 selection:quality.conformed,origin:0
 #: selection:quality.origin,type:0 field:quality.sampling,claim_id:0
-#: view:res.partner:0
+#: selection:quality.sampling,origin:0 view:res.partner:0
 msgid "Claim"
 msgstr "Reclamo"
 
@@ -421,6 +445,11 @@ msgstr "Reclamo"
 #: model:quality.claim.cause,name:quality.quality_cause_customer
 msgid "Customer error"
 msgstr "Errore cliente"
+
+#. module: quality
+#: view:res.partner:0
+msgid "Claim line list (real)"
+msgstr "Lista linea reclamo (reale)"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -479,11 +508,9 @@ msgid "Date creation"
 msgstr "Data Creazione"
 
 #. module: quality
-#: code:addons/quality/quality.py:1949
 #: model:ir.actions.act_window,name:quality.action_quality_claim_cause_form
 #: view:quality.claim:0 field:quality.claim,cause_id:0
 #: view:quality.claim.cause:0
-#, python-format
 msgid "Cause"
 msgstr "Causa"
 
@@ -525,7 +552,9 @@ msgstr "prodotto"
 #. module: quality
 #: help:res.partner,quality_commercial_reference:0
 msgid "Extra information about commercial reference used in quality manage"
-msgstr "Informazioni extra circa il referente commerciale utilizzato nella gestione qualità"
+msgstr ""
+"Informazioni extra circa il referente commerciale utilizzato nella gestione "
+"qualità"
 
 #. module: quality
 #: field:quality.claim,comunication:0
@@ -536,18 +565,6 @@ msgstr "Messaggio comunicazione"
 #: field:quality.claim,NC_comment:0
 msgid "NC comment"
 msgstr "Info Accredito"
-
-#. module: quality
-#: code:addons/quality/quality.py:2008
-#, python-format
-msgid "Total conformed"
-msgstr "Totale non conformità"
-
-#. module: quality
-#: code:addons/quality/quality.py:2008
-#, python-format
-msgid "Total conformed"
-msgstr "Totale non conformità"
 
 #. module: quality
 #: model:res.groups,comment:quality.group_quality_SAQ
@@ -573,6 +590,11 @@ msgstr "Linea accettazione"
 #: selection:quality.supplier.rating,type:0
 msgid "First qualification"
 msgstr "Prima qualificazione"
+
+#. module: quality
+#: model:res.groups,name:quality.group_quality_user
+msgid "Quality standard user"
+msgstr "Utente standard qualità"
 
 #. module: quality
 #: help:res.partner,quality_email:0
@@ -603,6 +625,11 @@ msgstr "Nota di credito Utente"
 #: view:quality.sampling:0
 msgid "Analysis conformed"
 msgstr "Analisi conforme"
+
+#. module: quality
+#: view:res.partner:0
+msgid "Claim lot list (real)"
+msgstr "Lista lotti reclami (reale)"
 
 #. module: quality
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_range
@@ -638,7 +665,7 @@ msgstr "Responsabile delle vendite"
 #. module: quality
 #: field:quality.sampling,do_visual:0
 msgid "Request visual analysis"
-msgstr "Esame visivo"
+msgstr "Richiesta visualizzazione"
 
 #. module: quality
 #: field:quality.claim,RAQ_id:0
@@ -646,7 +673,7 @@ msgid "RAQ"
 msgstr "RAQ"
 
 #. module: quality
-#: field:quality.claim,analysis:0
+#: field:quality.action,note:0 field:quality.claim,analysis:0
 msgid "Cause analysis"
 msgstr "Analisi delle cause"
 
@@ -697,6 +724,7 @@ msgstr "Gruppi qualità"
 #. module: quality
 #: model:ir.model,name:quality.model_quality_sampling
 #: model:ir.ui.menu,name:quality.menu_quality_form_sampling
+#: view:quality.acceptation:0 field:quality.acceptation.line,sampling_id:0
 #: field:quality.claim,sampling_id:0 selection:quality.conformed,origin:0
 #: field:quality.conformed,sampling_id:0 view:quality.sampling:0
 #: view:res.partner:0
@@ -731,7 +759,7 @@ msgstr "Visto"
 #. module: quality
 #: view:res.partner:0 field:res.partner,check_ids:0
 msgid "Check"
-msgstr "Audit esterno"
+msgstr "Controllo"
 
 #. module: quality
 #: model:quality.origin,name:quality.quality_origin_transport
@@ -778,14 +806,16 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: quality
-#: selection:quality.supplier.rating,qualification:0
-msgid "Full qualification"
-msgstr "Piena qualificazione"
+#: help:quality.claim,reference_user_id:0
+msgid "Reference for claim to your customer"
+msgstr "Riferimento per il cliente relativamente a questo reclamo"
 
 #. module: quality
 #: help:res.partner,quality_end_supplier:0
 msgid "Extra information about stop supplier service, used in quality manage"
-msgstr "Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della qualità"
+msgstr ""
+"Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della "
+"qualità"
 
 #. module: quality
 #: model:ir.actions.report.xml,name:quality.aeroo_quality_action
@@ -801,6 +831,11 @@ msgstr "Rif. cliente (codice NC)"
 #: view:quality.sampling:0
 msgid "Visual conformed"
 msgstr "Visualizzazione conforme"
+
+#. module: quality
+#: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_form
+msgid "Fast Claim"
+msgstr "Reclamo rapido"
 
 #. module: quality
 #: field:res.partner,quality_class_id:0
@@ -849,13 +884,17 @@ msgstr "Conferma RAQ"
 
 #. module: quality
 #: view:quality.sampling:0
-msgid "Taste (After cooking the product in elemental form - simple cooking in salted water)"
-msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
+msgid ""
+"Taste (After cooking the product in elemental form - simple cooking in "
+"salted water)"
+msgstr ""
+"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
+"cottura in acqua salata)"
 
 #. module: quality
 #: field:quality.sampling,do_glazing:0
 msgid "Request glazing analysis"
-msgstr "Prova di glassatura"
+msgstr "Richiesta analisi congelamento"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -868,14 +907,14 @@ msgid "Aesthetic/Packaging"
 msgstr "Estetico / Confezionamento"
 
 #. module: quality
-#: help:quality.claim,reference_user_id:0
-msgid "Reference for claim to your customer"
-msgstr "Riferimento per il cliente relativamente a questo reclamo"
+#: selection:quality.supplier.rating,qualification:0
+msgid "Full qualification"
+msgstr "Piena qualificazione"
 
 #. module: quality
 #: view:quality.claim:0
 msgid "Causes and Responsability"
-msgstr "Note"
+msgstr "Cause e Responsabilità"
 
 #. module: quality
 #: field:quality.sampling,taster_ids:0
@@ -906,12 +945,6 @@ msgstr "E' un follower"
 #: field:quality.supplier.reference,date:0
 msgid "Date"
 msgstr "Data"
-
-#. module: quality
-#: code:addons/quality/quality.py:2074
-#, python-format
-msgid "Total sampling"
-msgstr "Totale campionamenti"
 
 #. module: quality
 #: view:quality.action:0 field:quality.action,esit_note:0
@@ -969,12 +1002,6 @@ msgid "Date DDT"
 msgstr "Date DDT"
 
 #. module: quality
-#: code:addons/quality/quality.py:1819
-#, python-format
-msgid "Total picking"
-msgstr "Totale consegne (DDT)"
-
-#. module: quality
 #: model:quality.origin,name:quality.quality_origin_purchases
 msgid "Purchases"
 msgstr "Acquisti"
@@ -987,7 +1014,14 @@ msgstr "Rif. Utente"
 #. module: quality
 #: help:res.partner,quality_rating_info:0
 msgid "Extra information about rating info used in quality manage"
-msgstr "Ulteriori informazioni sulla valutazione utilizzata nella gestione della qualità"
+msgstr ""
+"Ulteriori informazioni sulla valutazione utilizzata nella gestione della "
+"qualità"
+
+#. module: quality
+#: view:quality.sampling:0
+msgid "Test:"
+msgstr "Test:"
 
 #. module: quality
 #: view:quality.acceptation:0 field:quality.acceptation,cancel:0
@@ -1017,6 +1051,11 @@ msgstr "Annulla"
 #: view:res.partner:0
 msgid "Not conformed"
 msgstr "Non Conformità"
+
+#. module: quality
+#: view:quality.acceptation:0
+msgid "Conf."
+msgstr "Conf."
 
 #. module: quality
 #: field:res.partner,quality_rating_info:0
@@ -1089,12 +1128,6 @@ msgid "Package"
 msgstr "Confezione"
 
 #. module: quality
-#: code:addons/quality/quality.py:1924
-#, python-format
-msgid "Total distinct lot claimed"
-msgstr "Totale lotti distinti reclamati"
-
-#. module: quality
 #: help:stock.production.lot,obsolete:0
 msgid "Indicates that the lot is old"
 msgstr "Indica che il lotto è vecchio"
@@ -1102,7 +1135,7 @@ msgstr "Indica che il lotto è vecchio"
 #. module: quality
 #: field:quality.sampling,do_taste:0
 msgid "Request taste analysis"
-msgstr "Assaggio"
+msgstr "Richiesto analisi assaggio"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1172,7 +1205,7 @@ msgstr "Rinnovo"
 #. module: quality
 #: field:quality.conformed,comunication_note:0
 msgid "Comunication note"
-msgstr "Note comunicazione"
+msgstr "Comunication note"
 
 #. module: quality
 #: view:quality.acceptation:0 view:quality.action:0 view:quality.claim:0
@@ -1256,6 +1289,11 @@ msgid "Real Lot"
 msgstr "Lotto Reale"
 
 #. module: quality
+#: field:quality.sampling,lot_product_id:0
+msgid "Lot prod."
+msgstr "Lot prod."
+
+#. module: quality
 #: field:quality.action,closed_date:0
 msgid "Closed date"
 msgstr "Data chiusura"
@@ -1271,9 +1309,9 @@ msgid "Supplier"
 msgstr "Fornitore"
 
 #. module: quality
-#: help:res.partner,index_sampling:0
-msgid "Sampling information tables"
-msgstr "Tabella informazioni campionamenti"
+#: view:res.partner:0
+msgid "Acceptation list"
+msgstr "Lista accettazioni"
 
 #. module: quality
 #: field:quality.sampling,taste_state:0
@@ -1291,12 +1329,6 @@ msgid "Quality Manager"
 msgstr "Manager qualità"
 
 #. module: quality
-#: code:addons/quality/quality.py:1926
-#, python-format
-msgid "Total product claimed"
-msgstr "Totale prodotti reclami (righe dettaglio reclamo)"
-
-#. module: quality
 #: field:quality.sampling.taster,sample_id:0
 msgid "Sample"
 msgstr "Campione"
@@ -1304,7 +1336,7 @@ msgstr "Campione"
 #. module: quality
 #: field:quality.sampling,do_analysis:0
 msgid "Request analysis"
-msgstr "Analisi"
+msgstr "Richiesta analisi"
 
 #. module: quality
 #: view:stock.production.lot:0
@@ -1320,6 +1352,11 @@ msgstr "Crea campionamento"
 #: view:quality.claim:0 selection:quality.claim,state:0
 msgid "Credit Note"
 msgstr "Nota di Credito"
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
+msgid "Scad."
+msgstr "Scad."
 
 #. module: quality
 #: help:res.company,index_from:0 help:res.partner,index_from:0
@@ -1347,6 +1384,11 @@ msgid "Used for button claims"
 msgstr "Utilizzato per il bottone reclami"
 
 #. module: quality
+#: view:quality.acceptation:0
+msgid "Q. prev."
+msgstr "Q. prev."
+
+#. module: quality
 #: help:res.partner,quality_product:0
 msgid "Extra information about product used in quality manage"
 msgstr "Ulteriori info sul prodotto utilizzato nella gestione della qualità"
@@ -1364,16 +1406,21 @@ msgid "Comunications"
 msgstr "Comunicazioni"
 
 #. module: quality
+#: field:quality.claim,fast_insert:0
+msgid "Fast insert"
+msgstr "Inserimento rapido"
+
+#. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_sampling_form
 msgid "sampling"
 msgstr "campionamento"
 
 #. module: quality
 #: view:quality.acceptation:0 field:quality.acceptation,note:0
-#: view:quality.action:0 field:quality.action,note:0
-#: field:quality.action.intervent.working,note:0 view:quality.claim.cause:0
-#: field:quality.claim.cause,note:0 field:quality.comunication.type,note:0
-#: view:quality.gravity:0 field:quality.gravity,note:0 view:quality.origin:0
+#: view:quality.action:0 field:quality.action.intervent.working,note:0
+#: view:quality.claim.cause:0 field:quality.claim.cause,note:0
+#: field:quality.comunication.type,note:0 view:quality.gravity:0
+#: field:quality.gravity,note:0 view:quality.origin:0
 #: field:quality.origin,note:0 field:quality.partner.class,note:0
 #: view:quality.sampling:0 field:quality.sampling,note:0
 #: view:quality.sampling.plan:0 field:quality.sampling.plan,note:0
@@ -1396,12 +1443,6 @@ msgstr "Lotto interno"
 #: view:res.partner:0 field:res.partner,index_sampling_list:0
 msgid "Sampling list"
 msgstr "Lista campionamenti"
-
-#. module: quality
-#: code:addons/quality/quality.py:321
-#, python-format
-msgid "Wrong code, format: 06.00001"
-msgstr "Codice errato, formato: 06.00001"
 
 #. module: quality
 #: field:quality.conformed,parent_sampling_id:0
@@ -1447,7 +1488,9 @@ msgstr "Reclami"
 #: model:ir.ui.menu,name:quality.menu_quality_form_acceptation
 #: view:quality.acceptation:0 field:quality.acceptation.line,acceptation_id:0
 #: field:quality.conformed,acceptation_id:0
-#: selection:quality.conformed,origin:0 selection:quality.sampling,origin:0
+#: selection:quality.conformed,origin:0
+#: field:quality.sampling,acceptation_id:0 selection:quality.sampling,origin:0
+#: view:res.partner:0
 msgid "Acceptation"
 msgstr "Accettazione"
 
@@ -1474,12 +1517,19 @@ msgstr "Visualizza esame"
 #. module: quality
 #: help:res.partner,quality_update_date:0
 msgid "Extra information about information updared, used in quality manage"
-msgstr "Ulteriori info sull'aggiornamento info, utilizzato nella gestione della qualità"
+msgstr ""
+"Ulteriori info sull'aggiornamento info, utilizzato nella gestione della "
+"qualità"
 
 #. module: quality
 #: field:res.partner,quality_email:0
 msgid "Quality email"
 msgstr "Email (qualità)"
+
+#. module: quality
+#: model:quality.origin,name:quality.quality_origin_warehouse
+msgid "Warehouse"
+msgstr "Magazzino"
 
 #. module: quality
 #: field:quality.supplier.certification,number:0
@@ -1501,6 +1551,11 @@ msgstr "NC Fatta"
 #: field:res.partner,index_info:0 field:res.partner,index_sampling:0
 msgid "Claim index"
 msgstr "Indici reclami"
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.claim:0
+msgid "Open"
+msgstr "Open"
 
 #. module: quality
 #: model:quality.claim.cause,name:quality.quality_cause_size
@@ -1600,6 +1655,12 @@ msgid "Need Taste"
 msgstr "Richiesto Assaggio"
 
 #. module: quality
+#: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_tree
+#: model:ir.ui.menu,name:quality.menu_quality_form_claim_to_complete
+msgid "Claim to complete"
+msgstr "Claim to complete"
+
+#. module: quality
 #: view:quality.sampling:0
 msgid "Tests to be performed"
 msgstr "Test da effettuare"
@@ -1608,6 +1669,11 @@ msgstr "Test da effettuare"
 #: view:quality.acceptation:0 field:quality.acceptation,line_ids:0
 msgid "Lines"
 msgstr "Linee"
+
+#. module: quality
+#: field:res.company,multi_year:0
+msgid "Multi year"
+msgstr "Multi anno"
 
 #. module: quality
 #: field:res.partner,quality_activity:0
@@ -1622,7 +1688,9 @@ msgstr "Ordini"
 #. module: quality
 #: help:res.partner,quality_start_supplier:0
 msgid "Extra information about start supplier service, used in quality manage"
-msgstr "Informazioni exra circa la data inizio del servizio di fornitura, utilizzato nella gestione della qualità"
+msgstr ""
+"Informazioni exra circa la data inizio del servizio di fornitura, utilizzato "
+"nella gestione della qualità"
 
 #. module: quality
 #: field:quality.sampling.plan,glazing:0
@@ -1643,16 +1711,6 @@ msgstr "Ente proponente"
 #: field:quality.action.intervent,manager_id:0
 msgid "Manager"
 msgstr "Manager"
-
-#. module: quality
-#: code:addons/quality/quality.py:1935 code:addons/quality/quality.py:1942
-#: code:addons/quality/quality.py:1949 code:addons/quality/quality.py:1952
-#: code:addons/quality/quality.py:2015 code:addons/quality/quality.py:2022
-#: code:addons/quality/quality.py:2029 code:addons/quality/quality.py:2081
-#: code:addons/quality/quality.py:2088
-#, python-format
-msgid "Total"
-msgstr "Totale"
 
 #. module: quality
 #: model:ir.ui.menu,name:quality.menu_quality_root
@@ -1694,10 +1752,9 @@ msgid "accepatation"
 msgstr "Accettazione"
 
 #. module: quality
-#: code:addons/quality/quality.py:1919
-#, python-format
-msgid "Lot claimed / Lot provided"
-msgstr "Lotto reclamato / lotti forniti"
+#: help:res.partner,index_sampling:0
+msgid "Sampling information tables"
+msgstr "Tabella informazioni campionamenti"
 
 #. module: quality
 #: model:ir.actions.report.xml,name:quality.aeroo_quality_sampling
@@ -1718,11 +1775,6 @@ msgstr "Fornitore reale"
 #: model:ir.model,name:quality.model_stock_production_lot
 msgid "Serial Number"
 msgstr "Numero di serie"
-
-#. module: quality
-#: view:quality.sampling:0
-msgid "Test informations:"
-msgstr "Informazioni prova:"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_sampling_taster
@@ -1773,12 +1825,6 @@ msgid "Audit"
 msgstr "Audit interno"
 
 #. module: quality
-#: code:addons/quality/quality.py:320 code:addons/quality/quality.py:337
-#, python-format
-msgid "Warning"
-msgstr "Attenzione"
-
-#. module: quality
 #: field:quality.claim,date_RAQ:0
 msgid "Date confirm RAQ"
 msgstr "Data conferma RAQ"
@@ -1787,6 +1833,17 @@ msgstr "Data conferma RAQ"
 #: view:quality.action:0
 msgid "Intervents"
 msgstr "Pianificazione interventi"
+
+#. module: quality
+#: help:res.company,multi_year:0
+msgid ""
+"If checked the database name is parametrized with yearlike: DB name = "
+"\"example\", real DBs like: \"example2014, \"example2013, example2012 "
+"(depend on format)"
+msgstr ""
+"If checked the database name is parametrized with yearlike: DB name = "
+"\"example\", real DBs like: \"example2014, \"example2013, example2012 "
+"(depend on format)"
 
 #. module: quality
 #: view:quality.claim:0
@@ -1830,20 +1887,14 @@ msgid "DDT reference"
 msgstr "Riferimento DDT"
 
 #. module: quality
-#: field:quality.conformed,stock_note:0
-msgid "Stock note"
-msgstr "Note magazzino"
+#: model:ir.ui.menu,name:quality.menu_quality_form_fast_insert_claim
+msgid "Fast claim"
+msgstr "Reclamo rapido"
 
 #. module: quality
 #: view:quality.action:0
 msgid "New"
 msgstr "Nuovo"
-
-#. module: quality
-#: code:addons/quality/quality.py:1928
-#, python-format
-msgid "Total claims"
-msgstr "Totale reclami"
 
 #. module: quality
 #: field:quality.comunication.type,name:0 field:quality.partner.class,name:0
@@ -1875,12 +1926,6 @@ msgid "Comunication"
 msgstr "Comunicazione"
 
 #. module: quality
-#: code:addons/quality/quality.py:1817
-#, python-format
-msgid "Range date"
-msgstr "Range date"
-
-#. module: quality
 #: field:quality.claim,date_nc:0
 msgid "Date Credit Note"
 msgstr "Data Nota di Credito"
@@ -1891,20 +1936,9 @@ msgid "Configuration"
 msgstr "Configurazione"
 
 #. module: quality
-#: selection:quality.sampling,origin:0
-msgid "Direction exam"
-msgstr "Esame direzione"
-
-#. module: quality
-#: code:addons/quality/quality.py:1952
-#, python-format
-msgid "Lot claimed"
-msgstr "Lotto reclamato"
-
-#. module: quality
-#: model:res.groups,name:quality.group_quality_RAQ
-msgid "Quality Responsible"
-msgstr "Responsabile qualità"
+#: field:quality.action,esit_date:0
+msgid "Esit date"
+msgstr "Data esito"
 
 #. module: quality
 #: view:res.partner:0
@@ -1918,8 +1952,12 @@ msgstr "Richiesto rientro prodotti"
 
 #. module: quality
 #: help:quality.claim,comunication:0
-msgid "Comunication message, if sent by mail could be the body text, instead could be phone contact dialog"
-msgstr "Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo del testo, altrimenti potrebbe essere un dialogo telefonico"
+msgid ""
+"Comunication message, if sent by mail could be the body text, instead could "
+"be phone contact dialog"
+msgstr ""
+"Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo "
+"del testo, altrimenti potrebbe essere un dialogo telefonico"
 
 #. module: quality
 #: field:quality.claim,need_accredit:0
@@ -1943,10 +1981,9 @@ msgid "Date comunication"
 msgstr "Data comunicazione"
 
 #. module: quality
-#: code:addons/quality/quality.py:338
-#, python-format
-msgid "No record found!"
-msgstr "Nessun record trovato!"
+#: view:quality.acceptation:0
+msgid "Create or open sampling"
+msgstr "Crea o apre campionamento"
 
 #. module: quality
 #: view:quality.acceptation:0 selection:quality.acceptation,state:0
@@ -2013,6 +2050,11 @@ msgid "Treatment of Not Conformed"
 msgstr "Trattamento della non conformità"
 
 #. module: quality
+#: view:quality.acceptation:0
+msgid "NC"
+msgstr "NC"
+
+#. module: quality
 #: field:quality.action.intervent.working,user_id:0
 msgid "User"
 msgstr "Utente"
@@ -2026,6 +2068,11 @@ msgstr "Azione Figlio"
 #: view:quality.conformed:0 field:quality.conformed,sanitation:0
 msgid "Sanitation"
 msgstr "Igienico/Sanitario"
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
+msgid "Q.tà"
+msgstr "Q.tà"
 
 #. module: quality
 #: model:quality.claim.cause,name:quality.quality_cause_foreign
@@ -2049,12 +2096,6 @@ msgid "Sampling Plan"
 msgstr "Piano di Campionamento"
 
 #. module: quality
-#: code:addons/quality/quality.py:1820
-#, python-format
-msgid "Total lots"
-msgstr "Total lots"
-
-#. module: quality
 #: view:quality.sampling:0
 msgid "Tasters:"
 msgstr "Assaggiatori:"
@@ -2070,15 +2111,14 @@ msgid "Taste test"
 msgstr "Prova assaggio"
 
 #. module: quality
-#: model:quality.origin,name:quality.quality_origin_warehouse
-msgid "Warehouse"
-msgstr "Magazzino"
+#: field:quality.conformed,stock_note:0
+msgid "Stock note"
+msgstr "Note magazzino"
 
 #. module: quality
-#: code:addons/quality/quality.py:83
-#, python-format
-msgid "State variation in <b>%s</b>"
-msgstr "Variazione stato in <b>%s</b>"
+#: field:quality.acceptation,sampling_list:0
+msgid "Sampling opened"
+msgstr "Campionamenti aperti"
 
 #. module: quality
 #: selection:quality.action,type:0
@@ -2089,6 +2129,11 @@ msgstr "Intervento di miglioramento"
 #: view:quality.claim:0 view:quality.conformed:0 view:quality.sampling:0
 msgid "Linked forms:"
 msgstr "Link delle schede:"
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
+msgid "Eti."
+msgstr "Eti."
 
 #. module: quality
 #: field:quality.action.intervent.working,name:0 field:quality.claim,name:0
@@ -2110,8 +2155,12 @@ msgstr "Scopo"
 
 #. module: quality
 #: field:quality.sampling,taste:0
-msgid "Taste(After cooking the product in elemental form - simple cooking in salted water)"
-msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
+msgid ""
+"Taste(After cooking the product in elemental form - simple cooking in salted "
+"water)"
+msgstr ""
+"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
+"cottura in acqua salata)"
 
 #. module: quality
 #: selection:quality.treatment,type:0
@@ -2152,6 +2201,11 @@ msgid "BF document"
 msgstr "Doc. BF"
 
 #. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
+msgid "Temp."
+msgstr "Temp."
+
+#. module: quality
 #: model:ir.actions.report.xml,name:quality.aeroo_quality_conformed
 msgid "Quality Not conformed"
 msgstr "Qualità non conforme"
@@ -2170,4 +2224,3 @@ msgstr "Trattamenti qualità"
 #: model:ir.model,name:quality.model_quality_gravity
 msgid "Claim gravity"
 msgstr "Gravità reclamo"
-
