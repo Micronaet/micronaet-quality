@@ -80,6 +80,6 @@
 
         <!--MENUITEM-->
         <menuitem parent="quality.menu_quality_root_configuration" id="menu_quality_root_configuration_qualification_parameter" 
-            name="Supplier qualification" action="action_supplier_qualification_form" sequence="90"/>
+            name="Supplier qualification" action="action_supplier_qualification_form" sequence="90" groups="quality.group_quality_RDQ,quality.group_quality_RAQ,quality.group_quality_RCO,quality.group_quality_SAQ,quality.group_quality_SGO,quality.group_quality_SFA,quality.group_quality_user,quality.group_quality_fast_user"/>
    </data>
 </openerp>   
