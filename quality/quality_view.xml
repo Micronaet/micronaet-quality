@@ -1762,19 +1762,19 @@
         </record>
 
         <!--MENUITEM-->
-        <menuitem id="menu_quality_root" name="Quality" sequence="1" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+        <menuitem id="menu_quality_root" name="Quality" sequence="1" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user,group_quality_fast_user"/>
             <menuitem parent="menu_quality_root" id="menu_quality_form" name="Form" sequence="10"/>
-                <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_product" name="Product Claim" action="action_quality_claim_product_form" sequence="10"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_to_complete" name="Claim to complete" action="action_quality_claim_fast_insert_tree" sequence="20"/>
                     
-                <menuitem parent="menu_quality_form" id="menu_quality_form_fast_insert_claim" name="Fast claim" action="action_quality_claim_fast_insert_form" sequence="11"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_fast_insert_claim" name="Fast claim" action="action_quality_claim_fast_insert_form" sequence="11" groups="group_quality_fast_user"/>
                     
-                <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"/>
-                <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30"/>
-                <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40"/>
-                <menuitem parent="menu_quality_form" id="menu_quality_form_acceptation" name="Acceptation" action="action_quality_acceptation_form" sequence="50"/>
-            <menuitem parent="menu_quality_root" id="menu_quality_root_configuration" name="Configuration" sequence="99" />
+                <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"  groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_acceptation" name="Acceptation" action="action_quality_acceptation_form" sequence="50" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+            <menuitem parent="menu_quality_root" id="menu_quality_root_configuration" name="Configuration" sequence="99"  groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA"/>
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_customer" name="Customer" action="action_res_partner_customer_form" sequence="10"/>
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_supplier" name="Supplier" action="action_res_partner_supplier_form" sequence="20"/>
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_lot" name="Lot" action="action_stock_production_lot_form" sequence="30"/>

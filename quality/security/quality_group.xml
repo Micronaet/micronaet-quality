@@ -49,5 +49,11 @@
         <field name="category_id" ref="module_quality" />
         <field name="comment">Quality user</field>
     </record>
+
+    <record id="group_quality_fast_user" model="res.groups">
+        <field name="name">Quality fast insert</field>
+        <field name="category_id" ref="module_quality" />
+        <field name="comment">Quality fast insert claims user</field>
+    </record>
  </data>
 </openerp>
