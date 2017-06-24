@@ -33,9 +33,9 @@
                    <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>                
                    
                    <button name="print_form" string="Print" icon="gtk-print" type="object"/>
-                   <button name="open_fast_report" string="Claim report" type="object" class="oe_highlight"/>
+                   <button name="open_fast_report" string="Fast report" type="object" class="oe_highlight" icon="gtk-print"/>
 
-                    <field name="state" widget="statusbar" readonly='1'/>
+                   <field name="state" widget="statusbar" readonly='1'/>
                 </header>
                 <sheet>
                     <h1>
