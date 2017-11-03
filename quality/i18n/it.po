@@ -1164,7 +1164,7 @@ msgstr "Indica che il lotto è vecchio"
 #. module: quality
 #: field:quality.sampling,do_taste:0
 msgid "Request taste analysis"
-msgstr "Richiesto analisi assaggio"
+msgstr "Assaggio"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1676,7 +1676,7 @@ msgstr "Causa reclamo"
 #. module: quality
 #: field:quality.sampling.plan,taste:0
 msgid "Need Taste"
-msgstr "Assaggio"
+msgstr "Richiesto assaggio"
 
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_tree
