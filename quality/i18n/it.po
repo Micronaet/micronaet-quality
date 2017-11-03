@@ -689,7 +689,7 @@ msgstr "Responsabile delle vendite"
 #. module: quality
 #: field:quality.sampling,do_visual:0
 msgid "Request visual analysis"
-msgstr "Richiesta visualizzazione"
+msgstr "Esame visivo"
 
 #. module: quality
 #: field:quality.claim,RAQ_id:0
@@ -918,7 +918,7 @@ msgstr ""
 #. module: quality
 #: field:quality.sampling,do_glazing:0
 msgid "Request glazing analysis"
-msgstr "Richiesta analisi congelamento"
+msgstr "Prova di glassatura"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1360,7 +1360,7 @@ msgstr "Manager qualità"
 #. module: quality
 #: field:quality.sampling,do_analysis:0
 msgid "Request analysis"
-msgstr "Richiesta analisi"
+msgstr "Analisi"
 
 #. module: quality
 #: view:stock.production.lot:0
@@ -1676,7 +1676,7 @@ msgstr "Causa reclamo"
 #. module: quality
 #: field:quality.sampling.plan,taste:0
 msgid "Need Taste"
-msgstr "Richiesto Assaggio"
+msgstr "Assaggio"
 
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_tree
