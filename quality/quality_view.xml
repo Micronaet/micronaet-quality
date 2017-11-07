@@ -94,9 +94,9 @@
                             <field name="ddt_date" />
                             <field name="product_ids" editable="bottom" colspan='4' nolabel='1'>
                                 <tree string="Products" editable="bottom">
-                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)"/>
+                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)" domain="[('obsolete', '=', False)]"/>
                                     <field name="product_id" readonly="1"/>
-                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)"/>
+                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)" domain="[('obsolete', '=', False)]"/>
                                     <field name="real_product_id"  readonly="1"/>
                                     <field name="real_supplier_id" readonly="1"/>
                                     <field name="label_lot" />
@@ -229,9 +229,9 @@
                             <field name="ddt_date" />
                             <field name="product_ids" editable="bottom" colspan='4' nolabel='1'>
                                 <tree string="Products" editable="bottom">
-                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)"/>
+                                    <field name="lot_id" on_change="onchange_lot_id(lot_id)" domain="[('obsolete', '=', False)]"/>
                                     <field name="product_id" readonly="1"/>
-                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)"/>
+                                    <field name="real_lot_id" on_change="onchange_real_lot_id(real_lot_id)" domain="[('obsolete', '=', False)]"/>
                                     <field name="real_product_id"  readonly="1"/>
                                     <field name="real_supplier_id" readonly="1"/>
                                     <field name="label_lot" />
@@ -382,9 +382,9 @@
             <field name="arch" type="xml">
                 <form string="Product Claim">
                     <field name="claim_id"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="product_id"/>
-                    <field name="real_lot_id"/>
+                    <field name="real_lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="real_product_id"/>
                     <field name="real_supplier_id"/>
                     <field name="label_lot"/>
@@ -401,9 +401,9 @@
             <field name="arch" type="xml">
                 <tree string="Product Claim">
                     <field name="claim_id"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="product_id"/>
-                    <field name="real_lot_id"/>
+                    <field name="real_lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="real_product_id"/>
                     <field name="real_supplier_id"/>
                     <field name="label_lot"/>
@@ -420,9 +420,9 @@
             <field name="arch" type="xml">
                 <search string="Product Claim">
                    <field name="claim_id"/>
-                   <field name="lot_id"/>
+                   <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                    <field name="product_id"/>
-                   <field name="real_lot_id"/>
+                   <field name="real_lot_id" domain="[('obsolete', '=', False)]"/>
                    <field name="real_product_id"/>
                    <field name="real_supplier_id"/>
                    <field name="label_lot"/>
@@ -798,7 +798,7 @@
                         <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
 
                         <button name="print_form" string="Print" icon="gtk-print" type="object"/>
-                        <button name="print_form_customer" string="Print customer" icon="gtk-print" type="object"/>
+                        <button name="print_form_supplier" string="Print supplier" icon="gtk-print" type="object"/>
           
                         <field name="state" widget="statusbar" readonly='1'/>
                     </header>
@@ -810,7 +810,7 @@
                             <newline/>
                             <group colspan="4" col='4'>
                                 <field name="insert_date"/>
-                                <field name="lot_id"/>
+                                <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="supplier_lot"/>
                                 <field name="descr_product"/>
                                 <field name="ddt_ref"/>
@@ -887,7 +887,7 @@
                     <field name="ref"/>
                     <field name="insert_date"/>
                     <field name="name"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="supplier_lot"/>
                     <field name="action_id"/>
                     <field name="sampling_id"/>
@@ -915,7 +915,7 @@
                     <field name="ref"/>
                     <field name="insert_date"/>
                     <field name="origin"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="label_lot"/>
                     <field name="label_supplier"/>
                     <field name="supplier_lot"/>
@@ -1002,7 +1002,7 @@
                             </group>
 
                             <group colspan="2" col="2">
-                                <field name="lot_id"/>
+                                <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="lot_deadline"/>
                                 <field name="lot_supplier_id"/>
                                 <field name="lot_product_id"/>
@@ -1115,7 +1115,7 @@
                 <tree string="Sampling" colors="grey:state == 'draft';blue:state == 'opened';green:state == 'passed';brown:state == 'notpassed';red:state == 'cancel'">
                     <field name="ref"/>
                     <field name="date"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="lot_supplier_id"/>
                     <field name="lot_product_id"/>
                     <field name="origin"/>
@@ -1145,7 +1145,7 @@
                     <field name="ref"/>
                     <field name="date"/>
                     <field name="origin"/>
-                    <field name="lot_id"/>
+                    <field name="lot_id" domain="[('obsolete', '=', False)]"/>
 
                     <separator string='State'/>
                     <filter string="Draft" domain="[('state','=','draft')]"/>
@@ -1359,7 +1359,7 @@
                             <field name="line_ids" colspan='4' nolabel='1'>
                                 <tree string='Lines' editable="bottom" colors="blue:conformed_id==False">
                                     <field name='acceptation_id' invisible='1'/>
-                                    <field name='lot_id' readonly="1"/>
+                                    <field name='lot_id' readonly="1" domain="[('obsolete', '=', False)]"/>
                                     <field name='product_id' readonly="1"/>
                                     <field name='qty_arrived' readonly="1" string="Q. arr."/>
                                     <field name='qty_expected' string="Q. prev."/>
@@ -1467,7 +1467,7 @@
                     <sheet>
                         <group col='4'>
                             <field name='acceptation_id'/>
-                            <field name='lot_id'/>
+                            <field name='lot_id' domain="[('obsolete', '=', False)]"/>
                             <field name='product_id'/>
                             <field name='qty_arrived'/>
                             <field name='qty_expected'/>
@@ -1489,7 +1489,7 @@
             <field name="arch" type="xml">
                 <tree string='Acceptation Line'>
                     <field name='acceptation_id'/>
-                    <field name='lot_id'/>
+                    <field name='lot_id' domain="[('obsolete', '=', False)]"/>
                     <field name='product_id'/>
                     <field name='qty_arrived'/>
                     <field name='qty_expected'/>

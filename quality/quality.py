@@ -1418,20 +1418,21 @@ class quality_conformed(osv.osv):
            'type': 'ir.actions.report.xml', 
            'report_name': 'quality_conformed_report',
            'model': 'quality.conformed',
+           'datas': context,
            }
 
-    def print_form_customer(self, cr, uid, ids, context=None):
-        ''' Print report customer directly in form (for calendar form)
+    def print_form_supplier(self, cr, uid, ids, context=None):
+        ''' Print report supplier directly in form (for calendar form)
         '''
         if context is None:
             context = {}
-        context['customer'] = True
+        context['supplier'] = True
         
         return {
            'type': 'ir.actions.report.xml', 
            'report_name': 'quality_conformed_report',
            'model': 'quality.conformed',
-           'context': context,           
+           'datas': context,       
            }
 
     def create_action(self, cr, uid, ids, context=None):
