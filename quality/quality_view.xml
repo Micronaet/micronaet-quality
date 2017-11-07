@@ -293,6 +293,7 @@
                    <field name="insert_user_id"/>
                    <field name="partner_address_id" domain="[('is_address', '=', True)]"/>
                    <field name="customer_ref"/>
+                   <field name="real_lot_list" />
                    
                    <separator/>
                    <filter string="Draft" domain="[('state','=','draft')]"/>

@@ -440,7 +440,27 @@ class quality_claim(osv.osv):
         '''
         _logger.warning('Change partner in form')
         return ids
-                
+
+    # Search fields function:                
+    def _search_lot_from_claim(self, cr, uid, obj, name, args, context=None):
+        ''' Search lot or supplier in claims
+        '''
+        try:
+            # Search supplier or lot name:
+            search_name = args[0][2]
+            product_pool = self.pool.get('quality.claim.product')            
+            product_ids = product_pool.search(cr, uid, [
+                '|',
+                ('real_lot_id.name', 'ilike', search_name),
+                ('real_supplier_id.name', 'ilike', search_name),
+                ], context=context)
+            item_ids = [
+                item.claim_id.id for item in product_pool.browse(
+                    cr, uid, product_ids, context=context)]
+            return [('id', 'in', item_ids)]        
+        except:
+            return []     
+        
     _columns = {    
         'name': fields.char('Description', size=80, required=True),
         'partner_name': fields.function(
@@ -526,11 +546,9 @@ class quality_claim(osv.osv):
 
         'real_lot_list': fields.function(
             _get_lot_from_claim, method=True, type='char', size=50,
-            string='Real lot', store=False, multi=False),
-        #'real_supplier_list': fields.function(
-        #    _get_lot_from_claim, method=True, type='char', size=80,
-        #    string='Real supplier', store=False, multi=True),
-        
+            string='Real lot', fnct_search=_search_lot_from_claim,
+            store=False, multi=False),
+
         'state': fields.selection([
             ('draft', 'Draft'),
             ('comunication', 'Comunication'),
