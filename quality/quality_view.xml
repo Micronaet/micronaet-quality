@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <!--res.users-->
+        <record model="ir.ui.view" id="view_signature_simple_user">
+            <field name="name">res.users.signature.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+            <field name="arch" type="xml">
+                <field name="image" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>  
+                <field name="image" position="after">
+                    <field name="signature_image" widget="image" />
+                </field>
+            </field>
+        </record>
+        <!--base.view_users_simple_form-->
+        
         <!--quality.claim-->
         <record id="view_quality_claim_form" model="ir.ui.view">
             <field name="name">quality.claim.form</field>

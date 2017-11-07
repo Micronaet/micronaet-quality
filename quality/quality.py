@@ -108,6 +108,15 @@ class mail_thread(osv.osv):
 # -----------------------------------------------------------------------------
 #                                    CLAIMS:
 # -----------------------------------------------------------------------------
+class res_users(osv.osv):
+    ''' Add signature
+    '''
+    _inherit = 'res.users'
+    
+    _columns = {
+        'signature_image': fields.binary('Signature', filters=None),
+        }
+
 class quality_origin(osv.osv):
     ''' Simple anagrafic for origin
     '''
