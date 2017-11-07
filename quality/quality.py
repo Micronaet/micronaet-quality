@@ -407,9 +407,11 @@ class quality_claim(osv.osv):
             res[claim.id] = ''
             for line in claim.product_ids:
                 if line.real_lot_id:
-                    res[claim.id] += '%s ' % (
-                        line.real_lot_id.name or '??')
-        return res            
+                    res[claim.id] += '%s %s\n' % (
+                        line.real_lot_id.name or '??',
+                        line.real_supplier_id.name or '??',
+                        )
+        return res
         
     # -------------------------------------------------------------------------    
     # Fields:
@@ -524,7 +526,10 @@ class quality_claim(osv.osv):
 
         'real_lot_list': fields.function(
             _get_lot_from_claim, method=True, type='char', size=50,
-            string='Real lot', store=False),
+            string='Real lot', store=False, multi=False),
+        #'real_supplier_list': fields.function(
+        #    _get_lot_from_claim, method=True, type='char', size=80,
+        #    string='Real supplier', store=False, multi=True),
         
         'state': fields.selection([
             ('draft', 'Draft'),

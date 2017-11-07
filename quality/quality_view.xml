@@ -247,6 +247,7 @@
                    <field name="partner_name" invisible="1"/>
                    <button string="Open" name="open_real_lot_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('real_lot_list','=','')]}"/>
                    <field name="real_lot_list" />
+                   <!--<field name="real_supplier_list" />-->
                    <field name="partner_id"/>
                    <field name="action_id" />
                    <field name="sampling_id" />
