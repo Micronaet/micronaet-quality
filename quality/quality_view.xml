@@ -244,6 +244,7 @@
                 <tree string="Claims" colors="grey:state == 'draft';blue:state == 'opened';brown:state == 'nc';orange:state == 'done';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
                    <field name="ref"/>
                    <field name="name"/>
+                   <field name="partner_name" invisible="1"/>
                    <button string="Open" name="open_real_lot_elements" type="object" icon="gtk-go-forward" attrs="{'invisible':[('real_lot_list','=','')]}"/>
                    <field name="real_lot_list" />
                    <field name="partner_id"/>
@@ -285,7 +286,8 @@
                    <field name="ref"/>
                    <field name="name"/>
                    <field name="date"/>
-                   <field name="partner_id" domain="[('is_address', '=', False)]"/>
+                   <field name="partner_id" domain="[('is_address', '=', False)]" />
+                   <field name="partner_name" />
                    <field name="receive_user_id"/>
                    <field name="insert_user_id"/>
                    <field name="partner_address_id" domain="[('is_address', '=', True)]"/>

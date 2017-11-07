@@ -411,8 +411,44 @@ class quality_claim(osv.osv):
                         line.real_lot_id.name or '??')
         return res            
         
+    # -------------------------------------------------------------------------    
+    # Fields:
+    # -------------------------------------------------------------------------    
+    def _get_partner_name(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for item in self.browse(cr, uid, ids, context=context):
+            res[item.id] = item.partner_id.name or ''
+        return res
+        
+    # -------------------------------------------------------------------------    
+    # Store function:
+    # -------------------------------------------------------------------------    
+    def _store_res_partner_name(self, cr, uid, ids, context=None):
+        ''' Change in res.partner the name
+        '''
+        _logger.warning('Change partner name')
+        return self.pool.get('quality.claim').search(cr, uid, [
+            ('partner_id', 'in', ids),
+            ], context=context)
+
+    def _store_form_partner_id(self, cr, uid, ids, context=None):
+        ''' Change in form partner_id
+        '''
+        _logger.warning('Change partner in form')
+        return ids
+                
     _columns = {    
         'name': fields.char('Description', size=80, required=True),
+        'partner_name': fields.function(
+            _get_partner_name, method=True,
+            type='char', string='Nome partner',
+            store={
+                'res.partner': (_store_res_partner_name, ['name'], 10),
+                'quality.claim': (_store_form_partner_id, ['partner_id'], 10),
+                }),
+                        
         'ref': fields.char('Ref', size=12, readonly=True),
         'customer_ref': fields.char('Customer ref', size=30),
         'date': fields.datetime('Date'),
