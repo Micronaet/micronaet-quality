@@ -720,11 +720,11 @@ class quality_claim_product(osv.osv):
             ondeleted='cascade'),
         'label_lot': fields.char('Label Lot', size=10),
         'label_supplier': fields.char('Label Supplier', size=50),
-        'lot_deadline': fields.related('lot_id', 'deadline', type='date', 
-            string='Lot deadline'),
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+            string='Lot deadline', store=False),
 
         'access_id': fields.integer('Access ID'),
-    }
+        }
 
 # -----------------------------------------------------------------------------
 #                                    ACCEPTATION
