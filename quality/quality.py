@@ -707,7 +707,7 @@ class quality_claim_product(osv.osv):
         'real_lot_id':fields.many2one('stock.production.lot', 'Real lot', 
             required=True),
 
-        'real_supplier_id': fields.related('real_lot_id','default_supplier_id', 
+        'real_supplier_id': fields.related('real_lot_id','default_supplier_id',
             type='many2one', relation='res.partner', string='Real Supplier'),
         'product_id': fields.related('lot_id', 'product_id', type='many2one', 
             relation='product.product', string='Product'),
