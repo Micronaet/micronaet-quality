@@ -198,6 +198,7 @@
         <record id="view_quality_claim_fast_insert_form" model="ir.ui.view">
             <field name="name">quality.claim.fast.form</field>
             <field name="model">quality.claim</field>
+            <field name="priority" evel="80" />
             <field name="arch" type="xml">
                 <form string="Claims" version="7.0">
                 <header>
