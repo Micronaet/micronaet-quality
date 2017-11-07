@@ -494,11 +494,11 @@
                             <field name="conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
                         </group>
                         <group colspan="2" col="2">
-                            <separator string="Subject proposed" colspan='2'/>
+                            <separator string="Oggetto" colspan='2'/>
                             <field name="proposed_subject" colspan='2' nolabel='1'/>
                         </group>
                         <group colspan="2" col="2">
-                            <separator string="Note" colspan='2'/>
+                            <separator string="Analisi delle cause" colspan='2'/>
                             <field name="note" colspan='2' nolabel='1'/>
                         </group>
                         <notebook colspan='4'>
