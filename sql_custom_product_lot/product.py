@@ -149,7 +149,7 @@ class product_product(osv.osv):
                 
             default_supplier_id = create_update_supplier(
                 self, cr, uid, record, context=context)            
-            deadline = lot_pool.get_lot_from_alternative_code(
+            real_deadline = lot_pool.get_lot_from_alternative_code(
                 cr, uid, record['CSG_ART_ALT'], record['DTT_CRE'], 
                 context=context)
             
@@ -166,7 +166,8 @@ class product_product(osv.osv):
                     #'name': lot_code,
                     #'product_id': product_id,
                     #'date': date,
-                    'deadline': deadline,
+                    #'deadline': deadline,
+                    'real_deadline': real_deadline,
                     #'default_supplier_id': default_supplier_id,
                     }, context=context)                
             else: # production lot or not imported
@@ -174,7 +175,8 @@ class product_product(osv.osv):
                     'name': lot_code,
                     'product_id': product_id,
                     #'date': date,
-                    'deadline': deadline,
+                    #'deadline': deadline,
+                    'real_deadline': real_deadline,
                     'default_supplier_id': default_supplier_id,
                     }, context=context)
 
@@ -250,18 +252,15 @@ class stock_production_lot(osv.osv):
             try:
                 #deadline = "%s-%s-%s" % (
                 #    creation_date.year,
-                #    code[:2],
-                #    code[3:],
-                #    )
-                deadline = "20%s-%s-01" % (
-                    code[3:],
-                    code[:2],
-                    )
-                test = datetime.strptime(deadline, DEFAULT_SERVER_DATE_FORMAT)
+                #    code[:2], code[3:])
+                #deadline = "20%s-%s-01" % (code[3:], code[:2])
+                deadline = '20%s-%s' % (code[3:], code[:2])
+                # Date test (removed 07-11-2017)
+                #test = datetime.strptime(deadline, DEFAULT_SERVER_DATE_FORMAT)
                 return deadline
-            except: 
+            except:
                 pass # test raise error (no date)
-        return False            
+        return False
             
     _columns = {
         'duplicated': fields.boolean('Duplicated'),

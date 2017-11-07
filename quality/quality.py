@@ -157,7 +157,6 @@ class quality_gravity(osv.osv):
 class stock_production_lot(osv.osv):
     ''' Manage the lot
     '''
-    _name = 'stock.production.lot'
     _inherit = 'stock.production.lot'
 
     # -------------
@@ -178,13 +177,14 @@ class stock_production_lot(osv.osv):
         'obsolete': fields.boolean('Obsolete', 
             help='Indicates that the lot is old'),
         'deadline': fields.date('Deadline'),
+        'real_deadline': fields.char('Real deadline', size=12),
 
         'access_id': fields.integer('Access ID'),
-    }
+        }
     
     _defaults = {
         'obsolete': lambda *a: False,
-    }
+        }
 
 class quality_claim(osv.osv):
     ''' Quality Claim
@@ -1099,8 +1099,8 @@ class quality_sampling(osv.osv):
             required=False),
         'acceptation_id': fields.many2one('quality.acceptation', 
             'Acceptation'),
-        'lot_deadline': fields.related('lot_id','deadline', type='date', 
-            string='Lot deadline'),
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+            string='Lot deadline', store=False),
         'lot_supplier_id': fields.related('lot_id', 'default_supplier_id', 
             type='many2one', relation='res.partner', string='Lot supplier',
             store=False,
@@ -1487,8 +1487,8 @@ class quality_conformed(osv.osv):
         'lot_id':fields.many2one('stock.production.lot', 'Real Lot'), 
         'label_lot': fields.char('Label Lot', size=10),
         'label_supplier': fields.char('Label Supplier', size=50),
-        'lot_deadline': fields.related('lot_id', 'deadline', type='date', 
-            string='Lot Deadline'),
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+            string='Lot Deadline', store=False),
         'cancel': fields.boolean('Cancel'),
         'supplier_lot': fields.related('lot_id', 'default_supplier_id', 
             type='many2one', relation='res.partner', string='Supplier'),

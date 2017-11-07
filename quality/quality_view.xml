@@ -720,7 +720,6 @@
         </record>
 
         <!--stock.production.lot-->
-
         <record id="view_stock_production_lot_form" model="ir.ui.view">
             <field name="name">stock.production.lot.form</field>
             <field name="model">stock.production.lot</field>
@@ -728,7 +727,8 @@
             <field name="arch" type="xml">
                 <field name="ref" position="after">
                     <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
-                    <field name="deadline"/>
+                    <!--<field name="deadline"/>-->
+                    <field name="real_deadline" />
                     <field name="obsolete" invisible='1'/>
                     <button string="Obsolete" name="set_obsolete" type="object" attrs="{'invisible': [('obsolete','=',True)]}" icon="STOCK_NO"/>
                     <button string="Not obsolete" name="set_not_obsolete" type="object" attrs="{'invisible': [('obsolete','=',False)]}" icon="STOCK_YES"/>
@@ -742,7 +742,8 @@
             <field name="arch" type="xml">
                 <field name="date" position="after">
                     <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
-                    <field name="deadline"/>
+                    <!--<field name="deadline"/>-->
+                    <field name="real_deadline" />
                     <field name="obsolete" invisible='1'/>
                     <button string="Obsolete" name="set_obsolete" type="object" attrs="{'invisible': [('obsolete','=',True)]}" icon="STOCK_NO"/>
                     <button string="Not obsolete" name="set_not_obsolete" type="object" attrs="{'invisible': [('obsolete','=',False)]}" icon="STOCK_YES"/>
