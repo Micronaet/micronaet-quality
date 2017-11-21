@@ -841,10 +841,13 @@
                                            <field name="quantity"/>
                                            <field name="temperature"/>
                                            <field name="label"/>
-                                           <field name="aesthetic_packaging"/>
+                                           <field name="aesthetic_packaging" string="Confezione"/>
                                            <field name="quality"/>
                                            <field name="deadline"/>
                                            <field name="sanitation"/>
+                                           <field name="delay" />
+                                           <field name="no_delivery" />
+                                           <field name="external_material" />
                                         </group>
                                         <separator string='Type of not conformed' colspan='4'/>
                                         <field name="name" colspan='4' nolabel='1'/>

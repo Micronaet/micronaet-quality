@@ -1486,13 +1486,18 @@ class quality_conformed(osv.osv):
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'insert_date': fields.date('Insert date', required=True),
-        'aesthetic_packaging': fields.boolean('Packaging'),
+        
+        'aesthetic_packaging': fields.boolean('Confezione'),        
         'quantity': fields.boolean('Quantity'),
         'sanitation': fields.boolean('Sanitation'),
         'temperature': fields.boolean('Temperature'),
         'label': fields.boolean('Label'),
         'quality': fields.boolean('Quality'),
         'deadline': fields.boolean('Deadline'),
+        'delay': fields.boolean('Ritardo'),
+        'no_delivery': fields.boolean('Mancata consegna'),
+        'external_material': fields.boolean('Corpi estranei'),
+        
         'gravity_id': fields.many2one('quality.gravity', 'Gravity',
             required=True),
         #'genesis':fields.selection([
@@ -2400,7 +2405,23 @@ class res_partner(osv.osv):
             'quality': 0,
             'deadline': 0,
             'sanitation': 0,
+            'delay': 0,
+            'no_delivery': 0,
+            'external_material': 0,            
             }
+        conformed_motivation_label = {
+            'quantity': u'Quantità', 
+            'temperature': u'Temperatura',
+            'label': u'Etichetta',
+            'aesthetic_packaging': u'Confezione',
+            'quality': u'Qualità',
+            'deadline': u'Scadenza',
+            'sanitation': u'Igienico/Sanitario',
+            'delay': u'Ritardo',
+            'no_delivery': u'Mancata consegna',
+            'external_material': 'Corpi estranei',
+            }
+            
             
         # TODO vedere come gestire il supplier_lot (prendere quello eventualm.)
         if index_to and index_from:
@@ -2465,7 +2486,10 @@ class res_partner(osv.osv):
         if any(conformed_motivation.values()):
             table = ""
             for key in sorted(conformed_motivation.keys()):
-                table += row_mask % (key, conformed_motivation[key])
+                table += row_mask % (
+                    conformed_motivation_label.get(key, '?'), 
+                    conformed_motivation[key],
+                    )
             html +=  table_mask % (_('Motivation'), _('Total'), table)
 
         res[ids[0]]['index_conformed'] = html
