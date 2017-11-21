@@ -1533,12 +1533,12 @@
             <field name="priority" eval="40" />
             <field name="arch" type="xml">
                 <tree string="Fornitori con classe" editable="bottom" >
+                    <field name="quality_class_id" />
                     <field name="supplier" invisible="1" />
                     <field name="name" readonly="1" />
                     <field name="sql_supplier_code" readonly="1"/>
                     <field name="quality_start_supplier" />
                     <field name="quality_end_supplier" />
-                    <field name="quality_class_id" />
                 </tree>
             </field>
         </record>
