@@ -59,6 +59,7 @@ class Parser(report_sxw.rml_parse):
             create domain for search filter depend on data
             if description is True, return description of filter instead 
         '''
+        import pdb; pdb.set_trace()
         # TODO need also other information?!?!
         if data is None:
             data = {}
@@ -104,6 +105,7 @@ class Parser(report_sxw.rml_parse):
     def get_objects(self, data=None):
         ''' Load all supplier for statistic
         '''
+        import pdb; pdb.set_trace()
         res = []
 
         # ---------------------------------------------------------------------
@@ -294,5 +296,6 @@ class Parser(report_sxw.rml_parse):
                 # General result:
                 outcome, # 15. total outcome
                 ))
+        import pdb; pdb.set_trace()        
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
