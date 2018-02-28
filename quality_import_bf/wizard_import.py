@@ -246,7 +246,7 @@ class quality_acceptation_import_wizard(osv.osv_memory):
             for line in f:
                 #import pdb; pdb.set_trace()
                 line = self.parse_line(line)
-                text_file += "<tr><td>%-20s</td><td>%-10s</td><td>%-10s</td><td>%-40s</td><td>%-15s</td><td class='{text-align: right;}'>%14s</td></tr>" % line
+                text_file += u"<tr><td>%-20s</td><td>%-10s</td><td>%-10s</td><td>%-40s</td><td>%-15s</td><td class='{text-align: right;}'>%14s</td></tr>" % line
             f.close()
 
             text_file += "</table>"
