@@ -1516,6 +1516,9 @@ class quality_conformed(osv.osv):
             ('other', 'Other'),
         ], 'Origin', select=True),
         'origin_other': fields.char('Other', size=60),
+        'reference_user_id': fields.many2one(
+            'res.users', 'Ref. user', 
+            help='Ref. user when no origin from claim'),
         'claim_id': fields.many2one('quality.claim', 'Claim'),
         'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         'acceptation_id': fields.many2one('quality.acceptation', 
