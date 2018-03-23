@@ -1523,7 +1523,7 @@ class quality_conformed(osv.osv):
         'ddt_ref': fields.char('DDT reference', size=50),
         # TODO mandatory??
         'lot_id':fields.many2one('stock.production.lot', 'Real Lot'), 
-        'label_lot': fields.char('Label Lot', size=10),
+        'label_lot': fields.char('Label Lot', size=25),
         'label_supplier': fields.char('Label Supplier', size=50),
         'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
             string='Lot Deadline', store=False),
