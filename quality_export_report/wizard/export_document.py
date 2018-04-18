@@ -222,7 +222,7 @@ class QualityExportExcelReport(orm.TransientModel):
             pass # Error      
             
         return excel_pool.return_attachment(cr, uid, ws_name, 
-            name_of_file=name_of_file, version='7.0', php=False, 
+            name_of_file=name_of_file, version='7.0', php=True, 
             context=context)
 
     _columns = {
