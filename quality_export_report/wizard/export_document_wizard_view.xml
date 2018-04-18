@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!-- quality.export.excel.report -->
+       <record id="quality_export_excel_report_wizard_view" model="ir.ui.view">
+            <field name="name">Export Excel report</field>
+            <field name="model">quality.export.excel.report</field>
+            <field name="arch" type="xml">
+                <form string="Wizard" version="7.0">
+                   <header>
+                       <button string="Cancel" special="cancel" />
+                       <button name="action_print" string="Print" type="object" icon="gtk-print" class="oe_highlight" />
+                   </header>                   
+                   <group colspan="4" col="4">
+                        <field name="report" />
+                        <newline/>
+                        
+                        <separator string="Period:" colspan="4"/>
+                        <field name="from_date" />
+                        <field name="to_date" />
+                        
+                        <separator string="Text:" colspan="4"/>
+                        <field name="subject" colspan="4" />
+
+                        <separator string="Partner:" colspan="4"/>
+                        <field name="partner_id" domain="[('customer', '=', True),('is_address', '=', False)]" />
+                        <field name="reference_user_id" widget="selection"/>
+                        
+                        <separator string="Category:" colspan="4"/>                        
+                        <field name="origin_id" widget="selection" />
+                        <field name="cause_id" widget="selection" />
+                        <field name="gravity_id" widget="selection" />                        
+                        
+                        <field name="state" />
+                        
+                        
+                   </group>
+                </form>
+            </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="action_quality_export_excel_report_wizard_view">
+          <field name="name">Export Excel</field>
+          <field name="res_model">quality.export.excel.report</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="target">new</field>
+          <field name="view_id" ref="quality_export_excel_report_wizard_view"/>
+      </record>      
+      <menuitem parent="quality.menu_quality_form" id="menu_quality_extract_report" name="Extract Excel" action="action_quality_export_excel_report_wizard_view" sequence="60" />
+
+    </data>
+</openerp>
