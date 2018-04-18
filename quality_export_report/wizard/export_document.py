@@ -200,7 +200,7 @@ class QualityExportExcelReport(orm.TransientModel):
             for claim in sorted(
                     claim_pool.browse(
                         cr, uid, claim_ids, context=context), 
-                    key=lambda x: x.date):
+                    key=lambda x: (x.date, x.ref)):
                 row += 1    
                 data = [
                     claim.ref or '',
