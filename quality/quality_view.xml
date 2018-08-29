@@ -944,13 +944,13 @@
                     <filter string="Aesthetic/Packaging" domain="[('aesthetic_packaging','=',True)]"/>
                     <filter string="Quantity" domain="[('quantity','=',True)]"/>
                     <filter string="Sanitation" domain="[('sanitation','=',True)]"/>
-                    <filter string="Temperature" domain="[('temperature','=',True)]"/>
-                    <filter string="Quality" domain="[('quality','=',True)]"/>
-                    <filter string="Delay" domain="[('delay','=',True)]"/>
-                    <filter string="Label" domain="[('label','=',True)]"/>
-                    <filter string="Deadline" domain="[('deadline','=',True)]"/>
-                    <filter string="No Delivery" domain="[('no_delivery','=',True)]"/>
-                    <filter string="External Material" domain="[('external_material','=',True)]"/>
+                    <filter string="Temperatura" domain="[('temperature','=',True)]"/>
+                    <filter string="Qualita'" domain="[('quality','=',True)]"/>
+                    <filter string="Ritardo" domain="[('delay','=',True)]"/>
+                    <filter string="Etichetta" domain="[('label','=',True)]"/>
+                    <filter string="Scadenza" domain="[('deadline','=',True)]"/>
+                    <filter string="Mancata consegna" domain="[('no_delivery','=',True)]"/>
+                    <filter string="Corpi estranei" domain="[('external_material','=',True)]"/>
 
                     <separator/>
                     <group expand="1" string="Group By...">
