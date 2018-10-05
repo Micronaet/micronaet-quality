@@ -183,14 +183,28 @@ class Parser(report_sxw.rml_parse):
             res = {
                 'Origine': {},
                 "Gravita'": {},
+                'Tipo': {},
                 }
+                
             dictionary = {  # Italy:
-                False: 'Nessuna',
-                'claim': 'Reclamo',
-                'acceptation': 'Accettazione',
-                'sampling': 'Campionamento',
-                'packaging': 'Confezionamento',
-                'other': 'Altro',
+                False: u'Nessuna',
+                'claim': u'Reclamo',
+                'acceptation': u'Accettazione',
+                'sampling': u'Campionamento',
+                'packaging': u'Confezionamento',
+                'other': u'Altro',
+                
+                # Type of not conformed:
+                'quantity': u'Quantità', 
+                'temperature': u'Temperatura', 
+                'label': u'Etichetta', 
+                'deadline': u'Scadenza', 
+                'aesthetic_packaging': u'Confezione', 
+                'quality': u'Qualità', 
+                'sanitation': u'Igienico/Sanitario', 
+                'delay': u'Ritardo', 
+                'no_delivery': u'Mancata consegna', 
+                'external_material': u'Corpi estranei',
                 }    
 
             # Language:
@@ -218,6 +232,20 @@ class Parser(report_sxw.rml_parse):
                 if name not in block: # Create totalizer
                     block[name] = 0                
                 block[name] += 1
+                
+                # Type:
+                block = res['Tipo'] # for fast replace
+                for field in ('quantity', 'temperature', 'label', 
+                        'aesthetic_packaging', 'quality', 'deadline', 
+                        'sanitation', 'delay', 'no_delivery', 
+                        'external_material'):
+                    if not item.__getattr__(field):
+                        continue
+                    name = dictionary.get(field, '?')
+
+                    if name not in block: # Create totalizer
+                        block[name] = 0                
+                    block[name] += 1
         return res
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
