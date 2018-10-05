@@ -1440,7 +1440,7 @@
                 <search string="Acceptation">
                     <field name="ref"/>
                     <field name="date"/>
-                    <field name="partner_id"/>
+                    <field name="partner_id" domain="[('no_quality_search', '=', False)]"/>
                     <field name="origin"/>
 
                     <separator string='State'/>
@@ -1549,6 +1549,21 @@
                     <field name="quality_end_supplier" />
                 </tree>
             </field>
+        </record>        
+        <record model="ir.ui.view" id="view_partner_tree_quality_search_tree">
+            <field name="name">res.partner.search.selection</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="40" />
+            <field name="arch" type="xml">
+                <tree string="Selezione partner ricerca" editable="bottom" >
+                    <field name="no_quality_search" />
+                    <field name="name" readonly="1" />
+                    <field name="city" readonly="1" />
+                    <field name="sql_customer_code" readonly="1"/>
+                    <field name="sql_supplier_code" readonly="1"/>
+                    <field name="sql_destination_code" readonly="1"/>
+                </tree>
+            </field>
         </record>
         <record id="action_res_partner_supplier_class" model="ir.actions.act_window" >
             <field name="name">Fornitori senza classe</field>
@@ -1570,7 +1585,7 @@
         </record>
         
         <record id="action_res_partner_supplier_form" model="ir.actions.act_window" >
-            <field name="name">partner</field>
+            <field name="name">Partner</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -1580,13 +1595,22 @@
         </record>
 
         <record id="action_res_partner_customer_form" model="ir.actions.act_window" >
-            <field name="name">partner</field>
+            <field name="name">Partner</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="base.view_partner_tree"/>
             <field name="context">{}</field>
             <field name="domain">[('customer','=',True),('is_company','=',True)]</field>
+        </record>
+        <record id="action_res_partner_customer_search_setup" model="ir.actions.act_window" >
+            <field name="name">Selezione partner ricercabili</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_partner_tree_quality_search_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
         </record>
 
         <!--Action product.product-->
@@ -1852,7 +1876,10 @@
                 <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_acceptation" name="Acceptation" action="action_quality_acceptation_form" sequence="50" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
             <menuitem parent="menu_quality_root" id="menu_quality_root_configuration" name="Configuration" sequence="99"  groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA"/>
+
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_customer" name="Customer" action="action_res_partner_customer_form" sequence="10"/>
+                    <menuitem parent="menu_quality_root_configuration_customer" id="menu_res_partner_customer_search_setup" name="Selezione per ricerca" action="action_res_partner_customer_search_setup" sequence="10"/>
+
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_supplier" name="Supplier" action="action_res_partner_supplier_form" sequence="20"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" id="menu_quality_root_configuration_supplier_class" action="action_res_partner_supplier_class" sequence="10"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" name="Fornitori senza classe (-)" id="menu_quality_root_configuration_supplier_minus_class" action="action_res_partner_supplier_minus_class" sequence="20"/>

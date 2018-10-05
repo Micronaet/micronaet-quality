@@ -2564,6 +2564,10 @@ class res_partner(osv.osv):
         return res
         
     _columns = {
+        'no_quality_search': fields.boolean(
+            'Non ricercabile', 
+            help='Non visibile nelle ricerche delle schede qualita\'',
+            ),
         'rating_ids': fields.one2many('quality.supplier.rating', 'partner_id', 
             'Rating'),
         'check_ids': fields.one2many('quality.supplier.check', 'partner_id',
