@@ -111,6 +111,9 @@ class Parser(report_sxw.rml_parse):
         # ---------------------------------------------------------------------        
         partner_pool = self.pool.get('res.partner')
 
+        # Open in force mode:
+        force_mode = data.get('report_type', 'report') == 'force'
+        
         # Create a domain:
         domain = [('supplier', '=', True)]
         if data.get('quality_class_id', False):
@@ -294,5 +297,11 @@ class Parser(report_sxw.rml_parse):
                 # General result:
                 outcome, # 15. total outcome
                 ))
+        if force_mode:
+            for record in res:
+                partner = record[0]
+                
+                # partner_pool.write(cr, uid, partner.id, {
+                #    }, context=context)
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

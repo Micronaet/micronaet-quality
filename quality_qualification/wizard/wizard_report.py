@@ -48,29 +48,26 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         
         wiz_browse = self.browse(cr, uid, ids, context=context)[0]
         
-        datas = {}
-        datas['report_type'] = wiz_browse.report_type
-        datas['report_type'] = wiz_browse.only_active
-        datas['from_date'] = wiz_browse.from_date
-        datas['to_date'] = wiz_browse.to_date
-        datas['ref_date'] = wiz_browse.ref_date
-        datas['only_active'] = wiz_browse.only_active
-        datas['partner_id'] = (
-            wiz_browse.partner_id.id if wiz_browse.partner_id else False)
-        datas['quality_class_id'] = (
-            wiz_browse.quality_class_id.id if wiz_browse.quality_class_id else False)
+        datas = {
+            'report_type': wiz_browse.report_type,
+            'only_active': wiz_browse.only_active,
+            'from_date': wiz_browse.from_date,
+            'to_date': wiz_browse.to_date,
+            'ref_date': wiz_browse.ref_date,
+            'partner_id': (
+                wiz_browse.partner_id.id if wiz_browse.partner_id else False),
+            'quality_class_id': (
+                wiz_browse.quality_class_id.id if \
+                    wiz_browse.quality_class_id else False),
+            }
 
-        if wiz_browse.report_type == 'report':
-            return {
-                 # action report
-                'type': 'ir.actions.report.xml',
-                'report_name': 'quality_qualification_supplier_report',
-                'datas': datas,
-                }
-
-        # Force qualification in supplier:
-        # TODO
-        return
+        # Print report:
+        return {
+             # action report
+            'type': 'ir.actions.report.xml',
+            'report_name': 'quality_qualification_supplier_report',
+            'datas': datas,
+            }
         
     _columns = {
         'report_type': fields.selection([

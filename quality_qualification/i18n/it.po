@@ -1,0 +1,334 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* quality_qualification
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-08 09:37+0000\n"
+"PO-Revision-Date: 2018-11-08 10:42+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:71
+#, python-format
+msgid " a data < %s"
+msgstr " a data < %s"
+
+#. module: quality_qualification
+#: view:quality.qualification.parameter:0
+msgid "Details:"
+msgstr "Dettagli:"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:134
+#, python-format
+msgid "This report will be lauched from wizard!"
+msgstr "Questa stampa deve essere lanciata dal wizard!"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,name:0
+msgid "From acceptation"
+msgstr "Da accettazione"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,from_value:0
+msgid "Range From (>=)"
+msgstr "Range Da (>=)"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,only_active:0
+msgid "Only active"
+msgstr "Solo attivi"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter.line,value:0
+msgid "% on total"
+msgstr "% sul totale"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter.line,perc_from:0
+msgid "from (>=)"
+msgstr "da (>=)"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,line_ids:0
+msgid "Details"
+msgstr "Dettagli"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,uom:0
+msgid "Lot"
+msgstr "Lotto"
+
+#. module: quality_qualification
+#: view:quality.supplier.qualification.wizard:0
+msgid "Print"
+msgstr "Stampa"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter.line,qualification:0
+#: selection:res.partner,qualification_acceptation:0
+#: selection:res.partner,qualification_claim:0
+#: selection:res.partner,qualification_packaging:0
+#: selection:res.partner,qualification_sampling:0
+msgid "Full qualification"
+msgstr "Piena qualifica"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,to_value:0
+msgid "Range To (<)"
+msgstr "Range A (<)"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter.line,parameter_id:0
+msgid "Parameter"
+msgstr "Parametri"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:69
+#, python-format
+msgid "da data >= %s"
+msgstr "da data >= %s"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:176
+#, python-format
+msgid "Full"
+msgstr "Piena"
+
+#. module: quality_qualification
+#: field:res.partner,qualification_sampling:0
+msgid "Qualification from sampl."
+msgstr "Qualifica da campionamenti"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,name:0
+msgid "From sampling"
+msgstr "Da campionamenti"
+
+#. module: quality_qualification
+#: view:res.partner:0
+msgid "Auto qualification"
+msgstr "Auto qualitifazione"
+
+#. module: quality_qualification
+#: view:quality.qualification.parameter:0
+msgid "Supplier qualification parameter"
+msgstr "Parametri qualifica fornitore"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter.line,perc_to:0
+msgid "to (<)"
+msgstr "A (<)"
+
+#. module: quality_qualification
+#: field:res.partner,qualification_claim:0
+msgid "Qualification from claim"
+msgstr "Qualifica da reclami"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,name:0
+msgid "From packaging"
+msgstr "Da confezionamento"
+
+#. module: quality_qualification
+#: selection:quality.supplier.qualification.wizard,report_type:0
+msgid "Report"
+msgstr "Stampa"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,to_date:0
+msgid "To (<)"
+msgstr "A (<)"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:175
+#, python-format
+msgid "Reserve"
+msgstr "Riserva"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter.line,qualification:0
+#: selection:res.partner,qualification_acceptation:0
+#: selection:res.partner,qualification_claim:0
+#: selection:res.partner,qualification_packaging:0
+#: selection:res.partner,qualification_sampling:0
+msgid "With reserve"
+msgstr "Con riserva"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,quality_class_id:0
+msgid "Class"
+msgstr "Classe"
+
+#. module: quality_qualification
+#: field:res.partner,qualification_packaging:0
+msgid "Qualification from pack."
+msgstr "Qualifica da confezionamento"
+
+#. module: quality_qualification
+#: model:ir.actions.act_window,name:quality_qualification.action_quality_supplier_qualification_wizard
+#: view:quality.supplier.qualification.wizard:0
+msgid "QUalification supplier wizard"
+msgstr "Wizard qualifica fornitore"
+
+#. module: quality_qualification
+#: model:ir.actions.act_window,name:quality_qualification.action_supplier_qualification_form
+#: model:ir.model,name:quality_qualification.model_quality_qualification_parameter
+msgid "Qualification parameter"
+msgstr "Parametri qualifica"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,from_date:0
+msgid "From (>=)"
+msgstr "Da (>=)"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,name:0
+msgid "From Claim"
+msgstr "Da reclamo"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:177
+#: selection:quality.qualification.parameter.line,qualification:0
+#: selection:res.partner,qualification_acceptation:0
+#: selection:res.partner,qualification_claim:0
+#: selection:res.partner,qualification_packaging:0
+#: selection:res.partner,qualification_sampling:0
+#, python-format
+msgid "Discarded"
+msgstr "Scartato"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,report_type:0
+msgid "Wizard type"
+msgstr "Tipo wizard"
+
+#. module: quality_qualification
+#: help:quality.supplier.qualification.wizard,only_active:0
+msgid "Only the one who has lot in period"
+msgstr "Solo chi ha dei lotti nel periodo"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/report/qualification_parser.py:133
+#: code:addons/quality_qualification/report/qualification_parser.py:178
+#, python-format
+msgid "Error"
+msgstr "Errore"
+
+#. module: quality_qualification
+#: field:quality.supplier.qualification.wizard,ref_date:0
+msgid "Ref date"
+msgstr "Rif. data"
+
+#. module: quality_qualification
+#: code:addons/quality_qualification/qualification.py:134
+#: sql_constraint:quality.qualification.parameter:0
+#, python-format
+msgid "There's another model that is created fom this origin!"
+msgstr "C'è un altro modello che è stato creato da questa origine!"
+
+#. module: quality_qualification
+#: model:ir.model,name:quality_qualification.model_quality_supplier_qualification_wizard
+msgid "Supplier qualitication"
+msgstr "Qualifica fornitore"
+
+#. module: quality_qualification
+#: model:ir.actions.report.xml,name:quality_qualification.aeroo_qualification_supplier_report_id
+#: model:ir.ui.menu,name:quality_qualification.menu_quality_root_configuration_qualification_parameter
+msgid "Supplier qualification"
+msgstr "Qualifica fornitore"
+
+#. module: quality_qualification
+#: field:res.partner,qualification_date:0
+msgid "Qualification date"
+msgstr "Data qualifica"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,name:0
+msgid "Origin"
+msgstr "Origine"
+
+#. module: quality_qualification
+#: model:ir.model,name:quality_qualification.model_quality_qualification_parameter_line
+msgid "Qualification parameter line"
+msgstr "Riga parametro qualifica "
+
+#. module: quality_qualification
+#: selection:quality.supplier.qualification.wizard,report_type:0
+msgid "Force"
+msgstr "Forza"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter.line,qualification:0
+#: selection:res.partner,qualification_acceptation:0
+#: selection:res.partner,qualification_claim:0
+#: selection:res.partner,qualification_packaging:0
+#: selection:res.partner,qualification_sampling:0
+msgid "Error, not found"
+msgstr "Errore, non trovato"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter,uom:0
+msgid "Weight"
+msgstr "Peso"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter.line,qualification:0
+msgid "Qualification type"
+msgstr "Tipo qualifica"
+
+#. module: quality_qualification
+#: selection:quality.qualification.parameter.line,value:0
+msgid "Number"
+msgstr "Numero"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter.line,value:0
+msgid "value"
+msgstr "valore"
+
+#. module: quality_qualification
+#: field:res.partner,qualification_acceptation:0
+msgid "Qualification from acc."
+msgstr "Qualifica da accettazione"
+
+#. module: quality_qualification
+#: field:quality.qualification.parameter,uom:0
+msgid "uom"
+msgstr "UM"
+
+#. module: quality_qualification
+#: model:ir.ui.menu,name:quality_qualification.menu_quality_supplier_qualification_wizard
+msgid "Force wizard"
+msgstr "Wizard forza"
+
+#. module: quality_qualification
+#: view:quality.supplier.qualification.wizard:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: quality_qualification
+#: model:ir.model,name:quality_qualification.model_res_partner
+#: field:quality.supplier.qualification.wizard,partner_id:0
+msgid "Partner"
+msgstr "Partner"
