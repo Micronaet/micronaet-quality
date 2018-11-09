@@ -113,6 +113,8 @@ class Parser(report_sxw.rml_parse):
 
         # Open in force mode:
         force_mode = data.get('report_type', 'report') == 'force'
+        ref_date = data.get('ref_date', False)
+        ref_deadline = data.get('ref_deadline', False)
         
         # Create a domain:
         domain = [('supplier', '=', True)]
@@ -130,7 +132,7 @@ class Parser(report_sxw.rml_parse):
 
         # Range date must be present (if comes from wizard):
         index_from = data.get('from_date', False)
-        index_to = data.get('to_date', False)
+        index_to = data.get('to_date', False)        
         if not index_to or not index_from:
             raise osv.except_osv(
                 _('Error'), 
@@ -297,11 +299,68 @@ class Parser(report_sxw.rml_parse):
                 # General result:
                 outcome, # 15. total outcome
                 ))
-        if force_mode:
-            for record in res:
+
+        # ---------------------------------------------------------------------
+        #  Update mode (supplier data)
+        # ---------------------------------------------------------------------
+        if force_mode:            
+            import pdb; pdb.set_trace()
+            rating_pool = self.pool.get('quality.supplier.rating')
+            
+            partner_ids = [item[0].id for item in res]
+            # -------------------------------------------------------------
+            # 1. Clean all previous supplier evaluation with same data:
+            # -------------------------------------------------------------
+            # Delete all rating for this partner with current date
+            rating_ids = rating_pool.search(cr, uid, [
+                ('partner_id', 'in', partner_ids),
+                ('date', '=', ref_date),
+                ], context=context)
+            _logger.info('Unlink yet present rating: %s' % len(rating_ids))
+            rating_pool.unlink(rating_ids)    
+            
+            # -------------------------------------------------------------
+            # 2. Set as old all previous:
+            # -------------------------------------------------------------
+            # Set remain rating for all partner as obsolete
+            rating_ids = rating_pool.search(cr, uid, [
+                ('partner_id', 'in', partner_ids),
+                ('obsolete', '=', False),
+                ], context=context)
+            _logger.info('Obsolete rating setted: %s' % len(rating_ids))
+            rating_pool.write(cr, uid, rating_ids, {
+                'obsolete': True,
+                }, context=context)    
+            
+            for record in res:                
                 partner = record[0]
+                # TODO check strange case (one rating in ref_date)
+                if partner.rating_ids:
+                    rating_move = 'renewal'
+                else:    
+                    rating_move = 'first' 
+
+                # -------------------------------------------------------------
+                # 3. Update supplier info:
+                # -------------------------------------------------------------
+                partner_pool.write(cr, uid, partner.id, {
+                    'qualification_date': ref_date,
+                    'qualification_claim': record[8],
+                    'qualification_acceptation': record[7],
+                    'qualification_sampling ': record[9],
+                    'qualification_packaging': record[10],
+                    }, context=context)
                 
-                # partner_pool.write(cr, uid, partner.id, {
-                #    }, context=context)
+                # -------------------------------------------------------------
+                # 4. Create new evaluation:
+                # -------------------------------------------------------------
+                rating_pool.create(cr, uid, {
+                    'date': ref_date,
+                    'deadline': ref_deadline,
+                    'name': '', # XXX
+                    'type': rating_mode,
+                    'qualification': record[15],
+                    'obsolete': False,
+                    }, context=context)
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

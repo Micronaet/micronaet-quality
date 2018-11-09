@@ -54,6 +54,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
             'from_date': wiz_browse.from_date,
             'to_date': wiz_browse.to_date,
             'ref_date': wiz_browse.ref_date,
+            'ref_deadline': wiz_browse.ref_deadline,
             'partner_id': (
                 wiz_browse.partner_id.id if wiz_browse.partner_id else False),
             'quality_class_id': (
@@ -83,6 +84,7 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
         'from_date': fields.date('From (>=)', required=True),
         'to_date': fields.date('To (<)', required=True),
         'ref_date': fields.date('Ref date'),        
+        'ref_deadline': fields.date('Ref deadline'),        
         'only_active': fields.boolean('Only active', 
             help='Only the one who has lot in period'),
         }
