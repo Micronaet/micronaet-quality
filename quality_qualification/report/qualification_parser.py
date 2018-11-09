@@ -105,6 +105,9 @@ class Parser(report_sxw.rml_parse):
         ''' Load all supplier for statistic
         '''
         res = []
+        cr = self.cr
+        uid = self.uid
+        context = {}
 
         # ---------------------------------------------------------------------
         #                           Load partner list:
@@ -113,6 +116,8 @@ class Parser(report_sxw.rml_parse):
 
         # Open in force mode:
         force_mode = data.get('report_type', 'report') == 'force'
+        force_db = {} # if in force mode
+
         ref_date = data.get('ref_date', False)
         ref_deadline = data.get('ref_deadline', False)
         
@@ -127,7 +132,8 @@ class Parser(report_sxw.rml_parse):
                 ('id', '=', data.get('partner_id', False))
                 )
 
-        partner_ids = partner_pool.search(self.cr, self.uid, domain)
+        partner_ids = partner_pool.search(
+            cr, uid, domain, context=context)
         only_active = data.get('only_active', False)
 
         # Range date must be present (if comes from wizard):
@@ -151,14 +157,14 @@ class Parser(report_sxw.rml_parse):
             }
         nc_pool = self.pool.get('quality.conformed')
 
-        nc_ids = nc_pool.search(self.cr, self.uid, [
+        nc_ids = nc_pool.search(cr, uid, [
             ('state', '!=', 'cancel'),
             ('insert_date', '>=', index_from),
             ('insert_date', '<', index_to),
             #('supplier_lot', 'in', tuple(partner_ids)),
             ])
             
-        for nc in nc_pool.browse(self.cr, self.uid, nc_ids):
+        for nc in nc_pool.browse(cr, uid, nc_ids):
             if not nc.origin or nc.origin not in nc_stat:
                 _logger.error(
                     'Origin not found or not in list: %s!' % nc.origin)
@@ -173,7 +179,7 @@ class Parser(report_sxw.rml_parse):
 
         # Load parameter dict for controls:
         parameter_pool = self.pool.get('quality.qualification.parameter')
-        parameters = parameter_pool._load_parameters(self.cr, self.uid)
+        parameters = parameter_pool._load_parameters(cr, uid)
          
         # Description conversion: 
         description = { # TODO usare quella nel modulo!!
@@ -182,16 +188,17 @@ class Parser(report_sxw.rml_parse):
             'discarded': _('Discarded'),
             'error': _('Error'), # TODO needed?
             }
-        for partner in partner_pool.browse(self.cr, self.uid, partner_ids):            
+        for partner in partner_pool.browse(
+                cr, uid, partner_ids, context=context):
             # Total lots:
             total_acceptation_lot = partner_pool._get_index_lot(
-                self.cr, self.uid, index_from, index_to, partner.id)
+                cr, uid, index_from, index_to, partner.id)
 
             # Total weight (t so converted)    
             try:
                 total_acceptation_weight = float(
                     partner_pool._get_index_weight(
-                        self.cr, self.uid, index_from, index_to, partner.id
+                        cr, uid, index_from, index_to, partner.id
                         )) / 1000.0
             except:
                 total_acceptation_weight = 0.0
@@ -220,57 +227,51 @@ class Parser(report_sxw.rml_parse):
                 sample_failed = 0.0
                 pack_failed = 0.0                
                 
-            outcome_list = []
-            outcome = parameter_pool._check_parameters(
+            acc_outcome = parameter_pool._check_parameters(
                 parameters, 'acceptation', 
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 acc_failed,
                 acc_total, 
                 )
-            acc_outcome = description.get(outcome, '# Error')
-            outcome_list.append(outcome)
 
-            outcome = parameter_pool._check_parameters(
+            claim_outcome = parameter_pool._check_parameters(
                 parameters, 'claim', 
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 claim_failed,
                 claim_total, 
                 )
-            claim_outcome = description.get(outcome, '# Error')
-            outcome_list.append(outcome)
 
-            outcome = parameter_pool._check_parameters(
+            sample_outcome = parameter_pool._check_parameters(
                 parameters, 'sampling', 
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 sample_failed,
                 sample_total, 
                 )
-            sample_outcome = description.get(outcome, '# Error')
-            outcome_list.append(outcome)
 
-            outcome = parameter_pool._check_parameters(
+            pack_outcome = parameter_pool._check_parameters(
                 parameters, 'packaging', 
                 total_acceptation_weight, # weight
                 total_acceptation_lot, # Note:  % lot
                 pack_failed,
                 pack_total, 
                 )
-            pack_outcome = description.get(outcome, '# Error')
-            outcome_list.append(outcome)
+                
+            outcome_list = [
+                acc_outcome, claim_outcome, sample_outcome, pack_outcome]
 
             if 'discarded' in outcome_list:
-                outcome = description.get('discarded')
+                outcome = 'discarded'
             else:    
                 if 'reserve' in outcome_list:
-                    outcome = description.get('reserve')
+                    outcome = 'reserve'
                 else:
                    if 'full' in outcome_list:
-                       outcome = description.get('full')
+                       outcome = 'full'
                    else:
-                       outcome = description.get('error')
+                       outcome = 'error'
                 
             res.append((
                 partner, # 0. browse obj
@@ -285,10 +286,10 @@ class Parser(report_sxw.rml_parse):
                 pack_failed, # 6. packaging failed
                 
                 # Outcome for origin:
-                acc_outcome, # 7. acc. outcome
-                claim_outcome, # 8. claim outcome
-                sample_outcome, # 9. sample outcome
-                pack_outcome, # 10. packaging outcome
+                description.get(acc_outcome, '# Error'), # 7. acc.
+                description.get(claim_outcome, '# Error'), # 8. claim
+                description.get(sample_outcome, '# Error'), # 9. sample
+                description.get(pack_outcome, '# Error'), # 10. packaging
 
                 # Total NC in number:
                 acc_total, # 11. acc failed
@@ -297,17 +298,23 @@ class Parser(report_sxw.rml_parse):
                 pack_total, # 14. packaging failed
 
                 # General result:
-                outcome, # 15. total outcome
+                description.get(outcome), # 15. total outcome
                 ))
+
+            if force_mode:
+                force_db[partner.id] = [
+                    partner,
+                    outcome,
+                    outcome_list,
+                    ]
 
         # ---------------------------------------------------------------------
         #  Update mode (supplier data)
         # ---------------------------------------------------------------------
         if force_mode:            
-            import pdb; pdb.set_trace()
             rating_pool = self.pool.get('quality.supplier.rating')
             
-            partner_ids = [item[0].id for item in res]
+            partner_ids = force_db.keys()
             # -------------------------------------------------------------
             # 1. Clean all previous supplier evaluation with same data:
             # -------------------------------------------------------------
@@ -317,7 +324,8 @@ class Parser(report_sxw.rml_parse):
                 ('date', '=', ref_date),
                 ], context=context)
             _logger.info('Unlink yet present rating: %s' % len(rating_ids))
-            rating_pool.unlink(rating_ids)    
+            if rating_ids:
+                rating_pool.unlink(cr, uid, rating_ids, context=context)    
             
             # -------------------------------------------------------------
             # 2. Set as old all previous:
@@ -328,38 +336,44 @@ class Parser(report_sxw.rml_parse):
                 ('obsolete', '=', False),
                 ], context=context)
             _logger.info('Obsolete rating setted: %s' % len(rating_ids))
-            rating_pool.write(cr, uid, rating_ids, {
-                'obsolete': True,
-                }, context=context)    
+            if rating_ids:
+                rating_pool.write(cr, uid, rating_ids, {
+                    'obsolete': True,
+                    }, context=context)    
             
-            for record in res:                
-                partner = record[0]
+            for partner_id in force_db:    
+                partner, outcome, outcome_list = force_db[partner_id]
+                acc_outcome, claim_outcome, sample_outcome, pack_outcome = \
+                    outcome_list
+  
                 # TODO check strange case (one rating in ref_date)
                 if partner.rating_ids:
-                    rating_move = 'renewal'
+                    rating_mode = 'renewal'
                 else:    
-                    rating_move = 'first' 
+                    rating_mode = 'first' 
 
                 # -------------------------------------------------------------
                 # 3. Update supplier info:
                 # -------------------------------------------------------------
-                partner_pool.write(cr, uid, partner.id, {
+                partner_pool.write(cr, uid, partner_id, {
+                    'quality_update_date': ref_date,
                     'qualification_date': ref_date,
-                    'qualification_claim': record[8],
-                    'qualification_acceptation': record[7],
-                    'qualification_sampling ': record[9],
-                    'qualification_packaging': record[10],
+                    'qualification_claim': claim_outcome,
+                    'qualification_acceptation': acc_outcome,
+                    'qualification_sampling': sample_outcome,
+                    'qualification_packaging': pack_outcome,
                     }, context=context)
                 
                 # -------------------------------------------------------------
                 # 4. Create new evaluation:
                 # -------------------------------------------------------------
                 rating_pool.create(cr, uid, {
+                    'partner_id': partner_id,
                     'date': ref_date,
                     'deadline': ref_deadline,
-                    'name': '', # XXX
+                    'name': 'Qualifica automatica',
                     'type': rating_mode,
-                    'qualification': record[15],
+                    'qualification': outcome,
                     'obsolete': False,
                     }, context=context)
         return res
