@@ -1,13 +1,27 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-      <!--quality.not.conformed-->
+      <!--quality.conformed.external-->
         <record id="view_quality_conformed_external_form" model="ir.ui.view">
             <field name="name">quality.conformed.external.form</field>
             <field name="model">quality.conformed.external</field>
             <field name="arch" type="xml">
                 <form string="Not conformed" version="7.0">
                     <header>
+                        <!--<button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                        <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                        <button string="Cancel" name="trigger_conformed_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                        <button string="Saw" name="trigger_conformed_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                        <button string="Cancel" name="trigger_conformed_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                        <button string="Cancel" name="trigger_conformed_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                        <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+
+                        <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+                        <button name="print_form_supplier" string="Print supplier" icon="gtk-print" type="object"/>-->
                         <field name="state" widget="statusbar" readonly='1'/>
                     </header>
                     <sheet>
@@ -18,13 +32,41 @@
                             <newline/>
                             <group colspan="4" col='4'>
                                 <field name="insert_date"/>
+                                <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
+                                <field name="supplier_lot"/>
                                 <field name="descr_product"/>
+                                <field name="ddt_ref"/>
+                                <field name="label_lot" />-->
                                 <field name="gravity_id"/>
+                                <!--<field name="lot_deadline"/>-->
                                 <field name="origin"/>
                                 <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
+                                <field name="reference_user_id" attrs="{'invisible': [('claim_id', '!=', False)]}"/>
+                                <!--<field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                                <field name="acceptation_id" attrs="{'invisible':[('origin','!=','acceptation')]}"/>
+                                <field name="parent_sampling_id" attrs="{'invisible':[('origin','!=','sampling')]}"/>-->
                             </group>
                             <notebook colspan='4'>
-                                <page string='Treatment'>
+                                <page string='Description'>
+                                    <group col='4'>
+                                        <separator string='Type' colspan='4'/>
+                                        <!--<group colspan="4" col='6'>
+                                           <field name="quantity"/>
+                                           <field name="temperature"/>
+                                           <field name="label"/>
+                                           <field name="aesthetic_packaging" string="Confezione"/>
+                                           <field name="quality"/>
+                                           <field name="deadline"/>
+                                           <field name="sanitation"/>
+                                           <field name="delay" />
+                                           <field name="no_delivery" />
+                                           <field name="external_material" />
+                                        </group>-->
+                                        <separator string='Type of not conformed' colspan='4'/>
+                                        <field name="name" colspan='4' nolabel='1'/>
+                                    </group>
+                                </page>
+                                <!--<page string='Treatment'>
                                     <group colspan="4" col='4'>
                                         <separator string='Treatments:' colspan='4'/>
                                         <field name='treatment_ids' nolabel='1' colspan='4'/>
@@ -38,30 +80,114 @@
                                     <group colspan="4" col='4'>
                                         <field name='comunication_ids' nolabel='1' colspan='4'/>
                                     </group>
-                                </page>
+                                </page>-->
                             </notebook>
                             <group colspan="4" col="6" attrs="{'invisible':[('state','=','draft')]}">
                                 <separator string="Linked forms:" colspan="6" />
                                 <group colspan="2" col="2">
-                                    <field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                                    <!--<field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
                                     <field name="action_state" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
-                                    <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />
+                                    <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />-->
                                 </group>
-                                <group colspan="2" col="2">
+                                <!--<group colspan="2" col="2">
                                     <field name="sampling_id" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
                                     <field name="sampling_state" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
                                     <button name="create_sampling" string="Create Sampling" type="object" attrs="{'invisible':[('sampling_id','!=',False)]}" />
-                                </group>
+                                </group>-->
                             </group>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
                    		<field name="message_follower_ids" widget="mail_followers" />
                 		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
-                	</div>                    
+                	</div>
                 </form>
             </field>
         </record>
+        <record id="view_quality_conformed_tree" model="ir.ui.view" >
+            <field name="name">quality.conformed.external.tree</field>
+            <field name="model">quality.conformed.external</field>
+            <field name="arch" type="xml">
+                <tree string="Not conformed" colors="grey:state == 'draft';blue:state == 'opened';black:state == 'closed';green:state == 'saw';red:state == 'cancel'">
+                    <field name="ref"/>
+                    <field name="insert_date"/>
+                    <field name="name"/>
+                    <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
+                    <field name="supplier_lot"/>
+                    <field name="action_id"/>
+                    <field name="sampling_id"/>-->
+                    
+                    <!--<button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+
+                    <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                    <button string="Cancel" name="trigger_conformed_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+
+                    <button string="Saw" name="trigger_conformed_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                    <button string="Cancel" name="trigger_conformed_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+
+                    <button string="Cancel" name="trigger_conformed_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+
+                    <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>-->
+
+                    <field name="state" widget="statusbar" readonly='1'/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_conformed_search" model="ir.ui.view" >
+            <field name="name">quality.conformed.external.search</field>
+            <field name="model">quality.conformed.external</field>
+            <field name="arch" type="xml">
+                <search string="Not conformed">
+                    <field name="ref"/>
+                    <field name="insert_date"/>
+                    <field name="origin"/>
+                    <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
+                    <field name="label_lot"/>
+                    <field name="label_supplier"/>
+                    <field name="supplier_lot"/>
+                    <field name="descr_product"/>-->
+
+                    <separator string='State'/>
+                    <!--<filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Opened" domain="[('state','=','opened')]"/>
+                    <filter string="Closed" domain="[('state','=','closed')]"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]"/>-->
+                    <separator string='Type'/>
+                    <!--<filter string="Aesthetic/Packaging" domain="[('aesthetic_packaging','=',True)]"/>
+                    <filter string="Quantity" domain="[('quantity','=',True)]"/>
+                    <filter string="Sanitation" domain="[('sanitation','=',True)]"/>
+                    <filter string="Temperatura" domain="[('temperature','=',True)]"/>
+                    <filter string="Qualita'" domain="[('quality','=',True)]"/>
+                    <filter string="Ritardo" domain="[('delay','=',True)]"/>
+                    <filter string="Etichetta" domain="[('label','=',True)]"/>
+                    <filter string="Scadenza" domain="[('deadline','=',True)]"/>
+                    <filter string="Mancata consegna" domain="[('no_delivery','=',True)]"/>
+                    <filter string="Corpi estranei" domain="[('external_material','=',True)]"/>-->
+
+                    <separator/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'insert_date'}"/>
+                        <filter string="Gravity" domain="[]" context="{'group_by':'gravity_id'}"/>
+                        <!--<filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>-->
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_quality_conformed_external_calendar" model="ir.ui.view" >
+            <field name="name">quality.conformed.external.calendar</field>
+            <field name="model">quality.conformed.external</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="state" date_start="insert_date" string="Not conformed">
+                    <field name="ref"/>
+                </calendar>
+            </field>
+        </record>
+
+        <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed_external" name="Not conformed" action="view_quality_conformed_external_calendar" sequence="31" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
     </data>
 </openerp>
 
