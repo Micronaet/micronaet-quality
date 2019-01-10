@@ -18,6 +18,7 @@
 #
 ##############################################################################
 import quality
+import external
 
 #import wizard
 #import report
