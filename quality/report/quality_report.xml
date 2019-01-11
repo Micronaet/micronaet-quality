@@ -96,6 +96,30 @@
             <field eval="True" name="replace"/>
         </ir_set>
         
+        <!--quality.conformed.external-->        
+        <record id="aeroo_quality_conformed_external" model="ir.actions.report.xml">
+            <field name="name">Quality Not conformed external</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">quality.conformed.external</field>
+            <field name="report_name">quality_conformed_external_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+            <field name="parser_loc">quality/report/quality_parser.py</field>
+            <field name="report_rml">quality/report/quality_conformed_internal.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['quality.conformed.external']" name="models"/>
+            <field name="name">Quality not conformed external</field>
+            <field eval="'ir.actions.report.xml,'+str(aeroo_quality_conformed_external)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>
+        
         <!--aeroo_quality_sampling-->
         <record id="aeroo_quality_sampling" model="ir.actions.report.xml">
             <field name="name">Quality Sampling</field>
