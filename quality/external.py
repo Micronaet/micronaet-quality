@@ -95,6 +95,10 @@ class quality_conformed_external(osv.osv):
             #('packaging', 'Packaging'),
             ('other', 'Other'),
         ], 'Origin', select=True),
+        'mode': fields.selection([
+            ('internal', 'Internal'),
+            ('supplier', 'Supplier'),
+        ], 'Mode', required=True, select=True),
         'origin_other': fields.char('Other', size=60),
         'reference_user_id': fields.many2one(
             'res.users', 'Ref. user', 
@@ -132,7 +136,7 @@ class quality_conformed_external(osv.osv):
         'action_id': fields.many2one('quality.action', 'Action', 
             ondelete='set null'),
         'action_state': fields.related('action_id', 'state', type='selection', 
-            selection=action_state, string='Action state', store=False),
+            string='Action state', store=False),
         # TODO fields.relater action_id state
 
         #'parent_sampling_id': fields.many2one('quality.sampling', 
@@ -144,13 +148,13 @@ class quality_conformed_external(osv.osv):
         #    string='Sampling state', store=False),
         # TODO fields.relater sampling_id state (come per action)
 
-
         'state':fields.selection(conformed_external_state, 'State', 
             select=True, readonly=True),
-
         } 
 
     _defaults = {
+        'mode': lambda *x: 'supplier',
+        'reference_user_id': lambda s, cr, uid, ctx: uid,
         'gravity_id': lambda s, cr, uid, ctx: s.pool.get(
             'ir.model.data').get_object_reference(
                 cr,  uid, 'quality', 'quality_gravity_serious')[1],

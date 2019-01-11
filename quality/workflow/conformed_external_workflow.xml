@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- Workflow Not Conformed: -->
+        <record model="workflow" id="wkf_quality_conformed">
+            <field name="name">quality.conformed.wkf</field>
+            <field name="osv">quality.conformed</field>
+            <field name="on_create">True</field>
+        </record>
+        
+    <!-- Activity: -->
+        <record model="workflow.activity" id="act_conformed_draft">
+            <field name="wkf_id" ref="wkf_quality_conformed" />
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">conformed_draft()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_conformed_opened">
+            <field name="wkf_id" ref="wkf_quality_conformed" />
+            <field name="name">opened</field>
+            <field name="kind">function</field>
+            <field name="action">conformed_opened()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_conformed_closed">
+            <field name="wkf_id" ref="wkf_quality_conformed" />
+            <field name="name">closed</field>
+            <field name="kind">function</field>
+            <field name="action">conformed_closed()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_conformed_saw">
+            <field name="wkf_id" ref="wkf_quality_conformed" />
+            <field name="name">saw</field>
+            <field name="kind">function</field>
+            <field name="action">conformed_saw()</field>
+        </record>
+
+        <record model="workflow.activity" id="act_conformed_cancel">
+            <field name="wkf_id" ref="wkf_quality_conformed" />
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="action">conformed_cancel()</field>
+        </record>
+
+    <!-- Trigger: -->
+        <record model="workflow.transition" id="cn01">
+            <field name="act_from" ref="act_conformed_draft" />
+            <field name="act_to" ref="act_conformed_opened" />
+            <field name="signal">trigger_conformed_draft_opened</field>
+        </record>
+
+        <record model="workflow.transition" id="cn02a">
+            <field name="act_from" ref="act_conformed_opened" />
+            <field name="act_to" ref="act_conformed_closed" />
+            <field name="signal">trigger_conformed_opened_closed</field>
+        </record>
+        <record model="workflow.transition" id="cn02b">
+            <field name="act_from" ref="act_conformed_opened" />
+            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="signal">trigger_conformed_opened_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cn03a">
+            <field name="act_from" ref="act_conformed_closed" />
+            <field name="act_to" ref="act_conformed_saw" />
+            <field name="signal">trigger_conformed_closed_saw</field>
+        </record>
+        <record model="workflow.transition" id="cn03b">
+            <field name="act_from" ref="act_conformed_closed" />
+            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="signal">trigger_conformed_closed_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cn04">
+            <field name="act_from" ref="act_conformed_saw" />
+            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="signal">trigger_conformed_saw_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cn05">
+            <field name="act_from" ref="act_conformed_cancel" />
+            <field name="act_to" ref="act_conformed_draft" />
+            <field name="signal">trigger_conformed_cancel_draft</field>
+        </record>
+    </data>
+</openerp>

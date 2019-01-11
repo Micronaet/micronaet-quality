@@ -30,6 +30,7 @@
         'base', 
         'micronaet_tools',
         'stock',
+        'mail',
         'report_aeroo',
         'report_aeroo_ooo',
         'partner_addresses',
@@ -53,6 +54,7 @@
         'workflow/sampling_workflow.xml',
         'workflow/action_workflow.xml',
         'workflow/acceptation_workflow.xml',
+        #'workflow/conformed_external_workflow.xml',
 
         # Report:
         'report/quality_report.xml',

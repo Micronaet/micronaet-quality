@@ -32,17 +32,21 @@
                             <newline/>
                             <group colspan="4" col='4'>
                                 <field name="insert_date"/>
+                                <field name="mode" />
                                 <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="supplier_lot"/>
                                 <field name="descr_product"/>
                                 <field name="ddt_ref"/>
                                 <field name="label_lot" />-->
-                                <field name="gravity_id"/>
                                 <!--<field name="lot_deadline"/>-->
+                                
+                                
+                                <field name="reference_user_id" />
+                                <field name="gravity_id"/>
+
                                 <field name="origin"/>
                                 <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
-                                <field name="reference_user_id" attrs="{'invisible': [('claim_id', '!=', False)]}"/>
-                                <!--<field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
+                                <!--<field name="claim_id" />
                                 <field name="acceptation_id" attrs="{'invisible':[('origin','!=','acceptation')]}"/>
                                 <field name="parent_sampling_id" attrs="{'invisible':[('origin','!=','sampling')]}"/>-->
                             </group>
@@ -104,7 +108,7 @@
                 </form>
             </field>
         </record>
-        <record id="view_quality_conformed_tree" model="ir.ui.view" >
+        <record id="view_quality_conformed_external_tree" model="ir.ui.view" >
             <field name="name">quality.conformed.external.tree</field>
             <field name="model">quality.conformed.external</field>
             <field name="arch" type="xml">
@@ -133,7 +137,7 @@
                 </tree>
             </field>
         </record>
-        <record id="view_quality_conformed_search" model="ir.ui.view" >
+        <record id="view_quality_conformed_external_search" model="ir.ui.view" >
             <field name="name">quality.conformed.external.search</field>
             <field name="model">quality.conformed.external</field>
             <field name="arch" type="xml">
@@ -175,7 +179,6 @@
                 </search>
             </field>
         </record>
-
         <record id="view_quality_conformed_external_calendar" model="ir.ui.view" >
             <field name="name">quality.conformed.external.calendar</field>
             <field name="model">quality.conformed.external</field>
@@ -186,8 +189,24 @@
                 </calendar>
             </field>
         </record>
+        <record model="ir.actions.act_window" id="action_quality_conformed_external">
+            <field name="name">Not conformed external</field>
+            <field name="res_model">quality.conformed.external</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_quality_conformed_external_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
 
-        <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed_external" name="Not conformed" action="view_quality_conformed_external_calendar" sequence="31" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+        <menuitem 
+            parent="menu_quality_form" 
+            id="menu_quality_form_not_conformed_external" 
+            name="Not conformed external" 
+            action="action_quality_conformed_external" 
+            sequence="31" 
+            groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"
+            />
     </data>
 </openerp>
 
