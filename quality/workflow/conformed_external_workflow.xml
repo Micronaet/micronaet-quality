@@ -47,42 +47,42 @@
 
     <!-- Trigger: -->
         <record model="workflow.transition" id="cn01">
-            <field name="act_from" ref="act_conformed_draft" />
-            <field name="act_to" ref="act_conformed_opened" />
+            <field name="act_from" ref="act_conformed_external_draft" />
+            <field name="act_to" ref="act_conformed_external_opened" />
             <field name="signal">trigger_conformed_external_draft_opened</field>
         </record>
 
         <record model="workflow.transition" id="cn02a">
-            <field name="act_from" ref="act_conformed_opened" />
-            <field name="act_to" ref="act_conformed_closed" />
+            <field name="act_from" ref="act_conformed_external_opened" />
+            <field name="act_to" ref="act_conformed_external_closed" />
             <field name="signal">trigger_conformed_external_opened_closed</field>
         </record>
         <record model="workflow.transition" id="cn02b">
-            <field name="act_from" ref="act_conformed_opened" />
-            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="act_from" ref="act_conformed_external_opened" />
+            <field name="act_to" ref="act_conformed_external_cancel" />
             <field name="signal">trigger_conformed_external_opened_cancel</field>
         </record>
 
         <record model="workflow.transition" id="cn03a">
-            <field name="act_from" ref="act_conformed_closed" />
-            <field name="act_to" ref="act_conformed_saw" />
+            <field name="act_from" ref="act_conformed_external_closed" />
+            <field name="act_to" ref="act_conformed_external_saw" />
             <field name="signal">trigger_conformed_external_closed_saw</field>
         </record>
         <record model="workflow.transition" id="cn03b">
-            <field name="act_from" ref="act_conformed_closed" />
-            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="act_from" ref="act_conformed_external_closed" />
+            <field name="act_to" ref="act_conformed_external_cancel" />
             <field name="signal">trigger_conformed_external_closed_cancel</field>
         </record>
 
         <record model="workflow.transition" id="cn04">
-            <field name="act_from" ref="act_conformed_saw" />
-            <field name="act_to" ref="act_conformed_cancel" />
+            <field name="act_from" ref="act_conformed_external_saw" />
+            <field name="act_to" ref="act_conformed_external_cancel" />
             <field name="signal">trigger_conformed_external_saw_cancel</field>
         </record>
 
         <record model="workflow.transition" id="cn05">
-            <field name="act_from" ref="act_conformed_cancel" />
-            <field name="act_to" ref="act_conformed_draft" />
+            <field name="act_from" ref="act_conformed_external_cancel" />
+            <field name="act_to" ref="act_conformed_external_draft" />
             <field name="signal">trigger_conformed_external_cancel_draft</field>
         </record>
     </data>

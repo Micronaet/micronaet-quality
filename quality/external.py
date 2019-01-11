@@ -63,6 +63,51 @@ class quality_conformed_external(osv.osv):
     _order = 'ref desc'
     _rec_name = 'ref'
 
+    # ---------------------------
+    # Workflow Activity Function:
+    # ---------------------------
+    def conformed_external_draft(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'draft',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_opened(self, cr, uid, ids, context=None):
+        conformed_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if conformed_proxy.ref:
+            ref = conformed_proxy.ref
+        else:
+            ref = self.pool.get('ir.sequence').get(cr, uid, 
+                'quality.conformed')
+        self.write(cr, uid, ids, {
+            'state': 'opened',
+            'ref': ref,
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_closed(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'closed',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+                    'state': 'cancel',
+                    }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_saw(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'saw',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+        
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'insert_date': fields.date('Insert date', required=True),
