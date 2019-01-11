@@ -54,7 +54,7 @@
         'workflow/sampling_workflow.xml',
         'workflow/action_workflow.xml',
         'workflow/acceptation_workflow.xml',
-        #'workflow/conformed_external_workflow.xml',
+        'workflow/conformed_external_workflow.xml',
 
         # Report:
         'report/quality_report.xml',
