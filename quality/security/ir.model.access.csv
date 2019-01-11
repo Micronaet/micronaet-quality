@@ -10,6 +10,7 @@
 "access_quality_sampling_user","quality.sampling","model_quality_sampling","base.group_user",1,1,1,1
 "access_quality_sampling_taster_user","quality.sampling.taster","model_quality_sampling_taster","base.group_user",1,1,1,1
 "access_quality_conformed_user","quality.conformed","model_quality_conformed","base.group_user",1,1,1,1
+"access_quality_conformed_external_user","quality.conformed.external","model_quality_conformed_external","base.group_user",1,1,1,1
 "access_quality_comunication_user","quality.comunication","model_quality_comunication","base.group_user",1,1,1,1
 "access_quality_comunication_type_user","quality.comunication.type","model_quality_comunication_type","base.group_user",1,1,1,1
 "access_quality_treatment_user","quality.treatment","model_quality_treatment","base.group_user",1,1,1,1
