@@ -74,12 +74,17 @@ class quality_conformed_external(osv.osv):
         return True
 
     def conformed_external_opened(self, cr, uid, ids, context=None):
-        conformed_proxy = self.browse(cr, uid, ids, context=context)[0]
-        if conformed_proxy.ref:
-            ref = conformed_proxy.ref
+        external_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if external_proxy.ref:
+            ref = external_proxy.ref
         else:
-            ref = self.pool.get('ir.sequence').get(cr, uid, 
-                'quality.conformed')
+            if external_proxy.mode == 'internal':                
+                ref = self.pool.get('ir.sequence').get(cr, uid, 
+                    'quality.conformed.internal')
+            else: #supplier
+                ref = self.pool.get('ir.sequence').get(cr, uid, 
+                    'quality.conformed.external')
+
         self.write(cr, uid, ids, {
             'state': 'opened',
             'ref': ref,
@@ -96,8 +101,8 @@ class quality_conformed_external(osv.osv):
 
     def conformed_external_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
-                    'state': 'cancel',
-                    }, context=context)
+            'state': 'cancel',
+            }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
 

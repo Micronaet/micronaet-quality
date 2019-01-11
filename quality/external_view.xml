@@ -8,21 +8,21 @@
             <field name="arch" type="xml">
                 <form string="Not conformed" version="7.0">
                     <header>
-                        <!--<button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
+                        <button string="Opened" name="trigger_conformed_external_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
 
-                        <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
-                        <button string="Cancel" name="trigger_conformed_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
+                        <button string="Closed" name="trigger_conformed_external_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
+                        <button string="Cancel" name="trigger_conformed_external_opened_cancel" type="workflow" states="opened" icon="gtk-cancel"/>
 
-                        <button string="Saw" name="trigger_conformed_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
-                        <button string="Cancel" name="trigger_conformed_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
+                        <button string="Saw" name="trigger_conformed_external_closed_saw" type="workflow" states="closed" icon="gtk-apply"/>
+                        <button string="Cancel" name="trigger_conformed_external_closed_cancel" type="workflow" states="closed" icon="gtk-cancel"/>
 
-                        <button string="Cancel" name="trigger_conformed_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
+                        <button string="Cancel" name="trigger_conformed_external_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
 
-                        <button string="Draft" name="trigger_conformed_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+                        <button string="Draft" name="trigger_conformed_external_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
 
-                        <button name="print_form" string="Print" icon="gtk-print" type="object"/>
+                        <!--<button name="print_form" string="Print" icon="gtk-print" type="object"/>
                         <button name="print_form_supplier" string="Print supplier" icon="gtk-print" type="object"/>-->
-                        <field name="state" widget="statusbar" readonly='1'/>
+                        <field name="state" widget="statusbar" readonly='1' />
                     </header>
                     <sheet>
                         <group col='4'>
@@ -31,7 +31,7 @@
                             </h1>
                             <newline/>
                             <group colspan="4" col='4'>
-                                <field name="insert_date"/>
+                                <field name="insert_date" />
                                 <field name="mode" />
                                 <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="supplier_lot"/>
@@ -41,8 +41,8 @@
                                 <!--<field name="lot_deadline"/>-->
                                 
                                 
-                                <field name="reference_user_id" />
-                                <field name="gravity_id"/>
+                                <field name="reference_user_id" widget="selection"/>
+                                <field name="gravity_id" widget="selection" />
 
                                 <field name="origin"/>
                                 <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
@@ -53,8 +53,8 @@
                             <notebook colspan='4'>
                                 <page string='Description'>
                                     <group col='4'>
-                                        <separator string='Type' colspan='4'/>
-                                        <!--<group colspan="4" col='6'>
+                                        <!--<separator string='Type' colspan='4'/>
+                                        <group colspan="4" col='6'>
                                            <field name="quantity"/>
                                            <field name="temperature"/>
                                            <field name="label"/>
@@ -66,8 +66,8 @@
                                            <field name="no_delivery" />
                                            <field name="external_material" />
                                         </group>-->
-                                        <separator string='Type of not conformed' colspan='4'/>
-                                        <field name="name" colspan='4' nolabel='1'/>
+                                        <separator string='Type of not conformed' colspan='4' />
+                                        <field name="name" colspan='4' nolabel='1' />
                                     </group>
                                 </page>
                                 <!--<page string='Treatment'>

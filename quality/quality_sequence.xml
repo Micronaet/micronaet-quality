@@ -34,6 +34,18 @@
                 <field name="padding" eval="5" />
                 <field name="prefix">NC</field>
         </record>
+        <record model="ir.sequence" id="seq_conformed_internal_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.conformed.internal</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">NCI</field>
+        </record>
+        <record model="ir.sequence" id="seq_conformed_external_number">
+                <field name="name">Quality</field>
+                <field name="code">quality.conformed.external</field>
+                <field name="padding" eval="5" />
+                <field name="prefix">NCE</field>
+        </record>
 
         <record model="ir.sequence.type" id="seq_action_type">
                 <field name="name">Quality action type</field>
