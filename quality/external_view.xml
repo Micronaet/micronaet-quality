@@ -32,7 +32,9 @@
                             <newline/>
                             <group colspan="4" col='4'>
                                 <field name="insert_date" />
+                                <newline/>
                                 <field name="mode" />
+                                <field name="supplier_id" />
                                 <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="supplier_lot"/>
                                 <field name="descr_product"/>
