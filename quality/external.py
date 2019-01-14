@@ -50,6 +50,13 @@ conformed_external_state = [
     ('saw', 'Saw'),
     ]
     
+action_state = [
+    ('draft', 'Draft'),
+    ('opened', 'Opened'),
+    ('closed', 'Closed'),
+    ('cancel', 'Cancel'),
+    ('saw', 'Saw'),
+    ]
 # -----------------------------------------------------------------------------
 #                             NOT CONFORMED EXTERNAL
 # -----------------------------------------------------------------------------
@@ -63,9 +70,43 @@ class quality_conformed_external(osv.osv):
     _order = 'ref desc'
     _rec_name = 'ref'
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
+    # Button events:
+    # -------------------------------------------------------------------------
+    def create_action(self, cr, uid, ids, context=None):
+        ''' Create a Action and link to this Claim
+        '''
+        external_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if external_proxy.mode == 'internal':
+            origin = 'audit'
+        else: # supplier
+            origin = 'other'
+        
+        action_pool = self.pool.get('quality.action')
+        action_id = action_pool.create(cr, uid, {
+            'name': external_proxy.name,
+            'date': datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
+            'conformed_external_id': ids[0],
+            'origin': origin,
+            'type': 'corrective',
+            }, context=context)
+        self.write(cr, uid, ids, {
+            'action_id': action_id, 
+            }, context=context)
+        
+        # Raise trigger for open AC:
+        wf_service = netsvc.LocalService("workflow")
+        wf_service.trg_validate(uid, 'quality.action', action_id, 
+            'trigger_action_draft_opened', cr)
+        return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
+            'model': 'quality.action',
+            'module': 'quality',
+            'record': action_id,
+            })
+
+    # -------------------------------------------------------------------------
     # Workflow Activity Function:
-    # ---------------------------
+    # -------------------------------------------------------------------------
     def conformed_external_draft(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'draft',
@@ -187,7 +228,7 @@ class quality_conformed_external(osv.osv):
         'action_id': fields.many2one('quality.action', 'Action', 
             ondelete='set null'),
         'action_state': fields.related('action_id', 'state', type='selection', 
-            string='Action state', store=False),
+            selection=action_state, string='Action state', store=False),
         # TODO fields.relater action_id state
 
         #'parent_sampling_id': fields.many2one('quality.sampling', 

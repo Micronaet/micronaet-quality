@@ -93,15 +93,15 @@
                             <group colspan="4" col="6" attrs="{'invisible':[('state','=','draft')]}">
                                 <separator string="Linked forms:" colspan="6" />
                                 <group colspan="2" col="2">
-                                    <!--<field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
+                                    <field name="action_id" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
                                     <field name="action_state" readonly="1" attrs="{'invisible':[('action_id','=',False)]}"/>
-                                    <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />-->
+                                    <button name="create_action" string="Create AC/AP" type="object" attrs="{'invisible':[('action_id','!=',False)]}" />
                                 </group>
-                                <!--<group colspan="2" col="2">
-                                    <field name="sampling_id" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
+                                <group colspan="2" col="2">
+                                    <!--<field name="sampling_id" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
                                     <field name="sampling_state" readonly="1" attrs="{'invisible':[('sampling_id','=',False)]}"/>
-                                    <button name="create_sampling" string="Create Sampling" type="object" attrs="{'invisible':[('sampling_id','!=',False)]}" />
-                                </group>-->
+                                    <button name="create_sampling" string="Create Sampling" type="object" attrs="{'invisible':[('sampling_id','!=',False)]}" />-->
+                                </group>
                             </group>
                         </group>
                     </sheet>

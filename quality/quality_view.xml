@@ -499,6 +499,7 @@
                             <field name="type"/>
                             <field name="proposing_entity"/>
                             <field name="origin"/>
+                            <field name="conformed_external_id" attrs="{'invisible':[('origin','not in',('other', 'audit'))]}"/>
                             <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
                             <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
                             <field name="conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>

@@ -1735,6 +1735,8 @@ class quality_action(osv.osv):
         'esit_note': fields.text('Judgment'),
         'claim_id': fields.many2one('quality.claim', 'Claim'),
         'conformed_id': fields.many2one('quality.conformed', 'Not conformed'),
+        'conformed_external_id': fields.many2one(
+            'quality.conformed.external', 'Not conformed external'),
         'type': fields.selection([
             ('corrective', 'Corrective'),
             ('preventive', 'Preventive'),
