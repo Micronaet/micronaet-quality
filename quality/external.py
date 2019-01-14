@@ -116,7 +116,7 @@ class quality_conformed_external(osv.osv):
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'insert_date': fields.date('Insert date', required=True),
-        'supplier_id':fields.many2one('res.partner', 'Supplier', required=True),
+        'supplier_id':fields.many2one('res.partner', 'Supplier'),
         #'aesthetic_packaging': fields.boolean('Confezione'),        
         #'quantity': fields.boolean('Quantity'),
         #'sanitation': fields.boolean('Sanitation'),
