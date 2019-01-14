@@ -34,7 +34,7 @@
                                 <field name="insert_date" />
                                 <newline/>
                                 <field name="mode" />
-                                <field name="supplier_id" attrs="{'invisible': [('mode','!=','supplier')], 'required': [('mode','=','supplier')]}"/>
+                                <field name="supplier_id" attrs="{'invisible': [('mode','!=','supplier')], 'required': [('mode','=','supplier')]}" domain="[('supplier', '=', True)]"/>
                                 <!--<field name="lot_id" domain="[('obsolete', '=', False)]"/>
                                 <field name="supplier_lot"/>
                                 <field name="descr_product"/>
