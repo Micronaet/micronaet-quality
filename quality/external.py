@@ -217,6 +217,7 @@ class quality_conformed_external(osv.osv):
         'stock_note': fields.text('Stock note'),
         'comunication_note': fields.text('Comunication note'),
         'treatment': fields.text('Treatment'),
+        'judgement': fields.text('Judgement'),
         #'note_warehouse': fields.text('Note Warehouse'),
 
         # TODO Change reference field:
