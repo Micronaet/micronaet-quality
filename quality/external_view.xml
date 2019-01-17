@@ -72,8 +72,9 @@
                                         <field name="name" colspan='4' nolabel='1' />
                                         <separator string='Treatment' colspan='4' />
                                         <field name="treatment" colspan='4' nolabel='1' />
-                                        <separator string='Judgement' colspan='4' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>
-                                        <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>
+                                        <separator string='Judgement' colspan='2' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>
+                                        <field name="judgement_date" />
+                                        <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>                                        
                                      </group>
                                 </page>
                                 <!--<page string='Treatment'>

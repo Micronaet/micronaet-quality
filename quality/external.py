@@ -218,6 +218,7 @@ class quality_conformed_external(osv.osv):
         'comunication_note': fields.text('Comunication note'),
         'treatment': fields.text('Treatment'),
         'judgement': fields.text('Judgement'),
+        'judgement_date': fields.date('Data del giudizio'),
         #'note_warehouse': fields.text('Note Warehouse'),
 
         # TODO Change reference field:
