@@ -1,19 +1,21 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* quality
+# 	* quality
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-16 14:48+0000\n"
-"PO-Revision-Date: 2019-01-16 14:48+0000\n"
+"POT-Creation-Date: 2019-01-18 10:33+0000\n"
+"PO-Revision-Date: 2019-01-18 11:36+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_claim_product
@@ -26,15 +28,13 @@ msgid "Lot supplier"
 msgstr "Lotto fornitore"
 
 #. module: quality
-#: field:quality.claim,real_lot_list:0
-#: view:quality.claim.product:0
+#: field:quality.claim,real_lot_list:0 view:quality.claim.product:0
 #: field:quality.claim.product,real_lot_id:0
 msgid "Real lot"
 msgstr "Lotto reale"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,index_claim_list:0
+#: view:res.partner:0 field:res.partner,index_claim_list:0
 msgid "Claim list"
 msgstr "Lista reclami"
 
@@ -71,7 +71,9 @@ msgstr "Secondario"
 #. module: quality
 #: help:res.partner,custom_range:0
 msgid "If checked specify custom range else use company default"
-msgstr "Se spuntato permette di specificare il range di date alternativo rispetto a quello fisso aziendale"
+msgstr ""
+"Se spuntato permette di specificare il range di date alternativo rispetto a "
+"quello fisso aziendale"
 
 #. module: quality
 #: model:res.groups,name:quality.group_quality_SAQ
@@ -97,7 +99,7 @@ msgstr "Non definito"
 #. module: quality
 #: model:res.groups,name:quality.group_quality_fast_user
 msgid "Quality fast insert"
-msgstr "Quality fast insert"
+msgstr "Qualità inserimento rapido"
 
 #. module: quality
 #: field:quality.claim,cancel_user_id:0
@@ -117,8 +119,7 @@ msgstr "Stato glassatura"
 
 #. module: quality
 #: help:quality.acceptation,message_unread:0
-#: help:quality.action,message_unread:0
-#: help:quality.claim,message_unread:0
+#: help:quality.action,message_unread:0 help:quality.claim,message_unread:0
 #: help:quality.conformed,message_unread:0
 #: help:quality.conformed.external,message_unread:0
 #: help:quality.sampling,message_unread:0
@@ -129,17 +130,11 @@ msgstr "Se spuntato i nuovi messaggi richiedono la vostra attenzione"
 #: model:ir.actions.act_window,name:quality.action_quality_origin_form
 #: model:ir.model,name:quality.model_quality_origin
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_claim_origin
-#: view:quality.action:0
-#: field:quality.action,origin:0
-#: view:quality.claim:0
-#: field:quality.claim,origin_id:0
-#: view:quality.conformed:0
-#: field:quality.conformed,origin:0
-#: view:quality.conformed.external:0
-#: field:quality.conformed.external,origin:0
-#: view:quality.origin:0
-#: view:quality.sampling:0
-#: field:quality.sampling,origin:0
+#: view:quality.action:0 field:quality.action,origin:0 view:quality.claim:0
+#: field:quality.claim,origin_id:0 view:quality.conformed:0
+#: field:quality.conformed,origin:0 view:quality.conformed.external:0
+#: field:quality.conformed.external,origin:0 view:quality.origin:0
+#: view:quality.sampling:0 field:quality.sampling,origin:0
 msgid "Origin"
 msgstr "Origine"
 
@@ -151,17 +146,16 @@ msgstr "Peso campione sgocciolato"
 #. module: quality
 #: help:res.partner,quality_activity:0
 msgid "Extra information about activity used in quality manage"
-msgstr "Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
+msgstr ""
+"Ulteriori informazioni sulle attività utilizzate nella gestione della qualità"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,reference_ids:0
+#: view:res.partner:0 field:res.partner,reference_ids:0
 msgid "Reference"
 msgstr "Riferimento"
 
 #. module: quality
-#: view:quality.action:0
-#: field:quality.supplier.check,name:0
+#: view:quality.action:0 field:quality.supplier.check,name:0
 msgid "Esit"
 msgstr "Esito"
 
@@ -187,31 +181,32 @@ msgstr "Entità"
 
 #. module: quality
 #: help:quality.acceptation,message_summary:0
-#: help:quality.action,message_summary:0
-#: help:quality.claim,message_summary:0
+#: help:quality.action,message_summary:0 help:quality.claim,message_summary:0
 #: help:quality.conformed,message_summary:0
 #: help:quality.conformed.external,message_summary:0
 #: help:quality.sampling,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo riepilogo è direttamente in formato HTML per essere inserito nelle viste Kanban."
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Presenta il riepilogo delle chat (numero dei messaggi, ...). Questo "
+"riepilogo è direttamente in formato HTML per essere inserito nelle viste "
+"Kanban."
 
 #. module: quality
-#: view:quality.claim:0
-#: selection:quality.claim,state:0
+#: view:quality.claim:0 selection:quality.claim,state:0
 msgid "Credit Note Done"
 msgstr "Nota di credito fatta"
 
 #. module: quality
-#: field:res.company,index_from:0
-#: field:res.partner,index_from:0
+#: field:res.company,index_from:0 field:res.partner,index_from:0
 msgid "From date"
 msgstr "Dalla data"
 
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_res_partner_customer_form
 #: model:ir.actions.act_window,name:quality.action_res_partner_supplier_form
-#: model:ir.model,name:quality.model_res_partner
-#: view:quality.acceptation:0
+#: model:ir.model,name:quality.model_res_partner view:quality.acceptation:0
 #: field:quality.supplier.certification,partner_id:0
 #: field:quality.supplier.check,partner_id:0
 #: field:quality.supplier.rating,partner_id:0
@@ -237,51 +232,37 @@ msgstr "Indici"
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_gravity_form
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_claim_gravity
-#: view:quality.claim:0
-#: field:quality.claim,gravity_id:0
-#: view:quality.conformed:0
-#: field:quality.conformed,gravity_id:0
+#: view:quality.claim:0 field:quality.claim,gravity_id:0
+#: view:quality.conformed:0 field:quality.conformed,gravity_id:0
 #: view:quality.conformed.external:0
-#: field:quality.conformed.external,gravity_id:0
-#: view:quality.gravity:0
+#: field:quality.conformed.external,gravity_id:0 view:quality.gravity:0
 msgid "Gravity"
 msgstr "Gravità"
 
 #. module: quality
-#: field:quality.acceptation.line,label:0
-#: field:quality.conformed,label:0
+#: field:quality.acceptation.line,label:0 field:quality.conformed,label:0
 msgid "Label"
 msgstr "Etichetta"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: field:quality.acceptation,state:0
-#: view:quality.action:0
-#: field:quality.action,state:0
-#: view:quality.claim:0
-#: field:quality.claim,state:0
-#: view:quality.conformed:0
-#: field:quality.conformed,state:0
-#: view:quality.conformed.external:0
-#: field:quality.conformed.external,state:0
-#: view:quality.sampling:0
+#: view:quality.acceptation:0 field:quality.acceptation,state:0
+#: view:quality.action:0 field:quality.action,state:0 view:quality.claim:0
+#: field:quality.claim,state:0 view:quality.conformed:0
+#: field:quality.conformed,state:0 view:quality.conformed.external:0
+#: field:quality.conformed.external,state:0 view:quality.sampling:0
 #: field:quality.sampling,state:0
 msgid "State"
 msgstr "Stato"
 
 #. module: quality
-#: field:quality.claim.product,label_lot:0
-#: field:quality.conformed,label_lot:0
+#: field:quality.claim.product,label_lot:0 field:quality.conformed,label_lot:0
 msgid "Label Lot"
 msgstr "Lotto Etichetta"
 
 #. module: quality
-#: field:quality.acceptation,ref:0
-#: field:quality.action,ref:0
-#: field:quality.claim,ref:0
-#: field:quality.conformed,ref:0
-#: field:quality.conformed.external,ref:0
-#: field:quality.sampling,ref:0
+#: field:quality.acceptation,ref:0 field:quality.action,ref:0
+#: field:quality.claim,ref:0 field:quality.conformed,ref:0
+#: field:quality.conformed.external,ref:0 field:quality.sampling,ref:0
 msgid "Ref"
 msgstr "Rif."
 
@@ -296,8 +277,7 @@ msgid "Q. arr."
 msgstr "Q. arr."
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.acceptation.line:0
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
 msgid "Qual."
 msgstr "Qual."
 
@@ -322,8 +302,7 @@ msgid "Quality Responsible"
 msgstr "Responsabile qualità"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.acceptation.line:0
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
 msgid "Scad."
 msgstr "Scad."
 
@@ -385,8 +364,7 @@ msgid "Quality supplier certification"
 msgstr "Certificazione fornitore qualità"
 
 #. module: quality
-#: field:quality.claim,action_state:0
-#: field:quality.conformed,action_state:0
+#: field:quality.claim,action_state:0 field:quality.conformed,action_state:0
 #: field:quality.conformed.external,action_state:0
 msgid "Action state"
 msgstr "Stato azione"
@@ -422,10 +400,8 @@ msgid "Closed user"
 msgstr "Utente chiuso"
 
 #. module: quality
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: field:quality.conformed.external,treatment:0
-#: view:quality.treatment:0
+#: view:quality.conformed:0 view:quality.conformed.external:0
+#: field:quality.conformed.external,treatment:0 view:quality.treatment:0
 msgid "Treatment"
 msgstr "Trattamento"
 
@@ -445,8 +421,7 @@ msgid "Analysis State"
 msgstr "Stato analisi"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,external_material:0
+#: view:quality.conformed:0 field:quality.conformed,external_material:0
 msgid "Corpi estranei"
 msgstr "Corpi estranei"
 
@@ -461,9 +436,9 @@ msgid "Request quantity"
 msgstr "Quantità richiesta"
 
 #. module: quality
-#: model:res.groups,name:quality.group_quality_RCO
-msgid "Quality Sale Responsible"
-msgstr "Responsabile delle vendite"
+#: view:quality.sampling:0
+msgid "Not Passed"
+msgstr "Non passato"
 
 #. module: quality
 #: field:quality.claim,receive_user_id:0
@@ -498,8 +473,7 @@ msgstr "Manda avvertimento alla logistica per attivare il rientro prodotti"
 #. module: quality
 #: field:quality.acceptation.line,qty:0
 #: model:quality.claim.cause,name:quality.quality_cause_quantity
-#: view:quality.conformed:0
-#: field:quality.conformed,quantity:0
+#: view:quality.conformed:0 field:quality.conformed,quantity:0
 #: field:quality.treatment,qty:0
 msgid "Quantity"
 msgstr "Quantità"
@@ -509,16 +483,13 @@ msgstr "Quantità"
 #: model:ir.actions.act_window,name:quality.action_quality_claim_product_form
 #: model:ir.model,name:quality.model_quality_claim
 #: model:ir.ui.menu,name:quality.menu_quality_form_claim
-#: field:quality.action,claim_id:0
-#: selection:quality.action,origin:0
-#: view:quality.claim.product:0
-#: field:quality.claim.product,claim_id:0
-#: field:quality.conformed,claim_id:0
-#: selection:quality.conformed,origin:0
-#: selection:quality.origin,type:0
-#: field:quality.sampling,claim_id:0
-#: selection:quality.sampling,origin:0
-#: view:res.partner:0
+#: field:quality.action,claim_id:0 selection:quality.action,origin:0
+#: view:quality.claim.product:0 field:quality.claim.product,claim_id:0
+#: field:quality.conformed,claim_id:0 selection:quality.conformed,origin:0
+#: field:quality.conformed.external,claim_id:0
+#: selection:quality.conformed.external,origin:0
+#: selection:quality.origin,type:0 field:quality.sampling,claim_id:0
+#: selection:quality.sampling,origin:0 view:res.partner:0
 msgid "Claim"
 msgstr "Reclamo"
 
@@ -584,15 +555,13 @@ msgstr "Data Creazione"
 
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_quality_claim_cause_form
-#: view:quality.claim:0
-#: field:quality.claim,cause_id:0
+#: view:quality.claim:0 field:quality.claim,cause_id:0
 #: view:quality.claim.cause:0
 msgid "Cause"
 msgstr "Causa"
 
 #. module: quality
-#: view:quality.action:0
-#: field:quality.action.intervent,working_ids:0
+#: view:quality.action:0 field:quality.action.intervent,working_ids:0
 msgid "Work in progress"
 msgstr "Avanzamento"
 
@@ -607,15 +576,18 @@ msgid "Responsability"
 msgstr "Responsabilità"
 
 #. module: quality
-#: help:res.company,index_to:0
-#: help:res.partner,index_to:0
+#: help:res.company,index_to:0 help:res.partner,index_to:0
 msgid "To date (used in index valorization"
 msgstr "Alla data (utilizzato nella valorizzazione degli indici)"
 
 #. module: quality
 #: field:quality.sampling,taste:0
-msgid "Taste(After cooking the product in elemental form - simple cooking in salted water)"
-msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
+msgid ""
+"Taste(After cooking the product in elemental form - simple cooking in salted "
+"water)"
+msgstr ""
+"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
+"cottura in acqua salata)"
 
 #. module: quality
 #: model:quality.claim.cause,name:quality.quality_cause_product
@@ -635,7 +607,9 @@ msgstr "prodotto"
 #. module: quality
 #: help:res.partner,quality_commercial_reference:0
 msgid "Extra information about commercial reference used in quality manage"
-msgstr "Informazioni extra circa il referente commerciale utilizzato nella gestione qualità"
+msgstr ""
+"Informazioni extra circa il referente commerciale utilizzato nella gestione "
+"qualità"
 
 #. module: quality
 #: field:quality.claim,comunication:0
@@ -703,10 +677,9 @@ msgid "Supplier check"
 msgstr "Verifica fornitore"
 
 #. module: quality
-#: view:quality.claim:0
-#: field:quality.claim,fast_note:0
+#: view:quality.claim:0 field:quality.claim,fast_note:0
 msgid "Fast note"
-msgstr "Fast note"
+msgstr "Nota rapida"
 
 #. module: quality
 #: field:quality.claim,nc_user_id:0
@@ -729,8 +702,7 @@ msgid "Index range"
 msgstr "Range di data"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,index_conformed_list:0
+#: view:res.partner:0 field:res.partner,index_conformed_list:0
 msgid "Conformed list"
 msgstr "Lista non conformità"
 
@@ -751,10 +723,9 @@ msgid "Treatments"
 msgstr "Trattamenti"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,index_sampling_list:0
-msgid "Sampling list"
-msgstr "Lista campionamenti"
+#: model:res.groups,name:quality.group_quality_RCO
+msgid "Quality Sale Responsible"
+msgstr "Responsabile delle vendite"
 
 #. module: quality
 #: field:quality.sampling,do_visual:0
@@ -767,14 +738,12 @@ msgid "RAQ"
 msgstr "RAQ"
 
 #. module: quality
-#: field:quality.action,note:0
-#: field:quality.claim,analysis:0
+#: field:quality.action,note:0 field:quality.claim,analysis:0
 msgid "Cause analysis"
 msgstr "Analisi delle cause"
 
 #. module: quality
-#: view:quality.sampling:0
-#: field:quality.sampling,analysis:0
+#: view:quality.sampling:0 field:quality.sampling,analysis:0
 msgid "Analysis"
 msgstr "Analisi"
 
@@ -815,12 +784,9 @@ msgstr "Gruppi qualità"
 #. module: quality
 #: model:ir.model,name:quality.model_quality_sampling
 #: model:ir.ui.menu,name:quality.menu_quality_form_sampling
-#: view:quality.acceptation:0
-#: field:quality.acceptation.line,sampling_id:0
-#: field:quality.claim,sampling_id:0
-#: selection:quality.conformed,origin:0
-#: field:quality.conformed,sampling_id:0
-#: view:quality.sampling:0
+#: view:quality.acceptation:0 field:quality.acceptation.line,sampling_id:0
+#: field:quality.claim,sampling_id:0 selection:quality.conformed,origin:0
+#: field:quality.conformed,sampling_id:0 view:quality.sampling:0
 #: view:res.partner:0
 msgid "Sampling"
 msgstr "Campionamento"
@@ -845,17 +811,12 @@ msgid "Quality Not conformed external"
 msgstr "Non conformità esterna"
 
 #. module: quality
-#: selection:quality.acceptation.line,conformed_state:0
-#: view:quality.action:0
-#: selection:quality.action,state:0
-#: view:quality.claim:0
+#: selection:quality.acceptation.line,conformed_state:0 view:quality.action:0
+#: selection:quality.action,state:0 view:quality.claim:0
 #: selection:quality.claim,action_state:0
-#: selection:quality.claim,conformed_state:0
-#: selection:quality.claim,state:0
-#: view:quality.conformed:0
-#: selection:quality.conformed,action_state:0
-#: selection:quality.conformed,state:0
-#: view:quality.conformed.external:0
+#: selection:quality.claim,conformed_state:0 selection:quality.claim,state:0
+#: view:quality.conformed:0 selection:quality.conformed,action_state:0
+#: selection:quality.conformed,state:0 view:quality.conformed.external:0
 #: selection:quality.conformed.external,action_state:0
 #: selection:quality.conformed.external,state:0
 #: selection:quality.sampling,conformed_state:0
@@ -863,8 +824,7 @@ msgid "Saw"
 msgstr "Visto"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,check_ids:0
+#: view:res.partner:0 field:res.partner,check_ids:0
 msgid "Check"
 msgstr "Controllo"
 
@@ -890,35 +850,26 @@ msgstr "Classi del partner"
 
 #. module: quality
 #: selection:quality.claim,sampling_state:0
-#: selection:quality.conformed,sampling_state:0
-#: view:quality.sampling:0
+#: selection:quality.conformed,sampling_state:0 view:quality.sampling:0
 #: selection:quality.sampling,analysis_state:0
 #: selection:quality.sampling,glazing_state:0
-#: selection:quality.sampling,state:0
-#: selection:quality.sampling,taste_state:0
+#: selection:quality.sampling,state:0 selection:quality.sampling,taste_state:0
 #: selection:quality.sampling,visual_state:0
 msgid "Passed"
 msgstr "Passato"
 
 #. module: quality
-#: view:quality.action:0
-#: view:quality.claim:0
-#: view:quality.conformed:0
+#: view:quality.action:0 view:quality.claim:0 view:quality.conformed:0
 #: view:quality.sampling:0
 msgid "Print"
 msgstr "Stampa"
 
 #. module: quality
-#: field:quality.action,type:0
-#: field:quality.comunication,type_id:0
-#: view:quality.conformed:0
-#: field:quality.conformed,name:0
-#: view:quality.conformed.external:0
-#: field:quality.conformed.external,name:0
-#: field:quality.origin,type:0
-#: field:quality.supplier.rating,qualification:0
-#: field:quality.supplier.rating,type:0
-#: field:quality.treatment,type:0
+#: field:quality.action,type:0 field:quality.comunication,type_id:0
+#: view:quality.conformed:0 field:quality.conformed,name:0
+#: view:quality.conformed.external:0 field:quality.conformed.external,name:0
+#: field:quality.origin,type:0 field:quality.supplier.rating,qualification:0
+#: field:quality.supplier.rating,type:0 field:quality.treatment,type:0
 msgid "Type"
 msgstr "Tipo"
 
@@ -930,7 +881,9 @@ msgstr "Riferimento per il cliente relativamente a questo reclamo"
 #. module: quality
 #: help:res.partner,quality_end_supplier:0
 msgid "Extra information about stop supplier service, used in quality manage"
-msgstr "Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della qualità"
+msgstr ""
+"Ulteriori info sul fermo servizio fornitori utilizzato nella gestione della "
+"qualità"
 
 #. module: quality
 #: model:ir.actions.report.xml,name:quality.aeroo_quality_action
@@ -968,20 +921,17 @@ msgid "Protocol date"
 msgstr "Data protocollo"
 
 #. module: quality
-#: view:quality.claim.product:0
-#: field:quality.claim.product,real_product_id:0
+#: view:quality.claim.product:0 field:quality.claim.product,real_product_id:0
 msgid "Real product"
 msgstr "Prodotto reale"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,aesthetic_packaging:0
+#: view:quality.conformed:0 field:quality.conformed,aesthetic_packaging:0
 msgid "Confezione"
 msgstr "Confezione"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,no_delivery:0
+#: view:quality.conformed:0 field:quality.conformed,no_delivery:0
 msgid "Mancata consegna"
 msgstr "Mancata consegna"
 
@@ -1006,16 +956,19 @@ msgid "Break of stock"
 msgstr "Rottura degli stock"
 
 #. module: quality
-#: view:res.partner:0
-#: field:res.partner,certification_ids:0
+#: view:res.partner:0 field:res.partner,certification_ids:0
 msgid "Certification"
 msgstr "Certificazione"
 
 #. module: quality
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
+#: view:quality.conformed:0 view:quality.conformed.external:0
 msgid "Type of not conformed"
 msgstr "Descrizione Non Conformità"
+
+#. module: quality
+#: view:res.partner:0 field:res.partner,index_sampling_list:0
+msgid "Sampling list"
+msgstr "Lista campionamenti"
 
 #. module: quality
 #: field:quality.claim,RAQ_confirm:0
@@ -1024,8 +977,12 @@ msgstr "Conferma RAQ"
 
 #. module: quality
 #: view:quality.sampling:0
-msgid "Taste (After cooking the product in elemental form - simple cooking in salted water)"
-msgstr "Assaggio (Dopo la cottura del prodotto in forma elementare - semplice cottura in acqua salata)"
+msgid ""
+"Taste (After cooking the product in elemental form - simple cooking in "
+"salted water)"
+msgstr ""
+"Assaggio (Dopo la cottura del prodotto in forma elementare - semplice "
+"cottura in acqua salata)"
 
 #. module: quality
 #: field:quality.sampling,do_glazing:0
@@ -1073,27 +1030,19 @@ msgid "Is a Follower"
 msgstr "E' un follower"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: field:quality.acceptation,date:0
-#: view:quality.action:0
-#: field:quality.action,date:0
-#: field:quality.action.intervent.working,date:0
-#: view:quality.claim:0
-#: field:quality.claim,date:0
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: view:quality.sampling:0
-#: field:quality.sampling,date:0
-#: field:quality.supplier.certification,date:0
-#: field:quality.supplier.check,date:0
-#: field:quality.supplier.rating,date:0
+#: view:quality.acceptation:0 field:quality.acceptation,date:0
+#: view:quality.action:0 field:quality.action,date:0
+#: field:quality.action.intervent.working,date:0 view:quality.claim:0
+#: field:quality.claim,date:0 view:quality.conformed:0
+#: view:quality.conformed.external:0 view:quality.sampling:0
+#: field:quality.sampling,date:0 field:quality.supplier.certification,date:0
+#: field:quality.supplier.check,date:0 field:quality.supplier.rating,date:0
 #: field:quality.supplier.reference,date:0
 msgid "Date"
 msgstr "Data"
 
 #. module: quality
-#: view:quality.action:0
-#: field:quality.action,esit_note:0
+#: view:quality.action:0 field:quality.action,esit_note:0
 msgid "Judgment"
 msgstr "Giudizio"
 
@@ -1109,27 +1058,21 @@ msgstr "ASL"
 
 #. module: quality
 #: field:quality.acceptation,access_id:0
-#: field:quality.acceptation.line,access_id:0
-#: field:quality.action,access_id:0
-#: field:quality.action.intervent,access_id:0
-#: field:quality.claim,access_id:0
+#: field:quality.acceptation.line,access_id:0 field:quality.action,access_id:0
+#: field:quality.action.intervent,access_id:0 field:quality.claim,access_id:0
 #: field:quality.claim.cause,access_id:0
 #: field:quality.claim.product,access_id:0
 #: field:quality.comunication,access_id:0
 #: field:quality.comunication.type,access_id:0
-#: field:quality.conformed,access_id:0
-#: field:quality.gravity,access_id:0
-#: field:quality.origin,access_id:0
-#: field:quality.partner.class,access_id:0
-#: field:quality.sampling,access_id:0
-#: field:quality.sampling.plan,access_id:0
+#: field:quality.conformed,access_id:0 field:quality.gravity,access_id:0
+#: field:quality.origin,access_id:0 field:quality.partner.class,access_id:0
+#: field:quality.sampling,access_id:0 field:quality.sampling.plan,access_id:0
 #: field:quality.sampling.taster,access_id:0
 #: field:quality.supplier.certification,access_id:0
 #: field:quality.supplier.check,access_id:0
 #: field:quality.supplier.rating,access_id:0
 #: field:quality.supplier.reference,access_id:0
-#: field:quality.treatment,access_id:0
-#: field:stock.production.lot,access_id:0
+#: field:quality.treatment,access_id:0 field:stock.production.lot,access_id:0
 msgid "Access ID"
 msgstr "Access ID"
 
@@ -1166,7 +1109,9 @@ msgstr "Rif. Utente"
 #. module: quality
 #: help:res.partner,quality_rating_info:0
 msgid "Extra information about rating info used in quality manage"
-msgstr "Ulteriori informazioni sulla valutazione utilizzata nella gestione della qualità"
+msgstr ""
+"Ulteriori informazioni sulla valutazione utilizzata nella gestione della "
+"qualità"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1174,27 +1119,19 @@ msgid "Test:"
 msgstr "Test:"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: field:quality.acceptation,cancel:0
+#: view:quality.acceptation:0 field:quality.acceptation,cancel:0
 #: selection:quality.acceptation,state:0
-#: selection:quality.acceptation.line,conformed_state:0
-#: view:quality.action:0
-#: field:quality.action,cancel:0
-#: selection:quality.action,state:0
-#: view:quality.claim:0
-#: selection:quality.claim,action_state:0
+#: selection:quality.acceptation.line,conformed_state:0 view:quality.action:0
+#: field:quality.action,cancel:0 selection:quality.action,state:0
+#: view:quality.claim:0 selection:quality.claim,action_state:0
 #: selection:quality.claim,conformed_state:0
-#: selection:quality.claim,sampling_state:0
-#: selection:quality.claim,state:0
-#: view:quality.conformed:0
-#: selection:quality.conformed,action_state:0
+#: selection:quality.claim,sampling_state:0 selection:quality.claim,state:0
+#: view:quality.conformed:0 selection:quality.conformed,action_state:0
 #: field:quality.conformed,cancel:0
 #: selection:quality.conformed,sampling_state:0
-#: selection:quality.conformed,state:0
-#: view:quality.conformed.external:0
+#: selection:quality.conformed,state:0 view:quality.conformed.external:0
 #: selection:quality.conformed.external,action_state:0
-#: selection:quality.conformed.external,state:0
-#: view:quality.sampling:0
+#: selection:quality.conformed.external,state:0 view:quality.sampling:0
 #: field:quality.sampling,cancel:0
 #: selection:quality.sampling,conformed_state:0
 #: selection:quality.sampling,state:0
@@ -1206,12 +1143,9 @@ msgstr "Annulla"
 #: model:ir.model,name:quality.model_quality_conformed
 #: model:ir.ui.menu,name:quality.menu_quality_form_not_conformed
 #: field:quality.acceptation.line,conformed_id:0
-#: field:quality.action,conformed_id:0
-#: selection:quality.action,origin:0
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: selection:quality.sampling,origin:0
-#: view:res.partner:0
+#: field:quality.action,conformed_id:0 selection:quality.action,origin:0
+#: view:quality.conformed:0 view:quality.conformed.external:0
+#: selection:quality.sampling,origin:0 view:res.partner:0
 msgid "Not conformed"
 msgstr "Non Conformità"
 
@@ -1236,14 +1170,11 @@ msgid "Etichetta"
 msgstr "Etichetta"
 
 #. module: quality
-#: selection:quality.action,origin:0
-#: field:quality.action,origin_other:0
-#: selection:quality.conformed,origin:0
-#: field:quality.conformed,origin_other:0
+#: selection:quality.action,origin:0 field:quality.action,origin_other:0
+#: selection:quality.conformed,origin:0 field:quality.conformed,origin_other:0
 #: selection:quality.conformed.external,origin:0
 #: field:quality.conformed.external,origin_other:0
-#: selection:quality.sampling,origin:0
-#: field:quality.sampling,origin_other:0
+#: selection:quality.sampling,origin:0 field:quality.sampling,origin_other:0
 msgid "Other"
 msgstr "Altro"
 
@@ -1303,8 +1234,7 @@ msgid "Quality fast claim"
 msgstr "Reclamo veloce"
 
 #. module: quality
-#: field:quality.comunication.type,name:0
-#: field:quality.partner.class,name:0
+#: field:quality.comunication.type,name:0 field:quality.partner.class,name:0
 #: field:quality.sampling.taster,name:0
 #: field:quality.supplier.certification,name:0
 #: field:quality.supplier.reference,name:0
@@ -1343,10 +1273,8 @@ msgid "Discard"
 msgstr "Scartare"
 
 #. module: quality
-#: help:quality.acceptation,message_ids:0
-#: help:quality.action,message_ids:0
-#: help:quality.claim,message_ids:0
-#: help:quality.conformed,message_ids:0
+#: help:quality.acceptation,message_ids:0 help:quality.action,message_ids:0
+#: help:quality.claim,message_ids:0 help:quality.conformed,message_ids:0
 #: help:quality.conformed.external,message_ids:0
 #: help:quality.sampling,message_ids:0
 msgid "Messages and communication history"
@@ -1363,8 +1291,7 @@ msgid "Fast report"
 msgstr "Report veloce"
 
 #. module: quality
-#: field:quality.supplier.rating,obsolete:0
-#: view:stock.production.lot:0
+#: field:quality.supplier.rating,obsolete:0 view:stock.production.lot:0
 #: field:stock.production.lot,obsolete:0
 msgid "Obsolete"
 msgstr "Obsoleto"
@@ -1388,7 +1315,7 @@ msgstr "Campione"
 #. module: quality
 #: model:ir.model,name:quality.model_mail_thread
 msgid "Email Thread"
-msgstr "Thread Email"
+msgstr "Email del processo"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_treatment
@@ -1412,13 +1339,9 @@ msgid "Comunication note"
 msgstr "Comunication note"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.action:0
-#: view:quality.claim:0
-#: view:quality.claim.product:0
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: view:quality.sampling:0
+#: view:quality.acceptation:0 view:quality.action:0 view:quality.claim:0
+#: view:quality.claim.product:0 view:quality.conformed:0
+#: view:quality.conformed.external:0 view:quality.sampling:0
 msgid "Group By..."
 msgstr "Raggruppa per..."
 
@@ -1434,8 +1357,7 @@ msgstr "Trattamenti:"
 
 #. module: quality
 #: field:quality.acceptation,message_unread:0
-#: field:quality.action,message_unread:0
-#: field:quality.claim,message_unread:0
+#: field:quality.action,message_unread:0 field:quality.claim,message_unread:0
 #: field:quality.conformed,message_unread:0
 #: field:quality.conformed.external,message_unread:0
 #: field:quality.sampling,message_unread:0
@@ -1453,8 +1375,7 @@ msgid "Analysis test state"
 msgstr "Stato test analisi"
 
 #. module: quality
-#: view:quality.claim:0
-#: view:quality.conformed:0
+#: view:quality.claim:0 view:quality.conformed:0
 #: view:quality.conformed.external:0
 msgid "Create AC/AP"
 msgstr "Creare AC/AP"
@@ -1506,8 +1427,7 @@ msgid "Rating"
 msgstr "Valutazione"
 
 #. module: quality
-#: field:quality.conformed,lot_id:0
-#: field:quality.sampling,lot_id:0
+#: field:quality.conformed,lot_id:0 field:quality.sampling,lot_id:0
 msgid "Real Lot"
 msgstr "Lotto Reale"
 
@@ -1534,8 +1454,7 @@ msgid "Supplier"
 msgstr "Fornitore"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,delay:0
+#: view:quality.conformed:0 field:quality.conformed,delay:0
 msgid "Ritardo"
 msgstr "Ritardo"
 
@@ -1543,6 +1462,11 @@ msgstr "Ritardo"
 #: view:res.partner:0
 msgid "Acceptation list"
 msgstr "Lista accettazioni"
+
+#. module: quality
+#: field:quality.claim.product,conformed_external_id:0
+msgid "External conformed"
+msgstr "NC esterna"
 
 #. module: quality
 #: view:res.partner:0
@@ -1565,6 +1489,11 @@ msgid "Quality Manager"
 msgstr "Manager qualità"
 
 #. module: quality
+#: view:quality.claim:0
+msgid "Q. rit."
+msgstr "Q. rit."
+
+#. module: quality
 #: field:quality.sampling,do_analysis:0
 msgid "Request analysis"
 msgstr "Richiesta analisi"
@@ -1575,25 +1504,22 @@ msgid "Not obsolete"
 msgstr "Non obsoleto"
 
 #. module: quality
-#: view:quality.claim:0
-#: view:quality.conformed:0
+#: view:quality.claim:0 view:quality.conformed:0
 msgid "Create Sampling"
 msgstr "Crea campionamento"
 
 #. module: quality
-#: view:quality.claim:0
-#: selection:quality.claim,state:0
+#: view:quality.claim:0 selection:quality.claim,state:0
 msgid "Credit Note"
 msgstr "Nota di Credito"
 
 #. module: quality
 #: field:quality.claim,search_code:0
 msgid "Search code"
-msgstr "Search code"
+msgstr "Cerca codice"
 
 #. module: quality
-#: help:res.company,index_from:0
-#: help:res.partner,index_from:0
+#: help:res.company,index_from:0 help:res.partner,index_from:0
 msgid "From date (used in index valorization"
 msgstr "Alla data (utilizzato nella valorizzazione degli indici)"
 
@@ -1635,8 +1561,7 @@ msgid "Temperature"
 msgstr "Temperatura"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,comunication_ids:0
+#: view:quality.conformed:0 field:quality.conformed,comunication_ids:0
 msgid "Comunications"
 msgstr "Comunicazioni"
 
@@ -1651,25 +1576,15 @@ msgid "sampling"
 msgstr "campionamento"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: field:quality.acceptation,note:0
-#: field:quality.action.intervent.working,note:0
-#: view:quality.claim.cause:0
-#: field:quality.claim.cause,note:0
-#: field:quality.comunication.type,note:0
-#: view:quality.gravity:0
-#: field:quality.gravity,note:0
-#: view:quality.origin:0
-#: field:quality.origin,note:0
-#: field:quality.partner.class,note:0
-#: view:quality.sampling:0
-#: field:quality.sampling,note:0
-#: view:quality.sampling.plan:0
-#: field:quality.sampling.plan,note:0
-#: field:quality.sampling.taster,note:0
-#: field:quality.supplier.check,note:0
-#: field:quality.supplier.reference,note:0
-#: field:quality.treatment,name:0
+#: view:quality.acceptation:0 field:quality.acceptation,note:0
+#: field:quality.action.intervent.working,note:0 view:quality.claim.cause:0
+#: field:quality.claim.cause,note:0 field:quality.comunication.type,note:0
+#: view:quality.gravity:0 field:quality.gravity,note:0 view:quality.origin:0
+#: field:quality.origin,note:0 field:quality.partner.class,note:0
+#: view:quality.sampling:0 field:quality.sampling,note:0
+#: view:quality.sampling.plan:0 field:quality.sampling.plan,note:0
+#: field:quality.sampling.taster,note:0 field:quality.supplier.check,note:0
+#: field:quality.supplier.reference,note:0 field:quality.treatment,name:0
 #: view:res.partner:0
 msgid "Note"
 msgstr "Note"
@@ -1677,10 +1592,8 @@ msgstr "Note"
 #. module: quality
 #: model:ir.actions.act_window,name:quality.action_stock_production_lot_form
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_lot
-#: field:quality.acceptation.line,lot_id:0
-#: view:quality.claim.product:0
-#: field:quality.claim.product,lot_id:0
-#: view:quality.conformed:0
+#: field:quality.acceptation.line,lot_id:0 view:quality.claim.product:0
+#: field:quality.claim.product,lot_id:0 view:quality.conformed:0
 #: view:quality.sampling:0
 msgid "Lot"
 msgstr "Lotto interno"
@@ -1717,16 +1630,14 @@ msgid "Parent Not Conformed"
 msgstr "Padre Non conformità"
 
 #. module: quality
-#: view:quality.claim:0
-#: view:quality.sampling:0
+#: view:quality.claim:0 view:quality.sampling:0
 msgid "Create Not Conformed"
 msgstr "Crea Non Conformità"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_action
 #: model:ir.ui.menu,name:quality.menu_quality_form_action
-#: field:quality.action.intervent,action_id:0
-#: field:quality.claim,action_id:0
+#: field:quality.action.intervent,action_id:0 field:quality.claim,action_id:0
 #: field:quality.conformed,action_id:0
 #: field:quality.conformed.external,action_id:0
 msgid "Action"
@@ -1741,12 +1652,10 @@ msgstr "Reclami"
 #. module: quality
 #: model:ir.model,name:quality.model_quality_acceptation
 #: model:ir.ui.menu,name:quality.menu_quality_form_acceptation
-#: view:quality.acceptation:0
-#: field:quality.acceptation.line,acceptation_id:0
+#: view:quality.acceptation:0 field:quality.acceptation.line,acceptation_id:0
 #: field:quality.conformed,acceptation_id:0
 #: selection:quality.conformed,origin:0
-#: field:quality.sampling,acceptation_id:0
-#: selection:quality.sampling,origin:0
+#: field:quality.sampling,acceptation_id:0 selection:quality.sampling,origin:0
 #: view:res.partner:0
 msgid "Acceptation"
 msgstr "Accettazione"
@@ -1767,15 +1676,16 @@ msgid "Logistics"
 msgstr "Logistica"
 
 #. module: quality
-#: view:quality.sampling:0
-#: field:quality.sampling,visual:0
+#: view:quality.sampling:0 field:quality.sampling,visual:0
 msgid "Visual examination"
 msgstr "Visualizza esame"
 
 #. module: quality
 #: help:res.partner,quality_update_date:0
 msgid "Extra information about information updared, used in quality manage"
-msgstr "Ulteriori info sull'aggiornamento info, utilizzato nella gestione della qualità"
+msgstr ""
+"Ulteriori info sull'aggiornamento info, utilizzato nella gestione della "
+"qualità"
 
 #. module: quality
 #: field:res.partner,quality_email:0
@@ -1808,18 +1718,20 @@ msgid "Done"
 msgstr "NC Fatta"
 
 #. module: quality
-#: field:res.partner,index_claim:0
-#: field:res.partner,index_conformed:0
-#: field:res.partner,index_info:0
-#: field:res.partner,index_sampling:0
+#: field:res.partner,index_claim:0 field:res.partner,index_conformed:0
+#: field:res.partner,index_info:0 field:res.partner,index_sampling:0
 msgid "Claim index"
 msgstr "Indici reclami"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.claim:0
+#: view:quality.acceptation:0 view:quality.claim:0
 msgid "Open"
-msgstr "Open"
+msgstr "Apri"
+
+#. module: quality
+#: field:quality.conformed.external,judgement_date:0
+msgid "Data del giudizio"
+msgstr "Data del giudizio"
 
 #. module: quality
 #: model:quality.claim.cause,name:quality.quality_cause_size
@@ -1846,8 +1758,7 @@ msgstr "Ritardo"
 #: selection:quality.conformed,sampling_state:0
 #: selection:quality.sampling,analysis_state:0
 #: selection:quality.sampling,glazing_state:0
-#: selection:quality.sampling,state:0
-#: selection:quality.sampling,taste_state:0
+#: selection:quality.sampling,state:0 selection:quality.sampling,taste_state:0
 #: selection:quality.sampling,visual_state:0
 msgid "Not passed"
 msgstr "Non passato"
@@ -1867,10 +1778,8 @@ msgstr "Non conformità"
 
 #. module: quality
 #: model:ir.ui.menu,name:quality.menu_quality_root_configuration_product
-#: field:quality.acceptation.line,product_id:0
-#: view:quality.claim:0
-#: field:quality.claim,product_ids:0
-#: view:quality.claim.product:0
+#: field:quality.acceptation.line,product_id:0 view:quality.claim:0
+#: field:quality.claim,product_ids:0 view:quality.claim.product:0
 #: field:quality.claim.product,product_id:0
 #: field:res.partner,quality_product:0
 msgid "Product"
@@ -1904,14 +1813,12 @@ msgid "Fornitori senza classe"
 msgstr "Fornitori senza classe"
 
 #. module: quality
-#: view:quality.action:0
-#: field:quality.action.intervent,name:0
+#: view:quality.action:0 field:quality.action.intervent,name:0
 msgid "Proposed activity"
 msgstr "Attività Proposta"
 
 #. module: quality
-#: field:res.company,index_to:0
-#: field:res.partner,index_to:0
+#: field:res.company,index_to:0 field:res.partner,index_to:0
 msgid "To date"
 msgstr "To date"
 
@@ -1934,7 +1841,7 @@ msgstr "Richiesto Assaggio"
 #: model:ir.actions.act_window,name:quality.action_quality_claim_fast_insert_tree
 #: model:ir.ui.menu,name:quality.menu_quality_form_claim_to_complete
 msgid "Claim to complete"
-msgstr "Claim to complete"
+msgstr "Reclamo da completare"
 
 #. module: quality
 #: view:quality.sampling:0
@@ -1942,16 +1849,13 @@ msgid "Tests to be performed"
 msgstr "Test da effettuare"
 
 #. module: quality
-#: view:quality.claim:0
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: view:quality.sampling:0
+#: view:quality.claim:0 view:quality.conformed:0
+#: view:quality.conformed.external:0 view:quality.sampling:0
 msgid "Linked forms:"
 msgstr "Link delle schede:"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: field:quality.acceptation,line_ids:0
+#: view:quality.acceptation:0 field:quality.acceptation,line_ids:0
 msgid "Lines"
 msgstr "Linee"
 
@@ -1973,7 +1877,9 @@ msgstr "Ordini"
 #. module: quality
 #: help:res.partner,quality_start_supplier:0
 msgid "Extra information about start supplier service, used in quality manage"
-msgstr "Informazioni exra circa la data inizio del servizio di fornitura, utilizzato nella gestione della qualità"
+msgstr ""
+"Informazioni exra circa la data inizio del servizio di fornitura, utilizzato "
+"nella gestione della qualità"
 
 #. module: quality
 #: field:quality.sampling.plan,glazing:0
@@ -2093,10 +1999,8 @@ msgid "Index date range"
 msgstr "Range date per indici"
 
 #. module: quality
-#: field:quality.acceptation,message_ids:0
-#: field:quality.action,message_ids:0
-#: field:quality.claim,message_ids:0
-#: field:quality.conformed,message_ids:0
+#: field:quality.acceptation,message_ids:0 field:quality.action,message_ids:0
+#: field:quality.claim,message_ids:0 field:quality.conformed,message_ids:0
 #: field:quality.conformed.external,message_ids:0
 #: field:quality.sampling,message_ids:0
 msgid "Messages"
@@ -2142,8 +2046,14 @@ msgstr "Pianificazione interventi"
 
 #. module: quality
 #: help:res.company,multi_year:0
-msgid "If checked the database name is parametrized with yearlike: DB name = \"example\", real DBs like: \"example2014, \"example2013, example2012 (depend on format)"
-msgstr "If checked the database name is parametrized with yearlike: DB name = \"example\", real DBs like: \"example2014, \"example2013, example2012 (depend on format)"
+msgid ""
+"If checked the database name is parametrized with yearlike: DB name = "
+"\"example\", real DBs like: \"example2014, \"example2013, example2012 "
+"(depend on format)"
+msgstr ""
+"If checked the database name is parametrized with yearlike: DB name = "
+"\"example\", real DBs like: \"example2014, \"example2013, example2012 "
+"(depend on format)"
 
 #. module: quality
 #: view:quality.claim:0
@@ -2151,19 +2061,13 @@ msgid "Management"
 msgstr "Gestione"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: selection:quality.acceptation,state:0
-#: selection:quality.acceptation.line,conformed_state:0
-#: view:quality.action:0
-#: selection:quality.action,state:0
-#: view:quality.claim:0
+#: view:quality.acceptation:0 selection:quality.acceptation,state:0
+#: selection:quality.acceptation.line,conformed_state:0 view:quality.action:0
+#: selection:quality.action,state:0 view:quality.claim:0
 #: selection:quality.claim,action_state:0
-#: selection:quality.claim,conformed_state:0
-#: selection:quality.claim,state:0
-#: view:quality.conformed:0
-#: selection:quality.conformed,action_state:0
-#: selection:quality.conformed,state:0
-#: view:quality.conformed.external:0
+#: selection:quality.claim,conformed_state:0 selection:quality.claim,state:0
+#: view:quality.conformed:0 selection:quality.conformed,action_state:0
+#: selection:quality.conformed,state:0 view:quality.conformed.external:0
 #: selection:quality.conformed.external,action_state:0
 #: selection:quality.conformed.external,state:0
 #: selection:quality.sampling,conformed_state:0
@@ -2189,6 +2093,11 @@ msgstr "Utilizzato per bottone Campionamento"
 #: field:quality.sampling,message_follower_ids:0
 msgid "Followers"
 msgstr "Follower"
+
+#. module: quality
+#: view:quality.claim:0
+msgid "Scad. L."
+msgstr "Scad. L."
 
 #. module: quality
 #: field:quality.conformed,ddt_ref:0
@@ -2234,7 +2143,11 @@ msgstr "Selezione per ricerca"
 
 #. module: quality
 #: view:quality.claim:0
-#: selection:quality.claim,state:0
+msgid "Rientro"
+msgstr "Rientro"
+
+#. module: quality
+#: view:quality.claim:0 selection:quality.claim,state:0
 #: view:quality.comunication:0
 msgid "Comunication"
 msgstr "Comunicazione"
@@ -2276,8 +2189,12 @@ msgstr "Richiesto rientro prodotti"
 
 #. module: quality
 #: help:quality.claim,comunication:0
-msgid "Comunication message, if sent by mail could be the body text, instead could be phone contact dialog"
-msgstr "Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo del testo, altrimenti potrebbe essere un dialogo telefonico"
+msgid ""
+"Comunication message, if sent by mail could be the body text, instead could "
+"be phone contact dialog"
+msgstr ""
+"Messaggio di comunicazione, se inviato tramite mail potrebbe essere il corpo "
+"del testo, altrimenti potrebbe essere un dialogo telefonico"
 
 #. module: quality
 #: field:quality.claim,need_accredit:0
@@ -2290,10 +2207,8 @@ msgid "UM"
 msgstr "UM"
 
 #. module: quality
-#: field:quality.sampling,analysis_ok:0
-#: field:quality.sampling,glazing_ok:0
-#: field:quality.sampling,taste_ok:0
-#: field:quality.sampling,visual_ok:0
+#: field:quality.sampling,analysis_ok:0 field:quality.sampling,glazing_ok:0
+#: field:quality.sampling,taste_ok:0 field:quality.sampling,visual_ok:0
 msgid "Conformed"
 msgstr "Conformità"
 
@@ -2308,24 +2223,17 @@ msgid "Subject"
 msgstr "Descrizione"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: selection:quality.acceptation,state:0
-#: selection:quality.acceptation.line,conformed_state:0
-#: view:quality.action:0
-#: selection:quality.action,state:0
-#: view:quality.claim:0
+#: view:quality.acceptation:0 selection:quality.acceptation,state:0
+#: selection:quality.acceptation.line,conformed_state:0 view:quality.action:0
+#: selection:quality.action,state:0 view:quality.claim:0
 #: selection:quality.claim,action_state:0
 #: selection:quality.claim,conformed_state:0
-#: selection:quality.claim,sampling_state:0
-#: selection:quality.claim,state:0
-#: view:quality.conformed:0
-#: selection:quality.conformed,action_state:0
+#: selection:quality.claim,sampling_state:0 selection:quality.claim,state:0
+#: view:quality.conformed:0 selection:quality.conformed,action_state:0
 #: selection:quality.conformed,sampling_state:0
-#: selection:quality.conformed,state:0
-#: view:quality.conformed.external:0
+#: selection:quality.conformed,state:0 view:quality.conformed.external:0
 #: selection:quality.conformed.external,action_state:0
-#: selection:quality.conformed.external,state:0
-#: view:quality.sampling:0
+#: selection:quality.conformed.external,state:0 view:quality.sampling:0
 #: selection:quality.sampling,conformed_state:0
 #: selection:quality.sampling,state:0
 msgid "Opened"
@@ -2358,22 +2266,16 @@ msgid "Internal"
 msgstr "Interno"
 
 #. module: quality
-#: selection:quality.acceptation.line,conformed_state:0
-#: view:quality.action:0
-#: selection:quality.action,state:0
-#: view:quality.claim:0
+#: selection:quality.acceptation.line,conformed_state:0 view:quality.action:0
+#: selection:quality.action,state:0 view:quality.claim:0
 #: selection:quality.claim,action_state:0
 #: selection:quality.claim,conformed_state:0
-#: selection:quality.claim,sampling_state:0
-#: selection:quality.claim,state:0
-#: view:quality.conformed:0
-#: selection:quality.conformed,action_state:0
+#: selection:quality.claim,sampling_state:0 selection:quality.claim,state:0
+#: view:quality.conformed:0 selection:quality.conformed,action_state:0
 #: selection:quality.conformed,sampling_state:0
-#: selection:quality.conformed,state:0
-#: view:quality.conformed.external:0
+#: selection:quality.conformed,state:0 view:quality.conformed.external:0
 #: selection:quality.conformed.external,action_state:0
-#: selection:quality.conformed.external,state:0
-#: view:quality.sampling:0
+#: selection:quality.conformed.external,state:0 view:quality.sampling:0
 #: selection:quality.sampling,conformed_state:0
 #: selection:quality.sampling,state:0
 msgid "Draft"
@@ -2387,7 +2289,7 @@ msgstr "Qualifica ottenuta"
 #. module: quality
 #: model:res.groups,comment:quality.group_quality_fast_user
 msgid "Quality fast insert claims user"
-msgstr "Quality fast insert claims user"
+msgstr "Qualità inserimento rapido reclamo utente"
 
 #. module: quality
 #: view:quality.claim:0
@@ -2410,19 +2312,12 @@ msgid "Child"
 msgstr "Azione Figlio"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,sanitation:0
+#: view:quality.conformed:0 field:quality.conformed,sanitation:0
 msgid "Sanitation"
 msgstr "Igienico/Sanitario"
 
 #. module: quality
-#: view:quality.sampling:0
-msgid "Not Passed"
-msgstr "Non passato"
-
-#. module: quality
-#: view:quality.acceptation:0
-#: view:quality.acceptation.line:0
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
 msgid "Q.tà"
 msgstr "Q.tà"
 
@@ -2432,8 +2327,7 @@ msgid "Foreign Bodies"
 msgstr "Corpi estranei"
 
 #. module: quality
-#: view:quality.conformed:0
-#: field:quality.conformed,note_RAQ:0
+#: view:quality.conformed:0 field:quality.conformed,note_RAQ:0
 #: field:quality.conformed.external,note_RAQ:0
 msgid "Note RAQ"
 msgstr "Note RAQ"
@@ -2486,20 +2380,15 @@ msgid "Quality comunication"
 msgstr "Qualità: Comunicazione"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.acceptation.line:0
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
 msgid "Eti."
 msgstr "Eti."
 
 #. module: quality
-#: field:quality.action.intervent.working,name:0
-#: field:quality.claim,name:0
-#: field:quality.claim.cause,name:0
-#: field:quality.comunication,name:0
-#: view:quality.conformed:0
-#: view:quality.conformed.external:0
-#: field:quality.gravity,name:0
-#: field:quality.origin,name:0
+#: field:quality.action.intervent.working,name:0 field:quality.claim,name:0
+#: field:quality.claim.cause,name:0 field:quality.comunication,name:0
+#: view:quality.conformed:0 view:quality.conformed.external:0
+#: field:quality.gravity,name:0 field:quality.origin,name:0
 msgid "Description"
 msgstr "Descrizione"
 
@@ -2519,8 +2408,7 @@ msgid "Analisi delle cause"
 msgstr "Analisi delle cause"
 
 #. module: quality
-#: view:quality.claim:0
-#: field:quality.claim,consideration:0
+#: view:quality.claim:0 field:quality.claim,consideration:0
 msgid "Consideration"
 msgstr "Considerazioni"
 
@@ -2548,6 +2436,11 @@ msgid "Commercial reference"
 msgstr "Rif. Commerciale"
 
 #. module: quality
+#: view:quality.claim:0
+msgid "Se non presente verra' creata una NC esterna, confermi?"
+msgstr "Se non presente verra' creata una NC esterna, confermi?"
+
+#. module: quality
 #: selection:quality.treatment,type:0
 msgid "Supplier to make"
 msgstr "Reso fornitore"
@@ -2563,8 +2456,12 @@ msgid "BF document"
 msgstr "Doc. BF"
 
 #. module: quality
-#: view:quality.acceptation:0
-#: view:quality.acceptation.line:0
+#: view:quality.claim:0
+msgid "NC ext."
+msgstr "NC ext."
+
+#. module: quality
+#: view:quality.acceptation:0 view:quality.acceptation.line:0
 msgid "Temp."
 msgstr "Temp."
 
@@ -2588,4 +2485,3 @@ msgstr "Stato Campionamento"
 #: model:ir.model,name:quality.model_quality_gravity
 msgid "Claim gravity"
 msgstr "Gravità reclamo"
-

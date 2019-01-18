@@ -902,7 +902,7 @@ class quality_claim_product(osv.osv):
         now = ('%s' % datetime.now())[:19]
         if not external_id:            
             external_id = external_pool.create(cr, uid, {
-                'claim_line_id': ids[0],                
+                'claim_id': origin_proxy.claim_id.id,
                 'insert_date': now,
                 'origin': 'claim',
                 'reference_user_id': uid,
@@ -2990,8 +2990,8 @@ class quality_conformed_external(osv.osv):
             })
         
     _columns = {
-        'claim_line_id': fields.many2one(
-            'quality.claim.product', 'Claim product'),
+        'claim_id': fields.many2one(
+            'quality.claim', 'Claim'),
         'gravity_id': fields.many2one('quality.gravity', 'Gravity',
             required=True),
         'action_id': fields.many2one('quality.action', 'Action', 
