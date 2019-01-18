@@ -2384,6 +2384,7 @@ class res_partner(osv.osv):
         else:
             total_acceptation_lot = 0
         return total_acceptation_lot
+
     # ----------------
     # Fields function:
     # ----------------
