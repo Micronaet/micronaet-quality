@@ -62,6 +62,14 @@ conformed_state = [
     ('saw', 'Saw'),
     ]
 
+conformed_external_state = [
+    ('draft', 'Draft'),
+    ('opened', 'Opened'),
+    ('closed', 'Closed'),
+    ('cancel', 'Cancel'),
+    ('saw', 'Saw'),
+    ]
+
 _logger = logging.getLogger(__name__)
 
 class mail_thread(osv.osv):
@@ -105,6 +113,155 @@ class mail_thread(osv.osv):
         #        )       
         return    
 
+class quality_conformed_external(osv.osv):
+    ''' Forms of not conformed
+    '''
+    _name = 'quality.conformed.external'
+    _inherit = ['mail.thread']
+    
+    _description = 'Not conformed external'
+    _order = 'ref desc'
+    _rec_name = 'ref'
+
+    # -------------------------------------------------------------------------
+    # Workflow Activity Function:
+    # -------------------------------------------------------------------------
+    def conformed_external_draft(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'draft',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_opened(self, cr, uid, ids, context=None):
+        external_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if external_proxy.ref:
+            ref = external_proxy.ref
+        else:
+            if external_proxy.mode == 'internal':                
+                ref = self.pool.get('ir.sequence').get(cr, uid, 
+                    'quality.conformed.internal')
+            else: #supplier
+                ref = self.pool.get('ir.sequence').get(cr, uid, 
+                    'quality.conformed.external')
+
+        self.write(cr, uid, ids, {
+            'state': 'opened',
+            'ref': ref,
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_closed(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'closed',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'cancel',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    def conformed_external_saw(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {
+            'state': 'saw',
+            }, context=context)
+        self.write_object_change_state(cr, uid, ids, context=context)
+        return True
+
+    _columns = {
+        'name': fields.text('Type'),
+        'ref': fields.char('Ref', size=100, readonly=True),
+        'insert_date': fields.date('Insert date', required=True),
+        'supplier_id':fields.many2one('res.partner', 'Supplier'),
+        'origin': fields.selection([
+            #('acceptation', 'Acceptation'),
+            #('sampling', 'Sampling'),
+            ('claim', 'Claim'),
+            #('packaging', 'Packaging'),
+            ('other', 'Other'),
+        ], 'Origin', select=True),
+        'mode': fields.selection([
+            ('internal', 'Internal'),
+            ('supplier', 'Supplier'),
+        ], 'Mode', required=True, select=True),
+        'origin_other': fields.char('Other', size=60),
+        'reference_user_id': fields.many2one(
+            'res.users', 'Ref. user', 
+            help='Ref. user when no origin from claim'),
+        'note_RAQ': fields.text('Note RAQ'),
+        'stock_note': fields.text('Stock note'),
+        'comunication_note': fields.text('Comunication note'),
+        'treatment': fields.text('Treatment'),
+        'judgement': fields.text('Judgement'),
+        'judgement_date': fields.date('Data del giudizio'),
+        'state':fields.selection(conformed_external_state, 'State', 
+            select=True, readonly=True),
+        #'aesthetic_packaging': fields.boolean('Confezione'),        
+        #'quantity': fields.boolean('Quantity'),
+        #'sanitation': fields.boolean('Sanitation'),
+        #'temperature': fields.boolean('Temperature'),
+        #'label': fields.boolean('Label'),
+        #'quality': fields.boolean('Quality'),
+        #'deadline': fields.boolean('Deadline'),
+        #'delay': fields.boolean('Ritardo'),
+        #'no_delivery': fields.boolean('Mancata consegna'),
+        #'external_material': fields.boolean('Corpi estranei'),
+        #'genesis':fields.selection([
+            #('acceptance', 'Acceptance'),
+            #('sample', 'Sample'),
+            #('claim', 'Claim'),
+            #('packaging', 'Packaging'),
+            #('other', 'Other'),
+            #   ],'Genesis', select=True),
+        #'other':fields.char('Other', size=100),
+        #'claim_id': fields.many2one('quality.claim', 'Claim'),
+        #'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
+        #'acceptation_id': fields.many2one('quality.acceptation', 
+        #    'Acceptation'),
+        #'ddt_ref': fields.char('DDT reference', size=50),
+        # TODO mandatory??
+        #'lot_id':fields.many2one('stock.production.lot', 'Real Lot'), 
+        #'label_lot': fields.char('Label Lot', size=25),
+        #'label_supplier': fields.char('Label Supplier', size=50),
+        #'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+        #    string='Lot Deadline', store=False),
+        #'cancel': fields.boolean('Cancel'),
+        #'supplier_lot': fields.related('lot_id', 'default_supplier_id', 
+        #    type='many2one', relation='res.partner', string='Supplier'),
+        #'descr_product': fields.related('lot_id', 'product_id',
+        #    type='many2one', relation='product.product', 
+        #    string='Product description'),
+        #'note_warehouse': fields.text('Note Warehouse'),
+        # TODO Change reference field:
+        #'comunication_ids': fields.one2many('quality.comunication', 
+        #    'conformed_id', 'Comunications'),
+        #'treatment_ids': fields.one2many('quality.treatment', 'conformed_id', 
+        #    'Treatments'),
+        #'parent_sampling_id': fields.many2one('quality.sampling', 
+        #    'Parent Sampling', ondelete='set null'),
+        #'sampling_id': fields.many2one('quality.sampling', 'Sampling', 
+        #    ondelete='set null'),
+        #'sampling_state': fields.related('sampling_id', 'state', 
+        #    type='selection', selection=sampling_state, 
+        #    string='Sampling state', store=False),
+        # TODO fields.relater sampling_id state (come per action)
+
+        }
+
+    _defaults = {
+        'mode': lambda *x: 'supplier',
+        'reference_user_id': lambda s, cr, uid, ctx: uid,
+        'insert_date': lambda *x: datetime.now().strftime(
+            DEFAULT_SERVER_DATE_FORMAT),
+        'origin': lambda *a: 'other',
+        'state': lambda *a: 'draft',
+        }        
+        
 # -----------------------------------------------------------------------------
 #                                    CLAIMS:
 # -----------------------------------------------------------------------------
@@ -732,7 +889,63 @@ class quality_claim_product(osv.osv):
                 pass
         return res
 
+    # -------------------------------------------------------------------------
+    # Button event:
+    # -------------------------------------------------------------------------
+    def open_external_conformed(self, cr, uid, ids, context=None):
+        ''' Open form, if not present create new
+        '''
+        external_pool = self.pool.get('quality.conformed.external')        
+        origin_proxy = self.browse(cr, uid, ids, context=context)[0]
+        
+        external_id = origin_proxy.conformed_external_id.id
+        now = ('%s' % datetime.now())[:19]
+        if not external_id:            
+            external_id = external_pool.create(cr, uid, {
+                'claim_line_id': ids[0],                
+                'insert_date': now,
+                'origin': 'claim',
+                'reference_user_id': uid,
+                #'name'
+                #'ref'
+                #'supplier_id': 1, # General Food?
+                #'mode'
+                #'origin_other'
+                #'state'
+                }, context=context)
+            self.write(cr, uid, ids, {
+                'conformed_external_id': external_id,
+                }, context=context)
+         
+        # ---------------------------------------------------------------------       
+        # Open form:
+        # ---------------------------------------------------------------------       
+        #model_pool = self.pool.get('ir.model.data')
+        #view_id = model_pool.get_object_reference(
+        #    cr, uid, 'module_name', 'view_name')[1]
+        view_id = False
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Not conformed External'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_id': external_id,
+            'res_model': 'quality.conformed.external',
+            'view_id': view_id,
+            'views': [(False, 'form'),(False, 'tree')],
+            'domain': [],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+    
     _columns = {
+        # Linked to external not conformed:
+        'conformed_external_id': fields.many2one(
+            'quality.conformed.external', 'External conformed', 
+            ondelete='set null'),
+            
         'return_date': fields.date('Return date'),
         'return_qty': fields.float('Return q.', digits=(16, 3)),
         'lot_id':fields.many2one('stock.production.lot', 'Lot', required=True),
@@ -2733,4 +2946,64 @@ class quality_acceptation_line(osv.osv):
             string='Conformed state', store=False),
         'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         }
+
+# -----------------------------------------------------------------------------
+#                             NOT CONFORMED EXTERNAL
+# -----------------------------------------------------------------------------
+class quality_conformed_external(osv.osv):
+    ''' Forms of not conformed
+    '''
+    _inherit = 'quality.conformed.external'
+
+    # -------------------------------------------------------------------------
+    # Button events:
+    # -------------------------------------------------------------------------
+    def create_action(self, cr, uid, ids, context=None):
+        ''' Create a Action and link to this Claim
+        '''
+        external_proxy = self.browse(cr, uid, ids, context=context)[0]
+        if external_proxy.mode == 'internal':
+            origin = 'audit'
+        else: # supplier
+            origin = 'other'
+        
+        action_pool = self.pool.get('quality.action')
+        action_id = action_pool.create(cr, uid, {
+            'name': external_proxy.name,
+            'date': datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
+            'conformed_external_id': ids[0],
+            'origin': origin,
+            'type': 'corrective',
+            }, context=context)
+        self.write(cr, uid, ids, {
+            'action_id': action_id, 
+            }, context=context)
+        
+        # Raise trigger for open AC:
+        wf_service = netsvc.LocalService('workflow')
+        wf_service.trg_validate(uid, 'quality.action', action_id, 
+            'trigger_action_draft_opened', cr)
+        return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
+            'model': 'quality.action',
+            'module': 'quality',
+            'record': action_id,
+            })
+        
+    _columns = {
+        'claim_line_id': fields.many2one(
+            'quality.claim.product', 'Claim product'),
+        'gravity_id': fields.many2one('quality.gravity', 'Gravity',
+            required=True),
+        'action_id': fields.many2one('quality.action', 'Action', 
+            ondelete='set null'),
+        'action_state': fields.related('action_id', 'state', type='selection', 
+            selection=action_state, string='Action state', store=False),
+        # TODO fields.relater action_id state
+        } 
+
+    _defaults = {
+        'gravity_id': lambda s, cr, uid, ctx: s.pool.get(
+            'ir.model.data').get_object_reference(
+                cr,  uid, 'quality', 'quality_gravity_serious')[1],
+        }        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

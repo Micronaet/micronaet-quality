@@ -45,7 +45,6 @@
         'security/ir.model.access.csv',
         'quality_sequence.xml',
         'quality_view.xml',
-        'external_view.xml',
         #'scheduler.xml',
 
         # Workflow:
