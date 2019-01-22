@@ -106,7 +106,7 @@ class ResPartnerDelivery(orm.Model):
         
         # ---------------------------------------------------------------------
         # Import procedure:
-        # ---------------------------------------------------------------------
+        # ---------------------------------------------------------------------        
         for filename in csv_files:
             fullname = os.path.expanduser(os.path.join(path, filename))
             _logger.info('Read file: %s' % fullname)
@@ -136,6 +136,7 @@ class ResPartnerDelivery(orm.Model):
                 if carrier_ids:
                     carrier_id = carrier_ids[0]
                 else:
+                    _logger.warning('New partner created: %s' % carrier_code)
                     carrier_id = carrier_pool.create(cr, uid, {
                         'is_company': True,                        
                         'supplier': True,
