@@ -34,6 +34,7 @@
         'report_aeroo',
         'report_aeroo_ooo',
         'partner_addresses',
+        'csv_import_delivery', # Import supplier delivery from account
         #'base_mssql',
         #'base_mssql_accounting',
         #'partner_addresses',

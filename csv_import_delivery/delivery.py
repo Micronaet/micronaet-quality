@@ -51,6 +51,21 @@ class ResPartnerDelivery(orm.Model):
     _rec_name = 'name'
     _order = 'name'
     
+    def clean_string(self, value):
+        ''' Clean string
+        '''
+        return (value or '').strip()
+
+    def clean_date(self, value):
+        ''' Clean string
+        '''
+        value = self.clean_string(value)
+        return '20%s-%s-%s' % (
+            value[6:8],
+            value[3:5],            
+            value[:2],
+            )
+        
     # -------------------------------------------------------------------------
     # Scheduled procedure:
     # -------------------------------------------------------------------------
@@ -59,18 +74,24 @@ class ResPartnerDelivery(orm.Model):
         ''' Schedule import procedure:
             only_current: force reimport of current year
         '''
+        _logger.info('Start carrier delivery import procedure')
         # Parameters:
         final = 'vet.csv'
         separator = ';'
         
-        partner_pool = self.pool.get('res.partner')
+        carrier_pool = self.pool.get('res.partner')
 
+        # ---------------------------------------------------------------------
+        # Two launch mode:
+        # ---------------------------------------------------------------------
+        # 1. Only this year:
         if only_current:
             year = datetime.now()[:4],
             csv_files = ['%s%s' % (year, final)]
             delivery_ids = self.search(cr, uid, [
                 ('date', '>=', '%s-01-01' % year),
                 ], context=context)
+        # 2. All year present in folder:                
         else:        
             csv_files = []
             for root, dirs, files in os.walk(path):
@@ -78,31 +99,58 @@ class ResPartnerDelivery(orm.Model):
                     if filename.endswith(final):
                         csv_files.append(filename)
             delivery_ids = self.search(cr, uid, [], context=context)
-                        
+
+        # Delete previous record:
         self.unlink(cr, uid, delivery_ids, context=context)
+        
+        # ---------------------------------------------------------------------
+        # Import procedure:
+        # ---------------------------------------------------------------------
         for filename in csv_files:
             fullname = os.path.expanduser(os.path.join(path, filename))
+            _logger.info('Read file: %s' % fullname)
             f_csv = open(fullname, 'r')
             for line in f_csv:
                 line = line.strip()
                 row = line.split(separator)
-        
 
-            partner_ids = partner_pool.search(cr, uid, [
-                (sql_supplier_code, '=', carrier_id)], context=context)
-            if partner_ids:
-                partner_pool.write(cr, uid, partner_ids, {}, context=context)
-        return 
-            
-                    
+                # -------------------------------------------------------------
                 # Read fields
-                name = row[0]
-                date = row[1]
-                carrier_id = row[2]
-                trip = row[3]
-                # Import line:
-                              
+                # -------------------------------------------------------------
+                name = self.clean_string(row[0])
+                date = self.clean_date(row[1])
+                carrier_code = self.clean_string(row[2])
+                carrier_name = self.clean_string(row[2])
+                trip = self.clean_string(row[4])[:3]
+                
+                # -------------------------------------------------------------
+                # Search carrier:                
+                # -------------------------------------------------------------
+                carrier_ids = carrier_pool.search(cr, uid, [
+                    '|',
+                    ('sql_customer_code', '=', carrier_code),
+                    ('sql_supplier_code', '=', carrier_code),
+                    ], context=context)
+
+                if carrier_ids:
+                    carrier_id = carrier_ids[0]
+                else:
+                    carrier_id = carrier_pool.create(cr, uid, {
+                        'is_company': True,                        
+                        'supplier': True,
+                        'name': carrier_name,
+                        'sql_supplier_code': carrier_code,
+                        }, context=context)
+                        
+                self.create(cr, uid, {
+                    'name': name,
+                    'date': date,
+                    'carrier_id': carrier_id,
+                    'trip': trip,
+                    }, context=context)        
+
             f_csv.close()    
+        _logger.info('Stop carrier delivery import procedure')
         return True
         
     _columns = {

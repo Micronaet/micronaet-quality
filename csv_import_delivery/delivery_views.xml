@@ -8,7 +8,7 @@
                   <tree string="Delivery" editable="bottom">
                         <field name="name" />
                         <field name="date" />
-                        <field name="partner_id" />
+                        <field name="carrier_id" />
                         <field name="trip" />
                   </tree>
               </field>
@@ -22,19 +22,34 @@
                           <group col="4" colspan="4">
                             <field name="name" />
                             <field name="date" />
-                            <field name="partner_id" />
+                            <field name="carrier_id" />
                             <field name="trip" />
                           </group>
                       </sheet>        
                   </form>
               </field>
           </record>
-          <record model="ir.actions.act_window" id="action_view_res_partner_delivery_tree">
+          <record model="ir.ui.view" id="view_res_partner_delivery_search">
+              <field name="name">res.partner.delivery.search</field>
+              <field name="model">res.partner.delivery</field>
+              <field name="arch" type="xml">
+                  <search string="String" version="7.0">        
+                      <field name="name" />
+                      <field name="carrier_id" filter_domain="[('carrier_id','=',self)]"/>
+                      <group expand="0" string="Group By...">
+                          <filter name="group_carrier" string="Carrier" context="{'group_by': 'carrier_id'}"/>
+                          <filter string="Trip" context="{'group_by': 'trip'}" />
+                      </group>                
+                  </search>
+              </field>
+          </record>
+          <record model="ir.actions.act_window" id="action_view_res_partner_delivery">
               <field name="name">Carrier delivery</field>
               <field name="res_model">res.partner.delivery</field>
               <field name="view_type">form</field>
               <field name="view_mode">tree,form</field>
               <field name="view_id" ref="view_res_partner_delivery_tree"/>
+              <field name="search_view_id" ref="view_res_partner_delivery_search"/>
               <field name="context">{}</field>
               <field name="domain">[]</field>
           </record>

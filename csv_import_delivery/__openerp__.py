@@ -35,10 +35,10 @@
         ],
     'init_xml': [], 
     'data': [
-        #'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         
         'delivery_views.xml',
-        #'scheduler.xml',
+        'scheduler.xml',
         ],
     'demo_xml': [],
     'active': False, 

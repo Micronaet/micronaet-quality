@@ -2099,6 +2099,7 @@
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_supplier" name="Supplier" action="action_res_partner_supplier_form" sequence="20"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" id="menu_quality_root_configuration_supplier_class" action="action_res_partner_supplier_class" sequence="10"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" name="Fornitori senza classe (-)" id="menu_quality_root_configuration_supplier_minus_class" action="action_res_partner_supplier_minus_class" sequence="20"/>
+                    <menuitem parent="menu_quality_root_configuration_supplier" id="menu_view_res_partner_delivery" action="csv_import_delivery.action_view_res_partner_delivery"/>
 
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_lot" name="Lot" action="action_stock_production_lot_form" sequence="30"/>
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_product" name="Product" action="action_product_product_form" sequence="40"/>

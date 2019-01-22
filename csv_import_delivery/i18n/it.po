@@ -1,0 +1,59 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* csv_import_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 15:33+0000\n"
+"PO-Revision-Date: 2019-01-22 16:34+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: csv_import_delivery
+#: view:res.partner.delivery:0
+msgid "String"
+msgstr "Stringa"
+
+#. module: csv_import_delivery
+#: model:ir.actions.act_window,name:csv_import_delivery.action_view_res_partner_delivery
+#: model:ir.model,name:csv_import_delivery.model_res_partner_delivery
+msgid "Carrier delivery"
+msgstr "Consegne vettori"
+
+#. module: csv_import_delivery
+#: view:res.partner.delivery:0
+msgid "Delivery"
+msgstr "Consegne"
+
+#. module: csv_import_delivery
+#: view:res.partner.delivery:0
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: csv_import_delivery
+#: view:res.partner.delivery:0 field:res.partner.delivery,carrier_id:0
+msgid "Carrier"
+msgstr "Vettore"
+
+#. module: csv_import_delivery
+#: field:res.partner.delivery,name:0
+msgid "DDT num."
+msgstr "DDT num."
+
+#. module: csv_import_delivery
+#: field:res.partner.delivery,date:0
+msgid "Data"
+msgstr "Data"
+
+#. module: csv_import_delivery
+#: view:res.partner.delivery:0 field:res.partner.delivery,trip:0
+msgid "Trip"
+msgstr "Viaggio"
