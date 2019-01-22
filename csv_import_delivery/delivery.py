@@ -75,7 +75,7 @@ class ResPartnerDelivery(orm.Model):
             only_current: force reimport of current year
         '''
         _logger.info('Start carrier delivery import procedure')
-        import pdb; pdb.set_trace()
+
         # Parameters:
         final = 'vet.csv'
         separator = ';'
@@ -95,7 +95,7 @@ class ResPartnerDelivery(orm.Model):
         # 2. All year present in folder:                
         else:        
             csv_files = []
-            for root, dirs, files in os.walk(path):
+            for root, dirs, files in os.walk(os.path.expanduser(path)):
                 for filename in files:
                     if filename.endswith(final):
                         csv_files.append(filename)
