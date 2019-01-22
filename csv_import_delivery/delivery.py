@@ -75,6 +75,7 @@ class ResPartnerDelivery(orm.Model):
             only_current: force reimport of current year
         '''
         _logger.info('Start carrier delivery import procedure')
+        import pdb; pdb.set_trace()
         # Parameters:
         final = 'vet.csv'
         separator = ';'

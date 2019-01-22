@@ -2,7 +2,7 @@
 <openerp>
 	<data noupdate="1">
 		<record id="ir_cron_csv_import_carrier_files" model="ir.cron">
-			<field eval="&quot;&quot;&quot; csv_import_carrier_files&quot;&quot;&quot;" name="function"/>
+			<field eval="&quot;&quot;&quot;csv_import_carrier_files&quot;&quot;&quot;" name="function"/>
 			<field eval="&quot;&quot;&quot;days&quot;&quot;&quot;" name="interval_type"/>
 			<field name="user_id" ref="base.user_root"/>
 			<field eval="&quot;&quot;&quot;ETL: CSV import carrier delivery&quot;&quot;&quot;" name="name"/>
