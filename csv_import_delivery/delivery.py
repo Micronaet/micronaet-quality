@@ -102,6 +102,7 @@ class ResPartnerDelivery(orm.Model):
             delivery_ids = self.search(cr, uid, [], context=context)
 
         # Delete previous record:
+        _logger.info('Delete all record for this importation')
         self.unlink(cr, uid, delivery_ids, context=context)
         
         # ---------------------------------------------------------------------
