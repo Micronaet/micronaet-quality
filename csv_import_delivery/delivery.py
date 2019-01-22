@@ -87,7 +87,7 @@ class ResPartnerDelivery(orm.Model):
         # ---------------------------------------------------------------------
         # 1. Only this year:
         if only_current:
-            year = datetime.now()[:4],
+            year = datetime.now().year
             csv_files = ['%s%s' % (year, final)]
             delivery_ids = self.search(cr, uid, [
                 ('date', '>=', '%s-01-01' % year),
