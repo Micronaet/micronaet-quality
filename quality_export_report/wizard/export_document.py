@@ -60,9 +60,9 @@ class QualityExportExcelReport(orm.TransientModel):
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
         report = wiz_proxy.report
         if report == 'conformed':
-            state_name = report.state_conformed or ''
+            state_name = wiz_proxy.state_conformed or ''
         elif report == 'claim':
-            state_name = report.state or ''
+            state_name = wiz_proxy.state or ''
         else:
             return True # not present
         
@@ -150,7 +150,7 @@ class QualityExportExcelReport(orm.TransientModel):
         # Date:
         field_name = parameter_db[report]['date']
         if wiz_proxy.from_date:            
-            domain.append((field_date, '>=', '%s 00:00:00' % \
+            domain.append((field_name, '>=', '%s 00:00:00' % \
                 wiz_proxy.from_date[:10]))
             filter_description += _(', Dalla data: %s 00:00:00') % \
                 wiz_proxy.from_date[:10]
@@ -253,7 +253,6 @@ class QualityExportExcelReport(orm.TransientModel):
 
                 excel_pool.write_xls_line(ws_name, row, data, format_text)
         elif report == 'conformed':
-            # TODO         
             conformed_pool = self.pool.get('quality.conformed')
             conformed_ids = conformed_pool.search(cr, uid, domain, context=context)
             for conformed in sorted(
@@ -263,18 +262,19 @@ class QualityExportExcelReport(orm.TransientModel):
                 row += 1    
                 data = [
                     conformed.ref or '',
-                    conformed.date,
-                    conformed.partner_id.name,
-                    conformed.partner_address_id.name or '',
-                    conformed.customer_ref or '',
+                    conformed.insert_date,
+                    #conformed.partner_id.name,
+                    #conformed.partner_address_id.name or '',
+                    #conformed.customer_ref or '',
                     conformed.name or '',
-                    conformed.subject or '',
-                    conformed.analysis or '',
-                    conformed.origin_id.name or '',
-                    conformed.cause_id.name or '',
+                    #conformed.subject or '',
+                    #conformed.analysis or '',
+                    #conformed.origin_id.name or '',
+                    #conformed.cause_id.name or '',
                     conformed.gravity_id.name or '',
                     parameter_db[report]['state'].get(state_name, ''),
                     ]
+                excel_pool.write_xls_line(ws_name, row, data, format_text)
             
         return excel_pool.return_attachment(cr, uid, ws_name, 
             name_of_file=name_of_file, version='7.0', php=True, 
