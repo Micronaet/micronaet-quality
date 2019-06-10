@@ -100,6 +100,8 @@ class QualityExportExcelReport(orm.TransientModel):
                 
                 # Fields:     
                 'date': 'date',
+                'subject': 'subject',
+                #'origin': 'origin_id',
                 # TODO 
                 }
             'conformed': {
@@ -123,12 +125,17 @@ class QualityExportExcelReport(orm.TransientModel):
                 # Translate:
                 'report': u'Non Conformità'
                 'state' = {
-                    'draft': 'Bozza',            
-                    # TODO 
+                    'draft': 'Bozza',
+                    'opened': 'Aperto'
+                    'Closed': 'Chiuso'
+                    'Cancel': 'Cancellato'
+                    'Saw': 'Visto'
                     }     
                                     
                 # Field:
                 'date': 'insert_date',
+                'subject': 'name',
+                #'origin': 'origin',
                 # TODO 
                 }
                
@@ -248,6 +255,26 @@ class QualityExportExcelReport(orm.TransientModel):
         elif report == 'conformed':
             # TODO         
             conformed_pool = self.pool.get('quality.conformed')
+            conformed_ids = conformed_pool.search(cr, uid, domain, context=context)
+            for conformed in sorted(
+                    conformed_pool.browse(
+                        cr, uid, conformed_ids, context=context), 
+                    key=lambda x: (x.date, x.ref)):
+                row += 1    
+                data = [
+                    conformed.ref or '',
+                    conformed.date,
+                    conformed.partner_id.name,
+                    conformed.partner_address_id.name or '',
+                    conformed.customer_ref or '',
+                    conformed.name or '',
+                    conformed.subject or '',
+                    conformed.analysis or '',
+                    conformed.origin_id.name or '',
+                    conformed.cause_id.name or '',
+                    conformed.gravity_id.name or '',
+                    parameter_db[report]['state'].get(state_name, ''),
+                    ]
             
         return excel_pool.return_attachment(cr, uid, ws_name, 
             name_of_file=name_of_file, version='7.0', php=True, 
@@ -286,7 +313,10 @@ class QualityExportExcelReport(orm.TransientModel):
         # Conformed state:
         'state_conformed': fields.selection([
             ('draft', 'Draft'),
-            # TODO
+            ('opened', 'Opened'),
+            ('closed', 'Closed'),
+            ('cancel', 'Cancel'),
+            ('saw', 'Saw'),
         ], 'State'),        
         
         }
