@@ -59,31 +59,16 @@ class QualityExportExcelReport(orm.TransientModel):
         excel_pool = self.pool.get('excel.writer')
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
         report = wiz_proxy.report
+        if report == 'conformed':
+            state_name = report.state_conformed or ''
+        elif report == 'claim':
+            state_name = report.state or ''
+        else:
+            return True # not present
         
         # Parameters:
-        state_db = {
-            'draft': 'Bozza',            
-            'comunication': 'Comunicazione',
-            'opened': 'Aperto',
-            'nc': 'Nota di credito',
-            'done': 'Nota di credito fatta',
-            'closed': 'Chiuso',
-            'cancel': 'Annullato',
-            'saw': 'Visto',
-            }
-        state_conformed_db = {
-            'draft': 'Bozza',            
-            # TODO 
-            }     
-
-        report_db = {
-            'claim': 'Reclami',
-            'conformed': 'Non conforme',
-            }
-            
-        # TODO (if different fields):    
         parameter_db = {
-            'claim': {
+            'claim': {            
                 # Excel:
                 'header': [
                     _('Rif.'), _('Data'),
@@ -93,16 +78,30 @@ class QualityExportExcelReport(orm.TransientModel):
                     _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
                     # TODO lot?
                     ],
-               'header_width': [
+                'header_width': [
                     15, 20,
                     40, 40, 20,
                     50, 50, 50,
                     30, 30, 30, 20,
                     ],
                
-               # Fields:     
-               #'date': 'date',
-               }
+                # Translate:
+                'report': 'Reclami',
+                'state': {
+                    'draft': 'Bozza',            
+                    'comunication': 'Comunicazione',
+                    'opened': 'Aperto',
+                    'nc': 'Nota di credito',
+                    'done': 'Nota di credito fatta',
+                    'closed': 'Chiuso',
+                    'cancel': 'Annullato',
+                    'saw': 'Visto',
+                    },
+                
+                # Fields:     
+                'date': 'date',
+                # TODO 
+                }
             'conformed': {
                 # Excel:
                 # TODO Change:
@@ -120,10 +119,18 @@ class QualityExportExcelReport(orm.TransientModel):
                     50, 50, 50,
                     30, 30, 30, 20,
                     ],
-                    
-               # Field:
-               #'date': 'create_date',
-               }
+
+                # Translate:
+                'report': u'Non Conformità'
+                'state' = {
+                    'draft': 'Bozza',            
+                    # TODO 
+                    }     
+                                    
+                # Field:
+                'date': 'insert_date',
+                # TODO 
+                }
                
             }    
             
@@ -131,18 +138,17 @@ class QualityExportExcelReport(orm.TransientModel):
         #                           Domain creation:
         # ---------------------------------------------------------------------
         domain = []
-        filter_description = 'Report: %s' % report_db.get(wiz_proxy.report, '')
+        filter_description = 'Report: %s' % parameter_db[report]['report']
         
         # Date:
-        if wiz_proxy.from_date:
-            # TODO field_name = parameter_db[report]['date']
-            
-            domain.append(('date', '>=', '%s 00:00:00' % \
+        field_name = parameter_db[report]['date']
+        if wiz_proxy.from_date:            
+            domain.append((field_date, '>=', '%s 00:00:00' % \
                 wiz_proxy.from_date[:10]))
             filter_description += _(', Dalla data: %s 00:00:00') % \
                 wiz_proxy.from_date[:10]
         if wiz_proxy.to_date:
-            domain.append(('date', '<=', '%s 23:59:59' % \
+            domain.append((field_name, '<=', '%s 23:59:59' % \
                 wiz_proxy.to_date[:10]))
             filter_description += _(', Alla data: %s 23:59:59') % \
                 wiz_proxy.to_date[:10]
@@ -174,16 +180,16 @@ class QualityExportExcelReport(orm.TransientModel):
             filter_description += _(', Gravita\': %s') % \
                 wiz_proxy.gravity_id.name
 
-        if wiz_proxy.state:
-            domain.append(('state', '=', wiz_proxy.state))
-            filter_description += _(', Stato: %s') % state_db.get(
-                wiz_proxy.state, '')
+        if state_name:
+            domain.append(('state', '=', state_name))
+            filter_description += _(', Stato: %s'
+                ) % parameter_db[report]['state'].get(state_name, '')
 
         # ---------------------------------------------------------------------
         #                       REPORT CASES:
         # ---------------------------------------------------------------------
         # Parameters:
-        ws_name = _(report_db[report])
+        ws_name = _(parameter_db[report]['report'])
         name_of_file = _('%s.xls' % report)       
 
         # -----------------------------------------------------------------            
@@ -235,7 +241,7 @@ class QualityExportExcelReport(orm.TransientModel):
                     claim.origin_id.name or '',
                     claim.cause_id.name or '',
                     claim.gravity_id.name or '',
-                    state_db.get(claim.state, ''),
+                    parameter_db[report]['state'].get(state_name, ''),
                     ]
 
                 excel_pool.write_xls_line(ws_name, row, data, format_text)
