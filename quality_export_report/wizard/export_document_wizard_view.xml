@@ -31,7 +31,8 @@
                         <field name="cause_id" widget="selection" />
                         <field name="gravity_id" widget="selection" />                        
                         
-                        <field name="state" />
+                        <field name="state" attrs="{'invisible': [('report','!=','claim')]}"/>
+                        <field name="state_conformed" attrs="{'invisible': [('report','!=','conformed')]}"/>
                         
                         
                    </group>

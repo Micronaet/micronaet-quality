@@ -58,6 +58,7 @@ class QualityExportExcelReport(orm.TransientModel):
         # Pool used:
         excel_pool = self.pool.get('excel.writer')
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
+        report = wiz_proxy.report
         
         # Parameters:
         state_db = {
@@ -70,18 +71,72 @@ class QualityExportExcelReport(orm.TransientModel):
             'cancel': 'Annullato',
             'saw': 'Visto',
             }
+        state_conformed_db = {
+            'draft': 'Bozza',            
+            # TODO 
+            }     
+
         report_db = {
             'claim': 'Reclami',
+            'conformed': 'Non conforme',
             }
             
+        # TODO (if different fields):    
+        parameter_db = {
+            'claim': {
+                # Excel:
+                'header': [
+                    _('Rif.'), _('Data'),
+                    _('Partner'), _('Destinazione'), _('Rif. cliente'),
+                    _('Descrizione'), _('Dettaglio'), _('Analisi'),
+
+                    _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
+                    # TODO lot?
+                    ],
+               'header_width': [
+                    15, 20,
+                    40, 40, 20,
+                    50, 50, 50,
+                    30, 30, 30, 20,
+                    ],
+               
+               # Fields:     
+               #'date': 'date',
+               }
+            'conformed': {
+                # Excel:
+                # TODO Change:
+                'header' = [
+                    _('Rif.'), _('Data'),
+                    _('Partner'), _('Destinazione'), _('Rif. cliente'),
+                    _('Descrizione'), _('Dettaglio'), _('Analisi'),
+
+                    _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
+                    # TODO lot?
+                    ],
+               'header_width': [
+                    15, 20,
+                    40, 40, 20,
+                    50, 50, 50,
+                    30, 30, 30, 20,
+                    ],
+                    
+               # Field:
+               #'date': 'create_date',
+               }
+               
+            }    
+            
         # ---------------------------------------------------------------------
-        # Domain creation:
+        #                           Domain creation:
         # ---------------------------------------------------------------------
         domain = []
         filter_description = 'Report: %s' % report_db.get(wiz_proxy.report, '')
         
         # Date:
         if wiz_proxy.from_date:
+            # TODO field_name = parameter_db[report]['date']
+            
             domain.append(('date', '>=', '%s 00:00:00' % \
                 wiz_proxy.from_date[:10]))
             filter_description += _(', Dalla data: %s 00:00:00') % \
@@ -127,57 +182,40 @@ class QualityExportExcelReport(orm.TransientModel):
         # ---------------------------------------------------------------------
         #                       REPORT CASES:
         # ---------------------------------------------------------------------
-        if wiz_proxy.report == 'claim':
-            # -----------------------------------------------------------------
-            # Claims:
-            # -----------------------------------------------------------------
-            # Parameters:
-            ws_name = _('Reclami')
-            name_of_file = _('reclami.xls')            
-            
-            header = [
-                _('Rif.'), _('Data'),
-                _('Partner'), _('Destinazione'), _('Rif. cliente'),
-                _('Descrizione'), _('Dettaglio'), _('Analisi'),
+        # Parameters:
+        ws_name = _(report_db[report])
+        name_of_file = _('%s.xls' % report)       
 
-                _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
-                # TODO lot?
-                ]
+        # -----------------------------------------------------------------            
+        # Create Excel file:    
+        # -----------------------------------------------------------------            
+        # Worksheet:
+        ws = excel_pool.create_worksheet(ws_name)
+        
+        # Format:
+        excel_pool.set_format()
+        format_title = excel_pool.get_format('title')
+        format_header = excel_pool.get_format('header')
+        format_text = excel_pool.get_format('text')
+        
+        excel_pool.column_width(ws_name, parameter_db[report]['header_width'])
+        
+        # Title:
+        row = 0
+        excel_pool.write_xls_line(ws_name, row, [
+            _('Filtro:'),
+            filter_description,
+            ], format_title)
 
-            # -----------------------------------------------------------------            
-            # Create Excel file:    
-            # -----------------------------------------------------------------            
-            # Worksheet:
-            ws = excel_pool.create_worksheet(ws_name)
-            
-            # Format:
-            excel_pool.set_format()
-            format_title = excel_pool.get_format('title')
-            format_header = excel_pool.get_format('header')
-            format_text = excel_pool.get_format('text')
-            
-            # Column satup:
-            excel_pool.column_width(ws_name, [
-                15, 20,
-                40, 40, 20,
-                50, 50, 50,
-                30, 30, 30, 20,
-                ])
-            
-            # Title:
-            row = 0
-            excel_pool.write_xls_line(ws_name, row, [
-                _('Filtro:'),
-                filter_description,
-                ], format_title)
+        # Header:            
+        row = 1
+        excel_pool.write_xls_line(ws_name, row, parameter_db[report]['header'], 
+            format_header)
 
-            # Header:            
-            row = 1
-            excel_pool.write_xls_line(ws_name, row, header, format_header)
-
-            # -----------------------------------------------------------------            
-            # Load data:            
-            # -----------------------------------------------------------------            
+        # ---------------------------------------------------------------------
+        # Load data:            
+        # ---------------------------------------------------------------------        
+        if report == 'claim':
             claim_pool = self.pool.get('quality.claim')
             claim_ids = claim_pool.search(cr, uid, domain, context=context)
             for claim in sorted(
@@ -201,8 +239,9 @@ class QualityExportExcelReport(orm.TransientModel):
                     ]
 
                 excel_pool.write_xls_line(ws_name, row, data, format_text)
-        else:
-            pass # Error      
+        elif report == 'conformed':
+            # TODO         
+            conformed_pool = self.pool.get('quality.conformed')
             
         return excel_pool.return_attachment(cr, uid, ws_name, 
             name_of_file=name_of_file, version='7.0', php=True, 
@@ -211,6 +250,7 @@ class QualityExportExcelReport(orm.TransientModel):
     _columns = {
         'report': fields.selection([
             ('claim', 'Claim'),
+            ('conformed', 'Not conformed'),
             ], 'Report', required=True),
             
         'from_date': fields.date('From date >= '),
@@ -225,6 +265,7 @@ class QualityExportExcelReport(orm.TransientModel):
         'reference_user_id': fields.many2one('res.users', 'Reference user', 
             help="Reference for claim to your customer"),
 
+        # Claim state:
         'state': fields.selection([
             ('draft', 'Draft'),
             ('comunication', 'Comunication'),
@@ -234,7 +275,14 @@ class QualityExportExcelReport(orm.TransientModel):
             ('closed', 'Closed'), # TODO Vista RAQ
             ('cancel', 'Cancel'),
             ('saw', 'Saw'),
-        ],'State'),
+        ], 'State'),
+        
+        # Conformed state:
+        'state_conformed': fields.selection([
+            ('draft', 'Draft'),
+            # TODO
+        ], 'State'),        
+        
         }
         
     _defaults = {
