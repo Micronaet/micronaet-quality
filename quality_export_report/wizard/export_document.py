@@ -136,20 +136,11 @@ class QualityExportExcelReport(orm.TransientModel):
             name_of_file = _('reclami.xls')            
             
             header = [
-                _('Rif.'),
-                _('Data'),
-                _('Partner'),
-                _('Destinazione'),
-                _('Rif. cliente'),
-                _('Descrizione'),
-                _('Dettaglio'),
-                _('Analisi'),
+                _('Rif.'), _('Data'),
+                _('Partner'), _('Destinazione'), _('Rif. cliente'),
+                _('Descrizione'), _('Dettaglio'), _('Analisi'),
 
-                _('Origini'),
-                _('Cause'),
-                _('Gravita\''),
-                
-                _('Stato'),
+                _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
                 # TODO lot?
                 ]
 
@@ -167,18 +158,10 @@ class QualityExportExcelReport(orm.TransientModel):
             
             # Column satup:
             excel_pool.column_width(ws_name, [
-                15,
-                20,
-                40,
-                40,
-                20,
-                50,
-                50,
-                50,
-                30,
-                30,
-                30,
-                20,
+                15, 20,
+                40, 40, 20,
+                50, 50, 50,
+                30, 30, 30, 20,
                 ])
             
             # Title:

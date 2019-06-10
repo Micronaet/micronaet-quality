@@ -963,7 +963,7 @@ class quality_claim_product(osv.osv):
         #'real_product_id': fields.many2one('product.product', 'Real product'),
         'claim_id':fields.many2one('quality.claim', 'Claim', 
             ondeleted='cascade'),
-        'label_lot': fields.char('Label Lot', size=10),
+        'label_lot': fields.char('Label Lot', size=50),
         'label_supplier': fields.char('Label Supplier', size=50),
         'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
             string='Lot deadline', store=False),

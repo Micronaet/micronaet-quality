@@ -123,7 +123,7 @@ msgstr "Da campionamenti"
 #. module: quality_qualification
 #: view:res.partner:0
 msgid "Auto qualification"
-msgstr "Auto qualitifazione"
+msgstr "Auto qualificazione"
 
 #. module: quality_qualification
 #: view:quality.qualification.parameter:0
