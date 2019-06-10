@@ -103,11 +103,11 @@ class QualityExportExcelReport(orm.TransientModel):
                 'subject': 'subject',
                 #'origin': 'origin_id',
                 # TODO 
-                }
+                },
             'conformed': {
                 # Excel:
                 # TODO Change:
-                'header' = [
+                'header': [
                     _('Rif.'), _('Data'),
                     _('Partner'), _('Destinazione'), _('Rif. cliente'),
                     _('Descrizione'), _('Dettaglio'), _('Analisi'),
@@ -123,21 +123,21 @@ class QualityExportExcelReport(orm.TransientModel):
                     ],
 
                 # Translate:
-                'report': u'Non Conformità'
-                'state' = {
+                'report': u'Non Conformità',
+                'state' : {
                     'draft': 'Bozza',
-                    'opened': 'Aperto'
-                    'Closed': 'Chiuso'
-                    'Cancel': 'Cancellato'
-                    'Saw': 'Visto'
-                    }     
+                    'opened': 'Aperto',
+                    'Closed': 'Chiuso',
+                    'Cancel': 'Cancellato',
+                    'Saw': 'Visto',
+                    },
                                     
                 # Field:
                 'date': 'insert_date',
                 'subject': 'name',
                 #'origin': 'origin',
                 # TODO 
-                }
+                },
                
             }    
             
@@ -259,7 +259,7 @@ class QualityExportExcelReport(orm.TransientModel):
             for conformed in sorted(
                     conformed_pool.browse(
                         cr, uid, conformed_ids, context=context), 
-                    key=lambda x: (x.date, x.ref)):
+                    key=lambda x: (x.insert_date, x.ref)):
                 row += 1    
                 data = [
                     conformed.ref or '',
