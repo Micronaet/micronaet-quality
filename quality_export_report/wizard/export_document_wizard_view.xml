@@ -32,7 +32,8 @@ attrs="{'invisible': [('report','!=','conformed')]}"/>
                         <separator string="Category:" colspan="4"/>                        
                         <field name="origin_id" widget="selection" attrs="{'invisible': [('report','!=','claim')]}"/>
                         <field name="cause_id" widget="selection" attrs="{'invisible': [('report','!=','claim')]}"/>
-                        <field name="gravity_id" widget="selection" />                                                
+                        <field name="gravity_id" widget="selection" />
+			<field name="conformed_type" attrs="{'invisible': [('report','!=','conformed')]}"/>                                                
                         <field name="state" attrs="{'invisible': [('report','!=','claim')]}"/>
                         <field name="state_conformed" attrs="{'invisible': [('report','!=','conformed')]}"/>
                    </group>

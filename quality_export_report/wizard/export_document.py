@@ -109,17 +109,39 @@ class QualityExportExcelReport(orm.TransientModel):
                 # TODO Change:
                 'header': [
                     _('Rif.'), _('Data'),
-                    _('Partner'), _('Destinazione'), _('Rif. cliente'),
-                    _('Descrizione'), _('Dettaglio'), _('Analisi'),
+                    _('Fornitore'),
+                    _('Descrizione'),
+                    _('Gravita\''), 
+                    _('Stato'),
+                    _('Quantita'),
+                    _('Temperatura'),
+                    _('Etichetta'),
+                    _('Confezione'),
+                    _('Qualita'),
+                    _('Scadenza'),
+                    _('Igenico/Sanitario'),
+                    _('Ritardo'),
+                    _('Mancata consegna'),
+                    _('Corpi estranei'),
 
-                    _('Origini'), _('Cause'), _('Gravita\''), _('Stato'),
-                    # TODO lot?
                     ],
                'header_width': [
                     15, 20,
-                    40, 40, 20,
-                    50, 50, 50,
-                    30, 30, 30, 20,
+                    20,
+                    20,
+                    40,
+                    40,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    40, 
+                    40, 
+ 
                     ],
 
                 # Translate:
@@ -192,7 +214,10 @@ class QualityExportExcelReport(orm.TransientModel):
             domain.append(('gravity_id', '=', wiz_proxy.gravity_id.id))
             filter_description += _(', Gravita\': %s') % \
                 wiz_proxy.gravity_id.name
-
+        if wiz_proxy.conformed_type:
+            domain.append((wiz_proxy.conformed_type, '=', True))
+            filter_description += _('Tipo': %s') % \
+                wiz_proxy.conformed_type
         if state_name:
             domain.append(('state', '=', state_name))
             filter_description += _(', Stato: %s'
@@ -269,8 +294,21 @@ class QualityExportExcelReport(orm.TransientModel):
                 data = [
                     conformed.ref or '',
                     conformed.insert_date,
-                    conformed.supplier_lot,
+                    conformed.supplier_lot.name,
+                    conformed.name or '',
                     conformed.gravity_id.name or '',
+
+                    'X' if conformed.quantity else '',                    
+                    'X' if conformed.temperature else '',                    
+                    'X' if conformed.label else '',                    
+                    'X' if conformed.aesthetic_packaging else '',                    
+                    'X' if conformed.quality else '',                    
+                    'X' if conformed.deadline else '',                    
+                    'X' if conformed.sanitation else '',                    
+                    'X' if conformed.delay else '',                    
+                    'X' if conformed.no_delivery else '',                    
+                    'X' if conformed.external_material else '',                    
+
                     parameter_db[report]['state'].get(state_name, ''),
                     ]
                 excel_pool.write_xls_line(ws_name, row, data, format_text)
@@ -296,6 +334,19 @@ class QualityExportExcelReport(orm.TransientModel):
         'reference_user_id': fields.many2one('res.users', 'Reference user', 
             help="Reference for claim to your customer"),
 
+        'conformed_type': fields.selection([
+            ('quantity', u'Quantità'),
+            ('temperature', 'Temperatura'),
+            ('label', 'Etichetta'),
+            ('aesthetic_packaging', 'Confezione'),
+            ('quality', u'Qualità'),
+            ('deadline', 'Scadenza'),
+            ('sanitation', 'Igenico/Sanitario'),
+            ('delay', 'Ritardo'),
+            ('no_delivery', 'Mancata Consegna'),
+            ('external_material', 'Corpi estranei'),
+            ], 'Tipo'),
+
         # Claim state:
         'state': fields.selection([
             ('draft', 'Draft'),
@@ -306,7 +357,7 @@ class QualityExportExcelReport(orm.TransientModel):
             ('closed', 'Closed'), # TODO Vista RAQ
             ('cancel', 'Cancel'),
             ('saw', 'Saw'),
-        ], 'State'),
+            ], 'State'),
         
         # Conformed state:
         'state_conformed': fields.selection([
