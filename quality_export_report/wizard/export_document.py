@@ -269,7 +269,6 @@ class QualityExportExcelReport(orm.TransientModel):
                 data = [
                     conformed.ref or '',
                     conformed.insert_date,
-                    conformed.name or '',
                     conformed.supplier_lot,
                     conformed.gravity_id.name or '',
                     parameter_db[report]['state'].get(state_name, ''),
@@ -288,7 +287,6 @@ class QualityExportExcelReport(orm.TransientModel):
             
         'from_date': fields.date('From date >= '),
         'to_date': fields.date('To date <='),
-        
         'subject': fields.char('Subject', size=100),
         'supplier_lot': fields.many2one('res.partner', 'Supplier'),        
         'partner_id': fields.many2one('res.partner', 'Customer'),

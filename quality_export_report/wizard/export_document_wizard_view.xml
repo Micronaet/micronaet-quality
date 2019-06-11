@@ -23,19 +23,18 @@
                         <field name="subject" colspan="4" />
 
                         <separator string="Partner:" colspan="4"/>
-                        <field name="partner_id" domain="[('customer', '=', True),('is_address', '=', False)]" />
-                        <field name="supplier_lot" domain="[('supplier', '=', True),('is_address', '=', False)]" />
+                        <field name="partner_id" domain="[('customer', '=', True),('is_address', '=', False)]" 
+attrs="{'invisible': [('report','!=','claim')]}"/>
+                        <field name="supplier_lot" domain="[('supplier', '=', True),('is_address', '=', False)]" 
+attrs="{'invisible': [('report','!=','conformed')]}"/>
                         <field name="reference_user_id" widget="selection"/>
                         
                         <separator string="Category:" colspan="4"/>                        
-                        <field name="origin_id" widget="selection" />
-                        <field name="cause_id" widget="selection" />
-                        <field name="gravity_id" widget="selection" />                        
-                        
+                        <field name="origin_id" widget="selection" attrs="{'invisible': [('report','!=','claim')]}"/>
+                        <field name="cause_id" widget="selection" attrs="{'invisible': [('report','!=','claim')]}"/>
+                        <field name="gravity_id" widget="selection" />                                                
                         <field name="state" attrs="{'invisible': [('report','!=','claim')]}"/>
                         <field name="state_conformed" attrs="{'invisible': [('report','!=','conformed')]}"/>
-                        
-                        
                    </group>
                 </form>
             </field>
