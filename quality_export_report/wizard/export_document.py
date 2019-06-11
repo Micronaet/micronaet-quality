@@ -216,7 +216,7 @@ class QualityExportExcelReport(orm.TransientModel):
                 wiz_proxy.gravity_id.name
         if wiz_proxy.conformed_type:
             domain.append((wiz_proxy.conformed_type, '=', True))
-            filter_description += _('Tipo': %s') % \
+            filter_description += _('Tipo: %s') % \
                 wiz_proxy.conformed_type
         if state_name:
             domain.append(('state', '=', state_name))
