@@ -283,8 +283,9 @@
                    <button string="Opened" name="trigger_claim_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
                    <button string="Comunication" name="trigger_claim_draft_comunication" type="workflow" states="draft" icon="terp-mail-message-new"/>
                    <button string="Cancel" name="trigger_claim_draft_cancel" type="workflow" states="draft" icon="gtk-cancel"/>
-
-                   <button string="Opened" name="trigger_claim_comunication_opened" type="workflow" states="comunication" icon="gtk-execute"/>
+		   <field name="date"/>
+		   <field name="reference_user_id"/>
+                   <!--<button string="Opened" name="trigger_claim_comunication_opened" type="workflow" states="comunication" icon="gtk-execute"/>
                    <button string="Cancel" name="trigger_claim_comunication_cancel" type="workflow" states="comunication" icon="gtk-cancel"/>
 
                    <button string="Closed" name="trigger_claim_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
@@ -302,7 +303,7 @@
 
                    <button string="Cancel" name="trigger_claim_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
 
-                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>-->
                    <field name="state"/>
                 </tree>
             </field>

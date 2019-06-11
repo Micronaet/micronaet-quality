@@ -161,8 +161,9 @@ class QualityExportExcelReport(orm.TransientModel):
                 wiz_proxy.to_date[:10]
 
         # Text:
+        field_name = parameter_db[report]['subject']
         if wiz_proxy.subject:
-            domain.append(('subject', 'ilike', wiz_proxy.subject))
+            domain.append((field_name, 'ilike', wiz_proxy.subject))
             filter_description += _(', Oggetto: "%s"') % wiz_proxy.subject
         
         # One2many:    
@@ -170,6 +171,11 @@ class QualityExportExcelReport(orm.TransientModel):
             domain.append(('partner_id', '=', wiz_proxy.partner_id.id))
             filter_description += _(', Partner: %s') % \
                 wiz_proxy.partner_id.name
+        if wiz_proxy.supplier_lot:
+            domain.append(('supplier_lot', '=', wiz_proxy.supplier_lot))
+            filter_description += _(', Fornitore Lotto: %s') % \
+                wiz_proxy.supplier_lot.name
+
         if wiz_proxy.reference_user_id:
             domain.append(
                 ('reference_user_id', '=', wiz_proxy.reference_user_id))
@@ -263,14 +269,8 @@ class QualityExportExcelReport(orm.TransientModel):
                 data = [
                     conformed.ref or '',
                     conformed.insert_date,
-                    #conformed.partner_id.name,
-                    #conformed.partner_address_id.name or '',
-                    #conformed.customer_ref or '',
                     conformed.name or '',
-                    #conformed.subject or '',
-                    #conformed.analysis or '',
-                    #conformed.origin_id.name or '',
-                    #conformed.cause_id.name or '',
+                    conformed.supplier_lot,
                     conformed.gravity_id.name or '',
                     parameter_db[report]['state'].get(state_name, ''),
                     ]
@@ -290,7 +290,7 @@ class QualityExportExcelReport(orm.TransientModel):
         'to_date': fields.date('To date <='),
         
         'subject': fields.char('Subject', size=100),
-        
+        'supplier_lot': fields.many2one('res.partner', 'Supplier'),        
         'partner_id': fields.many2one('res.partner', 'Customer'),
         'origin_id': fields.many2one('quality.origin', 'Origin'),
         'cause_id': fields.many2one('quality.claim.cause', 'Cause'),

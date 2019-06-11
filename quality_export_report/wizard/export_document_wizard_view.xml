@@ -24,6 +24,7 @@
 
                         <separator string="Partner:" colspan="4"/>
                         <field name="partner_id" domain="[('customer', '=', True),('is_address', '=', False)]" />
+                        <field name="supplier_lot" domain="[('supplier', '=', True),('is_address', '=', False)]" />
                         <field name="reference_user_id" widget="selection"/>
                         
                         <separator string="Category:" colspan="4"/>                        
