@@ -108,8 +108,7 @@ class QualityExportExcelReport(orm.TransientModel):
                 # Excel:
                 # TODO Change:
                 'header': [
-                    _('Rif.'), _('Data'),
-                    _('Fornitore'),
+                    _('Rif.'), _('Data'), _('Fornitore'),
                     _('Descrizione'),
                     _('Gravita\''), 
                     _('Stato'),
@@ -126,22 +125,12 @@ class QualityExportExcelReport(orm.TransientModel):
 
                     ],
                'header_width': [
-                    15, 20,
-                    20,
+                    15, 20, 20,
                     20,
                     40,
                     40,
-                    20,
-                    20,
-                    20,
-                    20,
-                    20,
-                    20,
-                    20,
-                    20,
-                    40, 
-                    40, 
- 
+                    5, 5, 5, 5, 5,
+                    5, 5, 5, 5, 5,
                     ],
 
                 # Translate:
@@ -297,7 +286,8 @@ class QualityExportExcelReport(orm.TransientModel):
                     conformed.supplier_lot.name,
                     conformed.name or '',
                     conformed.gravity_id.name or '',
-
+                    parameter_db[report]['state'].get(state_name, ''),
+                    
                     'X' if conformed.quantity else '',                    
                     'X' if conformed.temperature else '',                    
                     'X' if conformed.label else '',                    
@@ -309,7 +299,6 @@ class QualityExportExcelReport(orm.TransientModel):
                     'X' if conformed.no_delivery else '',                    
                     'X' if conformed.external_material else '',                    
 
-                    parameter_db[report]['state'].get(state_name, ''),
                     ]
                 excel_pool.write_xls_line(ws_name, row, data, format_text)
             
