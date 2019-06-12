@@ -189,7 +189,7 @@ class QualityExportExcelReport(orm.TransientModel):
 
         if wiz_proxy.reference_user_id:
             domain.append(
-                ('reference_user_id', '=', wiz_proxy.reference_user_id))
+                ('reference_user_id', '=', wiz_proxy.reference_user_id.id))
             filter_description += _(', Riferimento: %s') % \
                 wiz_proxy.reference_user_id.name
             
