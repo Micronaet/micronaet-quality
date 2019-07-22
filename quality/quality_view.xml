@@ -907,6 +907,7 @@
                     <field name="name"/>
                     <field name="lot_id" domain="[('obsolete', '=', False)]"/>
                     <field name="supplier_lot"/>
+		    <field name="reference_user_id"/>
                     <field name="action_id"/>
                     <field name="sampling_id"/>
                     <button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
@@ -937,6 +938,7 @@
                     <field name="label_lot"/>
                     <field name="label_supplier"/>
                     <field name="supplier_lot"/>
+	            <field name="reference_user_id"/>
                     <field name="descr_product"/>
 
                     <separator string='State'/>
@@ -2044,6 +2046,7 @@
                         <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
                         <filter string="Date" domain="[]" context="{'group_by':'insert_date'}"/>
                         <filter string="Gravity" domain="[]" context="{'group_by':'gravity_id'}"/>
+			<filter string="Utente" domain="[]" context="{'group_by':'reference_user_id'}"/>
                         <!--<filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>-->
                         <filter string="State" domain="[]" context="{'group_by':'state'}"/>
                     </group>
