@@ -45,7 +45,9 @@ class quality_acceptation_import_wizard(osv.osv_memory):
             parse in a tuple list of values
         '''
         line = line.replace(chr(0), '')        
-        return line[:8].strip(), line[8:14].strip(), line[14:19].strip(), line[19:59].strip(), line[59:70].strip(), float(line[70:82].strip() or '0.0')
+        return (line[:8].strip(), line[8:14].strip(), line[14:19].strip(), 
+            line[19:59].strip(), line[59:70].strip(), 
+            float(line[70:82].strip() or '0.0'))
         
     def get_import_file(self, cr, uid, context=None):
         ''' Utility funciton for get file obj

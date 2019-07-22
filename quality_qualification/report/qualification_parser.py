@@ -206,14 +206,11 @@ class Parser(report_sxw.rml_parse):
             if only_active and not total_acceptation_lot:
                 continue # jump line without lot in period (if request)    
             
-            acc_total = nc_stat[
-                'acceptation'].get(partner.id, 0)
-            claim_total = nc_stat[
-                'claim'].get(partner.id, 0) 
-            sample_total = nc_stat[
-                'sampling'].get(partner.id, 0) 
-            pack_total = nc_stat[
-                'packaging'].get(partner.id, 0)
+            acc_total = nc_stat['acceptation'].get(partner.id, 0)
+            claim_total = nc_stat['claim'].get(partner.id, 0) 
+            sample_total = nc_stat['sampling'].get(partner.id, 0) 
+            pack_total = nc_stat['packaging'].get(partner.id, 0)
+
             # % total:
             if total_acceptation_lot:
                 # Perc on total:
