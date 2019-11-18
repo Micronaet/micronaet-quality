@@ -112,6 +112,7 @@ class QualityQualificationParameter(orm.Model):
             ('acceptation', 'From acceptation'),
             ('sampling', 'From sampling'),
             ('packaging', 'From packaging'),            
+            ('external', 'NC External'),            
             ], 'Origin', select=True, required=True),        
 
         # Furniture range:

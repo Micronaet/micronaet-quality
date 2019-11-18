@@ -183,6 +183,7 @@ class quality_conformed_external(osv.osv):
             #('sampling', 'Sampling'),
             ('claim', 'Claim'),
             #('packaging', 'Packaging'),
+            ('doc', 'Documentation not send'),
             ('other', 'Other'),
         ], 'Origin', select=True),
         'mode': fields.selection([
