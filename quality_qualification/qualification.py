@@ -119,6 +119,7 @@ class QualityQualificationParameter(orm.Model):
         'from_value': fields.integer('Range From (>=)'),
         'to_value': fields.integer('Range To (<)'),
         'uom': fields.selection([
+            ('piece', 'N.'),
             ('lot', 'Lot'),
             ('weight', 'Weight'),
             ], 'uom', required=True),
