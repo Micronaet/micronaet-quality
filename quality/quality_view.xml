@@ -1384,31 +1384,37 @@
                             <field name='origin' readonly="1"/>
                             <field name='partner_id' readonly="1"/>
                             <separator string='Lines' colspan='4'/>
-                            <field name="line_ids" colspan='4' nolabel='1'>
-                                <tree string='Lines' editable="bottom" colors="blue:conformed_id==False">
-                                    <field name='acceptation_id' invisible='1'/>
-                                    <field name='lot_id' readonly="1" domain="[('obsolete', '=', False)]"/>
-                                    <field name='product_id' readonly="1"/>
-                                    <field name='qty_arrived' readonly="1" string="Q. arr."/>
-                                    <field name='qty_expected' string="Q. prev."/>
-                                    <field name='um' readonly="1"/>
-                                    <field name='qty' string="Q.tà" />
-                                    <field name='temp' string="Temp." />
-                                    <field name='label' string="Eti." />
-                                    <field name='package' string="Conf." />
-                                    <field name='quality' string="Qual." />
-                                    <field name='expired' string="Scad." />
-                                    
-                                    <!--NC-->
-                                    <button name="open_conformed" string="Open not conformed" icon="gtk-goto-last" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
-                                    <field name="conformed_id" string="NC"/>
-                                    <field name="conformed_state" readonly="1" invisible='1'/>
+                            
+                            <notebook colspan="4">
+                                <page string="Lines">
+                                    <field name="line_ids" colspan='4' nolabel='1'>
+                                        <tree string='Lines' editable="bottom" colors="blue:conformed_id==False">
+                                            <field name='acceptation_id' invisible='1'/>
+                                            <field name='lot_id' readonly="1" domain="[('obsolete', '=', False)]"/>
+                                            <field name='product_id' readonly="1"/>
+                                            <field name='qty_arrived' readonly="1" string="Q. arr."/>
+                                            <field name='qty_expected' string="Q. prev."/>
+                                            <field name='um' readonly="1"/>
+                                            <field name='qty' string="Q.tà" />
+                                            <field name='temp' string="Temp." />
+                                            <field name='label' string="Eti." />
+                                            <field name='package' string="Conf." />
+                                            <field name='quality' string="Qual." />
+                                            <field name='expired' string="Scad." />
+                                            
+                                            <!--NC-->
+                                            <button name="open_conformed" string="Open not conformed" icon="gtk-goto-last" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
+                                            <field name="conformed_id" string="NC"/>
+                                            <field name="conformed_state" readonly="1" invisible='1'/>
 
-                                    <!--Sample-->
-                                    <button name="open_sampling" string="Create or open sampling" icon="gtk-goto-last" type="object"/>
-                                    <field name="sampling_id" string="Sampling" readonly="1"/>
-                                </tree>
-                            </field>
+                                            <!--Sample-->
+                                            <button name="open_sampling" string="Create or open sampling" icon="gtk-goto-last" type="object"/>
+                                            <field name="sampling_id" string="Sampling" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                            
                             <separator string='Note' colspan='4'/>
                             <field name='note' nolabel='1' colspan='4'/>
                         </group>
