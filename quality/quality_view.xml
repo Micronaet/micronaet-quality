@@ -550,6 +550,9 @@
                                     <field name="esit_note" colspan='4' nolabel='1'/>
                                 </group>
                             </page>
+                            <page string="Activity">
+                                <field name="name" />
+                            </page>
                         </notebook>
                     </group>
                     </sheet>
