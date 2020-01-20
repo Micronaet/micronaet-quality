@@ -19,41 +19,86 @@
 ##############################################################################
 
 class quality_intervent_planned(osv.osv):
+    """ Intervent list planned
+    """
     _name = 'quality.intervent.planned'
     _description = 'Intervent planned'
-    #_rec_name = ''
-    #_order = 'date desc'
+    _rec_name = 'deadline'
+    _order = 'deadline desc'
     
     _columns = {
-    'action_id': fields.many2one('quality.action', 'Action', required=True),
-    'conformed_id': fields.many2one('quality.conformed', 'Conformed', required=True),
-    'conformed_external_id': fields.many2one('quality.conformed.external', 'Conformed External', required=True),
+        # Table fields:
+        'planned_activity': fields.text('Planned Activity', required=True),
+        'responsible_treatment': fields.text('Responsible Treatment'),
+        'deadline': fields.date('Deadline'),
+        
+        # Linked objects:
+        'action_id': fields.many2one(
+            'quality.action', 'Action'),
+        'conformed_id': fields.many2one(
+            'quality.conformed', 'Conformed'),
+        'conformed_external_id': fields.many2one(
+            'quality.conformed.external', 'Conformed External'),
         }
 
 class quality_intervent_verify(osv.osv):
     _name = 'quality.intervent.verify'
     _description = 'Intervent verify'
-    #_rec_name = ''
-    #_order = 'date desc'
+    _rec_name = 'scheduled_date'
+    _order = 'scheduled_date desc'
     
     _columns = {
+        # Table fields:
+        'scheduled_date': fields.date('Scheduled Date', required=True),
+        'activities_check': fields.text('Activities to check'),
+        'date': fields.date('Verification Date'),
+        'note': fields.text('Note'),
+        
+        # Linked objects:
+        'action_id': fields.many2one(
+            'quality.action', 'Action'),
+        'conformed_id': fields.many2one(
+            'quality.conformed', 'Conformed'),
+        'conformed_external_id': fields.many2one(
+            'quality.conformed.external', 'Conformed External'),
         }
-            
+                    
 class quality_intervent_valutation(osv.osv):
     _name = 'quality.intervent.valutation'
     _description = 'Intervent valutation'
-    #_rec_name = ''
-    #_order = 'date desc'
+    _rec_name = 'scheduled_date'
+    _order = 'scheduled_date desc'
     
     _columns = {
-        }    
+        # Table fields:
+        'scheduled_date': fields.date('Scheduled Date', required=True),
+        'date': fields.date('Verification Date', required=True),
+        'note': fields.text('Note'),
         
+        # Linked objects:    
+        'action_id': fields.many2one(
+            'quality.action', 'Action'),
+        'conformed_id': fields.many2one(
+            'quality.conformed', 'Conformed'),
+        'conformed_external_id': fields.many2one(
+            'quality.conformed.external', 'Conformed External'),
+        }        
+
 class quality_action(osv.osv):
     ''' Update extra field for action
     '''
     _inherit = 'quality.action'
 
     _columns = {
+        'intervent_planned_ids': fields.one2many(
+            'quality.intervent.planned', 'action_id', 
+            'Intervent planned'),
+        'intervent_verify_ids': fields.one2many(
+            'quality.intervent.verify', 'action_id', 
+            'Intervent verify'),
+        'intervent_valutation_ids': fields.one2many(
+            'quality.intervent.valutation', 'action_id', 
+            'Intervent valutation'),
         }
 class quality_conformed(osv.osv):
     ''' Assign *2many fields to conformed
@@ -61,8 +106,31 @@ class quality_conformed(osv.osv):
     _inherit = 'quality.conformed'
 
     _columns = {
+        'intervent_planned_ids': fields.one2many(
+            'quality.intervent.planned', 'conformed_id', 
+            'Intervent planned'),
+        'intervent_verify_ids': fields.one2many(
+            'quality.intervent.verify', 'conformed_id', 
+            'Intervent verify'),
+        'intervent_valutation_ids': fields.one2many(
+            'quality.intervent.valutation', 'conformed_id', 
+            'Intervent valutation'),
+        }        
+
+class quality_conformed_external(osv.osv):
+    ''' Forms of not conformed
+    '''
+    _inherit = 'quality.conformed.external'
+
+    _columns = {
+        'intervent_planned_ids': fields.one2many(
+            'quality.intervent.planned', 'conformed_external_id', 
+            'Intervent planned'),
+        'intervent_verify_ids': fields.one2many(
+            'quality.intervent.verify', 'conformed_external_id', 
+            'Intervent verify'),
+        'intervent_valutation_ids': fields.one2many(
+            'quality.intervent.valutation', 'conformed_external_id', 
+            'Intervent valutation'),
         }
-
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

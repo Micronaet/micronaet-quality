@@ -1,6 +1,43 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <record id="view_quality_intervent_planned_form" model="ir.ui.view">
+            <field name="name">quality.intervent.planned.tree</field>
+            <field name="model">quality.intervent.planned</field>
+            <field name="arch" type="xml">
+                <tree string="Intervent Planned" editable="bottom">                                    
+                    <field name="planned_activity" />
+                    <field name="responsible_treatment" />
+                    <field name="deadline" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_quality_intervent_verify_form" model="ir.ui.view">
+            <field name="name">quality.intervent.verify.tree</field>
+            <field name="model">quality.intervent.verify</field>
+            <field name="arch" type="xml">
+                <tree string="Intervent Verify" editable="bottom">
+                    <field name="scheduled_date" />
+                    <field name="activities_check" />
+                    <field name="date" />
+                    <field name="note" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_quality_intervent_valutation_form" model="ir.ui.view">
+            <field name="name">quality.intervent.valutation.tree</field>
+            <field name="model">quality.intervent.valutation</field>
+            <field name="arch" type="xml">
+                <tree string="Intervent Valutation" editable="bottom">
+                    <field name="scheduled_date" />
+                    <field name="date" />
+                    <field name="note" />
+                </tree>
+            </field>
+        </record>
+
         <!--res.users-->
         <record model="ir.ui.view" id="view_signature_simple_user">
             <field name="name">res.users.signature.form</field>
@@ -550,6 +587,16 @@
                                     <field name="esit_note" colspan='4' nolabel='1'/>
                                 </group>
                             </page>
+                            <page string="Activity">
+                                <group col='4'>
+                                    <separator string="Intervent Planned" colspan="4"/>
+                                    <field name="intervent_planned_ids" colspan="4" nolabel="1"/>
+                                    <separator string="Intervent Verify" colspan="4"/>
+                                    <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
+                                    <separator string="Intervent Valutation" colspan="4"/>
+                                    <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                </group>
+                            </page>
                         </notebook>
                     </group>
                     </sheet>
@@ -858,6 +905,16 @@
                                         <field name="name" colspan='4' nolabel='1'/>
                                     </group>
                                 </page>
+                                <page string="Activity">
+                                    <group col='4'>
+                                        <separator string="Intervent Planned" colspan="4"/>
+                                        <field name="intervent_planned_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Verify" colspan="4"/>
+                                        <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Valutation" colspan="4"/>
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                    </group>
+                                </page>
                                 <page string='Treatment'>
                                     <group colspan="4" col='4'>
                                         <separator string='Treatments:' colspan='4'/>
@@ -895,7 +952,7 @@
                 		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
                 	</div>                    
                 </form>
-            </field>
+            </field>            
         </record>
         <record id="view_quality_conformed_tree" model="ir.ui.view" >
             <field name="name">quality.conformed.tree</field>
@@ -1949,6 +2006,16 @@
                                         <field name="judgement_date" />
                                         <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>                                        
                                      </group>
+                                </page>
+                                <page string="Activity">
+                                    <group col='4'>
+                                        <separator string="Intervent Planned" colspan="4"/>
+                                        <field name="intervent_planned_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Verify" colspan="4"/>
+                                        <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Valutation" colspan="4"/>
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                    </group>
                                 </page>
                                 <!--<page string='Treatment'>
                                     <group colspan="4" col='4'>
