@@ -594,7 +594,7 @@
                                     <separator string="Intervent Verify" colspan="4"/>
                                     <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
                                     <separator string="Intervent Valutation" colspan="4"/>
-                                    <field name="intervnet_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                    <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
                                 </group>
                             </page>
                         </notebook>
@@ -903,6 +903,16 @@
                                         </group>
                                         <separator string='Type of not conformed' colspan='4'/>
                                         <field name="name" colspan='4' nolabel='1'/>
+                                    </group>
+                                </page>
+                                <page string="Activity">
+                                    <group col='4'>
+                                        <separator string="Intervent Planned" colspan="4"/>
+                                        <field name="intervent_planned_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Verify" colspan="4"/>
+                                        <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Valutation" colspan="4"/>
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
                                     </group>
                                 </page>
                                 <page string='Treatment'>
@@ -1996,6 +2006,16 @@
                                         <field name="judgement_date" />
                                         <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>                                        
                                      </group>
+                                </page>
+                                <page string="Activity">
+                                    <group col='4'>
+                                        <separator string="Intervent Planned" colspan="4"/>
+                                        <field name="intervent_planned_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Verify" colspan="4"/>
+                                        <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
+                                        <separator string="Intervent Valutation" colspan="4"/>
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                    </group>
                                 </page>
                                 <!--<page string='Treatment'>
                                     <group colspan="4" col='4'>
