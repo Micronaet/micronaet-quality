@@ -17,6 +17,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import os
+import sys
+from openerp import netsvc
+import logging
+from openerp.osv import osv, fields
+from datetime import datetime, timedelta
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
+import openerp.addons.decimal_precision as dp
+from openerp.tools.translate import _
+
 
 class quality_intervent_planned(osv.osv):
     """ Intervent list planned
