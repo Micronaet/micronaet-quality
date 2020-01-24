@@ -24,6 +24,6 @@
 "access_quality_sampling_plan_user","quality.sampling.plan","model_quality_sampling_plan","base.group_user",1,1,1,1
 
 "access_quality_intervent_planned_user","quality.intervent.planned","model_quality_intervent_planned","base.group_user",1,1,1,1
-"access_quality_intervent_verify_user","quality.intervent.planned","model_quality_intervent_planned","base.group_user",1,1,1,1
-"access_quality_intervent_valutation_user","quality.intervent.planned","model_quality_intervent_planned","base.group_user",1,1,1,1
+"access_quality_intervent_verify_user","quality.intervent.verify","model_quality_intervent_verify","base.group_user",1,1,1,1
+"access_quality_intervent_valutation_user","quality.intervent.valutation","model_quality_intervent_valutation","base.group_user",1,1,1,1
 
