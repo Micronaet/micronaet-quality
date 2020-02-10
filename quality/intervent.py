@@ -60,7 +60,7 @@ class quality_intervent_verify(osv.osv):
     
     _columns = {
         # Table fields:
-        'scheduled_date': fields.date('Scheduled Date', required=True),
+        'scheduled_date': fields.date('Scheduled Date'),
         'activities_check': fields.text('Activities to check'),
         'date': fields.date('Verification Date'),
         'note': fields.text('Note'),
@@ -82,8 +82,8 @@ class quality_intervent_valutation(osv.osv):
     
     _columns = {
         # Table fields:
-        'scheduled_date': fields.date('Scheduled Date', required=True),
-        'date': fields.date('Verification Date', required=True),
+        'scheduled_date': fields.date('Scheduled Date'),
+        'date': fields.date('Verification Date'),
         'note': fields.text('Note'),
         
         # Linked objects:    
