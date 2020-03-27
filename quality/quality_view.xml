@@ -1725,6 +1725,7 @@
                     <field name='deadline'/>
                     <field name='obsolete'/>
                     <field name='qualification'/>
+                    <field name="manual" string="Man." />
                     <field name='partner_id' invisible="1"/>
                 </tree>   
             </field>

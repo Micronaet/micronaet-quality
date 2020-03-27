@@ -269,7 +269,9 @@ class Parser(report_sxw.rml_parse):
                        outcome = 'full'
                    else:
                        outcome = 'error'
-                
+            
+            evaluation = description.get(outcome) 
+            # TODO if 
             res.append((
                 partner, # 0. browse obj
 
@@ -295,7 +297,7 @@ class Parser(report_sxw.rml_parse):
                 pack_total, # 14. packaging failed
 
                 # General result:
-                description.get(outcome), # 15. total outcome
+                evaluation, # 15. total outcome
                 ))
 
             if force_mode:

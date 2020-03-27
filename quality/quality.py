@@ -2107,6 +2107,9 @@ class quality_supplier_rating(osv.osv):
             ('discarded', 'Discarded'),
             ], 'Type', select=True),
         'partner_id': fields.many2one('res.partner', 'Partner'),
+        'manual': fields.boolean(
+            'Manuale', 
+            help='Forzato manualmente cambiando il valore automatico'),
 
         'access_id': fields.integer('Access ID'),
     }
