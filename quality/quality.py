@@ -326,9 +326,9 @@ class stock_production_lot(osv.osv):
     '''
     _inherit = 'stock.production.lot'
 
-    # -------------
+    # -------------------------------------------------------------------------
     # Button event:
-    # -------------
+    # -------------------------------------------------------------------------
     def set_obsolete(self, cr, uid, ids, context=None):
         ''' Button event for set boolean to obsolete 
         '''
@@ -339,12 +339,66 @@ class stock_production_lot(osv.osv):
         '''
         return self.write(cr, uid, ids, {'obsolete': False}, context=context)
 
+    def go_to_acceptation(self, cr, uid, ids, context=None):
+        """ Go to acceptation
+        """
+        #model_pool = self.pool.get('ir.model.data')
+        #view_id = model_pool.get_object_reference('module_name', 'view_name')[1]
+        
+        current = self.browse(cr, uid, ids, context=context)[0]
+        acceptation_ids = [item.id for item in current.acceptation_ids]
+        if len(acceptation_ids) == 1:
+            view_mode = 'form,tree'
+            res_id = acceptation_ids[0]
+            views = [(False, 'form'), (False, 'tree')]
+        else:
+            view_mode = 'tree,mode'
+            res_id = False
+            views = [(False, 'tree'), (False, 'form')]
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Result for view_name'),
+            'view_type': 'form',
+            'view_mode': view_mode,
+            'res_id': res_id,
+            'res_model': 'quality.acceptation',
+            'view_id': False,
+            'views': views,
+            'domain': [('id', 'in', acceptation_ids)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+        
+    # -------------------------------------------------------------------------
+    # Fields function:
+    # -------------------------------------------------------------------------
+    def _get_acceptation_ids(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''    
+        res = {}
+        for lot in self.browse(cr, uid, ids, context=context):
+            res[lot.id] = []            
+            for line in lot.line_ids:
+                acceptation_id = line.acceptation_id.id
+                if acceptation_id not in res[lot.id]:
+                    res[lot.id].append(acceptation_id)
+        return res
+            
     _columns = {
         'default_supplier_id': fields.many2one('res.partner', 'Supplier'),
         'obsolete': fields.boolean('Obsolete', 
             help='Indicates that the lot is old'),
         'deadline': fields.date('Deadline'),
         'real_deadline': fields.char('Real deadline', size=12),
+        'line_ids': fields.one2many(
+            'quality.acceptation.line', 'lot_id', 'Riga accettazione'),
+        'acceptation_ids': fields.function(
+            _get_acceptation_ids, method=True, 
+            type='many2many', relation='quality.acceptation',
+            string='Accettazioni', store=False), 
+                        
 
         'access_id': fields.integer('Access ID'),
         }
