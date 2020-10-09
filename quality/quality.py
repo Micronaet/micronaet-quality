@@ -73,8 +73,8 @@ conformed_external_state = [
 _logger = logging.getLogger(__name__)
 
 class mail_thread(osv.osv):
-    ''' Add extra function for changing state in mail.thread
-    '''
+    """ Add extra function for changing state in mail.thread
+    """
     _inherit = 'mail.thread'
     _name = 'mail.thread'
 
@@ -82,8 +82,8 @@ class mail_thread(osv.osv):
     # Utility:
     # --------
     def write_object_change_state(self, cr, uid, ids, context=None):
-        ''' Write info in thread list (used in WF actions)
-        '''
+        """ Write info in thread list (used in WF actions)
+        """
         current_proxy = self.browse(cr, uid, ids, context=context)[0]
 
         # Default part of message:
@@ -114,8 +114,8 @@ class mail_thread(osv.osv):
         return    
 
 class quality_conformed_external(osv.osv):
-    ''' Forms of not conformed
-    '''
+    """ Forms of not conformed
+    """
     _name = 'quality.conformed.external'
     _inherit = ['mail.thread']
     
@@ -267,8 +267,8 @@ class quality_conformed_external(osv.osv):
 #                                    CLAIMS:
 # -----------------------------------------------------------------------------
 class res_users(osv.osv):
-    ''' Add signature
-    '''
+    """ Add signature
+    """
     _inherit = 'res.users'
     
     _columns = {
@@ -276,8 +276,8 @@ class res_users(osv.osv):
         }
 
 class quality_origin(osv.osv):
-    ''' Simple anagrafic for origin
-    '''
+    """ Simple anagrafic for origin
+    """
     _name = 'quality.origin'
     _description = 'Origin'
 
@@ -294,8 +294,8 @@ class quality_origin(osv.osv):
     }
 
 class quality_claim_cause(osv.osv):
-    ''' Simple anagrafic for cause
-    '''
+    """ Simple anagrafic for cause
+    """
     _name = 'quality.claim.cause'
     _description = 'Claim cause'
 
@@ -308,8 +308,8 @@ class quality_claim_cause(osv.osv):
     }
 
 class quality_gravity(osv.osv):
-    ''' Simple anagrafic for gravity
-    '''
+    """ Simple anagrafic for gravity
+    """
     _name = 'quality.gravity'
     _description = 'Claim gravity'
 
@@ -322,21 +322,21 @@ class quality_gravity(osv.osv):
     }
 
 class stock_production_lot(osv.osv):
-    ''' Manage the lot
-    '''
+    """ Manage the lot
+    """
     _inherit = 'stock.production.lot'
 
     # -------------------------------------------------------------------------
     # Button event:
     # -------------------------------------------------------------------------
     def set_obsolete(self, cr, uid, ids, context=None):
-        ''' Button event for set boolean to obsolete 
-        '''
+        """ Button event for set boolean to obsolete
+        """
         return self.write(cr, uid, ids, {'obsolete': True}, context=context)
 
     def set_not_obsolete(self, cr, uid, ids, context=None):
-        ''' Button event for set boolean to not obsolete 
-        '''
+        """ Button event for set boolean to not obsolete
+        """
         return self.write(cr, uid, ids, {'obsolete': False}, context=context)
 
     def go_to_acceptation(self, cr, uid, ids, context=None):
@@ -375,8 +375,8 @@ class stock_production_lot(osv.osv):
     # Fields function:
     # -------------------------------------------------------------------------
     def _get_acceptation_ids(self, cr, uid, ids, fields, args, context=None):
-        ''' Fields function for calculate 
-        '''    
+        """ Fields function for calculate
+        """
         res = {}
         for lot in self.browse(cr, uid, ids, context=context):
             res[lot.id] = []            
@@ -408,8 +408,8 @@ class stock_production_lot(osv.osv):
         }
 
 class quality_claim(osv.osv):
-    ''' Quality Claim
-    '''
+    """ Quality Claim
+    """
     _name = 'quality.claim'
     _inherit = ['mail.thread']
 
@@ -422,8 +422,8 @@ class quality_claim(osv.osv):
     # ----------------------
     # TODO delete after importation:
     def correct_parent_partner(self, cr, uid, context=None):
-        ''' Set claim to parent partner not destination
-        '''
+        """ Set claim to parent partner not destination
+        """
         claim_ids = self.search(cr, uid, [], context=context)
         for claim in self.browse(cr, uid, claim_ids, context=context):            
             if claim.partner_id and claim.partner_id.parent_id:
@@ -440,8 +440,8 @@ class quality_claim(osv.osv):
     # Button event:
     # -------------
     def open_fast_report(self, cr, uid, ids, context=None):
-        ''' Open fast report
-        '''        
+        """ Open fast report
+        """
         return {
            'type': 'ir.actions.report.xml',
            'report_name': 'quality_fast_claim_report',
@@ -450,8 +450,8 @@ class quality_claim(osv.osv):
         
         
     def open_real_lot_elements(self, cr, uid, ids, context=None):
-        ''' Open sampling present
-        '''
+        """ Open sampling present
+        """
         assert len(ids), 'Works only for one claim a time!'
         
         res = []
@@ -474,8 +474,8 @@ class quality_claim(osv.osv):
             }
 
     def print_form(self, cr, uid, ids, context=None):
-        ''' Print report directly in form (for calendar form)
-        '''
+        """ Print report directly in form (for calendar form)
+        """
         return {
            'type': 'ir.actions.report.xml',
            'report_name': 'quality_claim_report',
@@ -484,8 +484,8 @@ class quality_claim(osv.osv):
            }
 
     def create_action(self, cr, uid, ids, context=None):
-        ''' Create a Action and link to this Claim
-        '''
+        """ Create a Action and link to this Claim
+        """
         claim_proxy = self.browse(cr, uid, ids, context=context)[0]
         action_pool = self.pool.get('quality.action')
         action_id = action_pool.create(cr, uid, {
@@ -520,8 +520,8 @@ class quality_claim(osv.osv):
             })
 
     def create_sampling(self, cr, uid, ids, context=None):
-        ''' Create a Sampling form and link to this Claim
-        '''
+        """ Create a Sampling form and link to this Claim
+        """
         claim_proxy = self.browse(cr, uid, ids, context=context)[0]
         sampling_pool = self.pool.get('quality.sampling')
         sampling_id = sampling_pool.create(cr, uid, {
@@ -547,8 +547,8 @@ class quality_claim(osv.osv):
             })
 
     def create_conformed(self, cr, uid, ids, context=None):
-        ''' Create a Sampling form and link to this Claim
-        '''
+        """ Create a Sampling form and link to this Claim
+        """
         claim_proxy = self.browse(cr, uid, ids, context=context)[0]
         conformed_pool = self.pool.get('quality.conformed')
         conformed_id = conformed_pool.create(cr, uid, {
@@ -580,8 +580,8 @@ class quality_claim(osv.osv):
         
         #onchange
     def onchange_search_code(self, cr, uid, ids, search_code, context=None):
-        ''' Insert and trasform the code
-        '''
+        """ Insert and trasform the code
+        """
         res = {}
         if not search_code:
             return res
@@ -621,8 +621,8 @@ class quality_claim(osv.osv):
         return res
 
     def _get_lot_from_claim(self, cr, uid, ids, fields, args, context=None):
-        ''' Fields function for calculate 
-        '''
+        """ Fields function for calculate
+        """
         res = {}
         for claim in self.browse(cr, uid, ids, context=context):            
             res[claim.id] = ''
@@ -638,8 +638,8 @@ class quality_claim(osv.osv):
     # Fields:
     # -------------------------------------------------------------------------    
     def _get_partner_name(self, cr, uid, ids, fields, args, context=None):
-        ''' Fields function for calculate 
-        '''
+        """ Fields function for calculate
+        """
         res = {}
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = item.partner_id.name or ''
@@ -649,23 +649,23 @@ class quality_claim(osv.osv):
     # Store function:
     # -------------------------------------------------------------------------    
     def _store_res_partner_name(self, cr, uid, ids, context=None):
-        ''' Change in res.partner the name
-        '''
+        """ Change in res.partner the name
+        """
         _logger.warning('Change partner name')
         return self.pool.get('quality.claim').search(cr, uid, [
             ('partner_id', 'in', ids),
             ], context=context)
 
     def _store_form_partner_id(self, cr, uid, ids, context=None):
-        ''' Change in form partner_id
-        '''
+        """ Change in form partner_id
+        """
         _logger.warning('Change partner in form')
         return ids
 
     # Search fields function:                
     def _search_lot_from_claim(self, cr, uid, obj, name, args, context=None):
-        ''' Search lot or supplier in claims
-        '''
+        """ Search lot or supplier in claims
+        """
         try:
             # Search supplier or lot name:
             search_name = args[0][2]
@@ -900,8 +900,8 @@ class quality_claim(osv.osv):
         return True
 
 class quality_claim_product(osv.osv):
-    ''' List of product / lot claimed 
-    '''
+    """ List of product / lot claimed
+    """
     _name = 'quality.claim.product'
     _description = 'Claim product'
     _rec_name = 'lot_id'
@@ -910,8 +910,8 @@ class quality_claim_product(osv.osv):
     # On change
     # ---------
     def onchange_lot_id(self, cr, uid, ids, lot_id, context=None):
-        ''' Find the product
-        '''
+        """ Find the product
+        """
         res = {}
         if lot_id:
             lot_pool = self.pool.get('stock.production.lot')
@@ -928,8 +928,8 @@ class quality_claim_product(osv.osv):
         return res
 
     def onchange_real_lot_id(self, cr, uid, ids, real_lot_id, context=None):
-        ''' Find the product
-        '''
+        """ Find the product
+        """
         res = {}
         if real_lot_id:
             real_lot_pool = self.pool.get('stock.production.lot')
@@ -948,8 +948,8 @@ class quality_claim_product(osv.osv):
     # Button event:
     # -------------------------------------------------------------------------
     def open_external_conformed(self, cr, uid, ids, context=None):
-        ''' Open form, if not present create new
-        '''
+        """ Open form, if not present create new
+        """
         external_pool = self.pool.get('quality.conformed.external')        
         origin_proxy = self.browse(cr, uid, ids, context=context)[0]
         
@@ -1030,8 +1030,8 @@ class quality_claim_product(osv.osv):
 #                                    ACCEPTATION
 # -----------------------------------------------------------------------------
 class quality_acceptation(osv.osv):
-    ''' Acceptation form
-    '''
+    """ Acceptation form
+    """
     _name = 'quality.acceptation'
     _inherit = ['mail.thread']
     
@@ -1041,8 +1041,8 @@ class quality_acceptation(osv.osv):
     
     # Button event:
     def open_nc_elements(self, cr, uid, ids, context=None):
-        ''' Open NC present
-        '''
+        """ Open NC present
+        """
         assert len(ids), 'Works only for one accepation a time!'
         
         res = []
@@ -1065,8 +1065,8 @@ class quality_acceptation(osv.osv):
             }
 
     def open_sampling_elements(self, cr, uid, ids, context=None):
-        ''' Open sampling present
-        '''
+        """ Open sampling present
+        """
         assert len(ids), 'Works only for one accepation a time!'
         
         res = []
@@ -1090,8 +1090,8 @@ class quality_acceptation(osv.osv):
             
     # Fields function:
     def _get_nc_from_lines(self, cr, uid, ids, fields, args, context=None):
-        ''' Fields function for calculate 
-        '''
+        """ Fields function for calculate
+        """
         res = {}
         for acceptation in self.browse(cr, uid, ids, context=context):            
             res[acceptation.id] = ''
@@ -1102,8 +1102,8 @@ class quality_acceptation(osv.osv):
         return res            
 
     def _get_sampling_from_lines(self, cr, uid, ids, fields, args, context=None):
-        ''' Fields function for calculate 
-        '''
+        """ Fields function for calculate
+        """
         res = {}
         for acceptation in self.browse(cr, uid, ids, context=context):            
             res[acceptation.id] = ''
@@ -1172,8 +1172,8 @@ class quality_acceptation(osv.osv):
         return True
 
 class quality_acceptation_line(osv.osv):
-    ''' Acceptation form line
-    '''
+    """ Acceptation form line
+    """
     _name = 'quality.acceptation.line'
     _description = 'Acceptation line'
     _rec_name = 'product_id'
@@ -1182,8 +1182,8 @@ class quality_acceptation_line(osv.osv):
     # Button action:
     # --------------
     def open_conformed(self, cr, uid, ids, context=None):
-        ''' Open NC element
-        '''
+        """ Open NC element
+        """
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.conformed',
@@ -1192,8 +1192,8 @@ class quality_acceptation_line(osv.osv):
             })
 
     def open_sampling(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         sampling_pool = self.pool.get('quality.sampling')
         
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
@@ -1233,8 +1233,8 @@ class quality_acceptation_line(osv.osv):
     # Utility:
     # --------    
     def create_conformed(self, cr, uid, ids, context=None):
-        ''' Ex button now utility for create a NC
-        '''
+        """ Ex button now utility for create a NC
+        """
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
         conformed_pool = self.pool.get('quality.conformed')
         conformed_id = conformed_pool.create(cr, uid, {
@@ -1316,8 +1316,8 @@ class quality_acceptation_line(osv.osv):
 #                                     SAMPLING          
 # -----------------------------------------------------------------------------
 class quality_sampling_plan(osv.osv):
-    ''' Sampling Plan
-    '''
+    """ Sampling Plan
+    """
     _name = 'quality.sampling.plan'
     _description = 'Sampling Plan'
 
@@ -1334,8 +1334,8 @@ class quality_sampling_plan(osv.osv):
     }
 
 class quality_sampling(osv.osv):
-    ''' Sampling
-    '''
+    """ Sampling
+    """
     _name = 'quality.sampling'
     _inherit = ['mail.thread']
 
@@ -1347,8 +1347,8 @@ class quality_sampling(osv.osv):
     # Button event:
     # -------------
     def print_form(self, cr, uid, ids, context=None):
-        ''' Print report directly in form (for calendar form)
-        '''
+        """ Print report directly in form (for calendar form)
+        """
         return {
            'type': 'ir.actions.report.xml', 
            'report_name': 'quality_sampling_report',
@@ -1356,8 +1356,8 @@ class quality_sampling(osv.osv):
            }
 
     def create_conformed(self, cr, uid, ids, context=None):
-        ''' Create a Not Conformed form and link to this Sampling
-        '''
+        """ Create a Not Conformed form and link to this Sampling
+        """
         sampling_proxy = self.browse(cr, uid, ids, context=context)[0]
         conformed_pool = self.pool.get('quality.conformed')
         conformed_id = conformed_pool.create(cr, uid, {
@@ -1475,8 +1475,8 @@ class quality_sampling(osv.osv):
     # Button:
     # -------
     def set_passed(self, cr, uid, ids, context=None):
-        ''' Button event for set the state of the test in the sampling
-        '''        
+        """ Button event for set the state of the test in the sampling
+        """
         parameter = context.get('button', False)
         if not parameter:
             return False
@@ -1651,8 +1651,8 @@ class quality_sampling(osv.osv):
         return True
 
 class quality_sampling_taster(osv.osv):
-    ''' Sampling
-    '''
+    """ Sampling
+    """
     _name = 'quality.sampling.taster'
     _description = 'Sampling Taster'
 
@@ -1663,12 +1663,13 @@ class quality_sampling_taster(osv.osv):
         'access_id': fields.integer('Access ID'),
     }
 
+
 # -----------------------------------------------------------------------------
 #                                   NOT CONFORMED
 # -----------------------------------------------------------------------------
 class quality_conformed(osv.osv):
-    ''' Forms of not conformed
-    '''
+    """ Forms of not conformed
+    """
     _name = 'quality.conformed'
     _inherit = ['mail.thread']
 
@@ -1680,8 +1681,8 @@ class quality_conformed(osv.osv):
     # Button event:
     # -------------
     def print_form(self, cr, uid, ids, context=None):
-        ''' Print report directly in form (for calendar form)
-        '''
+        """ Print report directly in form (for calendar form)
+        """
         return {
            'type': 'ir.actions.report.xml', 
            'report_name': 'quality_conformed_report',
@@ -1690,8 +1691,8 @@ class quality_conformed(osv.osv):
            }
 
     def print_form_supplier(self, cr, uid, ids, context=None):
-        ''' Print report supplier directly in form (for calendar form)
-        '''
+        """ Print report supplier directly in form (for calendar form)
+        """
         if context is None:
             context = {}
         context['supplier'] = True
@@ -1704,8 +1705,8 @@ class quality_conformed(osv.osv):
            }
 
     def create_action(self, cr, uid, ids, context=None):
-        ''' Create a Action and link to this Claim
-        '''
+        """ Create a Action and link to this Claim
+        """
         conformed_proxy = self.browse(cr, uid, ids, context=context)[0]
         action_pool = self.pool.get('quality.action')
         action_id = action_pool.create(cr, uid, {
@@ -1728,8 +1729,8 @@ class quality_conformed(osv.osv):
             })
 
     def create_sampling(self, cr, uid, ids, context=None):
-        ''' Create a Sampling form and link to this Claim
-        '''
+        """ Create a Sampling form and link to this Claim
+        """
         conformed_proxy = self.browse(cr, uid, ids, context=context)[0]
         sampling_pool = self.pool.get('quality.sampling')
         sampling_id = sampling_pool.create(cr, uid, {
@@ -1826,9 +1827,10 @@ class quality_conformed(osv.osv):
         'state': lambda *a: 'draft',
         }
 
+
 class quality_comunication_type(osv.osv):
-    ''' Quality comunication type
-    '''
+    """ Quality comunication type
+    """
     _name = 'quality.comunication.type'
     _description = 'Quality comunication type'
 
@@ -1839,9 +1841,10 @@ class quality_comunication_type(osv.osv):
         'access_id': fields.integer('Access ID'),
     }
 
+
 class quality_comunication(osv.osv):
-    ''' Quality comunication
-    '''
+    """ Quality comunication
+    """
     _name = 'quality.comunication'
     _description = 'Quality comunication'
 
@@ -1862,9 +1865,10 @@ class quality_comunication(osv.osv):
             DEFAULT_SERVER_DATE_FORMAT),
         }
 
+
 class quality_treatment(osv.osv):
-    ''' Quality treatment
-    '''
+    """ Quality treatment
+    """
     _name = 'quality.treatment'
     _description = 'Quality treatment'
 
@@ -1881,9 +1885,10 @@ class quality_treatment(osv.osv):
         'access_id': fields.integer('Access ID'),
         }
 
+
 class quality_conformed(osv.osv):
-    ''' Forms of not conformed
-    '''
+    """ Forms of not conformed
+    """
     _inherit = 'quality.conformed'
 
     _columns = {
@@ -1938,12 +1943,13 @@ class quality_conformed(osv.osv):
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
 
+
 # -----------------------------------------------------------------------------
 #                            ACTIONS (CORREPTIVE, PREVENTIVE)
 # -----------------------------------------------------------------------------
 class quality_action(osv.osv):
-    ''' Correptive / preventive action
-    '''
+    """ Correptive / preventive action
+    """
     _name = 'quality.action'
     _inherit = ['mail.thread']
 
@@ -1955,8 +1961,8 @@ class quality_action(osv.osv):
     # Button event:
     # -------------
     def print_form(self, cr, uid, ids, context=None):
-        ''' Print report directly in form (for calendar form)
-        '''
+        """ Print report directly in form (for calendar form)
+        """
         return {
            'type': 'ir.actions.report.xml', 
            'report_name': 'quality_action_report',
@@ -1964,8 +1970,8 @@ class quality_action(osv.osv):
            }
 
     def new_action(self, cr, uid, ids, context=None):
-        ''' Create a new action
-        '''
+        """ Create a new action
+        """
         action_proxy = self.browse(cr, uid, ids, context=context)[0]
         action_id = self.create(cr, uid, {
             'origin': action_proxy.origin,
@@ -2069,9 +2075,10 @@ class quality_action(osv.osv):
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
 
+
 class quality_action_intervent(osv.osv):
-    ''' Correptive / preventive action intervent
-    '''
+    """ Correptive / preventive action intervent
+    """
     _name = 'quality.action.intervent'
     _description = 'Action intervent'
 
@@ -2086,10 +2093,11 @@ class quality_action_intervent(osv.osv):
 
         'access_id': fields.integer('Access ID'),
     }
+
     
 class quality_action_intervent_working(osv.osv):
-    ''' Work in progress intervent activity
-    '''
+    """ Work in progress intervent activity
+    """
     _name = 'quality.action.intervent.working'
     _description = 'Work in progress intervent'
 
@@ -2110,9 +2118,10 @@ class quality_action_intervent_working(osv.osv):
         'internal': False,
     }
 
+
 class quality_action_intervent(osv.osv):
-    ''' Add *2many fields
-    '''
+    """ Add *2many fields
+    """
     _inherit = 'quality.action.intervent'
 
     _columns = {
@@ -2120,9 +2129,10 @@ class quality_action_intervent(osv.osv):
             'intervent_id', 'Work in progress'),
         }
 
+
 class quality_action(osv.osv):
-    ''' Update extra field for action
-    '''
+    """ Update extra field for action
+    """
     _inherit = 'quality.action'
 
     _columns = {
@@ -2136,9 +2146,10 @@ class quality_action(osv.osv):
             ondelete='set null'),
         }    
 
+
 class quality_supplier_rating(osv.osv):
-    ''' Form that manage the list of supplier
-    '''
+    """ Form that manage the list of supplier
+    """
     _name = 'quality.supplier.rating'
     _description = 'Quality supplier rating'
     _order = 'obsolete, deadline desc'
@@ -2172,9 +2183,10 @@ class quality_supplier_rating(osv.osv):
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
     }
 
+
 class quality_supplier_check(osv.osv):
-    ''' Form that manage the list of supplier
-    '''
+    """ Form that manage the list of supplier
+    """
     _name = 'quality.supplier.check'
     _description = 'Quality supplier check'
     _order = 'date desc'
@@ -2193,8 +2205,8 @@ class quality_supplier_check(osv.osv):
         }
 
 class quality_supplier_certification(osv.osv):
-    ''' Form that manage the list of supplier
-    '''
+    """ Form that manage the list of supplier
+    """
     _name = 'quality.supplier.certification'
     _description = 'Quality supplier certification'
     _order = 'date desc'
@@ -2217,8 +2229,8 @@ class quality_supplier_certification(osv.osv):
         }
 
 class quality_supplier_reference(osv.osv):
-    ''' Form that manage the list of supplier
-    '''
+    """ Form that manage the list of supplier
+    """
     _name = 'quality.supplier.reference'
     _description = 'Quality supplier reference'
     _order = 'date desc'
@@ -2238,8 +2250,8 @@ class quality_supplier_reference(osv.osv):
 
 
 class quality_partner_class(osv.osv):
-    ''' Class for categorize supplier
-    '''
+    """ Class for categorize supplier
+    """
     _name = 'quality.partner.class'
     _description = 'Quality partner class'
 
@@ -2251,8 +2263,8 @@ class quality_partner_class(osv.osv):
         }
 
 class res_company(osv.osv):
-    ''' Add fields for index manager
-    '''
+    """ Add fields for index manager
+    """
     _inherit = 'res.company'
     
     _columns = {
@@ -2261,21 +2273,35 @@ class res_company(osv.osv):
         'index_to': fields.date('To date', required=True, 
             help='To date (used in index valorization'),
         }
-    
+
+
 # -----------------------------------------------------------------------------
 #                                        RELATIONS:
 # -----------------------------------------------------------------------------
 class res_partner(osv.osv):
-    ''' Add *2many fields
-    '''
+    """ Add *2many fields
+    """
     _inherit = 'res.partner'
 
     # -------------
     # Button event:
     # -------------
+    def open_print_rating_wizard(self, cr, uid, ids, context=None):
+        """ Open Wizard for print report
+        """
+        return {
+            'target': 'new',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'quality.supplier.qualification.wizard',
+            'domain': [],
+            'type': 'ir.actions.act_window',
+            'context': {'default_partner_id': ids[0]}
+            }
+
     def open_claimed_line_real_lot(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         product_pool = self.pool.get('quality.claim.product')
         product_ids = product_pool.search(cr, uid, [
             ('real_lot_id.default_supplier_id', '=', ids[0]),
@@ -2294,8 +2320,8 @@ class res_partner(osv.osv):
             }  
 
     def open_claimed_real_lot_list(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         product_pool = self.pool.get('quality.claim.product')
         product_ids = product_pool.search(cr, uid, [
             ('real_lot_id.default_supplier_id', '=', ids[0]),
@@ -2321,8 +2347,8 @@ class res_partner(osv.osv):
             }  
             
     def open_claim_list(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         claim_ids = eval(supplier_proxy.index_claim_list)
         return {
@@ -2338,8 +2364,8 @@ class res_partner(osv.osv):
             }  
             
     def open_conformed_list(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         conformed_ids = eval(supplier_proxy.index_conformed_list)
         return {           
@@ -2351,8 +2377,8 @@ class res_partner(osv.osv):
             }  
 
     def open_sampling_list(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         sampling_ids = eval(supplier_proxy.index_sampling_list)
         return {          
@@ -2364,8 +2390,8 @@ class res_partner(osv.osv):
             }  
 
     def open_acceptation_list(self, cr, uid, ids, context=None):
-        ''' Return view for see all claims:
-        '''
+        """ Return view for see all claims:
+        """
         acceptation_pool = self.pool.get('quality.acceptation')
         acceptation_ids = acceptation_pool.search(cr, uid, [
             ('partner_id', '=', ids[0]),
@@ -2385,8 +2411,8 @@ class res_partner(osv.osv):
     # ----------------
     def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id, 
             context=None):
-        ''' Query database for total acceptation in period passed (not 
-        '''
+        """ Query database for total acceptation in period passed (not
+        """
         if index_to and index_from:
             cr.execute("""
                 SELECT count(*) 
@@ -2404,8 +2430,8 @@ class res_partner(osv.osv):
 
     def _get_index_lot(self, cr, uid, index_from, index_to, supplier_id, 
             context=None):
-        ''' Total lot in period passed
-        '''
+        """ Total lot in period passed
+        """
         if index_to and index_from:
             cr.execute("""
                 SELECT count(*) 
@@ -2424,8 +2450,8 @@ class res_partner(osv.osv):
             
     def _get_index_weight(self, cr, uid, index_from, index_to, supplier_id, 
             context=None):
-        ''' Total lot in period passed
-        '''
+        """ Total lot in period passed
+        """
         if index_to and index_from:
             # total arrived not expected:
             cr.execute("""
@@ -2919,8 +2945,8 @@ class res_partner(osv.osv):
         }
 
 class quality_claim(osv.osv):
-    ''' Assign *2many fields to claims
-    '''
+    """ Assign *2many fields to claims
+    """
     _inherit = 'quality.claim'
 
     _columns = {
@@ -2946,8 +2972,8 @@ class quality_claim(osv.osv):
         }
 
 class quality_conformed(osv.osv):
-    ''' Assign *2many fields to conformed
-    '''
+    """ Assign *2many fields to conformed
+    """
     _inherit = 'quality.conformed'
 
     _columns = {
@@ -2968,8 +2994,8 @@ class quality_conformed(osv.osv):
     }
 
 class quality_sampling(osv.osv):
-    ''' Assign *2many fields to conformed
-    '''
+    """ Assign *2many fields to conformed
+    """
     _inherit = 'quality.sampling'
 
     _columns = {
@@ -2983,8 +3009,8 @@ class quality_sampling(osv.osv):
         }
 
 class quality_acceptation(osv.osv):
-    ''' Acceptation form
-    '''
+    """ Acceptation form
+    """
     _inherit = 'quality.acceptation'
 
     _columns = {
@@ -2993,8 +3019,8 @@ class quality_acceptation(osv.osv):
         }
 
 class quality_acceptation_line(osv.osv):
-    ''' Acceptation form add relation extra fields 
-    '''
+    """ Acceptation form add relation extra fields
+    """
     _inherit = 'quality.acceptation.line'
 
     _columns = {
@@ -3010,16 +3036,16 @@ class quality_acceptation_line(osv.osv):
 #                             NOT CONFORMED EXTERNAL
 # -----------------------------------------------------------------------------
 class quality_conformed_external(osv.osv):
-    ''' Forms of not conformed
-    '''
+    """ Forms of not conformed
+    """
     _inherit = 'quality.conformed.external'
 
     # -------------------------------------------------------------------------
     # Button events:
     # -------------------------------------------------------------------------
     def create_action(self, cr, uid, ids, context=None):
-        ''' Create a Action and link to this Claim
-        '''
+        """ Create a Action and link to this Claim
+        """
         external_proxy = self.browse(cr, uid, ids, context=context)[0]
         if external_proxy.mode == 'internal':
             origin = 'audit'

@@ -1863,7 +1863,10 @@
                                    <field name="rating_ids" nolabel='1' colspan="4" />
                                 </page>-->
                                 <page string="Reference">
-                                   <field name="rating_ids" nolabel='1' colspan="4"/>
+                                    <separator string="Rating:" colspan="3" />
+                                    <button name="open_print_rating_wizard" type="object" string="Stampa" colspan="1" icon="gtk-print"/>
+
+                                    <field name="rating_ids" nolabel='1' colspan="4"/>
                                 </page>
                                 <page string="Check">
                                    <field name="check_ids" nolabel='1' colspan="4"/>
