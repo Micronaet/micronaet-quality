@@ -2141,7 +2141,7 @@ class quality_supplier_rating(osv.osv):
     '''
     _name = 'quality.supplier.rating'
     _description = 'Quality supplier rating'
-    _order = 'date desc'
+    _order = 'obsolete desc, deadline desc'
 
     _columns = {
         'name': fields.char('Qualification obtained', size=100),

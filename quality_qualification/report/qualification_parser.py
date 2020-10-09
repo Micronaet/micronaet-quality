@@ -113,6 +113,7 @@ class Parser(report_sxw.rml_parse):
         #                           Load partner list:
         # ---------------------------------------------------------------------        
         partner_pool = self.pool.get('res.partner')
+        rating_pool = self.pool.get('quality.supplier.rating')
 
         # Open in force mode:
         force_mode = data.get('report_type', 'report') == 'force'
@@ -269,9 +270,18 @@ class Parser(report_sxw.rml_parse):
                        outcome = 'full'
                    else:
                        outcome = 'error'
-            
-            evaluation = description.get(outcome) 
-            # TODO if 
+
+            rating_ids = rating_pool.search(cr, uid, [
+                ('partner_id', '=', partner.id),
+                ('date', '=', ref_date),
+                ], context=context)
+
+            if rating_ids:
+                rating_proxy = rating_pool.browse(cr, uid, rating_ids, context=context)[0]
+                rating_note = rating_proxy.name
+            else:
+                rating_note = ''
+
             res.append((
                 partner, # 0. browse obj
 
@@ -297,7 +307,9 @@ class Parser(report_sxw.rml_parse):
                 pack_total, # 14. packaging failed
 
                 # General result:
-                evaluation, # 15. total outcome
+
+                description.get(outcome), # 15. total outcome
+                rating_note,  # 16 Rating note
                 ))
 
             if force_mode:
@@ -311,7 +323,7 @@ class Parser(report_sxw.rml_parse):
         #  Update mode (supplier data)
         # ---------------------------------------------------------------------
         if force_mode:            
-            rating_pool = self.pool.get('quality.supplier.rating')
+
             
             partner_ids = force_db.keys()
             # -------------------------------------------------------------
@@ -376,4 +388,3 @@ class Parser(report_sxw.rml_parse):
                     'obsolete': False,
                     }, context=context)
         return res
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
