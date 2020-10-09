@@ -1663,6 +1663,7 @@ class quality_sampling_taster(osv.osv):
         'access_id': fields.integer('Access ID'),
     }
 
+
 # -----------------------------------------------------------------------------
 #                                   NOT CONFORMED
 # -----------------------------------------------------------------------------
@@ -1826,6 +1827,7 @@ class quality_conformed(osv.osv):
         'state': lambda *a: 'draft',
         }
 
+
 class quality_comunication_type(osv.osv):
     """ Quality comunication type
     """
@@ -1838,6 +1840,7 @@ class quality_comunication_type(osv.osv):
 
         'access_id': fields.integer('Access ID'),
     }
+
 
 class quality_comunication(osv.osv):
     """ Quality comunication
@@ -1862,6 +1865,7 @@ class quality_comunication(osv.osv):
             DEFAULT_SERVER_DATE_FORMAT),
         }
 
+
 class quality_treatment(osv.osv):
     """ Quality treatment
     """
@@ -1880,6 +1884,7 @@ class quality_treatment(osv.osv):
 
         'access_id': fields.integer('Access ID'),
         }
+
 
 class quality_conformed(osv.osv):
     """ Forms of not conformed
@@ -1937,6 +1942,7 @@ class quality_conformed(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
+
 
 # -----------------------------------------------------------------------------
 #                            ACTIONS (CORREPTIVE, PREVENTIVE)
@@ -2069,6 +2075,7 @@ class quality_action(osv.osv):
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
 
+
 class quality_action_intervent(osv.osv):
     """ Correptive / preventive action intervent
     """
@@ -2086,6 +2093,7 @@ class quality_action_intervent(osv.osv):
 
         'access_id': fields.integer('Access ID'),
     }
+
     
 class quality_action_intervent_working(osv.osv):
     """ Work in progress intervent activity
@@ -2110,6 +2118,7 @@ class quality_action_intervent_working(osv.osv):
         'internal': False,
     }
 
+
 class quality_action_intervent(osv.osv):
     """ Add *2many fields
     """
@@ -2119,6 +2128,7 @@ class quality_action_intervent(osv.osv):
         'working_ids': fields.one2many('quality.action.intervent.working', 
             'intervent_id', 'Work in progress'),
         }
+
 
 class quality_action(osv.osv):
     """ Update extra field for action
@@ -2135,6 +2145,7 @@ class quality_action(osv.osv):
         'claim_id': fields.many2one('quality.claim', 'Claim', 
             ondelete='set null'),
         }    
+
 
 class quality_supplier_rating(osv.osv):
     """ Form that manage the list of supplier
@@ -2171,6 +2182,7 @@ class quality_supplier_rating(osv.osv):
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
     }
+
 
 class quality_supplier_check(osv.osv):
     """ Form that manage the list of supplier
@@ -2261,7 +2273,8 @@ class res_company(osv.osv):
         'index_to': fields.date('To date', required=True, 
             help='To date (used in index valorization'),
         }
-    
+
+
 # -----------------------------------------------------------------------------
 #                                        RELATIONS:
 # -----------------------------------------------------------------------------
@@ -2273,6 +2286,19 @@ class res_partner(osv.osv):
     # -------------
     # Button event:
     # -------------
+    def open_print_rating_wizard(self, cr, uid, ids, context=None):
+        """ Open Wizard for print report
+        """
+        return {
+            'target': 'new',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'quality.supplier.qualification.wizard',
+            'domain': [],
+            'type': 'ir.actions.act_window',
+            'context': {'default_partner_id': ids[0]}
+            }
+
     def open_claimed_line_real_lot(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
         """
