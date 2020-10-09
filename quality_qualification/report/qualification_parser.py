@@ -307,6 +307,7 @@ class Parser(report_sxw.rml_parse):
                 pack_total, # 14. packaging failed
 
                 # General result:
+
                 description.get(outcome), # 15. total outcome
                 rating_note,  # 16 Rating note
                 ))

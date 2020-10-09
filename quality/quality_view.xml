@@ -806,6 +806,8 @@
             <field name="arch" type="xml">
                 <field name="ref" position="after">
                     <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
+                    <button name="go_to_acceptation" string="Vai all'accettazione" type="object" icon="gtk-goto-last" colspan="1"/>
+                    <field name="acceptation_ids" widget="many2many_tags" nolabel="1"/>
                     <!--<field name="deadline"/>-->
                     <field name="real_deadline" />
                     <field name="obsolete" invisible='1'/>
@@ -822,6 +824,8 @@
                 <field name="date" position="after">
                     <field name="default_supplier_id" domain="[('supplier','=',True)]"/>
                     <!--<field name="deadline"/>-->
+                    <field name="acceptation_ids" widget="many2many_tags"/>
+                    <button name="go_to_acceptation" string="Vai all'accettazione" type="object" icon="gtk-goto-last"/>
                     <field name="real_deadline" />
                     <field name="obsolete" invisible='1'/>
                     <button string="Obsolete" name="set_obsolete" type="object" attrs="{'invisible': [('obsolete','=',True)]}" icon="STOCK_NO"/>
@@ -1725,6 +1729,7 @@
                     <field name='deadline'/>
                     <field name='obsolete'/>
                     <field name='qualification'/>
+                    <field name="manual" string="Man." />
                     <field name='partner_id' invisible="1"/>
                 </tree>   
             </field>
