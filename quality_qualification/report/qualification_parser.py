@@ -273,11 +273,13 @@ class Parser(report_sxw.rml_parse):
 
             rating_ids = rating_pool.search(cr, uid, [
                 ('partner_id', '=', partner.id),
-                ('date', '=', ref_date),
+                # ('date', '=', ref_date),
+                ('obsolete', '=', False),
                 ], context=context)
 
             if rating_ids:
-                rating_proxy = rating_pool.browse(cr, uid, rating_ids, context=context)[0]
+                rating_proxy = rating_pool.browse(
+                    cr, uid, rating_ids, context=context)[0]
                 rating_note = rating_proxy.name
             else:
                 rating_note = ''
