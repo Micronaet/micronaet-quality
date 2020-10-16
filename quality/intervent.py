@@ -35,7 +35,7 @@ class quality_intervent_planned(osv.osv):
     _name = 'quality.intervent.planned'
     _description = 'Intervent planned'
     _rec_name = 'deadline'
-    _order = 'deadline desc'
+    _order = 'create_date'  # 'deadline desc'
     
     _columns = {
         # Table fields:
@@ -56,7 +56,7 @@ class quality_intervent_verify(osv.osv):
     _name = 'quality.intervent.verify'
     _description = 'Intervent verify'
     _rec_name = 'scheduled_date'
-    _order = 'scheduled_date desc'
+    _order = 'create_date'  # 'scheduled_date desc'
     
     _columns = {
         # Table fields:
@@ -78,7 +78,7 @@ class quality_intervent_valutation(osv.osv):
     _name = 'quality.intervent.valutation'
     _description = 'Intervent valutation'
     _rec_name = 'scheduled_date'
-    _order = 'scheduled_date desc'
+    _order = 'create_date'  # 'scheduled_date desc'
     
     _columns = {
         # Table fields:
