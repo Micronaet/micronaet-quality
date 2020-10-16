@@ -38,6 +38,7 @@ class quality_intervent_planned(osv.osv):
     _order = 'create_date'  # 'deadline desc'
     
     _columns = {
+        'create_date': fields.date('Creata il', required=True),
         # Table fields:
         'planned_activity': fields.text('Planned Activity', required=True),
         'responsible_treatment': fields.text('Responsible Treatment'),
@@ -60,6 +61,7 @@ class quality_intervent_verify(osv.osv):
     
     _columns = {
         # Table fields:
+        'create_date': fields.date('Creata il', required=True),
         'scheduled_date': fields.date('Scheduled Date'),
         'activities_check': fields.text('Activities to check'),
         'date': fields.date('Verification Date'),
@@ -82,6 +84,7 @@ class quality_intervent_valutation(osv.osv):
     
     _columns = {
         # Table fields:
+        'create_date': fields.date('Creata il', required=True),
         'scheduled_date': fields.date('Scheduled Date'),
         'date': fields.date('Verification Date'),
         'note': fields.text('Note'),

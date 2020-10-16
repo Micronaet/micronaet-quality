@@ -6,6 +6,7 @@
             <field name="model">quality.intervent.planned</field>
             <field name="arch" type="xml">
                 <tree string="Intervent Planned" editable="bottom">                                    
+                    <field name="create_date" />
                     <field name="planned_activity" />
                     <field name="responsible_treatment" />
                     <field name="deadline" />
@@ -18,6 +19,7 @@
             <field name="model">quality.intervent.verify</field>
             <field name="arch" type="xml">
                 <tree string="Intervent Verify" editable="bottom">
+                    <field name="create_date" />
                     <field name="scheduled_date" />
                     <field name="activities_check" />
                     <field name="date" />
@@ -31,6 +33,7 @@
             <field name="model">quality.intervent.valutation</field>
             <field name="arch" type="xml">
                 <tree string="Intervent Valutation" editable="bottom">
+                    <field name="create_date" />
                     <field name="scheduled_date" />
                     <field name="date" />
                     <field name="note" />
