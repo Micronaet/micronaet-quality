@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-    <data>
+    <data noupdate="1">
     <!--quality.gravity-->
     <record model="quality.gravity" id="quality_gravity_secondary">
         <field name="name">Secondary</field>

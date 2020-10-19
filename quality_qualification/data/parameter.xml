@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-    <data> <!--TODO load only once-->
+    <data noupdate="1"> <!--TODO load only once-->
         <!--                          quality.qualification.parameter-->
             <!--ACCEPTATION-->
         <record model="quality.qualification.parameter" id="quality_qualification_parameter_acceptation_1">
