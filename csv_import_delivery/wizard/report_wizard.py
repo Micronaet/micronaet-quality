@@ -135,8 +135,8 @@ class ResPartnerDeliveryReportWizard(orm.TransientModel):
                     carrier.name,
                     carrier.city or '',
                     carrier.country_id.name or '',
-                    total,
-                ], default_format=f_header)
+                    (total, f_number),
+                ], default_format=f_text)
 
         return excel_pool.return_attachment(
             cr, uid, 'Spedizionieri', version='7.0', php=True)
