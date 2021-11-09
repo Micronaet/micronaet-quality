@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# ODOO (ex OpenERP) 
+# ODOO (ex OpenERP)
 # Open Source Management Solution
 # Copyright (C) 2001-2015 Micronaet S.r.l. (<https://micronaet.com>)
 # Developer: Nicola Riolini @thebrush (<https://it.linkedin.com/in/thebrush>)
@@ -13,7 +13,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
@@ -34,9 +34,9 @@ from openerp import SUPERUSER_ID
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -45,41 +45,41 @@ _logger = logging.getLogger(__name__)
 class ResPartnerDelivery(orm.Model):
     """ Model name: ResPartnerDelivery
     """
-    
+
     _name = 'res.partner.delivery'
     _description = 'Carrier delivery'
     _rec_name = 'name'
     _order = 'name'
-    
+
     def clean_string(self, value):
-        ''' Clean string
-        '''
+        """ Clean string
+        """
         return (value or '').strip()
 
     def clean_date(self, value):
-        ''' Clean string
-        '''
+        """ Clean string
+        """
         value = self.clean_string(value)
         return '20%s-%s-%s' % (
             value[6:8],
-            value[3:5],            
+            value[3:5],
             value[:2],
             )
-        
+
     # -------------------------------------------------------------------------
     # Scheduled procedure:
     # -------------------------------------------------------------------------
-    def csv_import_carrier_files(self, cr, uid, path, only_current=True, 
+    def csv_import_carrier_files(self, cr, uid, path, only_current=True,
             context=None):
-        ''' Schedule import procedure:
+        """ Schedule import procedure:
             only_current: force reimport of current year
-        '''
+        """
         _logger.info('Start carrier delivery import procedure')
 
         # Parameters:
         final = 'vet.csv'
         separator = ';'
-        
+
         carrier_pool = self.pool.get('res.partner')
 
         # ---------------------------------------------------------------------
@@ -92,8 +92,8 @@ class ResPartnerDelivery(orm.Model):
             delivery_ids = self.search(cr, uid, [
                 ('date', '>=', '%s-01-01' % year),
                 ], context=context)
-        # 2. All year present in folder:                
-        else:        
+        # 2. All year present in folder:
+        else:
             csv_files = []
             for root, dirs, files in os.walk(os.path.expanduser(path)):
                 for filename in files:
@@ -104,10 +104,10 @@ class ResPartnerDelivery(orm.Model):
         # Delete previous record:
         _logger.info('Delete all record for this importation')
         self.unlink(cr, uid, delivery_ids, context=context)
-        
+
         # ---------------------------------------------------------------------
         # Import procedure:
-        # ---------------------------------------------------------------------        
+        # ---------------------------------------------------------------------
         for filename in csv_files:
             fullname = os.path.expanduser(os.path.join(path, filename))
             _logger.info('Read file: %s' % fullname)
@@ -124,9 +124,9 @@ class ResPartnerDelivery(orm.Model):
                 carrier_code = self.clean_string(row[2])
                 carrier_name = self.clean_string(row[2])
                 trip = self.clean_string(row[4])[:3]
-                
+
                 # -------------------------------------------------------------
-                # Search carrier:                
+                # Search carrier:
                 # -------------------------------------------------------------
                 carrier_ids = carrier_pool.search(cr, uid, [
                     '|',
@@ -139,27 +139,26 @@ class ResPartnerDelivery(orm.Model):
                 else:
                     _logger.warning('New partner created: %s' % carrier_code)
                     carrier_id = carrier_pool.create(cr, uid, {
-                        'is_company': True,                        
+                        'is_company': True,
                         'supplier': True,
                         'name': carrier_name,
                         'sql_supplier_code': carrier_code,
                         }, context=context)
-                        
+
                 self.create(cr, uid, {
                     'name': name,
                     'date': date,
                     'carrier_id': carrier_id,
                     'trip': trip,
-                    }, context=context)        
+                    }, context=context)
 
-            f_csv.close()    
+            f_csv.close()
         _logger.info('Stop carrier delivery import procedure')
         return True
-        
+
     _columns = {
         'name': fields.char('DDT num.', size=20, required=True),
         'date': fields.date('Data', required=True),
         'carrier_id': fields.many2one('res.partner', 'Carrier'),
-        'trip': fields.char('Trip', size=5),          
+        'trip': fields.char('Trip', size=5),
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -5,7 +5,7 @@
             <field name="name">quality.intervent.planned.tree</field>
             <field name="model">quality.intervent.planned</field>
             <field name="arch" type="xml">
-                <tree string="Intervent Planned" editable="bottom">                                    
+                <tree string="Intervent Planned" editable="bottom">
                     <field name="create_date" />
                     <field name="planned_activity" />
                     <field name="responsible_treatment" />
@@ -13,7 +13,7 @@
                 </tree>
             </field>
         </record>
-        
+
         <record id="view_quality_intervent_verify_form" model="ir.ui.view">
             <field name="name">quality.intervent.verify.tree</field>
             <field name="model">quality.intervent.verify</field>
@@ -27,7 +27,7 @@
                 </tree>
             </field>
         </record>
-        
+
         <record id="view_quality_intervent_valutation_form" model="ir.ui.view">
             <field name="name">quality.intervent.valutation.tree</field>
             <field name="model">quality.intervent.valutation</field>
@@ -49,7 +49,7 @@
             <field name="arch" type="xml">
                 <field name="image" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </field>  
+                </field>
                 <field name="image" position="after">
                     <field name="signature_image" widget="image" />
                 </field>
@@ -65,7 +65,7 @@
                 </field>
             </field>
         </record>
-        
+
         <!--quality.claim-->
         <record id="view_quality_claim_form" model="ir.ui.view">
             <field name="name">quality.claim.form</field>
@@ -95,8 +95,8 @@
 
                    <button string="Cancel" name="trigger_claim_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
 
-                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>                
-                   
+                   <button string="Draft" name="trigger_claim_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
+
                    <button name="print_form" string="Print" icon="gtk-print" type="object"/>
                    <button name="open_fast_report" string="Fast report" type="object" class="oe_highlight" icon="gtk-print"/>
 
@@ -109,7 +109,7 @@
                     <group col='4'>
                         <field name="name" />
                         <field name="date"/>
-                        
+
                         <field name="search_code" on_change="onchange_search_code(search_code)"/>
                         <newline/>
 
@@ -117,7 +117,7 @@
                         <field name="partner_address_id" domain="[('parent_id','=',partner_id),('is_address','=',True)]" context="{'default_is_address':True,'default_parent_id':partner_id,'show_naked':True}"/>
 
                         <field name="partner_ref"/>
-                        <field name="customer_ref"/>                        
+                        <field name="customer_ref"/>
 
                         <field name="receive_user_id"/>
                         <field name="reference_user_id"/>
@@ -164,11 +164,11 @@
                                 <field name="origin_id" domain="[('type','=','claim')]" context="{'default_type':'claim'}"/>
                                 <field name="cause_id"/>
                                 <field name="gravity_id"/>
-                                
+
                                 <field name="NC_comment" />
                                 <field name="NC_comment_text" attrs="{'invisible':[('NC_comment','=',False)]}" />
                                 <field name="NC_ref" attrs="{'invisible':[('state','!=','nc'),('NC_ref','=',False)]}"/>
-                                
+
                                 <separator string='Comunication' attrs="{'invisible':['|',('state','!=','comunication'),('comunication_user_id','=',False)]}" colspan="6" />
                                 <field name="comunication" nolabel='1' attrs="{'invisible':['|',('state','!=','comunication'),('comunication_user_id','=',False)]}" colspan="6" />
                                 <group colspan="2">
@@ -181,7 +181,7 @@
                                 </group>
                                 <group colspan="2">
                                     <separator string='Consideration' colspan="2"/>
-                                    <field name="consideration" nolabel='1' colspan="2" />    
+                                    <field name="consideration" nolabel='1' colspan="2" />
                                 </group>
                             </group>
                         </page>
@@ -191,7 +191,7 @@
                                 <field name="responsability" nolabel='1'/>
                             </group>
                         </page>
-                            
+
                         <page string='Workflow'>
                             <group col='4'>
                                 <field name="insert_user_id"/>
@@ -250,7 +250,7 @@
                     <group col='4'>
                         <field name="name" colspan="4"/>
                         <field name="date" invisible="1"/>
-                        
+
                         <field name="search_code" on_change="onchange_search_code(search_code)"/>
                         <newline/>
 
@@ -259,8 +259,8 @@
 
                         <field name="partner_ref"/>
                         <field name="request_quantity" />
-                        
-                        <field name="customer_ref" invisible="1"/>                        
+
+                        <field name="customer_ref" invisible="1"/>
                         <field name="receive_user_id" invisible="1"/>
                         <field name="reference_user_id" invisible="1"/>
                         <field name="request_return" invisible="1"/>
@@ -363,7 +363,7 @@
                    <field name="partner_address_id" domain="[('is_address', '=', True)]"/>
                    <field name="customer_ref"/>
                    <field name="real_lot_list" />
-                   
+
                    <separator/>
                    <filter string="Draft" domain="[('state','=','draft')]"/>
                    <filter string="Comunication" domain="[('state','=','comunication')]"/>
@@ -426,9 +426,9 @@
             <field name="context">{}</field>
             <field name="domain">[('fast_insert', '=', True)]</field>
         </record>
-        
+
         <!--quality.claim.product-->
-        
+
         <record id="view_quality_claim_product_form" model="ir.ui.view" >
             <field name="name">quality.claim.product.form</field>
             <field name="model">quality.claim.product</field>
@@ -597,7 +597,7 @@
                                     <separator string="Intervent Verify" colspan="4"/>
                                     <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
                                     <separator string="Intervent Valutation" colspan="4"/>
-                                    <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                    <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>
                                 </group>
                             </page>
                         </notebook>
@@ -606,7 +606,7 @@
                     <div class="oe_chatter">
                    		<field name="message_follower_ids" widget="mail_followers" />
                 		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
-                	</div>                    
+                	</div>
                 </form>
             </field>
         </record>
@@ -632,7 +632,7 @@
 
                     <button string="Cancel" name="trigger_action_saw_cancel" type="workflow" states="saw" icon="gtk-cancel"/>
 
-                    <button string="Draft" name="trigger_action_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>                    
+                    <button string="Draft" name="trigger_action_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh"/>
                     <field name="state" widget="statusbar" readonly='1'/>
                 </tree>
             </field>
@@ -867,7 +867,7 @@
 
                         <button name="print_form" string="Print" icon="gtk-print" type="object"/>
                         <button name="print_form_supplier" string="Print supplier" icon="gtk-print" type="object"/>
-          
+
                         <field name="state" widget="statusbar" readonly='1'/>
                     </header>
                     <sheet>
@@ -919,7 +919,7 @@
                                         <separator string="Intervent Verify" colspan="4"/>
                                         <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
                                         <separator string="Intervent Valutation" colspan="4"/>
-                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>
                                     </group>
                                 </page>
                                 <page string='Treatment'>
@@ -929,7 +929,7 @@
                                         <separator string='Comunication Note' colspan='4'/>
                                         <field name='comunication_note' colspan='4' nolabel='1'/>
                                         <separator string='Note RAQ' colspan='4'/>
-                                        <field name="note_RAQ" nolabel='1' colspan='4'/>                                        
+                                        <field name="note_RAQ" nolabel='1' colspan='4'/>
                                         <!--<field name="stock_note" nolabel='1' colspan='4'/>-->
                                     </group>
                                 </page>
@@ -957,9 +957,9 @@
                     <div class="oe_chatter">
                    		<field name="message_follower_ids" widget="mail_followers" />
                 		<field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" />
-                	</div>                    
+                	</div>
                 </form>
-            </field>            
+            </field>
         </record>
         <record id="view_quality_conformed_tree" model="ir.ui.view" >
             <field name="name">quality.conformed.tree</field>
@@ -1064,15 +1064,15 @@
                     <header>
                         <button string="Opened" name="trigger_sampling_draft_opened" type="workflow" states="draft" icon="gtk-execute" class=""/>
                         <button string="Cancel" name="trigger_sampling_draft_cancel" type="workflow" states="draft" icon="gtk-cancel" class=""/>
-                        
+
                         <button string="Passed" name="trigger_sampling_opened_passed" type="workflow" states="opened" icon="gtk-yes" class=""/>
                         <button string="Not Passed" name="trigger_sampling_opened_notpassed" type="workflow" states="opened" icon="gtk-no" class=""/>
                         <button string="Cancel" name="trigger_sampling_opened_cancel" type="workflow" states="opened" icon="gtk-cancel" class=""/>
-                        
+
                         <button string="Cancel" name="trigger_sampling_notpassed_cancel" type="workflow" states="notpassed" icon="gtk-cancel" class=""/>
-                        
+
                         <button string="Cancel" name="trigger_sampling_passed_cancel" type="workflow" states="passed" icon="gtk-cancel" class=""/>
-                        
+
                         <button string="Draft" name="trigger_sampling_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh" class=""/>
 
                         <button name="print_form" string="Print" icon="gtk-print" type="object"/>
@@ -1090,7 +1090,7 @@
                                 <field name="parent_conformed_id" attrs="{'invisible':[('origin','!=','nc')]}"/>
                                 <field name="claim_id" attrs="{'invisible':[('origin','!=','claim')]}"/>
                                 <field name="origin"/>
-                                <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>        
+                                <field name="origin_other" attrs="{'invisible':[('origin','!=','other')]}"/>
                             </group>
 
                             <group colspan="2" col="2">
@@ -1099,7 +1099,7 @@
                                 <field name="lot_supplier_id"/>
                                 <field name="lot_product_id"/>
                             </group>
-        
+
                             <notebook colspan='4'>
                                 <page string='Tests to be performed'>
                                     <group colspan='6' col='8'>
@@ -1187,8 +1187,8 @@
 
                                     <field name="conformed_id" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
                                     <field name="conformed_state" readonly="1" attrs="{'invisible':[('conformed_id','=',False)]}"/>
-                                    <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />                                    
-                                    
+                                    <button name="create_conformed" string="Create Not Conformed" type="object" attrs="{'invisible':[('conformed_id','!=',False)]}" />
+
                                 </group>
                             </group>
                         </group>
@@ -1215,15 +1215,15 @@
                     <field name="acceptation_id" />
                     <button string="Opened" name="trigger_sampling_draft_opened" type="workflow" states="draft" icon="gtk-execute" class=""/>
                     <button string="Cancel" name="trigger_sampling_draft_cancel" type="workflow" states="draft" icon="gtk-cancel" class=""/>
-                    
+
                     <button string="Passed" name="trigger_sampling_opened_passed" type="workflow" states="opened" icon="gtk-yes" class=""/>
                     <button string="Not Passed" name="trigger_sampling_opened_notpassed" type="workflow" states="opened" icon="gtk-no" class=""/>
                     <button string="Cancel" name="trigger_sampling_opened_cancel" type="workflow" states="opened" icon="gtk-cancel" class=""/>
-                    
+
                     <button string="Cancel" name="trigger_sampling_notpassed_cancel" type="workflow" states="notpassed" icon="gtk-cancel" class=""/>
-                    
+
                     <button string="Cancel" name="trigger_sampling_passed_cancel" type="workflow" states="passed" icon="gtk-cancel" class=""/>
-                    
+
                     <button string="Draft" name="trigger_sampling_cancel_draft" type="workflow" states="cancel" icon="gtk-refresh" class=""/>
                     <field name="state" />
                 </tree>
@@ -1448,7 +1448,7 @@
                             <field name='origin' readonly="1"/>
                             <field name='partner_id' readonly="1"/>
                             <separator string='Lines' colspan='4'/>
-                            
+
                             <notebook colspan="4">
                                 <page string="Lines">
                                     <field name="line_ids" colspan='4' nolabel='1'>
@@ -1465,7 +1465,7 @@
                                             <field name='package' string="Conf." />
                                             <field name='quality' string="Qual." />
                                             <field name='expired' string="Scad." />
-                                            
+
                                             <!--NC-->
                                             <button name="open_conformed" string="Open not conformed" icon="gtk-goto-last" type="object" attrs="{'invisible':[('conformed_id','=',False)]}"/>
                                             <field name="conformed_id" string="NC"/>
@@ -1478,7 +1478,7 @@
                                     </field>
                                 </page>
                             </notebook>
-                            
+
                             <separator string='Note' colspan='4'/>
                             <field name='note' nolabel='1' colspan='4'/>
                         </group>
@@ -1626,7 +1626,7 @@
                     <field name="quality_end_supplier" />
                 </tree>
             </field>
-        </record>        
+        </record>
         <record model="ir.ui.view" id="view_partner_tree_quality_search_tree">
             <field name="name">res.partner.search.selection</field>
             <field name="model">res.partner</field>
@@ -1660,7 +1660,7 @@
             <field name="context">{}</field>
             <field name="domain">['!',('name','=ilike','-%%'),('supplier','=',True),('is_company','=',True),('quality_class_id','=',False)]</field>
         </record>
-        
+
         <record id="action_res_partner_supplier_form" model="ir.actions.act_window" >
             <field name="name">Partner</field>
             <field name="res_model">res.partner</field>
@@ -1718,7 +1718,7 @@
                             <field name='partner_id' invisible="1"/>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="view_quality_supplier_rating_tree" model="ir.ui.view">
@@ -1734,10 +1734,10 @@
                     <field name='qualification'/>
                     <field name="manual" string="Man." />
                     <field name='partner_id' invisible="1"/>
-                </tree>   
+                </tree>
             </field>
         </record>
-        
+
         <!--quality.supplier.check-->
         <record id="view_quality_supplier_check_form" model="ir.ui.view">
             <field name="name">quality.supplier.check.form</field>
@@ -1752,7 +1752,7 @@
                             <field name='partner_id' invisible="1"/>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="view_quality_supplier_check_tree" model="ir.ui.view">
@@ -1764,7 +1764,7 @@
                     <field name='name'/>
                     <field name='note'/>
                     <field name='partner_id' invisible="1"/>
-                </tree>   
+                </tree>
             </field>
         </record>
 
@@ -1786,7 +1786,7 @@
                             <field name='partner_id' invisible="1"/>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="view_quality_supplier_certification_tree" model="ir.ui.view">
@@ -1802,7 +1802,7 @@
                     <field name='number'/>
                     <field name='note'/>
                     <field name='partner_id' invisible="1"/>
-                </tree>   
+                </tree>
             </field>
         </record>
 
@@ -1820,7 +1820,7 @@
                             <field name='partner_id' invisible="1"/>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="view_quality_supplier_reference_tree" model="ir.ui.view">
@@ -1832,7 +1832,7 @@
                     <field name='name'/>
                     <field name='note'/>
                     <field name='partner_id' invisible="1"/>
-                </tree>   
+                </tree>
             </field>
         </record>
 
@@ -1851,7 +1851,7 @@
                             <field name="quality_class_id" />
                             <field name="quality_update_date" />
                             <field name="quality_start_supplier" />
-                            <field name="quality_end_supplier" />    
+                            <field name="quality_end_supplier" />
                         </group>
                         <notebook colspan="4">
                                 <page string="Note">
@@ -1860,7 +1860,7 @@
                                         <field name="quality_rating_info" />
                                         <field name="quality_commercial_reference"/>
                                         <field name="quality_product"/>
-                                    </group>    
+                                    </group>
                                 </page>
                                 <!--<page string="Rating">
                                    <field name="rating_ids" nolabel='1' colspan="4" />
@@ -1870,7 +1870,7 @@
                                         <separator string="Rating:" colspan="3" />
                                         <button name="open_print_rating_wizard" type="object" string="Stampa" colspan="1" icon="gtk-print" class="oe-highlight"/>
                                         <field name="rating_ids" nolabel='1' colspan="4"/>
-                                    </group>    
+                                    </group>
                                 </page>
                                 <page string="Check">
                                    <field name="check_ids" nolabel='1' colspan="4"/>
@@ -1879,7 +1879,7 @@
                                    <field name="certification_ids" nolabel='1' colspan="4"/>
                                 </page>
                         </notebook>
-                    </page>   
+                    </page>
                     <page string="Index" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}">
                         <group colspan="4" col="4">
                               <group col='6' colspan='6'>
@@ -1894,7 +1894,7 @@
                                       <button name="open_claimed_line_real_lot" type="object" string="Claim line list (real)" colspan="1" />
                                       <button name="open_claimed_real_lot_list" type="object" string="Claim lot list (real)" colspan="1" />
                                       <newline/>
-                                      
+
                                       <field name="index_claim" nolabel="1" colspan="3" widget="html"/>
                                       <field name="index_claim_list" invisible="1"/>
                                   </page>
@@ -1911,14 +1911,14 @@
                                   <page string="Acceptation">
                                       <button name="open_acceptation_list" type="object" string="Acceptation list" colspan="1"/>
                                   </page>
-                                  
+
                               </notebook>
-                        </group>                        
+                        </group>
                     </page>
                 </xpath>
             </field>
         </record>
-        
+
         <!--res.company-->
         <record id="view_res_company_range_form" model="ir.ui.view">
             <field name="name">res.company.range</field>
@@ -1932,7 +1932,7 @@
                             <field name='index_to'/>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="action_res_company_range_form" model="ir.actions.act_window" >
@@ -1984,7 +1984,7 @@
                                 <field name="ddt_ref"/>
                                 <field name="label_lot" />-->
                                 <!--<field name="lot_deadline"/>-->
-                                
+
                                 <field name="reference_user_id" widget="selection"/>
                                 <field name="gravity_id" widget="selection" />
 
@@ -2016,7 +2016,7 @@
                                         <field name="treatment" colspan='4' nolabel='1' />
                                         <separator string='Judgement' colspan='2' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>
                                         <field name="judgement_date" />
-                                        <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>                                        
+                                        <field name="judgement" colspan='4' nolabel='1' attrs="{'invisible':[('mode', '!=', 'internal')]}"/>
                                      </group>
                                 </page>
                                 <page string="Activity">
@@ -2026,7 +2026,7 @@
                                         <separator string="Intervent Verify" colspan="4"/>
                                         <field name="intervent_verify_ids" colspan="4" nolabel="1"/>
                                         <separator string="Intervent Valutation" colspan="4"/>
-                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>                 
+                                        <field name="intervent_valutation_ids" colsapn="4" nolabel="1"/>
                                     </group>
                                 </page>
                                 <!--<page string='Treatment'>
@@ -2036,7 +2036,7 @@
                                         <separator string='Comunication Note' colspan='4'/>
                                         <field name='comunication_note' colspan='4' nolabel='1'/>
                                         <separator string='Note RAQ' colspan='4'/>
-                                        <field name="note_RAQ" nolabel='1' colspan='4'/>                                        
+                                        <field name="note_RAQ" nolabel='1' colspan='4'/>
                                     </group>
                                 </page>
                                 <page string='Comunications'>
@@ -2079,7 +2079,7 @@
                     <field name="supplier_lot"/>
                     <field name="action_id"/>
                     <field name="sampling_id"/>-->
-                    
+
                     <!--<button string="Opened" name="trigger_conformed_draft_opened" type="workflow" states="draft" icon="gtk-execute"/>
 
                     <button string="Closed" name="trigger_conformed_opened_closed" type="workflow" states="opened" icon="gtk-ok"/>
@@ -2158,12 +2158,12 @@
             <field name="domain">[]</field>
         </record>
 
-        <menuitem 
-            parent="menu_quality_form" 
-            id="menu_quality_form_not_conformed_external" 
-            name="Not conformed external" 
-            action="action_quality_conformed_external" 
-            sequence="31" 
+        <menuitem
+            parent="menu_quality_form"
+            id="menu_quality_form_not_conformed_external"
+            name="Not conformed external"
+            action="action_quality_conformed_external"
+            sequence="31"
             groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"
             />
 
@@ -2173,9 +2173,9 @@
                 <menuitem parent="menu_quality_form" id="menu_quality_form_claim" name="Claim" action="action_quality_claim_form" sequence="10" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_product" name="Product Claim" action="action_quality_claim_product_form" sequence="10"/>
                     <menuitem parent="menu_quality_form_claim" id="menu_quality_form_claim_to_complete" name="Claim to complete" action="action_quality_claim_fast_insert_tree" sequence="20"/>
-                    
+
                 <menuitem parent="menu_quality_form" id="menu_quality_form_fast_insert_claim" name="Fast claim" action="action_quality_claim_fast_insert_form" sequence="11" groups="group_quality_fast_user"/>
-                    
+
                 <menuitem parent="menu_quality_form" id="menu_quality_form_action" name="Action" action="action_quality_action_form" sequence="20"  groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
@@ -2189,6 +2189,7 @@
                     <menuitem parent="menu_quality_root_configuration_supplier" id="menu_quality_root_configuration_supplier_class" action="action_res_partner_supplier_class" sequence="10"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" name="Fornitori senza classe (-)" id="menu_quality_root_configuration_supplier_minus_class" action="action_res_partner_supplier_minus_class" sequence="20"/>
                     <menuitem parent="menu_quality_root_configuration_supplier" id="menu_view_res_partner_delivery" action="csv_import_delivery.action_view_res_partner_delivery"/>
+                    <menuitem parent="menu_quality_root_configuration_supplier" id="menu_view_res_partner_delivery_report_wizard" action="csv_import_delivery.action_res_partner_delivery_report_wizard"/>
 
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_lot" name="Lot" action="action_stock_production_lot_form" sequence="30"/>
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_product" name="Product" action="action_product_product_form" sequence="40"/>
@@ -2199,4 +2200,4 @@
                     <menuitem parent="menu_quality_root_configuration_claim" id="menu_quality_root_configuration_claim_gravity" name="Gravity" action="action_quality_gravity_form" sequence="20"/>
                     <menuitem parent="menu_quality_root_configuration_claim" id="menu_quality_root_configuration_claim_cause" name="Claim Cause" action="action_quality_claim_cause_form" sequence="30"/>
    </data>
-</openerp>   
+</openerp>

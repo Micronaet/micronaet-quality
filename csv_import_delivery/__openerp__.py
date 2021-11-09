@@ -32,15 +32,18 @@
     'depends': [
         'base',
         'product',
+        'excel_export',
         ],
-    'init_xml': [], 
+    'init_xml': [],
     'data': [
         'security/ir.model.access.csv',
-        
+
         'delivery_views.xml',
         'scheduler.xml',
+
+        'wizard/report_view.xml',
         ],
     'demo_xml': [],
-    'active': False, 
-    'installable': True, 
+    'active': False,
+    'installable': True,
     }
