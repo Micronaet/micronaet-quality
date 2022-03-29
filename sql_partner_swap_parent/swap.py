@@ -63,7 +63,7 @@ class ResPartner(osv.osv):
         return res
     
     # Scheduled function that import partner (and after update forms)
-    # TODO better create new module only for quality only with this function:
+    # todo better create new module only for quality only with this function:
     def schedule_sql_partner_import(self, cr, uid, verbose_log_count=100, 
         capital=True, write_date_from=False, write_date_to=False, 
         create_date_from=False, create_date_to=False, sync_vat=False,

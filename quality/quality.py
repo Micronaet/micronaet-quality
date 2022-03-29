@@ -651,7 +651,6 @@ class quality_claim(osv.osv):
     def _store_res_partner_name(self, cr, uid, ids, context=None):
         """ Change in res.partner the name
         """
-        _logger.warning('Change partner name')
         return self.pool.get('quality.claim').search(cr, uid, [
             ('partner_id', 'in', ids),
             ], context=context)
@@ -659,7 +658,6 @@ class quality_claim(osv.osv):
     def _store_form_partner_id(self, cr, uid, ids, context=None):
         """ Change in form partner_id
         """
-        _logger.warning('Change partner in form')
         return ids
 
     # Search fields function:                
