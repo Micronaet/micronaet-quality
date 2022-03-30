@@ -23,7 +23,7 @@ import openerp.netsvc
 import logging
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -32,19 +32,19 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 class ResPartnerSwap(osv.osv):
-    ''' Swap partner parent code
-    '''    
+    """ Swap partner parent code
+    """
     _name = 'res.partner.swap'
     _description = 'Swap parent'
-    
+
     _columns = {
-        'name': fields.char('Original', size=10, required=True), 
-        'swap': fields.char('Swap code', size=10, required=True), 
+        'name': fields.char('Original', size=10, required=True),
+        'swap': fields.char('Swap code', size=10, required=True),
         }
 
 class ResPartner(osv.osv):
-    ''' Insert override elements
-    '''    
+    """ Insert override elements
+    """
     _inherit = 'res.partner'
 
     # -------------------------------------------------------------------------
@@ -52,8 +52,8 @@ class ResPartner(osv.osv):
     # -------------------------------------------------------------------------
     # Virtual function that calculate swap dict:
     def get_swap_parent(self, cr, uid, context=None):
-        ''' Override with function that load override fields
-        '''
+        """ Override with function that load override fields
+        """
         res = {}
         swap_pool = self.pool.get('res.partner.swap')
         swap_ids = swap_pool.search(cr, uid, [], context=None)
@@ -61,44 +61,44 @@ class ResPartner(osv.osv):
                 cr, uid, swap_ids, context=context):
             res[swap.name] = swap.swap
         return res
-    
+
     # Scheduled function that import partner (and after update forms)
     # todo better create new module only for quality only with this function:
-    def schedule_sql_partner_import(self, cr, uid, verbose_log_count=100, 
-        capital=True, write_date_from=False, write_date_to=False, 
+    def schedule_sql_partner_import(self, cr, uid, verbose_log_count=100,
+        capital=True, write_date_from=False, write_date_to=False,
         create_date_from=False, create_date_to=False, sync_vat=False,
         address_link=False, only_block=False, context=None):
-        
+
         # -----------------------
         # Call original function:
         # -----------------------
+        _logger.info('QUALITY: Call original module for import partner')
         res = super(ResPartner, self).schedule_sql_partner_import(
-            cr, uid, verbose_log_count=verbose_log_count, 
-            capital=capital, write_date_from=write_date_from, 
-            write_date_to=write_date_to, create_date_from=create_date_from, 
+            cr, uid, verbose_log_count=verbose_log_count,
+            capital=capital, write_date_from=write_date_from,
+            write_date_to=write_date_to, create_date_from=create_date_from,
             create_date_to=create_date_to, sync_vat=sync_vat,
             address_link=address_link, only_block=only_block, context=context)
-        
+
         # ---------------------------------
         # Update form if there's swap list:
         # ---------------------------------
-        swap_list = self.get_swap_parent(cr, uid, context=context)  
+        swap_list = self.get_swap_parent(cr, uid, context=context)
+        _logger.info('QUALITY: Swap partner list: %s' % (swap_list, ))
         if swap_list: # Update forms:
             for origin, swap in swap_list.iteritems():
                 from_id = self.get_partner_from_sql_code(
                     cr, uid, origin, context=context)
                 to_id = self.get_partner_from_sql_code(
                     cr, uid, swap, context=context)
-                
+
                 if not from_id or not to_id: # check both present
                     _logger.error(
                         'Partner not found for origin: %s destination: %s' % (
                             origin, swap))
                     continue
-                    
-                # Replace function:    
+
+                # Replace function:
                 self.replace_partner_id(
                     cr, uid, from_id, to_id, context=context)
         return res
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

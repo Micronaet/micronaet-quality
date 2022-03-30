@@ -23,27 +23,26 @@ import openerp.netsvc
 import logging
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
-
 
 _logger = logging.getLogger(__name__)
 
 
 class ResPartner(osv.osv):
-    ''' Inherit partner elements
-    '''    
+    """ Inherit partner elements
+    """
     _inherit = 'res.partner'
 
     # -------------------------------------------------------------------------
     #                         Utility function:
     # -------------------------------------------------------------------------
     def replace_partner_id(self, cr, uid, from_id, to_id, context=None):
-        ''' Replace in all form the from_id and put to_id
+        """ Replace in all form the from_id and put to_id
             (used for swap function but also for a possibly wizard
-        '''
+        """
         substitution = [
             ('quality.claim', 'partner_id'),
             #('quality.claim', 'partner_address_id'), # TODO address to check!
@@ -65,8 +64,6 @@ class ResPartner(osv.osv):
                     field: to_id}, context=context)
                 _logger.info('Swapped partner in %s: from %s to %s [%s]' % (
                     pool, from_id, to_id, len(form_ids)))
-            else:        
+            else:
                 _logger.info('No swap for %s' % pool)
-        return 
-        
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        return
