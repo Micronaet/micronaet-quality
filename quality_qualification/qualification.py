@@ -129,7 +129,7 @@ class QualityQualificationParameter(orm.Model):
         'note': fields.text('Note'),
         }
 
-    _defauls = {
+    _defaults = {
         'uom': lambda *x: 'lot',
         }
 
