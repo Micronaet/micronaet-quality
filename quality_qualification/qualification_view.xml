@@ -16,25 +16,25 @@
                             <field name='uom'/>
                             <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
                                 <tree string="Details:">
-                                    <field name="qualification" />                                    
+                                    <field name="qualification" />
                                     <field name="value" />
                                     <field name="perc_from" />
                                     <field name="perc_to" />
-                                </tree> 
+                                </tree>
                                 <form string="Details:">
                                     <sheet>
-                                        <group col='4' colspan='4' nolabel='1'>                                       
+                                        <group col='4' colspan='4' nolabel='1' editable="bottom">
                                             <field name="qualification" />
                                             <field name="value" />
                                             <field name="perc_from" />
                                             <field name="perc_to" />
-                                        </group>    
-                                    </sheet>                                        
-                                </form> 
-                            </field>                             
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
                         </group>
                     </sheet>
-                </form>   
+                </form>
             </field>
         </record>
         <record id="view_quality_qualification_parameter_tree" model="ir.ui.view">
@@ -47,7 +47,7 @@
                     <field name='from_value'/>
                     <field name='to_value'/>
                     <field name='uom'/>
-                </tree>   
+                </tree>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_supplier_qualification_form">
@@ -79,7 +79,7 @@
         </record>
 
         <!--MENUITEM-->
-        <menuitem parent="quality.menu_quality_root_configuration" id="menu_quality_root_configuration_qualification_parameter" 
+        <menuitem parent="quality.menu_quality_root_configuration" id="menu_quality_root_configuration_qualification_parameter"
             name="Supplier qualification" action="action_supplier_qualification_form" sequence="90" groups="quality.group_quality_RDQ,quality.group_quality_RAQ,quality.group_quality_RCO,quality.group_quality_SAQ,quality.group_quality_SGO,quality.group_quality_SFA,quality.group_quality_user,quality.group_quality_fast_user"/>
    </data>
-</openerp>   
+</openerp>
