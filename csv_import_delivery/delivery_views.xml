@@ -36,8 +36,8 @@
                   <search string="String" version="7.0">
                       <field name="name" />
                       <field name="date" />
-                      <field string="Dalla data" name="date" filter_domain="[('date','>=',self)]"/>
-                      <field string="Alla data" name="date" filter_domain="[('date','<=',self)]"/>
+                      <field string="Dalla data" name="date" filter_domain="[('date','&gt;=',self)]"/>
+                      <field string="Alla data" name="date" filter_domain="[('date','&lt;=',self)]"/>
                       <field name="carrier_id" filter_domain="[('carrier_id','=',self)]"/>
                       <group expand="0" string="Group By...">
                           <filter name="group_carrier" string="Vettore" context="{'group_by': 'carrier_id'}"/>
