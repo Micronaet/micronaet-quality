@@ -30,9 +30,9 @@ from openerp import SUPERUSER_ID
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -52,7 +52,7 @@ class QualityQualificationParameter(orm.Model):
     _name = 'quality.qualification.parameter'
     _description = 'Qualification parameter'
     _order = 'name,sequence'
-    
+
     # --------
     # Utility:
     # --------
@@ -66,15 +66,15 @@ class QualityQualificationParameter(orm.Model):
         parameter_ids = self.search(cr, uid, [], context=context)
         for item in self.browse(cr, uid, parameter_ids, context=context):
             if item.name not in res:
-                res[item.name] = []    
+                res[item.name] = []
             res[item.name].append((
                 item.uom,
                 (item.from_value, item.to_value), # from to lot / q. range
                 item.line_ids, # list of line for evaluation
-                ))                
+                ))
         return res
-    
-    def _check_parameters(self, parameters, block, weight, lot, failed, 
+
+    def _check_parameters(self, parameters, block, weight, lot, failed,
            failed_n):
         ''' Check in parameters and return qualification value
             parametes: database for all evaluation
@@ -84,13 +84,13 @@ class QualityQualificationParameter(orm.Model):
             failed: number of lot/weigth failed (perc value)
             failed_n: number of NC failed
         '''
-        parameter = parameters.get(block, {})        
+        parameter = parameters.get(block, {})
         for item in parameter: #check range in parameter for block
             if item[0] == 'lot': # uom
                 total = lot
             else:
                 total = weight
-                    
+
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
                 for line in item[2]:
@@ -99,29 +99,30 @@ class QualityQualificationParameter(orm.Model):
                         fail = failed
                     else: # 'number'
                         fail = failed_n
-                        
+
                     if (fail >= line.perc_from) and (
                             not line.perc_to or fail < line.perc_to):
                         return line.qualification
-        return 'error'        
+        return 'error'
 
     _columns = {
-        'sequence': fields.integer('Sequence', required=True), 
+        'sequence': fields.integer('Sequence', required=True),
         'name': fields.selection([
             ('claim', 'From Claim'),
             ('acceptation', 'From acceptation'),
             ('sampling', 'From sampling'),
-            ('packaging', 'From packaging'),            
-            ('external', 'NC External'),            
-            ], 'Origin', select=True, required=True),        
+            ('packaging', 'From packaging'),
+            ('external', 'NC External'),
+            ], 'Origin', select=True, required=True),
 
         # Furniture range:
         'from_value': fields.integer('Range From (>=)'),
         'to_value': fields.integer('Range To (<)'),
         'uom': fields.selection([
-            ('unused', 'Not necessary'),
-            ('lot', 'Lot'),
-            ('weight', 'Weight'),
+            ('unused', 'Non necessario'),
+            ('lot', 'Lotti'),
+            ('weight', 'Peso'),
+            ('delivery', 'Consegne'),
             ], 'uom', required=True),
 
         'note': fields.text('Note'),
@@ -129,22 +130,22 @@ class QualityQualificationParameter(orm.Model):
 
     _defauls = {
         'uom': lambda *x: 'lot',
-        }    
+        }
 
     _sql_constraints = [(
-        'name_from_to_uniq', 'unique(name, from, to)', 
-        _('There\'s another model that is created fom this origin!')), 
+        'name_from_to_uniq', 'unique(name, from, to)',
+        _('There\'s another model that is created fom this origin!')),
         ]
 
 class QualityQualificationParameterLine(orm.Model):
     ''' Line for every form type
-    '''    
+    '''
     _name = 'quality.qualification.parameter.line'
     _description = 'Qualification parameter line'
     _rec_name = 'qualification'
     _order = 'parameter_id,perc_from,perc_to'
-    
-    _columns = {        
+
+    _columns = {
         # Total forms:
         'perc_from': fields.float('from (>=)', digits=(16, 3)),
         'perc_to': fields.float('to (<)', digits=(16, 3)),
@@ -152,13 +153,13 @@ class QualityQualificationParameterLine(orm.Model):
             ('perc', '% on total'),
             ('number', 'Number'),
             ], 'value', required=True),
-            
-        'qualification': fields.selection(qualification_list, 
-            'Qualification type', select=True, required=True),        
-        'parameter_id': fields.many2one('quality.qualification.parameter', 
-            'Parameter'),        
+
+        'qualification': fields.selection(qualification_list,
+            'Qualification type', select=True, required=True),
+        'parameter_id': fields.many2one('quality.qualification.parameter',
+            'Parameter'),
         }
-        
+
     _defaults = {
         'value': lambda *x: 'number',
         }
@@ -166,9 +167,9 @@ class QualityQualificationParameterLine(orm.Model):
 class QualityQualificationParameter(orm.Model):
     ''' Extra *many relation fields
     '''
-    
+
     _inherit = 'quality.qualification.parameter'
-    
+
     _columns = {
         'line_ids': fields.one2many('quality.qualification.parameter.line',
             'parameter_id', 'Details'),
@@ -177,19 +178,19 @@ class QualityQualificationParameter(orm.Model):
 class ResPartner(orm.Model):
     ''' Add some extra fields for manage automatic qualification
     '''
-    
+
     _inherit = 'res.partner'
-        
+
     _columns = {
         'qualification_date': fields.date('Qualification date'),
-        'qualification_claim': fields.selection(qualification_list, 
+        'qualification_claim': fields.selection(qualification_list,
             'Qualification from claim'),
-        'qualification_acceptation': fields.selection(qualification_list, 
+        'qualification_acceptation': fields.selection(qualification_list,
             'Qualification from acc.'),
-        'qualification_sampling': fields.selection(qualification_list, 
+        'qualification_sampling': fields.selection(qualification_list,
             'Qualification from sampl.'),
-        'qualification_packaging': fields.selection(qualification_list, 
-            'Qualification from pack.'),        
+        'qualification_packaging': fields.selection(qualification_list,
+            'Qualification from pack.'),
         # TODO from to period?
         # TODO qualification assigned?
         }
