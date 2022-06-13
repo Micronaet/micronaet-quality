@@ -45,10 +45,24 @@ qualification_list = [
     ('error', 'Error, not found'), # TODO needed?
     ]
 
+
+class QualityPartnerClass(osv.osv):
+    """ Class for categorize supplier
+    """
+    _inherit = 'quality.partner.class'
+
+    _columns = {
+        'has_custom_table': fields.boolean(
+            'Tabelle personalizzate',
+            help='Indica che il calcolo delle qualifiche automatiche'
+                 'viene fatto utilizzando una apposita tabella marcata'
+                 'con questa classe e non con il metodo classico'),
+    }
+
 class QualityQualificationParameter(orm.Model):
-    ''' Manage qualification parameters for assign automatically the
+    """ Manage qualification parameters for assign automatically the
         value su supplier depend on claims and other forms
-    '''
+    """
     _name = 'quality.qualification.parameter'
     _description = 'Qualification parameter'
     _order = 'name,sequence'
@@ -57,11 +71,11 @@ class QualityQualificationParameter(orm.Model):
     # Utility:
     # --------
     def _load_parameters(self, cr, uid, context=None):
-        ''' Load all parameters in dict database for code purpose
+        """ Load all parameters in dict database for code purpose
             format:
             key = name of parameter (claim etc.)
             value = uom, (from, to range), lines browseable obj
-        '''
+        """
         res = {}
         parameter_ids = self.search(cr, uid, [], context=context)
         for item in self.browse(cr, uid, parameter_ids, context=context):
@@ -76,14 +90,14 @@ class QualityQualificationParameter(orm.Model):
 
     def _check_parameters(self, parameters, block, weight, lot, failed,
            failed_n):
-        ''' Check in parameters and return qualification value
+        """ Check in parameters and return qualification value
             parametes: database for all evaluation
             block: key value for parameters
             weight: weight delivered
             lot: number of lot delivered
             failed: number of lot/weigth failed (perc value)
             failed_n: number of NC failed
-        '''
+        """
         parameter = parameters.get(block, {})
         for item in parameter: #check range in parameter for block
             if item[0] == 'lot': # uom
@@ -139,8 +153,8 @@ class QualityQualificationParameter(orm.Model):
         ]
 
 class QualityQualificationParameterLine(orm.Model):
-    ''' Line for every form type
-    '''
+    """ Line for every form type
+    """
     _name = 'quality.qualification.parameter.line'
     _description = 'Qualification parameter line'
     _rec_name = 'qualification'
@@ -166,8 +180,8 @@ class QualityQualificationParameterLine(orm.Model):
         }
 
 class QualityQualificationParameter(orm.Model):
-    ''' Extra *many relation fields
-    '''
+    """ Extra *many relation fields
+    """
 
     _inherit = 'quality.qualification.parameter'
 
@@ -177,8 +191,8 @@ class QualityQualificationParameter(orm.Model):
         }
 
 class ResPartner(orm.Model):
-    ''' Add some extra fields for manage automatic qualification
-    '''
+    """ Add some extra fields for manage automatic qualification
+    """
 
     _inherit = 'res.partner'
 
