@@ -46,7 +46,7 @@ qualification_list = [
     ]
 
 
-class QualityPartnerClass(osv.osv):
+class QualityPartnerClassInherit(osv.osv):
     """ Class for categorize supplier
     """
     _inherit = 'quality.partner.class'
