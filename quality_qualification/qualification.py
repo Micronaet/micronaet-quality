@@ -118,6 +118,7 @@ class QualityQualificationParameter(orm.Model):
         # Furniture range:
         'from_value': fields.integer('Range From (>=)'),
         'to_value': fields.integer('Range To (<)'),
+        'class_id': fields.many2one('res.partner.class', 'Classe'),
         'uom': fields.selection([
             ('unused', 'Non necessario'),
             ('lot', 'Lotti'),
