@@ -108,6 +108,7 @@ class ResPartnerDelivery(orm.Model):
         # ---------------------------------------------------------------------
         # Import procedure:
         # ---------------------------------------------------------------------
+        partner_cache = {}
         for filename in csv_files:
             fullname = os.path.expanduser(os.path.join(path, filename))
             _logger.info('Read file: %s' % fullname)
@@ -128,23 +129,30 @@ class ResPartnerDelivery(orm.Model):
                 # -------------------------------------------------------------
                 # Search carrier:
                 # -------------------------------------------------------------
-                carrier_ids = carrier_pool.search(cr, uid, [
-                    '|',
-                    ('sql_customer_code', '=', carrier_code),
-                    ('sql_supplier_code', '=', carrier_code),
-                    ], context=context)
-
-                if carrier_ids:
-                    carrier_id = carrier_ids[0]
+                if carrier_code in partner_cache:
+                    carrier_id = partner_cache[carrier_code]
                 else:
-                    _logger.warning('New partner created: %s' % carrier_code)
-                    carrier_id = carrier_pool.create(cr, uid, {
-                        'is_company': True,
-                        'supplier': True,
-                        'name': carrier_name,
-                        'sql_supplier_code': carrier_code,
-                        }, context=context)
+                    carrier_ids = carrier_pool.search(cr, uid, [
+                        '|',
+                        ('sql_customer_code', '=', carrier_code),
+                        ('sql_supplier_code', '=', carrier_code),
+                        ], context=context)
 
+                    if carrier_ids:
+                        carrier_id = carrier_ids[0]
+                    else:
+                        _logger.warning('New partner created: %s' % carrier_code)
+                        carrier_id = carrier_pool.create(cr, uid, {
+                            'is_company': True,
+                            'supplier': True,
+                            'name': carrier_name,
+                            'sql_supplier_code': carrier_code,
+                            }, context=context)
+                    partner_cache[carrier_code] = carrier_id
+
+                # -------------------------------------------------------------
+                # Create delivery:
+                # -------------------------------------------------------------
                 self.create(cr, uid, {
                     'name': name,
                     'date': date,
