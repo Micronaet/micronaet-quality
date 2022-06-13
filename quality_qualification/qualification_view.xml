@@ -14,8 +14,8 @@
                             <field name='from_value' attrs="{'invisible': [('uom','=','unused')]}"/>
                             <field name='to_value' attrs="{'invisible': [('uom','=','unused')]}"/>
                             <field name='uom'/>
-                            <field name='line_ids' editable="bottom" colspan="4" nolabel="1">
-                                <tree string="Details:">
+                            <field name='line_ids' colspan="4" nolabel="1">
+                                <tree string="Details:" editable="bottom">
                                     <field name="qualification" />
                                     <field name="value" />
                                     <field name="perc_from" />
@@ -23,7 +23,7 @@
                                 </tree>
                                 <form string="Details:">
                                     <sheet>
-                                        <group col='4' colspan='4' nolabel='1' editable="bottom">
+                                        <group col='4' colspan='4' nolabel='1'>
                                             <field name="qualification" />
                                             <field name="value" />
                                             <field name="perc_from" />
