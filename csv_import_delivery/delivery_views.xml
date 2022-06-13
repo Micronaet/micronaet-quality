@@ -17,7 +17,7 @@
               <field name="name">res.partner.delivery.form</field>
               <field name="model">res.partner.delivery</field>
               <field name="arch" type="xml">
-                  <form string="Delivery" version="7.0">        
+                  <form string="Delivery" version="7.0">
                       <sheet>
                           <group col="4" colspan="4">
                             <field name="name" />
@@ -25,7 +25,7 @@
                             <field name="carrier_id" />
                             <field name="trip" />
                           </group>
-                      </sheet>        
+                      </sheet>
                   </form>
               </field>
           </record>
@@ -33,13 +33,17 @@
               <field name="name">res.partner.delivery.search</field>
               <field name="model">res.partner.delivery</field>
               <field name="arch" type="xml">
-                  <search string="String" version="7.0">        
+                  <search string="String" version="7.0">
                       <field name="name" />
+                      <field name="date" />
+                      <field string="Dalla data" name="date" filter_domain="[('date','>=',self)]"/>
+                      <field string="Alla data" name="date" filter_domain="[('date','<=',self)]"/>
                       <field name="carrier_id" filter_domain="[('carrier_id','=',self)]"/>
                       <group expand="0" string="Group By...">
-                          <filter name="group_carrier" string="Carrier" context="{'group_by': 'carrier_id'}"/>
-                          <filter string="Trip" context="{'group_by': 'trip'}" />
-                      </group>                
+                          <filter name="group_carrier" string="Vettore" context="{'group_by': 'carrier_id'}"/>
+                          <filter name="group_date" string="Data" context="{'group_by': 'date'}"/>
+                          <filter string="Viaggio" context="{'group_by': 'trip'}" />
+                      </group>
                   </search>
               </field>
           </record>
