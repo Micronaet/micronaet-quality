@@ -23,7 +23,7 @@ import logging
 import shutil
 from openerp.osv import osv, fields, orm
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -32,22 +32,22 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 class QualitySupplierQualificationWizard(orm.TransientModel):
-    ''' Parameter for report
-    '''
+    """ Parameter for report
+    """
     _name = 'quality.supplier.qualification.wizard'
     _description = 'Supplier qualitication'
 
     # -------------
-    # Button event: 
+    # Button event:
     # -------------
     def action_print_report(self, cr, uid, ids, context=None):
-        ''' Wizard for paremeter of the report
-        '''
-        if context is None: 
-            context = {}        
-        
+        """ Wizard for parameter of the report
+        """
+        if context is None:
+            context = {}
+
         wiz_browse = self.browse(cr, uid, ids, context=context)[0]
-        
+
         datas = {
             'report_type': wiz_browse.report_type,
             'only_active': wiz_browse.only_active,
@@ -58,8 +58,8 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
             'partner_id': (
                 wiz_browse.partner_id.id if wiz_browse.partner_id else False),
             'quality_class_id': (
-                wiz_browse.quality_class_id.id if \
-                    wiz_browse.quality_class_id else False),
+                wiz_browse.quality_class_id.id if
+                wiz_browse.quality_class_id else False),
             }
 
         # Print report:
@@ -69,34 +69,32 @@ class QualitySupplierQualificationWizard(orm.TransientModel):
             'report_name': 'quality_qualification_supplier_report',
             'datas': datas,
             }
-        
+
     _columns = {
         'report_type': fields.selection([
             ('report', 'Report'),
             ('force', 'Force'),
             ], 'Wizard type'),
-            
+
         # Partner filter information:
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'quality_class_id': fields.many2one('quality.partner.class', 'Class'),
-        
+
         # Statistic filter information:
         'from_date': fields.date('From (>=)', required=True),
         'to_date': fields.date('To (<)', required=True),
-        'ref_date': fields.date('Ref date'),        
-        'ref_deadline': fields.date('Ref deadline'),        
-        'only_active': fields.boolean('Only active', 
+        'ref_date': fields.date('Ref date'),
+        'ref_deadline': fields.date('Ref deadline'),
+        'only_active': fields.boolean('Only active',
             help='Only the one who has lot in period'),
         }
-        
+
     _defaults = {
         'report_type': lambda *x: 'report',
         'from_date': lambda *x: datetime.now().strftime(
             '%Y-01-01'), # first
-        'to_date': lambda *x: '%s-01-01' % (int(datetime.now().year) + 1), 
+        'to_date': lambda *x: '%s-01-01' % (int(datetime.now().year) + 1),
         'ref_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
         'only_active': lambda *x: True,
         }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -42,7 +42,7 @@ qualification_list = [
     ('reserve', 'With reserve'),
     ('full', 'Full qualification'),
     ('discarded', 'Discarded'),
-    ('error', 'Error, not found'), # TODO needed?
+    ('error', 'Error, not found'), # todo needed?
     ]
 
 
@@ -83,13 +83,13 @@ class QualityQualificationParameter(orm.Model):
                 res[item.name] = []
             res[item.name].append((
                 item.uom,
-                (item.from_value, item.to_value), # from to lot / q. range
-                item.line_ids, # list of line for evaluation
+                (item.from_value, item.to_value),  # from to lot / q. range
+                item.line_ids,  # list of line for evaluation
                 ))
         return res
 
-    def _check_parameters(self, parameters, block, weight, lot, failed,
-           failed_n):
+    def _check_parameters(
+            self, parameters, block, weight, lot, delivery, failed, failed_n):
         """ Check in parameters and return qualification value
             parametes: database for all evaluation
             block: key value for parameters
@@ -99,11 +99,14 @@ class QualityQualificationParameter(orm.Model):
             failed_n: number of NC failed
         """
         parameter = parameters.get(block, {})
-        for item in parameter: #check range in parameter for block
-            if item[0] == 'lot': # uom
+        for item in parameter:  # check range in parameter for block
+            if item[0] == 'lot':
                 total = lot
-            else:
+            elif item[0] == 'weight':
                 total = weight
+            elif item[0] == 'delivery':  # uom:
+                total = delivery
+
 
             if (total >= item[1][0]) and (
                     not item[1][1] or total < item[1][1]):
@@ -111,7 +114,7 @@ class QualityQualificationParameter(orm.Model):
                     # Choose % value or number:
                     if line.value == 'perc':
                         fail = failed
-                    else: # 'number'
+                    else:  # 'number'
                         fail = failed_n
 
                     if (fail >= line.perc_from) and (

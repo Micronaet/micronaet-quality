@@ -23,7 +23,7 @@ from openerp import netsvc
 import logging
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -87,13 +87,13 @@ class mail_thread(osv.osv):
         current_proxy = self.browse(cr, uid, ids, context=context)[0]
 
         # Default part of message:
-        message = { 
+        message = {
             'subject': _("Changing state:"),
             'body': _("State variation in <b>%s</b>") % current_proxy.state,
             'type': 'comment', #'notification', 'email',
             'subtype': False,  #parent_id, #attachments,
             'content_subtype': 'html',
-            'partner_ids': [],            
+            'partner_ids': [],
             'email_from': 'openerp@micronaet.it', #wizard.email_from,
             'context': context,
             }
@@ -101,24 +101,24 @@ class mail_thread(osv.osv):
         #    task_proxy.assigned_user_id.partner_id.id)
         self.message_subscribe_users(
             cr, uid, ids, user_ids=[uid], context=context)
-                        
+
         msg_id = self.message_post(cr, uid, ids, **message)
-        #if notification: 
+        #if notification:
         #    _logger.info(">> Send mail notification! [%s]" % message[
         #    'partner_ids'])
         #    self.pool.get(
-        #        'mail.notification')._notify(cr, uid, msg_id, 
-        #        message['partner_ids'], 
+        #        'mail.notification')._notify(cr, uid, msg_id,
+        #        message['partner_ids'],
         #        context=context
-        #        )       
-        return    
+        #        )
+        return
 
 class quality_conformed_external(osv.osv):
     """ Forms of not conformed
     """
     _name = 'quality.conformed.external'
     _inherit = ['mail.thread']
-    
+
     _description = 'Not conformed external'
     _order = 'ref desc'
     _rec_name = 'ref'
@@ -138,11 +138,11 @@ class quality_conformed_external(osv.osv):
         if external_proxy.ref:
             ref = external_proxy.ref
         else:
-            if external_proxy.mode == 'internal':                
-                ref = self.pool.get('ir.sequence').get(cr, uid, 
+            if external_proxy.mode == 'internal':
+                ref = self.pool.get('ir.sequence').get(cr, uid,
                     'quality.conformed.internal')
             else: #supplier
-                ref = self.pool.get('ir.sequence').get(cr, uid, 
+                ref = self.pool.get('ir.sequence').get(cr, uid,
                     'quality.conformed.external')
 
         self.write(cr, uid, ids, {
@@ -192,7 +192,7 @@ class quality_conformed_external(osv.osv):
         ], 'Mode', required=True, select=True),
         'origin_other': fields.char('Other', size=60),
         'reference_user_id': fields.many2one(
-            'res.users', 'Ref. user', 
+            'res.users', 'Ref. user',
             help='Ref. user when no origin from claim'),
         'note_RAQ': fields.text('Note RAQ'),
         'stock_note': fields.text('Stock note'),
@@ -200,9 +200,9 @@ class quality_conformed_external(osv.osv):
         'treatment': fields.text('Treatment'),
         'judgement': fields.text('Judgement'),
         'judgement_date': fields.date('Data del giudizio'),
-        'state':fields.selection(conformed_external_state, 'State', 
+        'state':fields.selection(conformed_external_state, 'State',
             select=True, readonly=True),
-        #'aesthetic_packaging': fields.boolean('Confezione'),        
+        #'aesthetic_packaging': fields.boolean('Confezione'),
         #'quantity': fields.boolean('Quantity'),
         #'sanitation': fields.boolean('Sanitation'),
         #'temperature': fields.boolean('Temperature'),
@@ -222,33 +222,33 @@ class quality_conformed_external(osv.osv):
         #'other':fields.char('Other', size=100),
         #'claim_id': fields.many2one('quality.claim', 'Claim'),
         #'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
-        #'acceptation_id': fields.many2one('quality.acceptation', 
+        #'acceptation_id': fields.many2one('quality.acceptation',
         #    'Acceptation'),
         #'ddt_ref': fields.char('DDT reference', size=50),
         # TODO mandatory??
-        #'lot_id':fields.many2one('stock.production.lot', 'Real Lot'), 
+        #'lot_id':fields.many2one('stock.production.lot', 'Real Lot'),
         #'label_lot': fields.char('Label Lot', size=25),
         #'label_supplier': fields.char('Label Supplier', size=50),
-        #'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+        #'lot_deadline': fields.related('lot_id', 'real_deadline', type='char',
         #    string='Lot Deadline', store=False),
         #'cancel': fields.boolean('Cancel'),
-        #'supplier_lot': fields.related('lot_id', 'default_supplier_id', 
+        #'supplier_lot': fields.related('lot_id', 'default_supplier_id',
         #    type='many2one', relation='res.partner', string='Supplier'),
         #'descr_product': fields.related('lot_id', 'product_id',
-        #    type='many2one', relation='product.product', 
+        #    type='many2one', relation='product.product',
         #    string='Product description'),
         #'note_warehouse': fields.text('Note Warehouse'),
         # TODO Change reference field:
-        #'comunication_ids': fields.one2many('quality.comunication', 
+        #'comunication_ids': fields.one2many('quality.comunication',
         #    'conformed_id', 'Comunications'),
-        #'treatment_ids': fields.one2many('quality.treatment', 'conformed_id', 
+        #'treatment_ids': fields.one2many('quality.treatment', 'conformed_id',
         #    'Treatments'),
-        #'parent_sampling_id': fields.many2one('quality.sampling', 
+        #'parent_sampling_id': fields.many2one('quality.sampling',
         #    'Parent Sampling', ondelete='set null'),
-        #'sampling_id': fields.many2one('quality.sampling', 'Sampling', 
+        #'sampling_id': fields.many2one('quality.sampling', 'Sampling',
         #    ondelete='set null'),
-        #'sampling_state': fields.related('sampling_id', 'state', 
-        #    type='selection', selection=sampling_state, 
+        #'sampling_state': fields.related('sampling_id', 'state',
+        #    type='selection', selection=sampling_state,
         #    string='Sampling state', store=False),
         # TODO fields.relater sampling_id state (come per action)
 
@@ -261,8 +261,8 @@ class quality_conformed_external(osv.osv):
             DEFAULT_SERVER_DATE_FORMAT),
         'origin': lambda *a: 'other',
         'state': lambda *a: 'draft',
-        }        
-        
+        }
+
 # -----------------------------------------------------------------------------
 #                                    CLAIMS:
 # -----------------------------------------------------------------------------
@@ -270,7 +270,7 @@ class res_users(osv.osv):
     """ Add signature
     """
     _inherit = 'res.users'
-    
+
     _columns = {
         'signature_image': fields.binary('Signature', filters=None),
         }
@@ -282,14 +282,14 @@ class quality_origin(osv.osv):
     _description = 'Origin'
 
     _columns = {
-        'name':fields.char('Description', size=64, required=True, 
+        'name':fields.char('Description', size=64, required=True,
             translate=True),
         'note': fields.text('Note'),
         'type':fields.selection([
             ('claim','Claim'),
             #('action','Action'),
             ], 'Type', select=True),
-        
+
         'access_id': fields.integer('Access ID'),
     }
 
@@ -300,7 +300,7 @@ class quality_claim_cause(osv.osv):
     _description = 'Claim cause'
 
     _columns = {
-        'name':fields.char('Description', size=64, required=True, 
+        'name':fields.char('Description', size=64, required=True,
             translate=True),
         'note': fields.text('Note'),
 
@@ -314,7 +314,7 @@ class quality_gravity(osv.osv):
     _description = 'Claim gravity'
 
     _columns = {
-        'name':fields.char('Description', size=64, required=True, 
+        'name':fields.char('Description', size=64, required=True,
             translate=True),
         'note': fields.text('Note'),
 
@@ -344,7 +344,7 @@ class stock_production_lot(osv.osv):
         """
         #model_pool = self.pool.get('ir.model.data')
         #view_id = model_pool.get_object_reference('module_name', 'view_name')[1]
-        
+
         current = self.browse(cr, uid, ids, context=context)[0]
         acceptation_ids = [item.id for item in current.acceptation_ids]
         if len(acceptation_ids) == 1:
@@ -355,7 +355,7 @@ class stock_production_lot(osv.osv):
             view_mode = 'tree,mode'
             res_id = False
             views = [(False, 'tree'), (False, 'form')]
-        
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Result for view_name'),
@@ -370,7 +370,7 @@ class stock_production_lot(osv.osv):
             'target': 'current', # 'new'
             'nodestroy': False,
             }
-        
+
     # -------------------------------------------------------------------------
     # Fields function:
     # -------------------------------------------------------------------------
@@ -379,30 +379,30 @@ class stock_production_lot(osv.osv):
         """
         res = {}
         for lot in self.browse(cr, uid, ids, context=context):
-            res[lot.id] = []            
+            res[lot.id] = []
             for line in lot.line_ids:
                 acceptation_id = line.acceptation_id.id
                 if acceptation_id not in res[lot.id]:
                     res[lot.id].append(acceptation_id)
         return res
-            
+
     _columns = {
         'default_supplier_id': fields.many2one('res.partner', 'Supplier'),
-        'obsolete': fields.boolean('Obsolete', 
+        'obsolete': fields.boolean('Obsolete',
             help='Indicates that the lot is old'),
         'deadline': fields.date('Deadline'),
         'real_deadline': fields.char('Real deadline', size=12),
         'line_ids': fields.one2many(
             'quality.acceptation.line', 'lot_id', 'Riga accettazione'),
         'acceptation_ids': fields.function(
-            _get_acceptation_ids, method=True, 
+            _get_acceptation_ids, method=True,
             type='many2many', relation='quality.acceptation',
-            string='Accettazioni', store=False), 
-                        
+            string='Accettazioni', store=False),
+
 
         'access_id': fields.integer('Access ID'),
         }
-    
+
     _defaults = {
         'obsolete': lambda *a: False,
         }
@@ -425,7 +425,7 @@ class quality_claim(osv.osv):
         """ Set claim to parent partner not destination
         """
         claim_ids = self.search(cr, uid, [], context=context)
-        for claim in self.browse(cr, uid, claim_ids, context=context):            
+        for claim in self.browse(cr, uid, claim_ids, context=context):
             if claim.partner_id and claim.partner_id.parent_id:
                 try:
                     self.write(cr, uid, claim.id, {
@@ -435,7 +435,7 @@ class quality_claim(osv.osv):
                 except:
                     _logger.error("Error changing partner: %s" % claim.ref)
         return True
-    
+
     # -------------
     # Button event:
     # -------------
@@ -447,18 +447,18 @@ class quality_claim(osv.osv):
            'report_name': 'quality_fast_claim_report',
            'model': 'quality.claim',
            }
-        
-        
+
+
     def open_real_lot_elements(self, cr, uid, ids, context=None):
         """ Open sampling present
         """
         assert len(ids), 'Works only for one claim a time!'
-        
+
         res = []
         for line in self.browse(cr, uid, ids, context=context)[0].product_ids:
             if line.real_lot_id:
                 res.append(line.real_lot_id.id)
-                
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Real lot claimed'),
@@ -492,14 +492,14 @@ class quality_claim(osv.osv):
             'name': claim_proxy.name,
             'date': datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
             'claim_id': ids[0],
-            'origin': 'claim',            
+            'origin': 'claim',
             'type': 'corrective',
         }, context=context)
         self.write(cr, uid, ids, {'action_id': action_id, }, context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.action', action_id, 
+        wf_service.trg_validate(uid, 'quality.action', action_id,
             'trigger_action_draft_opened', cr)
 
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
@@ -516,7 +516,7 @@ class quality_claim(osv.osv):
             #'default': 'form'
             #'type': 'form'
             #'domain': [],
-            #'context': context,            
+            #'context': context,
             })
 
     def create_sampling(self, cr, uid, ids, context=None):
@@ -533,12 +533,12 @@ class quality_claim(osv.osv):
                 0].real_lot_id.id,
 
         }, context=context)
-        self.write(cr, uid, ids, {'sampling_id': sampling_id, }, 
+        self.write(cr, uid, ids, {'sampling_id': sampling_id, },
             context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.sampling', sampling_id, 
+        wf_service.trg_validate(uid, 'quality.sampling', sampling_id,
             'trigger_sampling_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.sampling',
@@ -561,23 +561,23 @@ class quality_claim(osv.osv):
                 0].real_lot_id.id,
             'label_lot': claim_proxy.product_ids and claim_proxy.product_ids[
                 0].label_lot,
-            'label_supplier': 
+            'label_supplier':
                 claim_proxy.product_ids and claim_proxy.product_ids[
                     0].label_supplier,
             }, context=context)
-        self.write(cr, uid, ids, {'conformed_id': conformed_id, }, 
+        self.write(cr, uid, ids, {'conformed_id': conformed_id, },
             context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.conformed', conformed_id, 
+        wf_service.trg_validate(uid, 'quality.conformed', conformed_id,
             'trigger_conformed_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.conformed',
             'module': 'quality',
             'record': conformed_id,
             })
-        
+
         #onchange
     def onchange_search_code(self, cr, uid, ids, search_code, context=None):
         """ Insert and trasform the code
@@ -588,32 +588,32 @@ class quality_claim(osv.osv):
         code = search_code.split(".")
         if len(code) != 2:
             res['warning'] = {
-                'title': _("Warning"),  
+                'title': _("Warning"),
                 'message': _('Wrong code, format: 06.00001'),
                 }
             return res
-            
+
         search_code= "%s.%05d" % (code[0], int(code[1]))
         res['value'] = {}
         res['value']['search_code'] = search_code
-        
+
         partner_pool = self.pool.get('res.partner')
-        partner_ids = partner_pool.search(cr, uid, ['|', '|', 
+        partner_ids = partner_pool.search(cr, uid, ['|', '|',
             ('sql_customer_code', '=', search_code),
             ('sql_supplier_code', '=', search_code),
             ('sql_destination_code', '=', search_code)], context=context)
 
-        if not partner_ids:   
+        if not partner_ids:
             res['warning'] = {
-                'title': _("Warning"),  
+                'title': _("Warning"),
                 'message': _('No record found!'),
                 }
-            return res            
-            
+            return res
+
         partner_proxy = partner_pool.browse(
             cr, uid, partner_ids, context=context)[0]
-         
-        if partner_proxy.is_address: #partner_proxy.parent_id.id: 
+
+        if partner_proxy.is_address: #partner_proxy.parent_id.id:
             res['value']['partner_id'] = partner_proxy.parent_id.id
             res['value']['partner_address_id'] = partner_proxy.id
         else:
@@ -624,7 +624,7 @@ class quality_claim(osv.osv):
         """ Fields function for calculate
         """
         res = {}
-        for claim in self.browse(cr, uid, ids, context=context):            
+        for claim in self.browse(cr, uid, ids, context=context):
             res[claim.id] = ''
             for line in claim.product_ids:
                 if line.real_lot_id:
@@ -633,10 +633,10 @@ class quality_claim(osv.osv):
                         line.real_supplier_id.name or '??',
                         )
         return res
-        
-    # -------------------------------------------------------------------------    
+
+    # -------------------------------------------------------------------------
     # Fields:
-    # -------------------------------------------------------------------------    
+    # -------------------------------------------------------------------------
     def _get_partner_name(self, cr, uid, ids, fields, args, context=None):
         """ Fields function for calculate
         """
@@ -644,10 +644,10 @@ class quality_claim(osv.osv):
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = item.partner_id.name or ''
         return res
-        
-    # -------------------------------------------------------------------------    
+
+    # -------------------------------------------------------------------------
     # Store function:
-    # -------------------------------------------------------------------------    
+    # -------------------------------------------------------------------------
     def _store_res_partner_name(self, cr, uid, ids, context=None):
         """ Change in res.partner the name
         """
@@ -660,14 +660,14 @@ class quality_claim(osv.osv):
         """
         return ids
 
-    # Search fields function:                
+    # Search fields function:
     def _search_lot_from_claim(self, cr, uid, obj, name, args, context=None):
         """ Search lot or supplier in claims
         """
         try:
             # Search supplier or lot name:
             search_name = args[0][2]
-            product_pool = self.pool.get('quality.claim.product')            
+            product_pool = self.pool.get('quality.claim.product')
             product_ids = product_pool.search(cr, uid, [
                 '|',
                 ('real_lot_id.name', 'ilike', search_name),
@@ -676,11 +676,11 @@ class quality_claim(osv.osv):
             item_ids = [
                 item.claim_id.id for item in product_pool.browse(
                     cr, uid, product_ids, context=context)]
-            return [('id', 'in', item_ids)]        
+            return [('id', 'in', item_ids)]
         except:
-            return []     
-        
-    _columns = {    
+            return []
+
+    _columns = {
         'name': fields.char('Description', size=80, required=True),
         'partner_name': fields.function(
             _get_partner_name, method=True,
@@ -689,21 +689,21 @@ class quality_claim(osv.osv):
                 'res.partner': (_store_res_partner_name, ['name'], 10),
                 'quality.claim': (_store_form_partner_id, ['partner_id'], 10),
                 }),
-                        
+
         'ref': fields.char('Ref', size=12, readonly=True),
         'customer_ref': fields.char('Customer ref', size=30),
         'date': fields.datetime('Date'),
-        'receive_user_id':fields.many2one('res.users', 'Receive user', 
-            required=True), 
-            
+        'receive_user_id':fields.many2one('res.users', 'Receive user',
+            required=True),
+
         # Fast insert:
-        'fast_insert': fields.boolean('Fast insert'),    
+        'fast_insert': fields.boolean('Fast insert'),
         'request_quantity': fields.char('Request quantity', size=40),
         'fast_note': fields.text('Fast note',
-            help='Note from fast insert user (not write in reports)'),            
+            help='Note from fast insert user (not write in reports)'),
 
         'subject': fields.text('Description of not conformed'),
-        'comunication': fields.text('Comunication message', 
+        'comunication': fields.text('Comunication message',
             help='Comunication message, if sent by mail could be the body text, instead could be phone contact dialog'),
         'analysis': fields.text('Cause analysis'),
         'responsability': fields.text('Responsability'),
@@ -711,14 +711,14 @@ class quality_claim(osv.osv):
         'consideration': fields.text('Consideration'),
         'treatment_conformed': fields.text('Treatment of not conformed'),
 
-        'partner_id': fields.many2one('res.partner', 'Customer', 
+        'partner_id': fields.many2one('res.partner', 'Customer',
             required=True),
         'partner_address_id': fields.many2one('res.partner', 'Destination'),
         'partner_ref': fields.char('Contact', size=64),
 
         'request_return': fields.boolean('Product return request'),
         #'RAQ_saw': fields.boolean('RAQ saw'),
-        'RTR_request': fields.boolean('RTR request for the return of product', 
+        'RTR_request': fields.boolean('RTR request for the return of product',
             help="Send an alert to logistic for activate return of products"),
         'ddt_date': fields.date('Date DDT'),
         'ddt_ref': fields.char('DDT ref.', size=20),
@@ -735,27 +735,27 @@ class quality_claim(osv.osv):
         'cause_id': fields.many2one('quality.claim.cause', 'Cause'),
         'gravity_id': fields.many2one('quality.gravity', 'Gravity'),
 
-        'reference_user_id': fields.many2one('res.users', 'Reference user', 
+        'reference_user_id': fields.many2one('res.users', 'Reference user',
             help="Reference for claim to your customer"),
-        'insert_user_id': fields.many2one('res.users', 'Insert user', 
+        'insert_user_id': fields.many2one('res.users', 'Insert user',
             readonly=True),
         'date_insert_user': fields.datetime('Date creation', readonly=True),
-        'comunication_user_id': fields.many2one('res.users', 
+        'comunication_user_id': fields.many2one('res.users',
             'Comunication user', readonly=True),
-        'date_comunication': fields.datetime('Date comunication', 
+        'date_comunication': fields.datetime('Date comunication',
             readonly=True),
-        'open_user_id': fields.many2one('res.users', 'Opened user', 
+        'open_user_id': fields.many2one('res.users', 'Opened user',
             readonly=True),
         'date_open': fields.datetime('Date opened', readonly=True),
-        'nc_user_id': fields.many2one('res.users', 'Credit Note User', 
+        'nc_user_id': fields.many2one('res.users', 'Credit Note User',
             readonly=True),
         'date_nc': fields.datetime('Date Credit Note', readonly=True),
-        'close_user_id': fields.many2one('res.users', 'Closed user', 
+        'close_user_id': fields.many2one('res.users', 'Closed user',
             readonly=True),
         'closed_date': fields.datetime('Date Closed', readonly=True),
         'RAQ_id': fields.many2one('res.users', 'RAQ', readonly=True),
         'date_RAQ': fields.datetime('Date confirm RAQ', readonly=True),
-        'cancel_user_id': fields.many2one('res.users', 'Cancel user', 
+        'cancel_user_id': fields.many2one('res.users', 'Cancel user',
             readonly=True),
         'date_cancel': fields.datetime('Date cancel', readonly=True),
 
@@ -780,7 +780,7 @@ class quality_claim(osv.osv):
         ],'State', select=True, readonly=True),
 
         # used only for WF trigger (removable)
-        'need_accredit': fields.boolean('Need accredit'), 
+        'need_accredit': fields.boolean('Need accredit'),
         'access_id': fields.integer('Access ID'),
         }
 
@@ -828,7 +828,7 @@ class quality_claim(osv.osv):
             'state': 'comunication',
             'comunication_user_id': uid,
             'date_comunication': datetime.now().strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT), 
+                DEFAULT_SERVER_DATETIME_FORMAT),
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
@@ -850,14 +850,14 @@ class quality_claim(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-                    
+
     def claim_nc(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'nc',
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-                    
+
     def claim_done(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'done',
@@ -866,7 +866,7 @@ class quality_claim(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-                    
+
     def claim_closed(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'closed',
@@ -876,7 +876,7 @@ class quality_claim(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-        
+
     def claim_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'cancel',
@@ -886,7 +886,7 @@ class quality_claim(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-                    
+
     def claim_saw(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'saw',
@@ -931,7 +931,7 @@ class quality_claim_product(osv.osv):
         res = {}
         if real_lot_id:
             real_lot_pool = self.pool.get('stock.production.lot')
-            real_lot_proxy = real_lot_pool.browse(cr, uid, real_lot_id, 
+            real_lot_proxy = real_lot_pool.browse(cr, uid, real_lot_id,
                 context=context)
             res['value'] = {}
             try:
@@ -948,12 +948,12 @@ class quality_claim_product(osv.osv):
     def open_external_conformed(self, cr, uid, ids, context=None):
         """ Open form, if not present create new
         """
-        external_pool = self.pool.get('quality.conformed.external')        
+        external_pool = self.pool.get('quality.conformed.external')
         origin_proxy = self.browse(cr, uid, ids, context=context)[0]
-        
+
         external_id = origin_proxy.conformed_external_id.id
         now = ('%s' % datetime.now())[:19]
-        if not external_id:            
+        if not external_id:
             external_id = external_pool.create(cr, uid, {
                 'claim_id': origin_proxy.claim_id.id,
                 'insert_date': now,
@@ -969,15 +969,15 @@ class quality_claim_product(osv.osv):
             self.write(cr, uid, ids, {
                 'conformed_external_id': external_id,
                 }, context=context)
-         
-        # ---------------------------------------------------------------------       
+
+        # ---------------------------------------------------------------------
         # Open form:
-        # ---------------------------------------------------------------------       
+        # ---------------------------------------------------------------------
         #model_pool = self.pool.get('ir.model.data')
         #view_id = model_pool.get_object_reference(
         #    cr, uid, 'module_name', 'view_name')[1]
         view_id = False
-        
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Not conformed External'),
@@ -992,33 +992,33 @@ class quality_claim_product(osv.osv):
             'target': 'current', # 'new'
             'nodestroy': False,
             }
-    
+
     _columns = {
         # Linked to external not conformed:
         'conformed_external_id': fields.many2one(
-            'quality.conformed.external', 'External conformed', 
+            'quality.conformed.external', 'External conformed',
             ondelete='set null'),
-            
+
         'return_date': fields.date('Return date'),
         'return_qty': fields.float('Return q.', digits=(16, 3)),
         'lot_id':fields.many2one('stock.production.lot', 'Lot', required=True),
-        'real_lot_id':fields.many2one('stock.production.lot', 'Real lot', 
+        'real_lot_id':fields.many2one('stock.production.lot', 'Real lot',
             required=True),
 
         'real_supplier_id': fields.related('real_lot_id','default_supplier_id',
             type='many2one', relation='res.partner', string='Real Supplier'),
-        'product_id': fields.related('lot_id', 'product_id', type='many2one', 
+        'product_id': fields.related('lot_id', 'product_id', type='many2one',
             relation='product.product', string='Product'),
-        'real_product_id': fields.related('real_lot_id', 'product_id', 
-            type='many2one', relation='product.product', 
+        'real_product_id': fields.related('real_lot_id', 'product_id',
+            type='many2one', relation='product.product',
             string='Real product'),
 
         #'real_product_id': fields.many2one('product.product', 'Real product'),
-        'claim_id':fields.many2one('quality.claim', 'Claim', 
+        'claim_id':fields.many2one('quality.claim', 'Claim',
             ondeleted='cascade'),
         'label_lot': fields.char('Label Lot', size=50),
         'label_supplier': fields.char('Label Supplier', size=50),
-        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char',
             string='Lot deadline', store=False),
 
         'access_id': fields.integer('Access ID'),
@@ -1032,22 +1032,22 @@ class quality_acceptation(osv.osv):
     """
     _name = 'quality.acceptation'
     _inherit = ['mail.thread']
-    
+
     _description = 'Acceptation'
     _order = 'ref desc'
     _rec_name = 'ref'
-    
+
     # Button event:
     def open_nc_elements(self, cr, uid, ids, context=None):
         """ Open NC present
         """
         assert len(ids), 'Works only for one accepation a time!'
-        
+
         res = []
         for line in self.browse(cr, uid, ids, context=context)[0].line_ids:
             if line.conformed_id:
                 res.append(line.conformed_id.id)
-                
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('NC from acceptation'),
@@ -1066,12 +1066,12 @@ class quality_acceptation(osv.osv):
         """ Open sampling present
         """
         assert len(ids), 'Works only for one accepation a time!'
-        
+
         res = []
         for line in self.browse(cr, uid, ids, context=context)[0].line_ids:
             if line.sampling_id:
                 res.append(line.sampling_id.id)
-                
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Sampling from acceptation'),
@@ -1085,39 +1085,39 @@ class quality_acceptation(osv.osv):
             'target': 'current', # 'new'
             'nodestroy': False,
             }
-            
+
     # Fields function:
     def _get_nc_from_lines(self, cr, uid, ids, fields, args, context=None):
         """ Fields function for calculate
         """
         res = {}
-        for acceptation in self.browse(cr, uid, ids, context=context):            
+        for acceptation in self.browse(cr, uid, ids, context=context):
             res[acceptation.id] = ''
             for line in acceptation.line_ids:
                 if line.conformed_id:
                     res[acceptation.id] += '%s ' % (
                         line.conformed_id.ref)
-        return res            
+        return res
 
     def _get_sampling_from_lines(self, cr, uid, ids, fields, args, context=None):
         """ Fields function for calculate
         """
         res = {}
-        for acceptation in self.browse(cr, uid, ids, context=context):            
+        for acceptation in self.browse(cr, uid, ids, context=context):
             res[acceptation.id] = ''
             for line in acceptation.line_ids:
                 if line.sampling_id:
                     res[acceptation.id] += '%s ' % (
                         line.sampling_id.ref or '??')
-        return res            
-        
+        return res
+
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'date': fields.date('Date', required=True),
         'origin': fields.char('BF document', size=50),
         'partner_id': fields.many2one('res.partner', 'Supplier'),
         'note': fields.text('Note'),
-        
+
         # Function fields:
         'nc_list': fields.function(
             _get_nc_from_lines, method=True, type='char', size=100,
@@ -1125,11 +1125,11 @@ class quality_acceptation(osv.osv):
         'sampling_list': fields.function(
             _get_sampling_from_lines, method=True, type='char', size=100,
             string='Sampling opened', store=False),
-        
-        'state':fields.selection(acceptation_state, 'State', select=True, 
+
+        'state':fields.selection(acceptation_state, 'State', select=True,
             readonly=True),
         'cancel': fields.boolean('Cancel'),
-        
+
         'access_id': fields.integer('Access ID'),
     }
 
@@ -1137,7 +1137,7 @@ class quality_acceptation(osv.osv):
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
         'state': lambda *a: 'opened',
         }
-    
+
     # ---------------------------
     # Workflow Activity Function:
     # ---------------------------
@@ -1146,7 +1146,7 @@ class quality_acceptation(osv.osv):
         if acceptation_proxy.ref:
             ref = acceptation_proxy.ref
         else:
-            ref = self.pool.get('ir.sequence').get(cr, uid, 
+            ref = self.pool.get('ir.sequence').get(cr, uid,
                 'quality.acceptation')
         self.write(cr, uid, ids, {
             'state': 'opened',
@@ -1175,7 +1175,7 @@ class quality_acceptation_line(osv.osv):
     _name = 'quality.acceptation.line'
     _description = 'Acceptation line'
     _rec_name = 'product_id'
-    
+
     # --------------
     # Button action:
     # --------------
@@ -1193,11 +1193,11 @@ class quality_acceptation_line(osv.osv):
         """ Return view for see all claims:
         """
         sampling_pool = self.pool.get('quality.sampling')
-        
+
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
         if line_proxy.sampling_id:
             sampling_id = line_proxy.sampling_id.id
-        else: 
+        else:
             # create sampling
             sampling_id = sampling_pool.create(cr, uid, {
                 'lot_id': line_proxy.lot_id.id,
@@ -1206,12 +1206,12 @@ class quality_acceptation_line(osv.osv):
                 'origin': 'acceptation',
                 'acceptation_id': line_proxy.acceptation_id.id,
                 }, context=context)
-            
-            # Save reference:    
+
+            # Save reference:
             self.write(cr, uid, ids, {
                 'sampling_id': sampling_id,
-                }, context=context)    
-            
+                }, context=context)
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Acceptation sampling'),
@@ -1226,10 +1226,10 @@ class quality_acceptation_line(osv.osv):
             'target': 'current', # 'new'
             'nodestroy': False,
         }
-    
+
     # --------
     # Utility:
-    # --------    
+    # --------
     def create_conformed(self, cr, uid, ids, context=None):
         """ Ex button now utility for create a NC
         """
@@ -1241,14 +1241,14 @@ class quality_acceptation_line(osv.osv):
             'origin': 'acceptation',
             'genesis': 'acceptance',
             'lot_id': line_proxy and line_proxy.lot_id.id,
-            
+
         }, context=context)
         self.write(cr, uid, ids, {
             'conformed_id': conformed_id},  context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.conformed', conformed_id, 
+        wf_service.trg_validate(uid, 'quality.conformed', conformed_id,
             'trigger_conformed_draft_opened', cr)
         return True
 
@@ -1257,30 +1257,30 @@ class quality_acceptation_line(osv.osv):
     # ------------------
     def create(self, cr, uid, vals, context=None):
         """ Generate not conformed if one problem is fount
-        """    
+        """
         # Technically during creation there's not check operation (automated)
         res_id = osv.osv.create(self, cr, uid, vals, context=context)
-        
+
         # If theres a problems create a not conformed:
-        if (vals.get('qty', False) or vals.get('temp', False) or 
-            vals.get('label', False) or vals.get('package', False) or 
+        if (vals.get('qty', False) or vals.get('temp', False) or
+            vals.get('label', False) or vals.get('package', False) or
             vals.get('expired', False)):
                 self.create_conformed(cr, uid, ids, context=context)
         return res_id
 
     def write(self, cr, uid, ids, vals, context=None):
         """ Generate not conformed if one problem is fount
-        """    
+        """
         osv.osv.write(self, cr, uid, ids, vals, context=context)
         line_proxy = self.browse(cr, uid, ids, context=context)[0]
-        
+
         if not line_proxy.conformed_id:
             # If there's a problems create a not conformed:
-            if (line_proxy.qty or line_proxy.temp or line_proxy.label or 
+            if (line_proxy.qty or line_proxy.temp or line_proxy.label or
                 line_proxy.package or line_proxy.expired):
                     self.create_conformed(cr, uid, ids, context=context)
             return True
-    
+
     _columns = {
         'acceptation_id': fields.many2one('quality.acceptation', 'Acceptation'),
         'lot_id':fields.many2one('stock.production.lot', 'Lot'),
@@ -1288,19 +1288,19 @@ class quality_acceptation_line(osv.osv):
         'qty_arrived': fields.float('Quantity Arrived', digits=(16, 2)),
         'qty_expected': fields.float('Quantity Expected', digits=(16, 2)),
         'um': fields.char('UM', size=4),
-        
+
         # Problems to check:
         'qty': fields.boolean('Quantity'),
         'temp': fields.boolean('Temperature'),
         'label': fields.boolean('Label'),
         'package': fields.boolean('Package'),
         'quality': fields.boolean('Quality'),
-        'expired': fields.boolean('Expired'),        
-        
+        'expired': fields.boolean('Expired'),
+
         'motivation': fields.text('Motivation'),
         'access_id': fields.integer('Access ID'),
     }
-    
+
     _defaults = {
         'qty': False,
         'temp': False,
@@ -1311,7 +1311,7 @@ class quality_acceptation_line(osv.osv):
     }
 
 # -----------------------------------------------------------------------------
-#                                     SAMPLING          
+#                                     SAMPLING
 # -----------------------------------------------------------------------------
 class quality_sampling_plan(osv.osv):
     """ Sampling Plan
@@ -1327,7 +1327,7 @@ class quality_sampling_plan(osv.osv):
         'glazing': fields.boolean('Need Glazing'),
         'analysis': fields.boolean('Need Analysis'),
         'note': fields.text('Note'),
-        
+
         'access_id': fields.integer('Access ID'),
     }
 
@@ -1348,7 +1348,7 @@ class quality_sampling(osv.osv):
         """ Print report directly in form (for calendar form)
         """
         return {
-           'type': 'ir.actions.report.xml', 
+           'type': 'ir.actions.report.xml',
            'report_name': 'quality_sampling_report',
            'model': 'quality.sampling',
            }
@@ -1364,12 +1364,12 @@ class quality_sampling(osv.osv):
             'origin': 'sampling',
             'lot_id': sampling_proxy and sampling_proxy.lot_id.id,
         }, context=context)
-        self.write(cr, uid, ids, 
+        self.write(cr, uid, ids,
             {'conformed_id': conformed_id, }, context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.conformed', conformed_id, 
+        wf_service.trg_validate(uid, 'quality.conformed', conformed_id,
             'trigger_conformed_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.conformed',
@@ -1380,7 +1380,7 @@ class quality_sampling(osv.osv):
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'date': fields.date('Date', required=True),
-        'lot_id':fields.many2one('stock.production.lot', 'Real Lot', 
+        'lot_id':fields.many2one('stock.production.lot', 'Real Lot',
             required=True),
         'origin': fields.selection([
             #('direction', 'Direction exam'),
@@ -1389,21 +1389,21 @@ class quality_sampling(osv.osv):
             ('acceptation', 'Acceptation'),
             ('packaging', 'Packaging'),
             ('nc', 'Not conformed'),
-            ('other', 'Other'),            
+            ('other', 'Other'),
         ], 'Origin', select=True),
         'origin_other': fields.char('Other', size=60),
         'claim_id': fields.many2one('quality.claim', 'Claim'),
-        'conformed_id': fields.many2one('quality.conformed', 'Not conformed', 
+        'conformed_id': fields.many2one('quality.conformed', 'Not conformed',
             required=False),
-        'acceptation_id': fields.many2one('quality.acceptation', 
+        'acceptation_id': fields.many2one('quality.acceptation',
             'Acceptation'),
-        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char',
             string='Lot deadline', store=False),
-        'lot_supplier_id': fields.related('lot_id', 'default_supplier_id', 
+        'lot_supplier_id': fields.related('lot_id', 'default_supplier_id',
             type='many2one', relation='res.partner', string='Lot supplier',
             store=False,
             ),
-        'lot_product_id': fields.related('lot_id', 'product_id', 
+        'lot_product_id': fields.related('lot_id', 'product_id',
             type='many2one', relation='product.product', string='Lot prod.',
             store=False,
             ),
@@ -1447,14 +1447,14 @@ class quality_sampling(osv.osv):
         'weight_drained': fields.float('Sample weight drained'),
         'perc_glazing_calculated': fields.float('Glazing calculated (%)'),
         'glazing_ok': fields.boolean('Conformed'),
-        'sampling_plan_id': fields.many2one('quality.sampling.plan', 
+        'sampling_plan_id': fields.many2one('quality.sampling.plan',
             'Sampling Plan'),
         'cancel': fields.boolean('Cancel'),
-    
+
         'taster_ids': fields.one2many('quality.sampling.taster', 'sample_id'),
         'note': fields.text('Note'),
 
-        'state': fields.selection(sampling_state, 'State', select=True, 
+        'state': fields.selection(sampling_state, 'State', select=True,
             readonly=True),
 
         'access_id': fields.integer('Access ID'),
@@ -1487,19 +1487,19 @@ class quality_sampling(osv.osv):
                 'visual_state': 'passed' if result else 'not_passed',
                 'visual_ok': result,
             }, context=context)
-            
+
         if button == '2': # analysis
             return self.write(cr, uid, ids, {
                 'analysis_state': 'passed' if result else 'not_passed',
                 'analysis_ok': result,
             }, context=context)
-            
+
         if button == '3': # taste
             return self.write(cr, uid, ids, {
                 'taste_state': 'passed' if result else 'not_passed',
                 'taste_ok': result,
             }, context=context)
-        
+
         if button == '4': # glazing
             return self.write(cr, uid, ids, {
                 'glazing_state': 'passed' if result else 'not_passed',
@@ -1509,7 +1509,7 @@ class quality_sampling(osv.osv):
     # ---------------
     # Onchange event:
     # ---------------
-    
+
     def onchange_do_visual(self, cr, uid, ids, do_visual, context=None):
         res = {}
         if not do_visual:
@@ -1521,7 +1521,7 @@ class quality_sampling(osv.osv):
         res = {}
         if visual_state:
             visual_pool = self.pool.get('quality.sampling')
-            visual_proxy = visual_pool.browse(cr, uid, visual_state, 
+            visual_proxy = visual_pool.browse(cr, uid, visual_state,
                 context=context)
             res['value'] = {}
             try:
@@ -1540,12 +1540,12 @@ class quality_sampling(osv.osv):
             res['value']['analysis_state'] = 'to_examined'
         return res
 
-    def onchange_analysis_state(self, cr, uid, ids, analysis_state, 
+    def onchange_analysis_state(self, cr, uid, ids, analysis_state,
             context=None):
         res = {}
         if analysis_state:
             analysis_pool = self.pool.get('quality.sampling')
-            analysis_proxy = analysis_pool.browse(cr, uid, analysis_state, 
+            analysis_proxy = analysis_pool.browse(cr, uid, analysis_state,
                 context=context)
             res['value'] = {}
             try:
@@ -1568,7 +1568,7 @@ class quality_sampling(osv.osv):
         res = {}
         if taste_state:
             taste_pool = self.pool.get('quality.sampling')
-            taste_proxy = taste_pool.browse(cr, uid, taste_state, 
+            taste_proxy = taste_pool.browse(cr, uid, taste_state,
                 context=context)
             res['value'] = {}
             try:
@@ -1587,12 +1587,12 @@ class quality_sampling(osv.osv):
             res['value']['glazing_state'] = 'to_examined'
         return res
 
-    def onchange_glazing_state(self, cr, uid, ids, glazing_state, 
+    def onchange_glazing_state(self, cr, uid, ids, glazing_state,
             context=None):
         res = {}
         if glazing_state:
             glazing_pool = self.pool.get('quality.sampling')
-            glazing_proxy = glazing_pool.browse(cr, uid, glazing_state, 
+            glazing_proxy = glazing_pool.browse(cr, uid, glazing_state,
                 context=context)
             res['value'] = {}
             try:
@@ -1633,7 +1633,7 @@ class quality_sampling(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-        
+
     def sampling_notpassed(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'notpassed',
@@ -1682,7 +1682,7 @@ class quality_conformed(osv.osv):
         """ Print report directly in form (for calendar form)
         """
         return {
-           'type': 'ir.actions.report.xml', 
+           'type': 'ir.actions.report.xml',
            'report_name': 'quality_conformed_report',
            'model': 'quality.conformed',
            'datas': context,
@@ -1694,12 +1694,12 @@ class quality_conformed(osv.osv):
         if context is None:
             context = {}
         context['supplier'] = True
-        
+
         return {
-           'type': 'ir.actions.report.xml', 
+           'type': 'ir.actions.report.xml',
            'report_name': 'quality_conformed_report',
            'model': 'quality.conformed',
-           'datas': context,       
+           'datas': context,
            }
 
     def create_action(self, cr, uid, ids, context=None):
@@ -1715,10 +1715,10 @@ class quality_conformed(osv.osv):
             'type': 'corrective',
         }, context=context)
         self.write(cr, uid, ids, {'action_id': action_id, }, context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.action', action_id, 
+        wf_service.trg_validate(uid, 'quality.action', action_id,
             'trigger_action_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.action',
@@ -1739,10 +1739,10 @@ class quality_conformed(osv.osv):
 
         }, context=context)
         self.write(cr, uid, ids, {'sampling_id': sampling_id}, context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'quality.sampling', sampling_id, 
+        wf_service.trg_validate(uid, 'quality.sampling', sampling_id,
             'trigger_sampling_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.sampling',
@@ -1753,8 +1753,8 @@ class quality_conformed(osv.osv):
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'insert_date': fields.date('Insert date', required=True),
-        
-        'aesthetic_packaging': fields.boolean('Confezione'),        
+
+        'aesthetic_packaging': fields.boolean('Confezione'),
         'quantity': fields.boolean('Quantity'),
         'sanitation': fields.boolean('Sanitation'),
         'temperature': fields.boolean('Temperature'),
@@ -1764,7 +1764,7 @@ class quality_conformed(osv.osv):
         'delay': fields.boolean('Ritardo'),
         'no_delivery': fields.boolean('Mancata consegna'),
         'external_material': fields.boolean('Corpi estranei'),
-        
+
         'gravity_id': fields.many2one('quality.gravity', 'Gravity',
             required=True),
         #'genesis':fields.selection([
@@ -1784,24 +1784,24 @@ class quality_conformed(osv.osv):
         ], 'Origin', select=True),
         'origin_other': fields.char('Other', size=60),
         'reference_user_id': fields.many2one(
-            'res.users', 'Ref. user', 
+            'res.users', 'Ref. user',
             help='Ref. user when no origin from claim'),
         'claim_id': fields.many2one('quality.claim', 'Claim'),
         'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
-        'acceptation_id': fields.many2one('quality.acceptation', 
+        'acceptation_id': fields.many2one('quality.acceptation',
             'Acceptation'),
         'ddt_ref': fields.char('DDT reference', size=50),
         # TODO mandatory??
-        'lot_id':fields.many2one('stock.production.lot', 'Real Lot'), 
+        'lot_id':fields.many2one('stock.production.lot', 'Real Lot'),
         'label_lot': fields.char('Label Lot', size=25),
         'label_supplier': fields.char('Label Supplier', size=50),
-        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char', 
+        'lot_deadline': fields.related('lot_id', 'real_deadline', type='char',
             string='Lot Deadline', store=False),
         'cancel': fields.boolean('Cancel'),
-        'supplier_lot': fields.related('lot_id', 'default_supplier_id', 
+        'supplier_lot': fields.related('lot_id', 'default_supplier_id',
             type='many2one', relation='res.partner', string='Supplier'),
         'descr_product': fields.related('lot_id', 'product_id',
-            type='many2one', relation='product.product', 
+            type='many2one', relation='product.product',
             string='Product description'),
 
         'name': fields.text('Type'),
@@ -1810,11 +1810,11 @@ class quality_conformed(osv.osv):
         'comunication_note': fields.text('Comunication note'),
         #'note_warehouse': fields.text('Note Warehouse'),
 
-        'state':fields.selection(conformed_state, 'State', select=True, 
+        'state':fields.selection(conformed_state, 'State', select=True,
             readonly=True),
 
         'access_id': fields.integer('Access ID'),
-        } 
+        }
 
     _defaults = {
         'gravity_id': lambda s, cr, uid, ctx: s.pool.get(
@@ -1848,7 +1848,7 @@ class quality_comunication(osv.osv):
 
     _columns = {
         'name': fields.char('Description', size=200),
-        'type_id': fields.many2one('quality.comunication.type', 'Type', 
+        'type_id': fields.many2one('quality.comunication.type', 'Type',
             required=True),
         'conformed_id': fields.many2one('quality.conformed', 'Not Conformed'),
         'prot_number': fields.char('Protocol n.', size=40, required=True),
@@ -1857,7 +1857,7 @@ class quality_comunication(osv.osv):
 
         'access_id': fields.integer('Access ID'),
         }
-        
+
     _defaults = {
         'prot_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
@@ -1890,9 +1890,9 @@ class quality_conformed(osv.osv):
     _inherit = 'quality.conformed'
 
     _columns = {
-        'comunication_ids': fields.one2many('quality.comunication', 
+        'comunication_ids': fields.one2many('quality.comunication',
             'conformed_id', 'Comunications'),
-        'treatment_ids': fields.one2many('quality.treatment', 'conformed_id', 
+        'treatment_ids': fields.one2many('quality.treatment', 'conformed_id',
             'Treatments'),
         }
 
@@ -1911,7 +1911,7 @@ class quality_conformed(osv.osv):
         if conformed_proxy.ref:
             ref = conformed_proxy.ref
         else:
-            ref = self.pool.get('ir.sequence').get(cr, uid, 
+            ref = self.pool.get('ir.sequence').get(cr, uid,
                 'quality.conformed')
         self.write(cr, uid, ids, {
             'state': 'opened',
@@ -1951,7 +1951,7 @@ class quality_action(osv.osv):
     _name = 'quality.action'
     _inherit = ['mail.thread']
 
-    _description = 'Action'    
+    _description = 'Action'
     _order = 'ref desc'
     _rec_name = 'ref'
 
@@ -1962,7 +1962,7 @@ class quality_action(osv.osv):
         """ Print report directly in form (for calendar form)
         """
         return {
-           'type': 'ir.actions.report.xml', 
+           'type': 'ir.actions.report.xml',
            'report_name': 'quality_action_report',
            'model': 'quality.action',
            }
@@ -1980,7 +1980,7 @@ class quality_action(osv.osv):
 
         # Raise trigger for open AC:
         #wf_service = netsvc.LocalService("workflow")
-        #wf_service.trg_validate(uid, 'quality.action', action_id, 
+        #wf_service.trg_validate(uid, 'quality.action', action_id,
         #    'trigger_action_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.action',
@@ -2014,8 +2014,8 @@ class quality_action(osv.osv):
             ('preventive', 'Preventive'),
             ('enhance', 'Enhance intervent'),
         ], 'Type', select=True),
-        'cancel': fields.boolean('Cancel'),        
-        'state':fields.selection(action_state, 'State', select=True, 
+        'cancel': fields.boolean('Cancel'),
+        'state':fields.selection(action_state, 'State', select=True,
             readonly=True),
 
         'access_id': fields.integer('Access ID'),
@@ -2049,7 +2049,7 @@ class quality_action(osv.osv):
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-            
+
     def action_closed(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'closed',
@@ -2058,14 +2058,14 @@ class quality_action(osv.osv):
                 }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-                
+
     def action_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'cancel',
             }, context=context)
         self.write_object_change_state(cr, uid, ids, context=context)
         return True
-            
+
     def action_saw(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'saw',
@@ -2084,15 +2084,15 @@ class quality_action_intervent(osv.osv):
         'name': fields.text('Proposed activity'),
         'manager_id': fields.many2one('res.users', 'Manager'),
         'deadline': fields.date('Deadline'),
-        'action_id': fields.many2one('quality.action', 'Action', 
+        'action_id': fields.many2one('quality.action', 'Action',
             ondelete='cascade'),
-        #'action_state': fields.related('action_id','state', type='selction', 
+        #'action_state': fields.related('action_id','state', type='selction',
         #    string='State'),
 
         'access_id': fields.integer('Access ID'),
     }
 
-    
+
 class quality_action_intervent_working(osv.osv):
     """ Work in progress intervent activity
     """
@@ -2102,14 +2102,14 @@ class quality_action_intervent_working(osv.osv):
     _columns = {
         'name': fields.char('Description', size=100),
         'date': fields.date('Date'),
-        'intervent_id': fields.many2one('quality.action.intervent', 
+        'intervent_id': fields.many2one('quality.action.intervent',
             'Intervent', ondelete='cascade',
             ),
         'user_id': fields.many2one('res.users', 'User'),
         'note': fields.text('Note'),
         'internal': fields.boolean('Internal'),
     }
-    
+
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
         'user_id': lambda s, cr, uid, ctx: uid,
@@ -2123,7 +2123,7 @@ class quality_action_intervent(osv.osv):
     _inherit = 'quality.action.intervent'
 
     _columns = {
-        'working_ids': fields.one2many('quality.action.intervent.working', 
+        'working_ids': fields.one2many('quality.action.intervent.working',
             'intervent_id', 'Work in progress'),
         }
 
@@ -2134,15 +2134,15 @@ class quality_action(osv.osv):
     _inherit = 'quality.action'
 
     _columns = {
-        'child_id': fields.many2one('quality.action', 'Child', 
+        'child_id': fields.many2one('quality.action', 'Child',
             ondelete='set null'),
-        'parent_id': fields.many2one('quality.action', 'Parent', 
+        'parent_id': fields.many2one('quality.action', 'Parent',
             ondelete='set null'),
-        'intervent_ids': fields.one2many('quality.action.intervent', 
+        'intervent_ids': fields.one2many('quality.action.intervent',
             'action_id', 'Intervent'),
-        'claim_id': fields.many2one('quality.claim', 'Claim', 
+        'claim_id': fields.many2one('quality.claim', 'Claim',
             ondelete='set null'),
-        }    
+        }
 
 
 class quality_supplier_rating(osv.osv):
@@ -2171,12 +2171,12 @@ class quality_supplier_rating(osv.osv):
             ], 'Type', select=True),
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'manual': fields.boolean(
-            'Manuale', 
+            'Manuale',
             help='Forzato manualmente cambiando il valore automatico'),
 
         'access_id': fields.integer('Access ID'),
     }
-    
+
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
     }
@@ -2197,7 +2197,7 @@ class quality_supplier_check(osv.osv):
 
         'access_id': fields.integer('Access ID'),
         }
-    
+
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
         }
@@ -2221,7 +2221,7 @@ class quality_supplier_certification(osv.osv):
 
         'access_id': fields.integer('Access ID'),
         }
-    
+
     _defaults = {
         'date': lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT),
         }
@@ -2260,15 +2260,16 @@ class quality_partner_class(osv.osv):
         'access_id': fields.integer('Access ID'),
         }
 
+
 class res_company(osv.osv):
     """ Add fields for index manager
     """
     _inherit = 'res.company'
-    
+
     _columns = {
-        'index_from': fields.date('From date', required=True, 
+        'index_from': fields.date('From date', required=True,
             help='From date (used in index valorization'),
-        'index_to': fields.date('To date', required=True, 
+        'index_to': fields.date('To date', required=True,
             help='To date (used in index valorization'),
         }
 
@@ -2304,9 +2305,9 @@ class res_partner(osv.osv):
         product_ids = product_pool.search(cr, uid, [
             ('real_lot_id.default_supplier_id', '=', ids[0]),
             ], context=context)
-        
+
         return {
-            #'target': 'new',           
+            #'target': 'new',
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'quality.claim.product',
@@ -2315,7 +2316,7 @@ class res_partner(osv.osv):
             #'view_id': False,
             'type': 'ir.actions.act_window',
             #'res_id': res_id,  # IDs selected
-            }  
+            }
 
     def open_claimed_real_lot_list(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
@@ -2324,16 +2325,16 @@ class res_partner(osv.osv):
         product_ids = product_pool.search(cr, uid, [
             ('real_lot_id.default_supplier_id', '=', ids[0]),
             ], context=context)
-        
+
         lot_ids = []
         for product in product_pool.browse(
                 cr, uid, product_ids, context=context):
             real_lot_id = product.real_lot_id.id
             if real_lot_id and real_lot_id not in lot_ids:
                 lot_ids.append(real_lot_id)
-        
+
         return {
-            #'target': 'new',           
+            #'target': 'new',
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'stock.production.lot',
@@ -2342,15 +2343,15 @@ class res_partner(osv.osv):
             #'view_id': False,
             'type': 'ir.actions.act_window',
             #'res_id': res_id,  # IDs selected
-            }  
-            
+            }
+
     def open_claim_list(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
         """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         claim_ids = eval(supplier_proxy.index_claim_list)
         return {
-            #'target': 'new',           
+            #'target': 'new',
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'quality.claim',
@@ -2359,33 +2360,33 @@ class res_partner(osv.osv):
             #'view_id': False,
             'type': 'ir.actions.act_window',
             #'res_id': res_id,  # IDs selected
-            }  
-            
+            }
+
     def open_conformed_list(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
         """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         conformed_ids = eval(supplier_proxy.index_conformed_list)
-        return {           
+        return {
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'quality.conformed',
             'domain': [('id', 'in', conformed_ids)],
             'type': 'ir.actions.act_window',
-            }  
+            }
 
     def open_sampling_list(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
         """
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         sampling_ids = eval(supplier_proxy.index_sampling_list)
-        return {          
+        return {
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'quality.sampling',
             'domain': [('id', 'in', sampling_ids)],
             'type': 'ir.actions.act_window',
-            }  
+            }
 
     def open_acceptation_list(self, cr, uid, ids, context=None):
         """ Return view for see all claims:
@@ -2395,19 +2396,19 @@ class res_partner(osv.osv):
             ('partner_id', '=', ids[0]),
             ], context=context)
         if acceptation_ids:
-            return {          
+            return {
                 'view_type': 'form',
                 'view_mode': 'tree,form',
                 'res_model': 'quality.acceptation',
                 'domain': [('id', 'in', acceptation_ids)],
                 'type': 'ir.actions.act_window',
-                }  
-        return True # nothing        
+                }
+        return True # nothing
 
     # ----------------
     # Utility function
     # ----------------
-    def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id, 
+    def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id,
             context=None):
         """ Query database for total acceptation in period passed (not
         """
@@ -2419,14 +2420,14 @@ class res_partner(osv.osv):
                     state not in ('cancel') AND
                     date >= %s AND
                     date <= %s AND
-                    partner_id = %s;""", 
+                    partner_id = %s;""",
                 (index_from, index_to, supplier_id))
-            total_acceptation = cr.fetchone()[0]    
+            total_acceptation = cr.fetchone()[0]
         else:
             total_acceptation = 0
-        return total_acceptation    
+        return total_acceptation
 
-    def _get_index_lot(self, cr, uid, index_from, index_to, supplier_id, 
+    def _get_index_lot(self, cr, uid, index_from, index_to, supplier_id,
             context=None):
         """ Total lot in period passed
         """
@@ -2441,12 +2442,12 @@ class res_partner(osv.osv):
                     qa.date <= %s AND
                     qa.partner_id = %s;""",
                 (index_from, index_to, supplier_id))
-            total_acceptation_lot = cr.fetchone()[0]    
+            total_acceptation_lot = cr.fetchone()[0]
         else:
             total_acceptation_lot = 0
         return total_acceptation_lot
-            
-    def _get_index_weight(self, cr, uid, index_from, index_to, supplier_id, 
+
+    def _get_index_weight(self, cr, uid, index_from, index_to, supplier_id,
             context=None):
         """ Total lot in period passed
         """
@@ -2462,7 +2463,25 @@ class res_partner(osv.osv):
                     qa.date <= %s AND
                     qa.partner_id = %s;""",
                 (index_from, index_to, supplier_id))
-            total_acceptation_lot = cr.fetchone()[0]    
+            total_acceptation_lot = cr.fetchone()[0]
+        else:
+            total_acceptation_lot = 0
+        return total_acceptation_lot
+
+    def _get_index_delivery(self, cr, uid, index_from, index_to, supplier_id,
+                            context=None):
+        """ Total delivery in period passed
+        """
+        if index_to and index_from:
+            cr.execute("""
+                SELECT count(*) 
+                FROM res_partner_delivery
+                WHERE 
+                    date >= %s AND
+                    date <= %s AND
+                    carrier_id = %s;
+                """, (index_from, index_to, supplier_id))
+            total_acceptation_lot = cr.fetchone()[0]
         else:
             total_acceptation_lot = 0
         return total_acceptation_lot
@@ -2470,7 +2489,7 @@ class res_partner(osv.osv):
     # ----------------
     # Fields function:
     # ----------------
-    def _get_index_information(self, cr, uid, ids, field_name, arg, 
+    def _get_index_information(self, cr, uid, ids, field_name, arg,
             context=None):
         """
         Return a HTML tables for important claim indexes  (only for form view)
@@ -2486,7 +2505,7 @@ class res_partner(osv.osv):
         res = dict.fromkeys(ids, {
             'index_info': '',
 
-            'index_claim': '', 
+            'index_claim': '',
             'index_claim_list': '',
 
             'index_conformed': '',
@@ -2500,12 +2519,12 @@ class res_partner(osv.osv):
             return res
 
         # ---------------------------------------------------------------------
-        #                         COMMON SETUP 
+        #                         COMMON SETUP
         # ---------------------------------------------------------------------
         supplier_proxy = self.browse(cr, uid, ids, context=context)[0]
         if supplier_proxy.is_address: # no count for destination
             return res # TODO also only supplier
-        
+
         if supplier_proxy.custom_range:
             index_from = supplier_proxy.index_from
             index_to = supplier_proxy.index_to
@@ -2515,11 +2534,11 @@ class res_partner(osv.osv):
             company_proxy = company_pool.browse(cr, uid, company_ids)[0]
 
             # Query parameters:
-            index_from = company_proxy.index_from#[:10] 
+            index_from = company_proxy.index_from#[:10]
             index_to = company_proxy.index_to#[:10]
         supplier_id = ids[0]
 
-        # Mask for parameters:            
+        # Mask for parameters:
         table_mask = """
             <p><table witdh='500px' class='oe_list_content'>
             <tr><td width='400px' align='center'>%s</td>
@@ -2549,7 +2568,7 @@ class res_partner(osv.osv):
         html += parameter_mask % (_("Total picking"), total_acceptation)
         html += parameter_mask % (_("Total lots"), total_acceptation_lot)
         res[ids[0]]['index_info'] = html
-  
+
         # ---------------------------------------------------------------------
         #                            CLAIMS:
         # ---------------------------------------------------------------------
@@ -2566,10 +2585,10 @@ class res_partner(osv.osv):
                     real_lot_id in (
                         SELECT id 
                         FROM stock_production_lot 
-                        WHERE default_supplier_id = %s);""", 
+                        WHERE default_supplier_id = %s);""",
                 (index_from, index_to, supplier_id))
-            total_lot_claimed = cr.fetchone()[0]    
-        else:    
+            total_lot_claimed = cr.fetchone()[0]
+        else:
             total_lot_claimed = 0
 
         # Total claims:
@@ -2591,9 +2610,9 @@ class res_partner(osv.osv):
                         FROM stock_production_lot 
                         WHERE default_supplier_id = %s);""",
                 (index_from, index_to, supplier_id))
-        
+
             # ---------------------------------------------------
-            # Loop for total computation (gravity, origin, cause)   
+            # Loop for total computation (gravity, origin, cause)
             # ---------------------------------------------------
             claim_ids = [item[0] for item in cr.fetchall()]
             total_claim = len(claim_ids)
@@ -2612,10 +2631,10 @@ class res_partner(osv.osv):
                         claim.gravity_id.name, 0) + 1
         else:
             total_claim = 0
-                            
-        
+
+
         # ---------------------------------
-        # Lot totals claimed (calculation):    
+        # Lot totals claimed (calculation):
         # ---------------------------------
         distinct_lot_claimed = 0
         distinct_table = ""
@@ -2646,15 +2665,15 @@ class res_partner(osv.osv):
                 (index_from, index_to, supplier_id))
 
             for record in cr.fetchall():
-                distinct_lot_claimed += 1 
+                distinct_lot_claimed += 1
                 distinct_table += row_mask % (record[0], record[1])
-              
+
         # ---------------------------------------------------------------------
         #                Formatting data for HTML presentation
         # ---------------------------------------------------------------------
         # Header information:
         html = parameter_mask % (
-            _('Lot claimed / Lot provided'), 
+            _('Lot claimed / Lot provided'),
             "%7.2f%s" % (
                 100.0 * distinct_lot_claimed / total_acceptation_lot if total_acceptation_lot else 0.0,
                 "%", ))
@@ -2665,21 +2684,21 @@ class res_partner(osv.osv):
         html += parameter_mask % (
             _('Total claims'), total_claim)
 
-        # Gravity:        
+        # Gravity:
         if claim_gravity:
             table = ""
             for key in sorted(claim_gravity.keys()):
                 table += row_mask % (key, claim_gravity[key])
             html +=  table_mask % (_('Gravity'), _('Total'), table)
-        
-        # Origin:        
+
+        # Origin:
         if claim_origin:
             table = ""
             for key in sorted(claim_origin.keys()):
                 table += row_mask % (key, claim_origin[key])
             html +=  table_mask % (_('Origin'), _('Total'), table)
-        
-        # Cause:        
+
+        # Cause:
         if claim_cause:
             table = ""
             for key in sorted(claim_cause.keys()):
@@ -2687,8 +2706,8 @@ class res_partner(osv.osv):
             html +=  table_mask % (_('Cause'), _('Total'), table)
 
         # Lot distinct (loaded before)
-        html += table_mask % (_('Lot claimed'), _('Total'), distinct_table)        
-        
+        html += table_mask % (_('Lot claimed'), _('Total'), distinct_table)
+
         res[ids[0]]['index_claim'] = html
 
         # ---------------------------------------------------------------------
@@ -2699,7 +2718,7 @@ class res_partner(osv.osv):
         conformed_gravity = {}
         conformed_origin = {}
         conformed_motivation = {
-            'quantity': 0, 
+            'quantity': 0,
             'temperature': 0,
             'label': 0,
             'aesthetic_packaging': 0,
@@ -2708,10 +2727,10 @@ class res_partner(osv.osv):
             'sanitation': 0,
             'delay': 0,
             'no_delivery': 0,
-            'external_material': 0,            
+            'external_material': 0,
             }
         conformed_motivation_label = {
-            'quantity': u'Quantità', 
+            'quantity': u'Quantità',
             'temperature': u'Temperatura',
             'label': u'Etichetta',
             'aesthetic_packaging': u'Confezione',
@@ -2722,8 +2741,8 @@ class res_partner(osv.osv):
             'no_delivery': u'Mancata consegna',
             'external_material': 'Corpi estranei',
             }
-            
-            
+
+
         # TODO vedere come gestire il supplier_lot (prendere quello eventualm.)
         if index_to and index_from:
             cr.execute(""" 
@@ -2738,16 +2757,16 @@ class res_partner(osv.osv):
                         FROM stock_production_lot 
                         WHERE default_supplier_id = %s);""",
                 (index_from, index_to, supplier_id))
-            
+
             # --------------------------
-            # Loop for total computation    
+            # Loop for total computation
             # --------------------------
 
             conformed_ids = [item[0] for item in cr.fetchall()]
             total_conformed = len(conformed_ids)
             res[ids[0]]['index_conformed_list'] = "%s" % conformed_ids
 
-            for conformed in conformed_pool.browse(cr, uid, conformed_ids, 
+            for conformed in conformed_pool.browse(cr, uid, conformed_ids,
                     context=context):
                 if conformed.origin:
                     conformed_origin[conformed.origin] = conformed_origin.get(
@@ -2756,16 +2775,16 @@ class res_partner(osv.osv):
                     conformed_gravity[
                         conformed.gravity_id.name] = conformed_gravity.get(
                             conformed.gravity_id.name, 0) + 1
-                for motivation in conformed_motivation:                
+                for motivation in conformed_motivation:
                     conformed_motivation[
                         motivation] += 1 if conformed.__getattr__(
                             motivation) else 0
         else:
             total_conformed = 0
-                
+
         # ----------------------------
         # Load tables for format data:
-        # ----------------------------        
+        # ----------------------------
         # Header information:
         html = parameter_mask % (_('Total conformed'), total_conformed)
 
@@ -2788,7 +2807,7 @@ class res_partner(osv.osv):
             table = ""
             for key in sorted(conformed_motivation.keys()):
                 table += row_mask % (
-                    conformed_motivation_label.get(key, '?'), 
+                    conformed_motivation_label.get(key, '?'),
                     conformed_motivation[key],
                     )
             html +=  table_mask % (_('Motivation'), _('Total'), table)
@@ -2805,7 +2824,7 @@ class res_partner(osv.osv):
         sampling_origin = {}
 
         if index_to and index_from:
-        
+
             cr.execute(""" 
                 SELECT id 
                 FROM quality_sampling 
@@ -2818,15 +2837,15 @@ class res_partner(osv.osv):
                         FROM stock_production_lot 
                         WHERE default_supplier_id = %s);""",
                 (index_from, index_to, supplier_id))
-            
+
             # --------------------------
-            # Loop for total computation    
+            # Loop for total computation
             # --------------------------
             sampling_ids = [item[0] for item in cr.fetchall()]
             total_sampling = len(sampling_ids)
             res[ids[0]]['index_sampling_list'] = "%s" % sampling_ids
 
-            for sampling in sampling_pool.browse(cr, uid, sampling_ids, 
+            for sampling in sampling_pool.browse(cr, uid, sampling_ids,
                     context=context):
                 if sampling.origin:
                     sampling_origin[sampling.origin] = sampling_origin.get(
@@ -2836,10 +2855,10 @@ class res_partner(osv.osv):
                         sampling.state, 0) + 1
         else:
             total_sampling = 0
-            
+
         # ----------------------------
         # Load tables for format data:
-        # ----------------------------        
+        # ----------------------------
         # Header information:
         html = parameter_mask % (_('Total sampling'), total_sampling)
 
@@ -2860,84 +2879,84 @@ class res_partner(osv.osv):
         res[ids[0]]['index_sampling'] = html
 
         return res
-        
+
     _columns = {
         'no_quality_search': fields.boolean(
-            'Non ricercabile', 
+            'Non ricercabile',
             help='Non visibile nelle ricerche delle schede qualita\'',
             ),
-        'rating_ids': fields.one2many('quality.supplier.rating', 'partner_id', 
+        'rating_ids': fields.one2many('quality.supplier.rating', 'partner_id',
             'Rating'),
         'check_ids': fields.one2many('quality.supplier.check', 'partner_id',
             'Check'),
-        'certification_ids': fields.one2many('quality.supplier.certification', 
+        'certification_ids': fields.one2many('quality.supplier.certification',
            'partner_id', 'Certification'),
-        'reference_ids': fields.one2many('quality.supplier.reference', 
+        'reference_ids': fields.one2many('quality.supplier.reference',
             'partner_id', 'Reference'),
-        'quality_email':  fields.char('Quality email', size=240, 
+        'quality_email':  fields.char('Quality email', size=240,
             help="Email for quality comunications"),
-        'quality_contact': fields.boolean('Quality contact', 
+        'quality_contact': fields.boolean('Quality contact',
             help="Contact to be used for quality purpose"),
-        
+
         # Extra info for quality:
-        'quality_activity': fields.text('Activity', 
+        'quality_activity': fields.text('Activity',
             help="Extra information about activity used in quality manage"),
-        'quality_product': fields.text('Product', 
+        'quality_product': fields.text('Product',
             help="Extra information about product used in quality manage"),
-        'quality_rating_info': fields.text('Rating info', 
+        'quality_rating_info': fields.text('Rating info',
             help="Extra information about rating info used in quality manage"),
-        'quality_commercial_reference': fields.text('Commercial reference', 
+        'quality_commercial_reference': fields.text('Commercial reference',
             help="Extra information about commercial reference used in quality manage"),
-        'quality_update_date': fields.date('Update Date', 
+        'quality_update_date': fields.date('Update Date',
             help="Extra information about information updared, used in quality manage"),
-        'quality_start_supplier': fields.date('Start supplier', 
+        'quality_start_supplier': fields.date('Start supplier',
             help="Extra information about start supplier service, used in quality manage"),
-        'quality_end_supplier': fields.date('End supplier', 
+        'quality_end_supplier': fields.date('End supplier',
             help="Extra information about stop supplier service, used in quality manage"),
         'quality_class_id':fields.many2one('quality.partner.class', 'Class'),
 
         'access_c_id': fields.integer('Access Customer ID'),
         'access_s_id': fields.integer('Access Supplier ID'),
 
-        'custom_range': fields.boolean('Custom range', 
+        'custom_range': fields.boolean('Custom range',
             help='If checked specify custom range else use company default'),
-        'index_from': fields.date('From date', 
+        'index_from': fields.date('From date',
             help='From date (used in index valorization'),
-        'index_to': fields.date('To date', 
+        'index_to': fields.date('To date',
             help='To date (used in index valorization'),
-        
+
         # -------------
         # Index fields:
         # -------------
-        'index_claim': fields.function(_get_index_information, method=True, 
+        'index_claim': fields.function(_get_index_information, method=True,
             type='text', string='Claim index', store=False,
             help='Claim information tables', multi="index"),
-        'index_claim_list': fields.function(_get_index_information, 
-            method=True, 
+        'index_claim_list': fields.function(_get_index_information,
+            method=True,
             type='text', string='Claim list', store=False,
             help='Used for button claims', multi="index"),
-        #'index_lot_claimed': fields.function(_get_index_information, 
-        #    method=True, 
+        #'index_lot_claimed': fields.function(_get_index_information,
+        #    method=True,
         #    type='text', string='Lot claimed', store=False,
         #    help='Total lot claimed', multi="index"),
-            
-        'index_conformed': fields.function(_get_index_information, method=True, 
+
+        'index_conformed': fields.function(_get_index_information, method=True,
             type='text', string='Claim index', store=False,
-            help='Not conformed information tables', multi="index"),            
-        'index_conformed_list': fields.function(_get_index_information, 
-            method=True, 
+            help='Not conformed information tables', multi="index"),
+        'index_conformed_list': fields.function(_get_index_information,
+            method=True,
             type='text', string='Conformed list', store=False,
             help='Used for button Conformed', multi="index"),
 
-        'index_sampling': fields.function(_get_index_information, method=True, 
+        'index_sampling': fields.function(_get_index_information, method=True,
             type='text', string='Claim index', store=False,
             help='Sampling information tables', multi="index"),
-        'index_sampling_list': fields.function(_get_index_information, 
-            method=True, 
+        'index_sampling_list': fields.function(_get_index_information,
+            method=True,
             type='text', string='Sampling list', store=False,
             help='Used for button Sampling', multi="index"),
 
-        'index_info': fields.function(_get_index_information, method=True, 
+        'index_info': fields.function(_get_index_information, method=True,
             type='text', string='Claim index', store=False,
             help='General info about product and lot supplied', multi="index"),
         }
@@ -2948,24 +2967,24 @@ class quality_claim(osv.osv):
     _inherit = 'quality.claim'
 
     _columns = {
-        'product_ids':fields.one2many('quality.claim.product', 'claim_id', 
+        'product_ids':fields.one2many('quality.claim.product', 'claim_id',
             'Product'),
 
-        'action_id': fields.many2one('quality.action', 'Action', 
+        'action_id': fields.many2one('quality.action', 'Action',
             ondelete='set null'),
-        'action_state': fields.related('action_id', 'state', type='selection', 
+        'action_state': fields.related('action_id', 'state', type='selection',
             selection=action_state, string='Action state', store=False),
 
-        'sampling_id': fields.many2one('quality.sampling', 'Sampling', 
+        'sampling_id': fields.many2one('quality.sampling', 'Sampling',
             ondelete='set null'),
-        'sampling_state': fields.related('sampling_id', 'state', 
-            type='selection', selection=sampling_state, 
+        'sampling_state': fields.related('sampling_id', 'state',
+            type='selection', selection=sampling_state,
             string='Sampling state', store=False),
 
-        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed', 
+        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed',
             ondelete='set null'),
-        'conformed_state': fields.related('conformed_id', 'state', 
-            type='selection', selection=conformed_state, 
+        'conformed_state': fields.related('conformed_id', 'state',
+            type='selection', selection=conformed_state,
             string='Not Conformed state', store=False),
         }
 
@@ -2975,18 +2994,18 @@ class quality_conformed(osv.osv):
     _inherit = 'quality.conformed'
 
     _columns = {
-        'action_id': fields.many2one('quality.action', 'Action', 
+        'action_id': fields.many2one('quality.action', 'Action',
             ondelete='set null'),
-        'action_state': fields.related('action_id', 'state', type='selection', 
+        'action_state': fields.related('action_id', 'state', type='selection',
             selection=action_state, string='Action state', store=False),
         # TODO fields.relater action_id state
 
-        'parent_sampling_id': fields.many2one('quality.sampling', 
+        'parent_sampling_id': fields.many2one('quality.sampling',
             'Parent Sampling', ondelete='set null'),
-        'sampling_id': fields.many2one('quality.sampling', 'Sampling', 
+        'sampling_id': fields.many2one('quality.sampling', 'Sampling',
             ondelete='set null'),
-        'sampling_state': fields.related('sampling_id', 'state', 
-            type='selection', selection=sampling_state, 
+        'sampling_state': fields.related('sampling_id', 'state',
+            type='selection', selection=sampling_state,
             string='Sampling state', store=False),
         # TODO fields.relater sampling_id state (come per action)
     }
@@ -2997,12 +3016,12 @@ class quality_sampling(osv.osv):
     _inherit = 'quality.sampling'
 
     _columns = {
-        'parent_conformed_id': fields.many2one('quality.conformed', 
+        'parent_conformed_id': fields.many2one('quality.conformed',
             'Parent Not Conformed', ondelete='set null'),
-        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed', 
+        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed',
             ondelete='set null'),
-        'conformed_state': fields.related('conformed_id', 'state', 
-            type='selection', selection=conformed_state, 
+        'conformed_state': fields.related('conformed_id', 'state',
+            type='selection', selection=conformed_state,
             string='Conformed state', store=False),
         }
 
@@ -3012,7 +3031,7 @@ class quality_acceptation(osv.osv):
     _inherit = 'quality.acceptation'
 
     _columns = {
-        'line_ids': fields.one2many('quality.acceptation.line', 
+        'line_ids': fields.one2many('quality.acceptation.line',
             'acceptation_id', 'Lines'),
         }
 
@@ -3024,8 +3043,8 @@ class quality_acceptation_line(osv.osv):
     _columns = {
         'conformed_id': fields.many2one('quality.conformed', 'Not conformed'),
         # TODO togliere lo stato e mettere una non conformità per spunta
-        'conformed_state': fields.related('conformed_id', 'state', 
-            type='selection', selection=conformed_state, 
+        'conformed_state': fields.related('conformed_id', 'state',
+            type='selection', selection=conformed_state,
             string='Conformed state', store=False),
         'sampling_id': fields.many2one('quality.sampling', 'Sampling'),
         }
@@ -3049,7 +3068,7 @@ class quality_conformed_external(osv.osv):
             origin = 'audit'
         else: # supplier
             origin = 'other'
-        
+
         action_pool = self.pool.get('quality.action')
         action_id = action_pool.create(cr, uid, {
             'name': external_proxy.name,
@@ -3059,34 +3078,34 @@ class quality_conformed_external(osv.osv):
             'type': 'corrective',
             }, context=context)
         self.write(cr, uid, ids, {
-            'action_id': action_id, 
+            'action_id': action_id,
             }, context=context)
-        
+
         # Raise trigger for open AC:
         wf_service = netsvc.LocalService('workflow')
-        wf_service.trg_validate(uid, 'quality.action', action_id, 
+        wf_service.trg_validate(uid, 'quality.action', action_id,
             'trigger_action_draft_opened', cr)
         return self.pool.get('micronaet.tools').get_view_dict(cr, uid, {
             'model': 'quality.action',
             'module': 'quality',
             'record': action_id,
             })
-        
+
     _columns = {
         'claim_id': fields.many2one(
             'quality.claim', 'Claim'),
         'gravity_id': fields.many2one('quality.gravity', 'Gravity',
             required=True),
-        'action_id': fields.many2one('quality.action', 'Action', 
+        'action_id': fields.many2one('quality.action', 'Action',
             ondelete='set null'),
-        'action_state': fields.related('action_id', 'state', type='selection', 
+        'action_state': fields.related('action_id', 'state', type='selection',
             selection=action_state, string='Action state', store=False),
         # TODO fields.relater action_id state
-        } 
+        }
 
     _defaults = {
         'gravity_id': lambda s, cr, uid, ctx: s.pool.get(
             'ir.model.data').get_object_reference(
                 cr,  uid, 'quality', 'quality_gravity_serious')[1],
-        }        
+        }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
