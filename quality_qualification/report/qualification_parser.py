@@ -226,7 +226,10 @@ class Parser(report_sxw.rml_parse):
             # -----------------------------------------------------------------
             class_reference = partner.class_id
             if not class_reference:
-                raise #Exception("Errore di importazione!") # Scrivo l'errore per debug
+                raise osv.except_osv(
+                    _('Errore'),
+                    _('Trovato partner senza classe: %s!' % partner.name),
+                )
             if class_reference.has_custom_table:  # Only for transport mode:
                 # Only active means no lot (std) and no delivery (transport)
                 if only_active and not total_acceptation_delivery:
