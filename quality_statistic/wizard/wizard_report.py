@@ -23,7 +23,7 @@ import logging
 import shutil
 from openerp.osv import osv, fields, orm
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -32,40 +32,37 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 class QualityStatisticWizard(orm.TransientModel):
-    ''' Parameter for report
-    '''
+    """ Parameter for report
+    """
     _name = 'quality.statistic.wizard'
     _description = 'Statistic report'
 
     # -------------
-    # Button event: 
+    # Button event:
     # -------------
     def action_print_report(self, cr, uid, ids, context=None):
-        ''' Wizard for paremeter of the report
-        '''
-        if context is None: 
-            context = {}        
-        
+        """ Wizard for parameters of the report
+        """
+        if context is None:
+            context = {}
+
         wiz_browse = self.browse(cr, uid, ids, context=context)[0]
-        
         datas = {}
         datas['from_date'] = wiz_browse.from_date
         datas['to_date'] = wiz_browse.to_date
 
         return {
-             # action report
+            # action report
             'type': 'ir.actions.report.xml',
             'report_name': 'quality_claim_status_report',
             'datas': datas,
-            }            
-        
+            }
+
     _columns = {
         'from_date': fields.date('From'),
         'to_date': fields.date('To'),
         }
-        
+
     _defaults = {
         'from_date': lambda *x: datetime.now().strftime('%Y-01-01'), # first
         }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
