@@ -224,7 +224,7 @@ class Parser(report_sxw.rml_parse):
             # -----------------------------------------------------------------
             # Transport mode:
             # -----------------------------------------------------------------
-            class_reference = partner.class_id
+            class_reference = partner.quality_class_id
             if not class_reference:
                 raise osv.except_osv(
                     _('Errore'),
