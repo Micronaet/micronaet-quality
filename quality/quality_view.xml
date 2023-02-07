@@ -185,6 +185,12 @@
                                 </group>
                             </group>
                         </page>
+                        <page string='NC Esterne'>
+                            <group colspan="4" col="1">
+                                <separator string='NC esterne' />
+                                <field name="conformed_external_ids" nolabel='1' readonly="1"/>
+                            </group>
+                        </page>
                         <page string='Internal note'>
                             <group colspan="4" col="1">
                                 <separator string='Causes and Responsability' />

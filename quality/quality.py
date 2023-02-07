@@ -200,7 +200,7 @@ class quality_conformed_external(osv.osv):
         'treatment': fields.text('Treatment'),
         'judgement': fields.text('Judgement'),
         'judgement_date': fields.date('Data del giudizio'),
-        'state':fields.selection(conformed_external_state, 'State',
+        'state': fields.selection(conformed_external_state, 'State',
             select=True, readonly=True),
         #'aesthetic_packaging': fields.boolean('Confezione'),
         #'quantity': fields.boolean('Quantity'),
@@ -2961,33 +2961,6 @@ class res_partner(osv.osv):
             help='General info about product and lot supplied', multi="index"),
         }
 
-class quality_claim(osv.osv):
-    """ Assign *2many fields to claims
-    """
-    _inherit = 'quality.claim'
-
-    _columns = {
-        'product_ids':fields.one2many('quality.claim.product', 'claim_id',
-            'Product'),
-
-        'action_id': fields.many2one('quality.action', 'Action',
-            ondelete='set null'),
-        'action_state': fields.related('action_id', 'state', type='selection',
-            selection=action_state, string='Action state', store=False),
-
-        'sampling_id': fields.many2one('quality.sampling', 'Sampling',
-            ondelete='set null'),
-        'sampling_state': fields.related('sampling_id', 'state',
-            type='selection', selection=sampling_state,
-            string='Sampling state', store=False),
-
-        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed',
-            ondelete='set null'),
-        'conformed_state': fields.related('conformed_id', 'state',
-            type='selection', selection=conformed_state,
-            string='Not Conformed state', store=False),
-        }
-
 class quality_conformed(osv.osv):
     """ Assign *2many fields to conformed
     """
@@ -3108,4 +3081,33 @@ class quality_conformed_external(osv.osv):
             'ir.model.data').get_object_reference(
                 cr,  uid, 'quality', 'quality_gravity_serious')[1],
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+class quality_claim(osv.osv):
+    """ Assign *2many fields to claims
+    """
+    _inherit = 'quality.claim'
+
+    _columns = {
+        'product_ids':fields.one2many('quality.claim.product', 'claim_id',
+            'Product'),
+        'conformed_external_ids': fields.one2many(
+            'quality.conformed.external', 'claim_id', 'NC esterne'),
+
+        'action_id': fields.many2one('quality.action', 'Action',
+            ondelete='set null'),
+        'action_state': fields.related('action_id', 'state', type='selection',
+            selection=action_state, string='Action state', store=False),
+
+        'sampling_id': fields.many2one('quality.sampling', 'Sampling',
+            ondelete='set null'),
+        'sampling_state': fields.related('sampling_id', 'state',
+            type='selection', selection=sampling_state,
+            string='Sampling state', store=False),
+
+        'conformed_id': fields.many2one('quality.conformed', 'Not Conformed',
+            ondelete='set null'),
+        'conformed_state': fields.related('conformed_id', 'state',
+            type='selection', selection=conformed_state,
+            string='Not Conformed state', store=False),
+        }
