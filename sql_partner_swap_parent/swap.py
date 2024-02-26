@@ -31,6 +31,7 @@ from openerp.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
+
 class ResPartnerSwap(osv.osv):
     """ Swap partner parent code
     """
@@ -41,6 +42,7 @@ class ResPartnerSwap(osv.osv):
         'name': fields.char('Original', size=10, required=True),
         'swap': fields.char('Swap code', size=10, required=True),
         }
+
 
 class ResPartner(osv.osv):
     """ Insert override elements
@@ -64,7 +66,9 @@ class ResPartner(osv.osv):
 
     # Scheduled function that import partner (and after update forms)
     # todo better create new module only for quality only with this function:
-    def schedule_sql_partner_import(self, cr, uid, verbose_log_count=100,
+    '''
+    def schedule_sql_partner_import(
+        self, cr, uid, verbose_log_count=100,
         capital=True, write_date_from=False, write_date_to=False,
         create_date_from=False, create_date_to=False, sync_vat=False,
         address_link=False, only_block=False, context=None):
@@ -102,3 +106,4 @@ class ResPartner(osv.osv):
                 self.replace_partner_id(
                     cr, uid, from_id, to_id, context=context)
         return res
+    '''
