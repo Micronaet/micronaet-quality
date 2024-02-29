@@ -219,8 +219,8 @@ class ResPartner(osv.osv):
                             'Import %s: %s record imported / updated!' % (
                                 block, i, ))
                     try:
-                        # if record['CKY_CNT'] in ('06.03132', '06.03173'):
-                        #    pdb.set_trace()
+                        if record['CKY_CNT'] in ('06.03132', '06.03173'):
+                            pdb.set_trace()
                         data = {
                             'name': record['CDS_CNT'],
                             # 'sql_customer_code': record['CKY_CNT'],
