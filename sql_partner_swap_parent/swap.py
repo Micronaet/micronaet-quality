@@ -19,6 +19,7 @@
 ###############################################################################
 import os
 import sys
+import pdb
 import openerp.netsvc
 import logging
 from openerp.osv import osv, fields
