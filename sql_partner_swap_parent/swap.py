@@ -147,6 +147,7 @@ class ResPartner(osv.osv):
         # =====================================================================
         # Load fiscal position type CEI:
         # ---------------------------------------------------------------------
+        '''
         fiscal_position_db = {}
         fiscal_ids = fiscal_pool.search(cr, uid, [], context=context)
         for fiscal in fiscal_pool.browse(
@@ -159,6 +160,7 @@ class ResPartner(osv.osv):
                     'No fiscal position loaded!')
                 break
             fiscal_position_db[cei_ref] = fiscal.id
+        '''
 
         # ---------------------------------------------------------------------
         # Load Country:
@@ -193,12 +195,12 @@ class ResPartner(osv.osv):
         #                          Master import:
         # ---------------------------------------------------------------------
         try:
-            pdb.set_trace()
             _logger.info('Start import SQL: customer, supplier, destination')
             parents = {}  # Client / Supplier converter
 
             # Master Loop:
             for order, key_field, from_code, to_code, block in import_loop:
+                pdb.set_trace()
                 cursor = accounting_pool.get_partner(
                     cr, uid,
                     from_code=from_code, to_code=to_code,
@@ -207,6 +209,7 @@ class ResPartner(osv.osv):
                     create_date_from=create_date_from,
                     create_date_to=create_date_to,
                     context=context)
+
                 if not cursor:
                     _logger.error('Unable to connect, no partner!')
                     continue  # next block
@@ -249,16 +252,16 @@ class ResPartner(osv.osv):
                             data['type'] = 'default'
                             data['customer'] = True
                             data['ref'] = record['CKY_CNT']
-                            if fiscal_position_db:
-                                data['property_account_position'] = \
-                                    fiscal_position_db.get(record['IST_NAZ'])
+                            # if fiscal_position_db:
+                            #    data['property_account_position'] = \
+                            #        fiscal_position_db.get(record['IST_NAZ'])
 
                         if block == 'supplier':
                             data['type'] = 'default'
                             data['supplier'] = True
-                            if fiscal_position_db:
-                                data['property_account_position'] = \
-                                    fiscal_position_db.get(record['IST_NAZ'])
+                            # if fiscal_position_db:
+                            #    data['property_account_position'] = \
+                            #        fiscal_position_db.get(record['IST_NAZ'])
 
                         if block == 'destination':
                             data['type'] = 'delivery'
