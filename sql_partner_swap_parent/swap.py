@@ -200,7 +200,6 @@ class ResPartner(osv.osv):
 
             # Master Loop:
             for order, key_field, from_code, to_code, block in import_loop:
-                pdb.set_trace()
                 cursor = accounting_pool.get_partner(
                     cr, uid,
                     from_code=from_code, to_code=to_code,
