@@ -197,9 +197,6 @@ class ResPartner(osv.osv):
 
             # Master Loop:
             for order, key_field, from_code, to_code, block in import_loop:
-                if only_block and only_block != block:
-                    _logger.warning('Jump block: %s!' % block)
-                    continue
                 cursor = accounting_pool.get_partner(
                     cr, uid, from_code=from_code, to_code=to_code,
                     write_date_from=write_date_from,
