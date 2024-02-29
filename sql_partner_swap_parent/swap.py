@@ -198,11 +198,13 @@ class ResPartner(osv.osv):
             # Master Loop:
             for order, key_field, from_code, to_code, block in import_loop:
                 cursor = accounting_pool.get_partner(
-                    cr, uid, from_code=from_code, to_code=to_code,
+                    cr, uid,
+                    from_code=from_code, to_code=to_code,
                     write_date_from=write_date_from,
                     write_date_to=write_date_to,
                     create_date_from=create_date_from,
-                    create_date_to=create_date_to, context=context)
+                    create_date_to=create_date_to,
+                    context=context)
                 if not cursor:
                     _logger.error('Unable to connect, no partner!')
                     continue  # next block
