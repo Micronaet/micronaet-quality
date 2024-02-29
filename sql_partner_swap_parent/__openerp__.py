@@ -36,12 +36,14 @@
         'quality_partner_swap',
         'quality',
     ],
-    'init_xml': [], 
+    'init_xml': [],
     'data': [
         'security/ir.model.access.csv',
+
         'swap_view.xml',
+        'scheduler.xml',
     ],
     'demo_xml': [],
-    'active': False, 
-    'installable': True, 
+    'active': False,
+    'installable': True,
     }
