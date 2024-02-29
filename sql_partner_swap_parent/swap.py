@@ -180,18 +180,16 @@ class ResPartner(osv.osv):
         _logger.info('Read parent for destinations')
         cursor = accounting_pool.get_parent_partner(cr, uid, context=context)
         if not cursor:
-            _logger.error(
-                'Unable to connect to parent for destination!')
+            _logger.error('Unable to connect to parent for destination!')
         else:
             for record in cursor:
                 # Swapped:
                 destination_parents[
                     record['CKY_CNT']] = swap_parent.get(
-                        record['CKY_CNT_CLI_FATT'],  # search inv. to
-                        record['CKY_CNT_CLI_FATT'])  # default invoice
+                        record['CKY_CNT_CLI_FATT'], record['CKY_CNT_CLI_FATT'])
 
         # ---------------------------------------------------------------------
-        #                           Master import:
+        #                          Master import:
         # ---------------------------------------------------------------------
         try:
             _logger.info('Start import SQL: customer, supplier, destination')
@@ -304,7 +302,7 @@ class ResPartner(osv.osv):
                                     cr, uid, [partner_id], data,
                                     context=context)
                             except:
-                                del(data['vat'])
+                                del data['vat']
                                 try:  # Remove vat for vat check problems:
                                     self.write(
                                         cr, uid, [partner_id], data,
@@ -312,15 +310,14 @@ class ResPartner(osv.osv):
                                 except:
                                     _logger.error(
                                         '%s. Error updating partner [%s]: '
-                                        '%s' % (
-                                             i, record, sys.exc_info()))
+                                        '%s' % (i, record, sys.exc_info()))
                                     continue
                         else:
                             try:
                                 partner_id = self.create(
                                     cr, uid, data, context=context)
                             except:
-                                del(data['vat'])
+                                del data['vat']
                                 try:  # Remove vat for vat check problems:
                                     partner_id = self.create(
                                         cr, uid, data, context=context)
