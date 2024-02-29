@@ -220,7 +220,11 @@ class ResPartner(osv.osv):
                     i += 1
                     _logger.info('%s. Block %s: Record %s!' % (
                         i, block, record['CKY_CNT']))
+                    if record['CKY_CNT'] in ('07.03375', ):
+                        continue
+
                     #            block, i, ))
+
                     #if verbose_log_count and not i % verbose_log_count:
                     #    _logger.info(
                     #        'Import %s: %s record imported / updated!' % (
