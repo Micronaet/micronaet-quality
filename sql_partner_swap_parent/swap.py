@@ -218,8 +218,8 @@ class ResPartner(osv.osv):
                 i = 0
                 for record in cursor:
                     i += 1
-                    _logger.info('Block %s: Record %s!' % (
-                        block, record['CKY_CNT']))
+                    _logger.info('%s. Block %s: Record %s!' % (
+                        i, block, record['CKY_CNT']))
                     #            block, i, ))
                     #if verbose_log_count and not i % verbose_log_count:
                     #    _logger.info(
