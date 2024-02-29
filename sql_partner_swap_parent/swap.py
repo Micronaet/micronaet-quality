@@ -219,13 +219,16 @@ class ResPartner(osv.osv):
                 i = 0
                 for record in cursor:
                     i += 1
-                    if verbose_log_count and not i % verbose_log_count:
-                        _logger.info(
-                            'Import %s: %s record imported / updated!' % (
-                                block, i, ))
+                    _logger.info('Block %s: Record %s!' % (
+                        block, record['CKY_CNT']))
+                    #            block, i, ))
+                    #if verbose_log_count and not i % verbose_log_count:
+                    #    _logger.info(
+                    #        'Import %s: %s record imported / updated!' % (
+                    #            block, i, ))
                     try:
-                        if record['CKY_CNT'] in ('06.03132', '06.03173'):
-                            pdb.set_trace()
+                        #if record['CKY_CNT'] in ('06.03132', '06.03173'):
+                        #    pdb.set_trace()
                         data = {
                             'name': record['CDS_CNT'],
                             # 'sql_customer_code': record['CKY_CNT'],
