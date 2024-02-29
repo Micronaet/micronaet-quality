@@ -65,12 +65,10 @@ class ResPartner(osv.osv):
             res[swap.name] = swap.swap
         return res
 
-    # Scheduled function that import partner (and after update forms)
-    # todo better create new module only for quality only with this function:
     # -------------------------------------------------------------------------
     #                             Scheduled action
     # -------------------------------------------------------------------------
-    # Change original function schedule_sql_partner_import:
+    # NOTE: Change original function schedule_sql_partner_import:
     def schedule_sql_partner_import_version_2(
             self, cr, uid, verbose_log_count=100,
             capital=True, write_date_from=False, write_date_to=False,
@@ -83,10 +81,6 @@ class ResPartner(osv.osv):
             write_date_to: for smart update (search to date update record)
             create_date_from: for smart update (search from date create record)
             create_date_to: for smart update (search to date create record)
-            sync_vat: Supplier update partner customer with same VAT
-            address_link: Link to parent partner as an address the destination
-            only_block: update only passed block name:
-                (supplier, customer destination... TODO agent, employee)
             context: context of procedure
 
         """
@@ -126,43 +120,11 @@ class ResPartner(osv.osv):
              company_proxy.sql_destination_from_code,
              company_proxy.sql_destination_to_code,
              'destination'),
-
-            # todo (vedere come comportarsi durante la creazione
-            # (simili a fornitori, agganciarli a fiscalcode)
-            # (4,
-            # 'sql_agent_code',
-            # company_proxy.sql_agent_from_code,
-            # company_proxy.sql_agent_to_code,
-            # 'agent'),
-
-            # (5,
-            # 'sql_employee_code',
-            # company_proxy.sql_employee_from_code,
-            # company_proxy.sql_employee_to_code,
-            # 'employee'),
         ]
 
         # =====================================================================
         #                          Foreign keys:
         # =====================================================================
-        # Load fiscal position type CEI:
-        # ---------------------------------------------------------------------
-        '''
-        fiscal_position_db = {}
-        fiscal_ids = fiscal_pool.search(cr, uid, [], context=context)
-        for fiscal in fiscal_pool.browse(
-                cr, uid, fiscal_ids, context=context):
-            try:
-                cei_ref = fiscal.cei_ref
-            except:
-                _logger.error(
-                    'No CEI Management in fiscal position. '
-                    'No fiscal position loaded!')
-                break
-            fiscal_position_db[cei_ref] = fiscal.id
-        '''
-
-        # ---------------------------------------------------------------------
         # Load Country:
         # ---------------------------------------------------------------------
         countries = {}
@@ -186,10 +148,11 @@ class ResPartner(osv.osv):
             _logger.error('Unable to connect to parent for destination!')
         else:
             for record in cursor:
-                # Swapped:
+                parent_code = record['CKY_CNT_CLI_FATT']
+                # Swapped if present:
                 destination_parents[
                     record['CKY_CNT']] = swap_parent.get(
-                        record['CKY_CNT_CLI_FATT'], record['CKY_CNT_CLI_FATT'])
+                        parent_code, parent_code)
 
         # ---------------------------------------------------------------------
         #                          Master import:
@@ -218,23 +181,19 @@ class ResPartner(osv.osv):
                 i = 0
                 for record in cursor:
                     i += 1
-                    _logger.info('%s. Block %s: Record %s!' % (
-                        i, block, record['CKY_CNT']))
-                    #   if record['CKY_CNT'] in ('07.03375', ):
-                    #    continue
+                    ref = record['CKY_CNT']
+                    if verbose_log_count:
+                        if not i % verbose_log_count:
+                            _logger.info(
+                                'Import %s: %s record imported / updated!' % (
+                                    block, i, ))
+                    else:
+                        _logger.info('%s. Block %s: Record %s!' % (
+                            i, block, ref))
 
-                    #            block, i, ))
-
-                    #if verbose_log_count and not i % verbose_log_count:
-                    #    _logger.info(
-                    #        'Import %s: %s record imported / updated!' % (
-                    #            block, i, ))
                     try:
-                        #if record['CKY_CNT'] in ('06.03132', '06.03173'):
-                        #    pdb.set_trace()
                         data = {
                             'name': record['CDS_CNT'],
-                            # 'sql_customer_code': record['CKY_CNT'],
                             'sql_import': True,
                             'is_company': True,
                             'street': record['CDS_INDIR'] or False,
@@ -246,7 +205,7 @@ class ResPartner(osv.osv):
                             # 'mobile': record['CDS_INDIR'] or False,
                             'website': record['CDS_URL_INET'] or False,
                             # 'vat': record['CSG_PIVA'] or False,
-                            key_field: record['CKY_CNT'],  # key code
+                            key_field: ref,
                             'country_id': countries.get(
                                 record['CKY_PAESE'], False),
                             }
@@ -257,25 +216,18 @@ class ResPartner(osv.osv):
                         if block == 'customer':
                             data['type'] = 'default'
                             data['customer'] = True
-                            data['ref'] = record['CKY_CNT']
-                            # if fiscal_position_db:
-                            #    data['property_account_position'] = \
-                            #        fiscal_position_db.get(record['IST_NAZ'])
+                            data['ref'] = ref
 
                         if block == 'supplier':
                             data['type'] = 'default'
                             data['supplier'] = True
-                            # if fiscal_position_db:
-                            #    data['property_account_position'] = \
-                            #        fiscal_position_db.get(record['IST_NAZ'])
 
                         if block == 'destination':
                             data['type'] = 'delivery'
                             data['is_address'] = True
-                            # No fiscal position
 
                             parent_code = destination_parents.get(
-                                record['CKY_CNT'], False)
+                                ref, False)
                             if parent_code:  # Convert value with dict
                                 # Cache search:
                                 data['parent_id'] = parents.get(
@@ -296,7 +248,7 @@ class ResPartner(osv.osv):
 
                         # Search partner:
                         partner_ids = self.search(cr, uid, [
-                            (key_field, '=', record['CKY_CNT'])])
+                            (key_field, '=', ref)])
 
                         # Update / Create
                         try:
@@ -315,7 +267,7 @@ class ResPartner(osv.osv):
                             continue
 
                         if block != 'destination':  # Cache partner ref.
-                            parents[record['CKY_CNT']] = partner_id
+                            parents[ref] = partner_id
                     except:
                         _logger.error(
                             'Error importing partner [%s], jumped: %s' % (
@@ -327,7 +279,6 @@ class ResPartner(osv.osv):
                 'Error generic import partner: %s' % (sys.exc_info(), ))
             return False
         return True
-
 
     '''
     def schedule_sql_partner_import(
