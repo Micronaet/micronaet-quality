@@ -234,7 +234,7 @@ class ResPartner(osv.osv):
                             'fax': record['CDS_FAX'] or False,
                             # 'mobile': record['CDS_INDIR'] or False,
                             'website': record['CDS_URL_INET'] or False,
-                            'vat': record['CSG_PIVA'] or False,
+                            # 'vat': record['CSG_PIVA'] or False,
                             key_field: record['CKY_CNT'],  # key code
                             'country_id': countries.get(
                                 record['CKY_PAESE'], False),
@@ -283,48 +283,25 @@ class ResPartner(osv.osv):
                                     if parent_ids:
                                         data['parent_id'] = parent_ids[0]
 
-                        # Search parent:
+                        # Search partner:
                         partner_ids = self.search(cr, uid, [
                             (key_field, '=', record['CKY_CNT'])])
 
-                        # Connect if theres a partner VAT equal:
-                        if not partner_ids and record['CSG_PIVA'] and \
-                                block != 'destination':
-                            partner_ids = self.search(cr, uid, [
-                                ('vat', '=', record['CSG_PIVA'])])
-
                         # Update / Create
-                        if partner_ids:
-                            partner_id = partner_ids[0]
-                            try:
+                        try:
+                            if partner_ids:
+                                partner_id = partner_ids[0]
                                 self.write(
                                     cr, uid, [partner_id], data,
                                     context=context)
-                            except:
-                                del data['vat']
-                                try:  # Remove vat for vat check problems:
-                                    self.write(
-                                        cr, uid, [partner_id], data,
-                                        context=context)
-                                except:
-                                    _logger.error(
-                                        '%s. Error updating partner [%s]: '
-                                        '%s' % (i, record, sys.exc_info()))
-                                    continue
-                        else:
-                            try:
+                            else:
                                 partner_id = self.create(
                                     cr, uid, data, context=context)
-                            except:
-                                del data['vat']
-                                try:  # Remove vat for vat check problems:
-                                    partner_id = self.create(
-                                        cr, uid, data, context=context)
-                                except:
-                                    _logger.error(
-                                        '%s. Error creating partner [%s]: '
-                                        '%s' % (i, record, sys.exc_info()))
-                                    continue
+                        except:
+                            _logger.error(
+                                '%s. Error creating / update partner [%s]: '
+                                '%s' % (i, record, sys.exc_info()))
+                            continue
 
                         if block != 'destination':  # Cache partner ref.
                             parents[record['CKY_CNT']] = partner_id
