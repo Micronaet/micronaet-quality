@@ -192,6 +192,7 @@ class ResPartner(osv.osv):
         #                          Master import:
         # ---------------------------------------------------------------------
         try:
+            pdb.set_trace()
             _logger.info('Start import SQL: customer, supplier, destination')
             parents = {}  # Client / Supplier converter
 
