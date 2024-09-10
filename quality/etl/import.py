@@ -58,56 +58,56 @@ def format_string(valore):
     return valore.strip()
 
 def format_date(valore,date=True):
-    ''' Formatta nella data di PG
-    '''
+    """ Formatta nella data di PG
+    """
     try:
         if date:
             mga = valore.strip().split(' ')[0].split('/') # only date (not time)
             year = int(mga[2])
             if year < 100:
-                if year > 50: 
+                if year > 50:
                     year += 1900
                 else:
-                    year += 2000    
- 
+                    year += 2000
+
             return '%4d-%02d-%02d' % (year, int(mga[0]), int(mga[1]))
     except:
         return False
 
 def format_currency(valore):
-    ''' Formatta nel float per i valori currency
-    '''
+    """ Formatta nel float per i valori currency
+    """
     try:
         return float(valore.strip().split(' ')[-1].replace(',','.'))
     except:
         return 0.0
-        
+
 def format_boolean(value):
-    ''' Formatta le stringhe '0' e '1' in boolean True e False
-    '''
+    """ Formatta le stringhe '0' e '1' in boolean True e False
+    """
     return value == '1'
 
 def log_event(*event):
-    ''' Log event and comunicate with print
-    '''
+    """ Log event and comunicate with print
+    """
     if log_only_error and event[0][:5] == "[INFO":
         return
-        
+
     log.write("%s. %s\r\n" % (datetime.now(), event))
-    print event
+    print(event)
     return
 
 def create_partner(partner_code, type_of_partner, default_dict):
-    ''' Create simple element for partner not found
+    """ Create simple element for partner not found
         (write after in default_dict new element)
-    '''
+    """
     try:
-        field = "sql_%s_code" % type_of_partner      
-        partner_ids = sock.execute(dbname, uid, pwd, "res.partner", "search", 
+        field = "sql_%s_code" % type_of_partner
+        partner_ids = sock.execute(dbname, uid, pwd, "res.partner", "search",
             [(field, '=', partner_code)])
         if partner_ids:
             partner_id = partner_ids[0]
-        else:   
+        else:
             data = {
                 'name': "Partner %s (from migration)" % (partner_code),
                 field: partner_code,
@@ -115,45 +115,52 @@ def create_partner(partner_code, type_of_partner, default_dict):
                 }
             if type_of_partner == 'customer':
                 data['ref'] = partner_code
-                data['customer'] = True                
+                data['customer'] = True
             elif type_of_partner == 'supplier':
                 data['supplier'] = True
             elif type_of_partner == 'destination':
                 data['is_address'] = True
-                
-            partner_id = sock.execute(dbname, uid, pwd, "res.partner",
+
+            partner_id = sock.execute(
+                dbname, uid, pwd, "res.partner",
                 'create', data)
-            log_event("[WARN] %s partner created: %s" % (type_of_partner, partner_code))
-                
+            log_event("[WARN] %s partner created: %s" % (
+                type_of_partner, partner_code))
+
         default_dict[partner_code] = partner_id
         return partner_id
     except:
-        log_event("[ERROR] Error creating %s partner: %s" % (type_of_partner, partner_code))
+        log_event("[ERROR] Error creating %s partner: %s" % (
+            type_of_partner, partner_code))
         return False
 
-def get_or_create_partner(partner_code, type_of_partner, mandatory, res_partner_customer, res_partner_supplier):
-    ''' Try to get partner element or create a simple element if not present
-    '''    
+
+def get_or_create_partner(
+        partner_code, type_of_partner, mandatory, res_partner_customer,
+        res_partner_supplier):
+    """ Try to get partner element or create a simple element if not present
+    """
     if type_of_partner == 'customer':
-        default_dict = res_partner_customer 
+        default_dict = res_partner_customer
     elif type_of_partner == 'supplier':
         default_dict = res_partner_supplier
-    elif type_of_partner == 'destination': 
-        default_dict = res_partner_customer # search in customer dict 
+    elif type_of_partner == 'destination':
+        default_dict = res_partner_customer # search in customer dict
     else:
         default_dict = {} # nothing
-        
+
     partner_id = default_dict.get(partner_code, False)
 
     if not partner_id: # create e simple element
-        partner_id = create_partner(partner_code, type_of_partner, default_dict)
-                  
+        partner_id = create_partner(
+            partner_code, type_of_partner, default_dict)
+
     if mandatory and not partner_id:
         log_event("[ERROR] %s partner not found: %s" % (
             type_of_partner, partner_code))
-    return partner_id    
-        
-    
+    return partner_id
+
+
 # -----------------------------------------------------------------------------
 #                           Importazioni qualifiche fornitore
 # -----------------------------------------------------------------------------
@@ -274,11 +281,13 @@ origin_action = {
 
 stock_production_lot = {}
 lot_ids = sock.execute(dbname, uid, pwd, 'stock.production.lot', 'search', [])
-for lot in sock.execute(dbname, uid, pwd, 'stock.production.lot', 'read', lot_ids, ['id','name']):
+for lot in sock.execute(
+        dbname, uid, pwd, 'stock.production.lot', 'read', lot_ids, [
+            'id', 'name']):
     stock_production_lot[lot['name']] = lot['id']
 
 # -----------------------------------------------------------------------------
-#                           Importazione Classi fornitore 
+#                          Importazione Classi fornitore
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -304,54 +313,55 @@ try:
             counter['tot'] += 1
 
             # test if record exists (basing on Ref. as code of Partner)
-            item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
+            item = sock.execute(dbname, uid, pwd, openerp_object, 'search', [
                 ('access_id', '=', access_id)])
-            
+
             data = {
                 'name': name,
                 'access_id': access_id,
             }
             if item:  # already exist
-               counter['upd'] += 1
-               try:
-                   if only_create: 
-                       log_event("[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
-                           name)
-                   else:    
-                       item_mod = sock.execute(dbname, uid, pwd, 
-                           openerp_object, 'write', item, data)
-                       log_event(
-                           "[INFO]", counter['tot'], "Write", openerp_object,
-                           name)
-                   quality_partner_class[access_id] = item[0]
-               except:
-                   log_event("[ERROR] Modifing data, current record:", data)
+                counter['upd'] += 1
+                try:
+                    if only_create:
+                        log_event("[INFO]", counter['tot'], "Write",
+                            openerp_object, " (jumped only_create clause: ",
+                            name)
+                    else:
+                        item_mod = sock.execute(dbname, uid, pwd,
+                            openerp_object, 'write', item, data)
+                        log_event(
+                            "[INFO]", counter['tot'], "Write", openerp_object,
+                            name)
+                    quality_partner_class[access_id] = item[0]
+                except:
+                    log_event("[ERROR] Modifing data, current record:", data)
 
             else:   # new
-               counter['new'] += 1
-               try:
-                   openerp_id=sock.execute(
-                       dbname, uid, pwd, openerp_object, 'create', data)
-                   log_event(
-                       "[INFO]", counter['tot'], "Create", openerp_object, name)
-                   quality_partner_class[access_id] = openerp_id
-               except:
-                   log_event(
-                       "[ERROR] Error creating data, current record: ", data)
+                counter['new'] += 1
+                try:
+                    openerp_id=sock.execute(
+                        dbname, uid, pwd, openerp_object, 'create', data)
+                    log_event(
+                        "[INFO]", counter['tot'], "Create", openerp_object,
+                        name)
+                    quality_partner_class[access_id] = openerp_id
+                except:
+                    log_event(
+                        "[ERROR] Error creating data, current record: ", data)
 except:
     log_event('[ERROR] Error importing data!')
-    raise #Exception("Errore di importazione!") # Scrivo l'errore per debug
+    raise  # Exception("Errore di importazione!") # Scrivo l'errore per debug
 
 store = status(openerp_object)
 if jump_because_imported:
     quality_partner_class = store.load()
 else:
-    store.store(quality_partner_class)    
+    store.store(quality_partner_class)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
-#                                   Importazione Clienti 
+#                                   Importazione Clienti
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -379,12 +389,12 @@ try:
 
             # test if record exists (basing on Ref. as code of Partner)
             if code[:2] == '06':
-                search_key = 'sql_customer_code' 
+                search_key = 'sql_customer_code'
                 destination = False
-            else: 
+            else:
                 search_key = 'sql_destination_code'
                 destination = True
-                
+
             item = sock.execute(
                 dbname, uid, pwd, openerp_object , 'search', [
                     #('access_c_id', '=', access_c_id),
@@ -401,28 +411,29 @@ try:
                 'name': "%s%s" % (name, "" if item else " [*]"), # Creato da importazione)
                 'is_company': True,
                 'access_c_id': access_c_id,
-                'customer': True,                
+                'customer': True,
                 # for link sql importation
-                search_key: code, #'sql_customer_code'
+                search_key: code,  # 'sql_customer_code'
                 'sql_import': True,
             }
             if destination:
                 data['is_address'] = True
                 # parent_id = ?? TODO
-                
+
             if item:
                counter['upd'] += 1
                try:
                    if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "No Write", openerp_object, 
+                           "[INFO]", counter['tot'], "No Write",
+                           openerp_object,
                            " (jumped only_create clause: ", code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', item, 
+                           dbname, uid, pwd, openerp_object, 'write', item,
                            data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", openerp_object, 
+                           "[INFO]", counter['tot'], "Write", openerp_object,
                            code)
                    res_partner_customer[code] = item[0]
                except:
@@ -434,7 +445,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", openerp_object, 
+                       "[INFO]", counter['tot'], "Create", openerp_object,
                        code)
                    res_partner_customer[code] = openerp_id
                except:
@@ -452,7 +463,7 @@ else:
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
-#                           Importazione Fornitori 
+#                           Importazione Fornitori
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -474,11 +485,12 @@ try:
             continue
         if len(line):
             if len(line) != max_col:
-               log_event("[ERROR] %s Different cols not %s but now %s! Jumped: %s" % (
+               log_event(
+                   "[ERROR] %s Different cols not %s but now %s! Jumped: %s" % (
                    counter['tot'], max_col, len(line), line))
                continue
-                
-            access_s_id = line[0]               
+
+            access_s_id = line[0]
             code = format_string(line[1])
             name = format_string(line[2])
             quality_class_code = format_string(line[3])
@@ -490,7 +502,7 @@ try:
             quality_update_date = format_date(line[15])
             quality_start_supplier = format_date(line[33])
             quality_end_supplier = format_date(line[34])
-            
+
             quality_class_id = quality_partner_class.get(
                 quality_class_code, False)
 
@@ -505,7 +517,7 @@ try:
                 ])
             if not item:
                 log_event(
-                    "[WARNING] Supplier not found (must be yet imported)", 
+                    "[WARNING] Supplier not found (must be yet imported)",
                     data, )
                 #continue
 
@@ -521,25 +533,25 @@ try:
                 'quality_commercial_reference': quality_commercial_reference,
                 'quality_update_date': quality_update_date,
                 'quality_start_supplier': quality_start_supplier,
-                'quality_end_supplier': quality_end_supplier,       
+                'quality_end_supplier': quality_end_supplier,
                 # for link sql importation
                 'sql_supplier_code': code,
                 'sql_import': True,
             }
-                
+
             if item:
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", openerp_object, 
+                           "[INFO]", counter['tot'], "Write", openerp_object,
                            " (jumped only_create clause: ", code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', item, 
+                           dbname, uid, pwd, openerp_object, 'write', item,
                            data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", openerp_object, 
+                           "[INFO]", counter['tot'], "Write", openerp_object,
                            code)
                    #res_partner_supplier[access_s_id] = item[0]
                    res_partner_supplier[code] = item[0]
@@ -552,7 +564,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", openerp_object, 
+                       "[INFO]", counter['tot'], "Create", openerp_object,
                        code)
                    #res_partner_supplier[access_s_id] = openerp_id
                    res_partner_supplier[code] = openerp_id
@@ -605,7 +617,7 @@ try:
             type_code = format_string(line[5]).upper()
             deadline = format_date(line[6])
             obsolete = format_boolean(line[7])
-            
+
             # Convert foreign key:
             if type_code == "P":
                 type_id = 'first'
@@ -613,18 +625,18 @@ try:
                 type_id = 'renewal'
             else:
                 type_id = False
-           
+
             partner_id = res_partner_supplier.get(supplier_code, False)
             if not partner_id: # Creo se non esiste
-                partner_id = get_or_create_partner(supplier_code, 
-                    'supplier', True, res_partner_customer, 
+                partner_id = get_or_create_partner(supplier_code,
+                    'supplier', True, res_partner_customer,
                     res_partner_supplier)
-                if not partner_id:    
+                if not partner_id:
                     log_event("[ERROR] Partner not found, jumped! %s" % (line))
                     continue
-               
-            qualification = qualifications.get(qualification_code, False)   
-            
+
+            qualification = qualifications.get(qualification_code, False)
+
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
             data = {
@@ -634,23 +646,23 @@ try:
                 'deadline': deadline,
                 'obsolete': obsolete,
                 'qualification': qualification,
-                'partner_id': partner_id,                
+                'partner_id': partner_id,
                 'access_id': access_id,
             }
             if item:
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            supplier_code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, supplier_code)
                    #quality_claim[access_id] = item[0]
                except:
@@ -660,10 +672,10 @@ try:
                counter['new'] += 1
                try:
                    openerp_id=sock.execute(
-                       dbname, uid, pwd, openerp_object, 'create', 
+                       dbname, uid, pwd, openerp_object, 'create',
                        data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, name)
                    #quality_claim[access_id] = openerp_id
                except:
@@ -675,7 +687,7 @@ except:
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
-#                         Certificazioni fornitore 
+#                         Certificazioni fornitore
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -685,7 +697,7 @@ openerp_object = 'quality.supplier.certification'
 log_event("Start import %s" % openerp_object)
 lines = csv.reader(open(file_input, 'rb'), delimiter=separator)
 counter = {'tot': -1, 'new': 0, 'upd': 0}
-max_col = 0 
+max_col = 0
 try:
     for line in lines:
         if jump_because_imported:
@@ -694,7 +706,7 @@ try:
             counter['tot'] += 1
             max_col = len(line)
             continue
-            
+
         if len(line):
             counter['tot'] += 1
             if len(line) != max_col:
@@ -714,16 +726,16 @@ try:
             # Convert foreign key:
             partner_id = res_partner_supplier.get(supplier_code, False)
             if not partner_id:
-                partner_id = get_or_create_partner(supplier_code, 
-                    'supplier', True, res_partner_customer, 
+                partner_id = get_or_create_partner(supplier_code,
+                    'supplier', True, res_partner_customer,
                     res_partner_supplier)
-                if not partner_id:    
+                if not partner_id:
                     log_event("[ERROR] Partner not found, jumped! %s" % (line))
                     continue
-               
+
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
-                
+
             data = {
                 'date': date,
                 'entity': entity,
@@ -738,17 +750,17 @@ try:
             if item:
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            supplier_code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, supplier_code)
                    #quality_claim[access_id] = item[0]
                except:
@@ -760,7 +772,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, supplier_code)
                    #quality_claim[access_id] = openerp_id
                except:
@@ -772,7 +784,7 @@ except:
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
-#                         Referenze - Andamenti Qualifiche fornitore 
+#                         Referenze - Andamenti Qualifiche fornitore
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -802,40 +814,40 @@ try:
             supplier_code = format_string(line[1])
             date = format_date(line[2])
             note = format_string(line[3])
-            
+
             # Convert foreign key:
             partner_id = res_partner_supplier.get(supplier_code, False)
             if not partner_id:
-                partner_id = get_or_create_partner(supplier_code, 
-                    'supplier', True, res_partner_customer, 
+                partner_id = get_or_create_partner(supplier_code,
+                    'supplier', True, res_partner_customer,
                     res_partner_supplier)
-                if not partner_id:    
+                if not partner_id:
                     log_event("[ERROR] Partner not found, jumped! %s" % (line))
                     continue
-               
+
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
             data = {
                 #'name': name, # TODO non esiste!!!
                 'date': date,
                 'note': note,
-                'partner_id': partner_id,                
+                'partner_id': partner_id,
                 'access_id': access_id,
             }
             if item:
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            supplier_code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, supplier_code)
                    #quality_claim[access_id] = item[0]
                except:
@@ -847,7 +859,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, supplier_code)
                    #quality_claim[access_id] = openerp_id
                except:
@@ -859,7 +871,7 @@ except:
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
-#                         Verifiche fornitore  
+#                         Verifiche fornitore
 # -----------------------------------------------------------------------------
 only_create = True
 jump_because_imported = True
@@ -869,7 +881,7 @@ openerp_object = 'quality.supplier.check'
 log_event("Start import %s" % openerp_object)
 lines = csv.reader(open(file_input, 'rb'), delimiter=separator)
 counter = {'tot': -1, 'new': 0, 'upd': 0}
-max_col = 0 
+max_col = 0
 try:
     for line in lines:
         if jump_because_imported:
@@ -878,7 +890,7 @@ try:
             counter['tot'] += 1
             max_col = len(line)
             continue
-            
+
         if len(line):
             counter['tot'] += 1
             if len(line) != max_col:
@@ -890,21 +902,21 @@ try:
             supplier_code = format_string(line[1])
             date = format_date(line[2])
             name = format_string(line[3])
-            note = format_string(line[4]) 
+            note = format_string(line[4])
 
             # Convert foreign key:
             partner_id = res_partner_supplier.get(supplier_code, False)
             if not partner_id:
-                partner_id = get_or_create_partner(supplier_code, 
-                    'supplier', True, res_partner_customer, 
+                partner_id = get_or_create_partner(supplier_code,
+                    'supplier', True, res_partner_customer,
                     res_partner_supplier)
-                if not partner_id:    
+                if not partner_id:
                     log_event("[ERROR] Partner not found, jumped! %s" % (line))
                     continue
-               
+
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
-                
+
             data = {
                 'date': date,
                 'name': name,
@@ -915,17 +927,17 @@ try:
             if item:
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            supplier_code)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, supplier_code)
                    #quality_claim[access_id] = item[0]
                except:
@@ -937,7 +949,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, supplier_code)
                    #quality_claim[access_id] = openerp_id
                except:
@@ -945,7 +957,7 @@ try:
                        "[ERROR] Error creating data, current record: ", data)
 except:
     log_event('[ERROR] Error importing data!')
-    raise  
+    raise
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -970,7 +982,7 @@ if not jump_because_imported:
             if len(line):
                 access_id = line[0]
                 ref = "REC%05d" % (int(format_string(line[1]) or '0'))
-                
+
                 item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                     ('access_id', '=', access_id)])
                 data = {
@@ -981,7 +993,7 @@ if not jump_because_imported:
                 }
                 if item:
                     quality_claim[access_id] = item[0]
-                else:    
+                else:
                    try:
                        quality_claim[access_id] = sock.execute(
                            dbname, uid, pwd, openerp_object, 'create', data)
@@ -993,11 +1005,11 @@ if not jump_because_imported:
     except:
         log_event('[ERROR] Error importing data!')
         raise
-        
+
 store = status(openerp_object)
 if jump_because_imported:
     quality_claim = store.load()
-else:    
+else:
     store.store(quality_claim)
 log_event("Total %(tot)s" % counter)
 
@@ -1027,7 +1039,7 @@ if not jump_because_imported:
                         continue
                     access_id = line[0]
                     ref = "NC%05d" % (int(format_string(line[4]) or '0'))
-                    
+
                     item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                         ('access_id', '=', access_id)])
                     data = {
@@ -1037,7 +1049,7 @@ if not jump_because_imported:
                         }
                     if item:
                         quality_conformed[access_id] = item[0]
-                    else:    
+                    else:
                        try:
                            quality_conformed[access_id] = sock.execute(
                                dbname, uid, pwd, openerp_object, 'create', data)
@@ -1056,7 +1068,7 @@ if not jump_because_imported:
 store = status(openerp_object)
 if jump_because_imported:
     quality_conformed = store.load()
-else:    
+else:
     store.store(quality_conformed)
 log_event("Total %(tot)s" % counter)
 
@@ -1097,7 +1109,7 @@ if not jump_because_imported:
                 }
                 if item:
                     quality_sampling[access_id] = item[0]
-                else:    
+                else:
                    try:
                        quality_sampling[access_id] = sock.execute(
                            dbname, uid, pwd, openerp_object, 'create', data)
@@ -1112,7 +1124,7 @@ if not jump_because_imported:
 store = status(openerp_object)
 if jump_because_imported:
     quality_sampling = store.load()
-else:    
+else:
     store.store(quality_sampling)
 log_event("Total %(tot)s" % counter)
 
@@ -1134,7 +1146,7 @@ if not jump_because_imported:
             if len(line):
                 access_id = line[0]
                 ref = "ACP%05d" % (int(format_string(line[1]) or '0'))
-                
+
                 item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                     ('access_id', '=', access_id)])
                 data = {
@@ -1143,7 +1155,7 @@ if not jump_because_imported:
                 }
                 if item:
                     quality_action[access_id] = item[0]
-                else:    
+                else:
                    try:
                        quality_action[access_id] = sock.execute(
                            dbname, uid, pwd, openerp_object, 'create', data)
@@ -1158,7 +1170,7 @@ if not jump_because_imported:
 store = status(openerp_object)
 if jump_because_imported:
     quality_action = store.load()
-else:    
+else:
     store.store(quality_action)
 log_event("Total %(tot)s" % counter)
 
@@ -1182,7 +1194,7 @@ try:
             break
         if counter['tot'] < 0:
             counter['tot'] += 1
-            continue            
+            continue
         if len(line):
             access_id = line[0]
             name = format_string(line[1])
@@ -1211,11 +1223,11 @@ try:
                 old_claim = ref_claim
             else:
                 old_claim += 1
-                
-            if old_claim != ref_claim: 
+
+            if old_claim != ref_claim:
                 log_event("[ERROR] old_rec=%s rec_claim=%s (hole in list)" % (
                     old_claim, ref_claim))
-                old_claim = ref_claim    
+                old_claim = ref_claim
 
             ref = "REC%05d" % (ref_claim)
             customer_ref = False # non esiste il codice di rif NC cliente?
@@ -1251,13 +1263,13 @@ try:
 
             # Trova partner ed eventuale destinazione
             partner_id = False
-            partner_address_id = False            
+            partner_address_id = False
             if partner_code[:2] == '06':
-                partner_id = get_or_create_partner(partner_code, 'customer', 
+                partner_id = get_or_create_partner(partner_code, 'customer',
                     False, res_partner_customer, res_partner_supplier)
             elif partner_code[:2] == '07':
-                partner_address_id = get_or_create_partner(partner_code, 
-                    'destination', False, res_partner_customer, 
+                partner_address_id = get_or_create_partner(partner_code,
+                    'destination', False, res_partner_customer,
                     res_partner_supplier)
                 partner_id = partner_address_id # TODO cercare il partner della destinazione
 
@@ -1301,23 +1313,23 @@ try:
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            ref)
-                   else:    
+                   else:
                        try:
-                           item_mod = sock.execute( 
-                               dbname, uid, pwd, openerp_object, 'write', 
+                           item_mod = sock.execute(
+                               dbname, uid, pwd, openerp_object, 'write',
                                item, data)
                            log_event(
-                               "[INFO]", counter['tot'], "Write", 
+                               "[INFO]", counter['tot'], "Write",
                                openerp_object, ref)
                        except:
                            log_event(
                                "[ERR] %s Write data %s", counter['tot'], data)
-                                   
+
                    quality_claim[access_id] = item[0]
                except:
                    log_event("[ERROR] Modifing data, current record:", data)
@@ -1327,7 +1339,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, ref)
                    quality_claim[access_id] = openerp_id
                except:
@@ -1362,21 +1374,21 @@ try:
                             'real_lot_id': lot_id,
                             'access_id': lot_access_id,
                             }
-                        lot_id = sock.execute(dbname, uid, pwd, 
+                        lot_id = sock.execute(dbname, uid, pwd,
                             'quality.claim.product' , 'search', [
                                 ('access_id', '=', lot_access_id)])
                     else:
                         #log_event("[ERROR] No Lot, jump: %s" % lot_name) # no comunication
-                        continue                                    
+                        continue
                 except:
                     log_event("[ERROR] generic error (lot part) %s" % (
                         sys.exc_info()))
                     continue
-                    
+
                 if lot_id:  # already exist
                     try:
                        sock.execute(
-                           dbname, uid, pwd, 'quality.claim.product', 'write', 
+                           dbname, uid, pwd, 'quality.claim.product', 'write',
                            lot_id, data)
                     except:
                         log_event("[ERROR] Modifing lot %s [%s]" % (
@@ -1397,7 +1409,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_claim = store.load()
 else:
-    store.store(quality_claim)    
+    store.store(quality_claim)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -1481,14 +1493,14 @@ try:
 
             sampling_id = quality_sampling.get(sampling_code, False)
             action_id = quality_action.get(action_code, False)
-            
+
             gravity_id = gravity.get(gravity_code, 2) #TODO da cambiare il default
             lot_id = stock_production_lot.get(lot_code)
             if not lot_id:
                 log_event("[ERROR] %s Lot not found %s, temp replaced ID=%s" % (
-                    counter['tot'], lot_code, ref))                
+                    counter['tot'], lot_code, ref))
                 lot_id = default_lot_id
-                
+
             '''if genesis_1:
                 genesis = 'acceptance'
             elif genesis_2:
@@ -1517,24 +1529,24 @@ try:
                 'ddt_ref': ddt_ref,
                 'lot_id': lot_id,
                 'note_RAQ': note_RAQ,
-                'cancel': cancel,                
+                'cancel': cancel,
                 #'claim_id': claim_id,
                 'sampling_id': sampling_id,
                 #'acceptation_id': acceptation_id,
-                'action_id': action_id,                 
+                'action_id': action_id,
                 'access_id': access_id,
                 'stock_note': stock_note,
                 }
-            
+
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            name)
-                   else:    
+                   else:
                        item_mod = sock.execute(
                            dbname, uid, pwd, openerp_object, 'write', item, data)
                        log_event(
@@ -1550,26 +1562,26 @@ try:
                    openerp_id=sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, name)
                    quality_conformed[access_id] = openerp_id
                except:
                    log_event(
-                       "[ERROR] Error creating data, current record: ", 
+                       "[ERROR] Error creating data, current record: ",
                        counter['tot'], data)
                    continue
-            
+
             if action_id:
                 sock.execute(dbname, uid, pwd, 'quality.action', 'write', action_id, {
                     'conformed_id' : quality_conformed[access_id],  # non è parent_
                     'origin': 'nc', # TODO corretto?
                     })
-            if sampling_id: # corretto manualmente 
+            if sampling_id: # corretto manualmente
                 sock.execute(dbname, uid, pwd, 'quality.sampling', 'write', sampling_id, {
                     'parent_conformed_id' : quality_conformed[access_id],
                     'origin': 'nc', # TODO corretto?
                     })
-            
+
             #Creazione trattamenti:
             for key in treatment:
                 if treatment[key]['treatment']:
@@ -1586,7 +1598,7 @@ try:
                     if treat_id:  # already exist
                         try:
                            sock.execute(
-                               dbname, uid, pwd, 'quality.treatment', 'write', 
+                               dbname, uid, pwd, 'quality.treatment', 'write',
                                treat_id, data)
                         except:
                             log_event("[ERROR] Modifing treat%s" % key)
@@ -1598,7 +1610,7 @@ try:
                         except:
                             log_event(
                                 "[ERROR] Error creating treat%s" % key)
-                    
+
             #Creazione comunicazioni
             for key in comunication:
                 if comunication[key]['comunication']:
@@ -1615,7 +1627,7 @@ try:
                     if comunication_id:  # already exist
                         try:
                            sock.execute(
-                               dbname, uid, pwd, 'quality.comunication', 'write', 
+                               dbname, uid, pwd, 'quality.comunication', 'write',
                                comunication_id, data)
                         except:
                             log_event("[ERROR] Modifing comunication%s" % key)
@@ -1635,7 +1647,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_conformed = store.load()
 else:
-    store.store(quality_conformed)    
+    store.store(quality_conformed)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -1670,10 +1682,10 @@ try:
                continue
             access_id = line[0]
             closed = format_boolean(line[1]) # closed (sample)
-            ref = format_string(line[2])            
+            ref = format_string(line[2])
             date = format_date(line[3])
             lot_code = format_string(line[4])
-            
+
             # Spunta per fare l'esame:
             do_visual = format_boolean(line[8])      # ex 8
             do_analysis = format_boolean(line[9])    # ex 10
@@ -1685,7 +1697,7 @@ try:
             analysis_state = format_boolean(line[13])# ex 14
             taste_state = format_boolean(line[14])   # ex 13
             glazing_state = format_boolean(line[15]) # ex 15
-            
+
             # Descrizioni esami:
             analysis = format_string(line[16])
             taste = format_string(line[17])
@@ -1700,25 +1712,25 @@ try:
             tasters[2] = format_string(line[24])
             tasters[3] = format_string(line[25])
             tasters[4] = format_string(line[26])
-            
+
             passed = format_boolean(line[27]) # passed (sample)
             note = format_string(line[29])
             conformed_code = format_string(line[36])
             cancel = format_boolean(line[38])
             sampling_plan_code = format_string(line[39])
-            
+
             ref = "SAM%05d" % (int(ref or '0'))
             lot_id = stock_production_lot.get(lot_code, False)
             if not lot_id:
                 log_event("[ERROR] %s Lot not found (replaced with temp raplaced ID=%s) %s" % (
-                    counter['tot'], lot_code, ref))                
+                    counter['tot'], lot_code, ref))
                 lot_id = default_lot_id
-            
+
             conformed_id = quality_conformed.get(conformed_code, False)
             sampling_plan_id = plan.get(sampling_plan_code, False)
             if not date:
                 date = data.get('date', default_error_data)
-            
+
             # Start of importation:
             counter['tot'] += 1
 
@@ -1750,7 +1762,7 @@ try:
 
                 'note': note,
                 'sampling_plan_id': sampling_plan_id,
-                'cancel': cancel,                
+                'cancel': cancel,
                 'access_id': access_id,
             }
             if closed:
@@ -1758,23 +1770,23 @@ try:
                 data['analysis_state'] = 'passed' if analysis_state else 'not_passed'
                 data['taste_state'] = 'passed' if taste_state else 'not_passed'
                 data['glazing_state'] = 'passed' if glazing_state else 'not_passed'
-            else:    
+            else:
                 data['visual_state'] = 'passed' if visual_state else 'to_examined'
                 data['analysis_state'] = 'passed' if analysis_state else 'to_examined'
                 data['taste_state'] = 'passed' if taste_state else 'to_examined'
                 data['glazing_state'] = 'passed' if glazing_state else 'to_examined'
-                
+
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            ref)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
                            "[INFO]", counter['tot'], "Write",
@@ -1789,13 +1801,13 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, ref)
                    quality_sampling[access_id] = openerp_id
                except:
                    log_event(
                        "[ERROR] Error creating data, current record: ", data)
-                       
+
             if conformed_id:
                 sock.execute(dbname, uid, pwd, 'quality.conformed', 'write', conformed_id, {
                     'parent_sampling_id' : quality_sampling[access_id],
@@ -1805,7 +1817,7 @@ try:
             # Aggiunta assaggiatori:
             for taste_id, taster in tasters.iteritems():
                 if taster:
-                    taster_access_id = "%s%s" % (access_id, taste_id)                        
+                    taster_access_id = "%s%s" % (access_id, taste_id)
                     data = {
                         'name': taster,
                         'sample_id': quality_sampling[access_id] ,
@@ -1814,16 +1826,16 @@ try:
                     taster_ids = sock.execute(dbname, uid, pwd, 'quality.sampling.taster', 'search', [
                         ('access_id', '=', taster_access_id)])
                     if taster_ids:
-                        taster_ids = sock.execute(dbname, uid, pwd, 
+                        taster_ids = sock.execute(dbname, uid, pwd,
                             'quality.sampling.taster' , 'write', taster_ids[0], data)
                     else:
-                        taster_ids = sock.execute(dbname, uid, pwd, 
+                        taster_ids = sock.execute(dbname, uid, pwd,
                             'quality.sampling.taster', 'create', data)
-                    
+
             if closed: # test for WF (end of importation)
                 if passed:
                     sample_passed.append(quality_sampling[access_id])
-                else:    
+                else:
                     sample_notpassed.append(quality_sampling[access_id])
             else:
                 if passed:
@@ -1836,7 +1848,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_sampling = store.load()
 else:
-    store.store(quality_sampling)    
+    store.store(quality_sampling)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -1866,7 +1878,7 @@ try:
                log_event("[ERROR] %s ] counter['tot'], ] not %s but now %s! Jump:" % (
                    counter['tot'], max_col, len(line)))
                continue
-               
+
             counter['tot'] += 1
             access_id = line[0]
             ref = format_string(line[1])
@@ -1876,7 +1888,7 @@ try:
             proposed_subject = format_string(line[5])
             esit_date = format_date(line[6])
             esit_note = format_string(line[7])
-            child_code = format_string(line[9])            
+            child_code = format_string(line[9])
             #closed 10
             closed_date = format_date(line[11])
             proposing_entity = format_string(line[13])
@@ -1907,23 +1919,23 @@ try:
                 'closed_date': closed_date,
                 'esit_note': esit_note,
                 'child_id': child_id,
-                'type': action_type_id,                
+                'type': action_type_id,
                 'access_id': access_id,
             }
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            ref)
                    else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, ref)
                    quality_action[access_id] = item[0]
                except:
@@ -1934,7 +1946,7 @@ try:
                    openerp_id=sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, name)
                    quality_action[access_id] = openerp_id
                except:
@@ -1942,7 +1954,7 @@ try:
                        "[ERROR] Error creating data, current record: ", data)
 
             if child_id:
-                sock.execute(dbname, uid, pwd, 'quality.action', 'write', 
+                sock.execute(dbname, uid, pwd, 'quality.action', 'write',
                     child_id, {
                         'parent_id' : quality_action[access_id],
                         'origin': data['origin'], # TODO Non importa
@@ -1955,7 +1967,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_action = store.load()
 else:
-    store.store(quality_action)    
+    store.store(quality_action)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -1992,8 +2004,8 @@ try:
             deadline = format_date(line[4])
 
             action_id = quality_action.get(action_code, False)
-            manager_id = 1 
-            
+            manager_id = 1
+
             # Start of importation:
             counter['tot'] += 1
 
@@ -2010,17 +2022,17 @@ try:
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            access_id)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, access_id)
                    quality_action_intervent[access_id] = item[0]
                except:
@@ -2032,7 +2044,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, access_id)
                    quality_action_intervent[access_id] = openerp_id
                except:
@@ -2045,7 +2057,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_action_intervent = store.load()
 else:
-    store.store(quality_action_intervent)    
+    store.store(quality_action_intervent)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -2070,7 +2082,7 @@ try:
             counter['tot'] += 1
             max_col = len(line)
             continue
-            
+
         if len(line):
             if len(line) != max_col:
                log_event("[ERROR] %s Different cols not %s but now %s! Jumped:" % (
@@ -2088,18 +2100,18 @@ try:
 
             if not date:
                 date = data.get('date', default_error_data)
-                
+
             ref = "ACPT%05d" % (int(name or '0'))
             if partner_code:
-                partner_id = get_or_create_partner(partner_code, 'supplier', False, 
+                partner_id = get_or_create_partner(partner_code, 'supplier', False,
                     res_partner_customer, res_partner_supplier)
             else:
-                partner_id = False   
-                
+                partner_id = False
+
             if not partner_id:
                log_event("[WARN] Partner not found in %s" % (ref))
-               
- 
+
+
             # test if record exists (basing on Ref. as code of Partner)
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
@@ -2115,17 +2127,17 @@ try:
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
-                           openerp_object, " (jumped only_create clause: ", 
+                           "[INFO]", counter['tot'], "Write",
+                           openerp_object, " (jumped only_create clause: ",
                            name)
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, name)
                    quality_acceptation[access_id] = item[0]
                except:
@@ -2137,7 +2149,7 @@ try:
                    openerp_id = sock.execute(
                        dbname, uid, pwd, openerp_object, 'create', data)
                    log_event(
-                       "[INFO]", counter['tot'], "Create", 
+                       "[INFO]", counter['tot'], "Create",
                        openerp_object, name)
                    quality_acceptation[access_id] = openerp_id
                except:
@@ -2150,7 +2162,7 @@ store = status(openerp_object)
 if jump_because_imported:
     quality_acceptation = store.load()
 else:
-    store.store(quality_acceptation)    
+    store.store(quality_acceptation)
 log_event("Total %(tot)s (N: %(new)s, U: %(upd)s)" % counter)
 
 # -----------------------------------------------------------------------------
@@ -2196,7 +2208,7 @@ try:
             expired = format_boolean(line[10])   # Scadenza
             motivation = format_string(line[11])
             qty = format_boolean(line[12])        # Quantitativo
-            
+
             quality = False # TODO esiste sul file da importare??
             lot_id = False
 
@@ -2211,63 +2223,63 @@ try:
                 lot_id = sock.execute(dbname, uid, pwd, 'stock.production.lot',
                     'create', {
                         'name': lot_code,
-                        'product_id': default_product_id, 
+                        'product_id': default_product_id,
                         'date': datetime.now().strftime("%Y-%m-%d"),
                         'default_supplier_id': False
-                        })  
+                        })
 
             # test if record exists (basing on Ref. as code of Partner)
             item = sock.execute(dbname, uid, pwd, openerp_object , 'search', [
                 ('access_id', '=', access_id)])
 
-            if conformed_code and conformed_code != '0':            
+            if conformed_code and conformed_code != '0':
                 conformed_id = quality_conformed.get('conformed_code', False)
-                
-                if not conformed_id:                
-                    conformed_ids = sock.execute(dbname, uid, pwd, 
+
+                if not conformed_id:
+                    conformed_ids = sock.execute(dbname, uid, pwd,
                         'quality.conformed', 'search', [
                             ('access_id', '=', conformed_code)])
                     if conformed_ids:
                         conformed_id = conformed_ids[0]
-                    else:    
+                    else:
                         log_event("[WARNING] Conformed_id not found, not write: %s" % counter['tot'])
             else:
                 conformed_id = False #quality_conformed.get(conformed_code, False)
-            
+
             acceptation_id = quality_acceptation.get(acceptation_code, False)
             if not acceptation_id:
                 log_event("[ERROR] %s. No parent form: %s" % (
                     counter['tot'], acceptation_code))
                 continue
-                
+
             data = {
                 'acceptation_id': acceptation_id,
                 'lot_id': lot_id,
                 'qty_arrived': qty_arrived,
-                'qty_expected': qty_expected,                
+                'qty_expected': qty_expected,
                 # Motivi check:
                 'qty': qty,
                 'temp': temp,
                 'label': label,
                 'package': package,
                 'expired': expired,
-                
+
                 #'qty_package': qty_package,
                 'conformed_id': conformed_id,
-                'motivation': motivation,                
+                'motivation': motivation,
                 'access_id': access_id,
             }
-            
+
             if item:  # already exist
                counter['upd'] += 1
                try:
-                   if only_create: 
+                   if only_create:
                        log_event(
-                           "[INFO]", counter['tot'], "Write", 
+                           "[INFO]", counter['tot'], "Write",
                            openerp_object, " (jumped only_create clause: ")
-                   else:    
+                   else:
                        item_mod = sock.execute(
-                           dbname, uid, pwd, openerp_object, 'write', 
+                           dbname, uid, pwd, openerp_object, 'write',
                            item, data)
                        log_event(
                            "[INFO]", counter['tot'], "Write", openerp_object)
@@ -2287,11 +2299,11 @@ try:
                        "[ERROR] Error creating data, current record: ", data)
             # Aggiorno il valore per il ritorno alla scheda accettazione
             if conformed_id:
-                sock.execute(dbname, uid, pwd, 'quality.conformed', 'write', 
+                sock.execute(dbname, uid, pwd, 'quality.conformed', 'write',
                     conformed_id, {
                         'acceptation_id' : acceptation_id, # Padre della riga
                         'origin': 'acceptation',
-                        })         
+                        })
 except:
     log_event('[ERROR] Error importing data!')
     raise
@@ -2322,7 +2334,7 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_claim_draft_opened', item_id)
         log_event('[INFO] bozza > opened, ID: %s' % item_id)
     except:
@@ -2337,14 +2349,14 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_claim_opened_nc', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
-            'trigger_claim_nc_done', item_id)            
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
-            'trigger_claim_done_closed', item_id)            
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
-            'trigger_claim_closed_saw', item_id)            
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
+            'trigger_claim_nc_done', item_id)
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
+            'trigger_claim_done_closed', item_id)
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
+            'trigger_claim_closed_saw', item_id)
         log_event('[INFO] opened > nc > done > close > saw, ID: %s' % item_id)
     except:
         log_event('[ERROR] Impossibile opened > nc > done > close > saw, ID: %s' % item_id)
@@ -2358,10 +2370,10 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_claim_opened_closed', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
-            'trigger_claim_closed_saw', item_id)            
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
+            'trigger_claim_closed_saw', item_id)
         log_event('[INFO] opened > closed > saw, ID: %s' % item_id)
     except:
         log_event('[ERROR] Impossibile opened > closed > saw, ID: %s' % item_id)
@@ -2380,7 +2392,7 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_action_draft_opened', item_id)
         log_event('[INFO] bozza > opened, ID: %s' % item_id)
     except:
@@ -2395,9 +2407,9 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_action_opened_closed', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_action_closed_saw', item_id)
         log_event('[INFO] opened > closed > saw, ID: %s' % item_id)
     except:
@@ -2417,11 +2429,11 @@ item_ids = sock.execute(dbname, uid, pwd, openerp_object, 'search', domain)
 for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, field_list):
     try:
         item_id = item['id']
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_conformed_draft_opened', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_conformed_opened_closed', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_conformed_closed_saw', item_id)
         log_event('[INFO] draft > opened > closed > saw, ID: %s' % item_id)
     except:
@@ -2437,7 +2449,7 @@ for item in sock.execute(dbname, uid, pwd, openerp_object, 'read', item_ids, fie
         item_id = item['id']
         sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_conformed_draft_opened', item_id)
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_conformed_opened_cancel', item_id)
         log_event('[INFO] draft > opened > closed > saw, ID: %s' % item_id)
     except:
@@ -2454,31 +2466,31 @@ comment = "Sampling (draft > opened > passed) >> passati"
 log_event('Start trigger WF %s' % comment)
 for item_id in sample_passed:
     try:
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_sampling_draft_opened', item_id)
     except:
         log_event('[WARNING] Impossibile %s, ID: %s' % (comment, item_id))
 
     try:
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_sampling_opened_passed', item_id)
         log_event('[INFO] %s, ID: %s' % (comment, item_id))
     except:
         log_event('[ERROR] Impossibile %s, ID: %s' % (comment, item_id))
-        
+
 log_event('End trigger WF %s record %s' % (comment, len(item_ids)))
 
 comment = "Sampling (draft > opened > notpassed) >> not passati"
 log_event('Start trigger WF %s' % comment)
 for item_id in sample_notpassed:
     try:
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_sampling_draft_opened', item_id)
     except:
         log_event('[WARNING] Impossibile aprire il campionamento %s, ID: %s' % (comment, item_id))
 
     try:
-        sock.exec_workflow(dbname, uid, pwd, openerp_object, 
+        sock.exec_workflow(dbname, uid, pwd, openerp_object,
             'trigger_sampling_opened_notpassed', item_id)
         log_event('[INFO] %s, ID: %s' % (comment, item_id))
     except:
