@@ -134,12 +134,6 @@ class quality_document(osv.osv):
         return self.get_php_return_page(
             cr, uid, destination, name, context=context)
 
-    def load_document(self, cr, uid, ids, context=None):
-        """ Load document from binary file
-        """
-        # Launch Wizard for load document
-        return True
-
     def delete_document(self, cr, uid, ids, context=None):
         """ Load document from binary file
         """
@@ -167,6 +161,21 @@ class quality_document(osv.osv):
     # -------------------------------------------------------------------------
     # Override function:
     # -------------------------------------------------------------------------
+    def get_fullname(self, cr, uid, ids, context=None):
+        """ Return fullname of the file
+        """
+        res_id = ids[0]
+        document = self.browse(cr, uid, res_id, context=context)
+        path = self.get_store_path(cr, uid, context=context)
+        extension = document.extension
+
+        # Save file as ID.extension in Store folder
+        fullname = os.path.join(
+            path,
+            '%s.%s' % (res_id, extension),
+        )
+        return fullname
+
     def create(self, cr, uid, vals, context=None):
         """ Generate not conformed if one problem is fount
         """
@@ -182,18 +191,11 @@ class quality_document(osv.osv):
                 _('Necessario indicare il file per creare un documento!'),
                 )
 
-        path = self.get_store_path(cr, uid, context=context)
-
-        extension = vals['extension']
         del(vals['file'])
         vals['loaded'] = True  # Hide Binary widget
         res_id = osv.osv.create(self, cr, uid, vals, context=context)
 
-        # Save file as ID.extension in Store folder
-        fullname = os.path.join(
-            path,
-            '%s.%s' % (res_id, extension),
-        )
+        fullname = self.get_fullname(cr, uid, [res_id], context=context)
         with open(fullname, 'wb') as f:
             f.write(base64.b64decode(document_string))
         _logger.info('Storing file: %s' % fullname)
