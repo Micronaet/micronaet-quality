@@ -250,7 +250,7 @@ class quality_document(osv.osv):
     _columns = {
         'name': fields.char(
             'Descrizione', size=120, required=True),
-        'date': fields.datetime('Data creazione'),
+        'date': fields.date('Data creazione'),
         'user_id': fields.many2one('res.users', 'Utente'),
 
         'area': fields.char('Area', size=80),
