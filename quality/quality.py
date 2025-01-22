@@ -86,6 +86,29 @@ class quality_document(osv.osv):
     # -------------------------------------------------------------------------
     # Utility:
     # -------------------------------------------------------------------------
+    def open_quality_document_add(self, cr, uid, model, item_id, context=None):
+        """ Open form with default
+        """
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        ctx['default_model_ref'] = '%s,%s' % (model, item_id)
+        return  {
+            'type': 'ir.actions.act_window',
+            'name': _('Collega documento'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            # 'res_id': res_id,
+            'res_model': 'quality.document',
+            'view_id': False,
+            'views': [(False, 'form')],
+            'domain': [],
+            'context': ctx,
+            'target': 'new',
+            'nodestroy': False,
+            }
+
+
     def get_many2many(self, cr, uid, model, item_id, context=None):
         """ Search model ref
         """
@@ -1928,6 +1951,18 @@ class quality_conformed(osv.osv):
             'module': 'quality',
             'record': sampling_id,
             })
+
+    # -------------------------------------------------------------------------
+    # Document Management:
+    # -------------------------------------------------------------------------
+    def quality_document_add(self, cr, uid, ids, context=None):
+        """ Open Document add form
+        """
+        return self.pool.get('quality.document').open_quality_document_add(
+            cr, uid,
+            model='quality.conformed',
+            item_id=ids[0],
+            context=context)
 
     def _get_quality_document(
             self, cr, uid, ids, field_name, arg, context=None):

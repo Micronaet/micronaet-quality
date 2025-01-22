@@ -34,6 +34,8 @@
                     <field name="name" />
                     <field name="area" />
                     <field name="extension" />
+                    <field name="loaded" invisible="1"/>
+                    <button name="return_file_apache_php" type="object" string="Scarica documento" attrs="{'invisible': [('loaded', '=', False)]}"/>
                 </tree>
             </field>
         </record>
@@ -58,6 +60,7 @@
                            <separator string="Note" colspan="4"/>
                            <field name="note" colspan="4" nolabel="1"/>
                            <field name="loaded" invisible="1"/>
+                           <field name="model_ref" invisible="1"/>
                        </group>
                     </sheet>
                 </form>
@@ -1013,7 +1016,7 @@
                                 </page>
                                 <page string='Documenti'>
                                     <group colspan="4" col='3'>
-                                        <button name="quality_document_add" type="object" icon="gtk-plus" colspan="1"/>
+                                        <button name="quality_document_add" type="object" icon="gtk-add" colspan="1"/>
                                         <field name='document_ids' nolabel='1' colspan='4'/>
                                     </group>
                                 </page>
