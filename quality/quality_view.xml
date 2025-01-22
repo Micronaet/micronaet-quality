@@ -6,8 +6,8 @@
             <field name="model">quality.document</field>
             <field name="arch" type="xml">
                 <tree string="Documenti">
-                    <field name="create_date" />
-                    <field name="create_uid" />
+                    <field name="create_datetime" />
+                    <field name="user_id" />
                     <field name="name" />
                     <field name="area" />
                     <field name="extension" />
@@ -28,8 +28,8 @@
                            <field name="extension" />
                            <field name="area" />
 
-                           <field name="create_date" readonly="1"/>
-                           <field name="create_id" readonly="1"/>
+                           <field name="create_datetime" readonly="1"/>
+                           <field name="user_id" readonly="1"/>
 
                            <separator string="Note" colspan="4"/>
                            <field name="note" colspan="4" nolabel="1"/>

@@ -94,7 +94,7 @@ class quality_document(osv.osv):
     _columns = {
         'name': fields.char(
             'Descrizione', size=120, required=True),
-        'create_date': fields.datetime('Data creazione'),
+        'create_datetime': fields.datetime('Data creazione'),
         'user_id': fields.many2one('res.users', 'Utente'),
 
         'area': fields.char('Area', size=80),
@@ -114,7 +114,7 @@ class quality_document(osv.osv):
     _defaults = {
         'extension': lambda *x: 'pdf',
         'user_id': lambda s, cr, uid, ctx: uid,
-        'create_date':
+        'create_datetime':
             lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT),
     }
 
