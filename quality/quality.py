@@ -133,6 +133,7 @@ class quality_document(osv.osv):
 
         extension = vals['extension']
         del(vals['file'])
+        vals['loaded'] = True  # Hide Binary widget
         res_id = osv.osv.create(self, cr, uid, vals, context=context)
 
         # Save file as ID.extension in Store folder
@@ -153,7 +154,8 @@ class quality_document(osv.osv):
 
         'area': fields.char('Area', size=80),
         'note': fields.text('Note'),
-        'loaded': fields.text('Note'),
+        'loaded': fields.boolean(
+            'Caricato', help='Nasconde il caricamento di file successivi'),
 
         'extension': fields.selection([
             ('pdf', 'Acrobat PDF'),
