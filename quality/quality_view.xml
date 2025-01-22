@@ -1,12 +1,35 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <record id="view_quality_document_search" model="ir.ui.view">
+            <field name="name">quality.document.search</field>
+            <field name="model">quality.document</field>
+            <field name="arch" type="xml">
+                <search string="Documenti">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="area" />
+                    <field name="extension" />
+                    <field name="user_id" filter_domain="[('user_id','=',self)]"/>
+
+                    <field string="Dalla data" name="date" filter_domain="[('date','&gt;=',self)]"/>
+                    <field string="Alla data" name="date" filter_domain="[('date','&lt;=',self)]"/>
+
+                    <group expand="0" string="Raggruppa per...">
+                        <filter name="date" string="Data creazione" context="{'group_by': 'date'}"/>
+                        <filter name="area" string="Area" context="{'group_by': 'area'}"/>
+                        <filter name="extension" string="Tipo documento" context="{'group_by': 'extension'}"/>
+                        <filter name="user_id" string="Creatore" context="{'group_by': 'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
         <record id="view_quality_document_tree" model="ir.ui.view">
             <field name="name">quality.document.tree</field>
             <field name="model">quality.document</field>
             <field name="arch" type="xml">
                 <tree string="Documenti">
-                    <field name="create_datetime" />
+                    <field name="date" />
                     <field name="user_id" />
                     <field name="name" />
                     <field name="area" />
@@ -28,7 +51,7 @@
                            <field name="extension" />
                            <field name="area" />
 
-                           <field name="create_datetime" readonly="1"/>
+                           <field name="date" readonly="1"/>
                            <field name="user_id" readonly="1"/>
 
                            <separator string="Note" colspan="4"/>
