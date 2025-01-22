@@ -101,7 +101,8 @@ class quality_document(osv.osv):
             config_ids = config_pool.search(cr, uid, [
                 ('key', '=', param),
             ], context=context)
-            config = config_pool.browse(config_ids)
+            config = config_pool.browse(
+                cr, uid, config_ids, context=context)[0]
             return os.path.expanduser(config.value)
         except:
             raise osv.except_osv(
