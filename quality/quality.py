@@ -90,6 +90,24 @@ class quality_document(osv.osv):
         """
         return True
 
+    def get_store_path(self, cr, uid, context=None):
+        """ Extract store path from parameter
+        """
+        config_pool = self.pool.get('ir.config_parameter')
+        param = 'quality.document.store.folder'
+        try:
+            config_ids = config_pool.search(cr, uid, [
+                ('key', '=', param),
+            ], context=context)
+            config = config_pool.browse(config_ids)
+            return os.path.expanduser(config.value)
+        except:
+            raise osv.except_osv(
+                _('Errore'),
+                _('Necessario indicare nel parametro %s '
+                  'il valore della cartella di store documentale!' % param),
+                )
+
     # -------------------------------------------------------------------------
     # Override function:
     # -------------------------------------------------------------------------
@@ -108,12 +126,18 @@ class quality_document(osv.osv):
                 _('Necessario indicare il file per creare un documento!'),
                 )
 
+        path = self.get_store_path(cr, uid, context=context)
+
         extension = vals['extension']
         del(vals['file'])
         res_id = osv.osv.create(self, cr, uid, vals, context=context)
 
         # Save file as ID.extension in Store folder
-
+        fullname = os.path.join(
+            path,
+            '%s.%s' % (res_id, extension),
+        )
+        _logger.info('Storing file: %s' % fullname)
         return res_id
 
     _columns = {
