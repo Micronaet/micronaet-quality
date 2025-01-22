@@ -86,6 +86,18 @@ class quality_document(osv.osv):
     # -------------------------------------------------------------------------
     # Utility:
     # -------------------------------------------------------------------------
+    def get_many2many(self, cr, uid, model, item_id, context=None):
+        """ Search model ref
+        """
+        result = {}
+
+        search_ids = self.search(cr, uid, [
+            ('model_ref', '=', '%s,%s' % (model, item_id)),
+        ], context=context)
+
+        result[item_id] = search_ids
+        return result
+
     def get_php_return_page(self, cr, uid, fullname, name, context=None):
         """ Generate return object for pased files
         """
@@ -211,6 +223,9 @@ class quality_document(osv.osv):
         'user_id': fields.many2one('res.users', 'Utente'),
 
         'area': fields.char('Area', size=80),
+        'model_ref': fields.char(
+            'Collegato a', size=60,
+            help='Contiene il riferimento come: model.name,ID'),
         'note': fields.text('Note'),
         'loaded': fields.boolean(
             'Caricato', help='Nasconde il caricamento di file successivi'),
@@ -273,6 +288,7 @@ class mail_thread(osv.osv):
         #        context=context
         #        )
         return
+
 
 class quality_conformed_external(osv.osv):
     """ Forms of not conformed
@@ -340,10 +356,10 @@ class quality_conformed_external(osv.osv):
         'insert_date': fields.date('Insert date', required=True),
         'supplier_id':fields.many2one('res.partner', 'Supplier'),
         'origin': fields.selection([
-            #('acceptation', 'Acceptation'),
-            #('sampling', 'Sampling'),
+            # ('acceptation', 'Acceptation'),
+            # ('sampling', 'Sampling'),
             ('claim', 'Claim'),
-            #('packaging', 'Packaging'),
+            # ('packaging', 'Packaging'),
             ('doc', 'Documentation not send'),
             ('other', 'Other'),
         ], 'Origin', select=True),
@@ -361,7 +377,8 @@ class quality_conformed_external(osv.osv):
         'treatment': fields.text('Treatment'),
         'judgement': fields.text('Judgement'),
         'judgement_date': fields.date('Data del giudizio'),
-        'state': fields.selection(conformed_external_state, 'State',
+        'state': fields.selection(
+            conformed_external_state, 'State',
             select=True, readonly=True),
         #'aesthetic_packaging': fields.boolean('Confezione'),
         #'quantity': fields.boolean('Quantity'),
@@ -423,6 +440,7 @@ class quality_conformed_external(osv.osv):
         'origin': lambda *a: 'other',
         'state': lambda *a: 'draft',
         }
+
 
 # -----------------------------------------------------------------------------
 #                                    CLAIMS:
@@ -1911,9 +1929,22 @@ class quality_conformed(osv.osv):
             'record': sampling_id,
             })
 
+    def _get_quality_document(
+            self, cr, uid, ids, field_name, arg, context=None):
+        """ Return quality document
+        """
+        return self.pool.get('quality.document').get_many2many(
+            cr, uid,
+            model='quality.conformed',
+            item_id=ids[0],
+            context=context)
+
     _columns = {
         'ref': fields.char('Ref', size=100, readonly=True),
         'insert_date': fields.date('Insert date', required=True),
+        'document_ids': fields.function(
+            _get_quality_document, type='many2many', readonly=True,
+            relation='quality.document', string='Documenti'),
 
         'aesthetic_packaging': fields.boolean('Confezione'),
         'quantity': fields.boolean('Quantity'),
