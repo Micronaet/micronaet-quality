@@ -75,11 +75,64 @@ conformed_external_state = [
 
 _logger = logging.getLogger(__name__)
 
+
 class quality_document(osv.osv):
     """ Simple document management
     """
     _name = 'quality.document'
     _description = 'Documenti'
+
+    # -------------------------------------------------------------------------
+    # Utility:
+    # -------------------------------------------------------------------------
+    def get_php_return_page(self, cr, uid, fullname, name, context=None):
+        """ Generate return object for pased files
+        """
+        config_pool = self.pool.get('ir.config_parameter')
+        key = 'quality.document.base.url'
+        config_ids = config_pool.search(cr, uid, [
+            ('key', '=', key)], context=context)
+        if not config_ids:
+            raise osv.except_osv(
+                _('Errore'),
+                _('Avvisare amministratore: configurare parametro: %s' % key),
+                )
+        config_proxy = config_pool.browse(
+            cr, uid, config_ids, context=context)[0]
+        base_address = config_proxy.value
+        _logger.info('URL parameter: %s' % base_address)
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '%s/save_as.php?filename=%s&name=%s' % (
+                base_address, fullname, name),
+            # 'target': 'new',
+            }
+
+    # Button
+    def return_file_apache_php(
+            self, cr, uid, ids, context=None):
+        """ Return file with PHP page
+        """
+        origin = self.get_fullname(cr, uid, ids[0], context=context)
+        filename = os.path.basename(origin)
+        destination = os.path.join('/tmp', filename)
+
+        # Copy current file in temp destination
+        try:
+            shutil.copyfile(origin, destination)
+        except:
+            raise osv.except_osv(
+                _('File non trovato'),
+                _(u'File non trovato nella gest. documentale!\n%s' % origin),
+                )
+
+        if not name:
+            name = 'Quality_Doc_%s' % filename
+
+        # Return link for open temp file:
+        return self.get_php_return_page(
+            cr, uid, destination, name, context=context)
 
     def load_document(self, cr, uid, ids, context=None):
         """ Load document from binary file

@@ -43,7 +43,8 @@
             <field name="arch" type="xml">
                 <form string="Documento" version="7.0">
                    <header>
-                         <field name="file" attrs="{'readonly': [('loaded', '=', False)]}"/>
+                        <field name="file" attrs="{'readonly': [('loaded', '=', False)]}" nolabel="1"/>
+                        <button name="return_file_apache_php" type="object" string="Scarica documento" attrs="{'readonly': [('loaded', '=', True)]}"/>
                     </header>
                    <sheet>
                        <group col="4">

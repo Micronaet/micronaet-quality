@@ -6,6 +6,10 @@
         <field name="key">quality.document.store.folder</field>
         <field name="value">~/quality/document</field>
     </record>
+    <record model="ir.config_parameter" id="ir_config_parameter_base_url">
+        <field name="key">quality.document.base.url</field>
+        <field name="value">http://192.168.1.2</field>
+    </record>
 
     <!--quality.gravity-->
     <record model="quality.gravity" id="quality_gravity_secondary">
