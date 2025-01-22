@@ -108,7 +108,7 @@ class quality_document(osv.osv):
             'view_id': int(model_ref_part[1]),
             'views': [(False, 'form')],
             'domain': [],
-            'context': ctx,
+            'context': context,
             'target': 'new',
             'nodestroy': False,
             }
