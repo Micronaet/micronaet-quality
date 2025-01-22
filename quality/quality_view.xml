@@ -64,7 +64,7 @@
                        </group>
                     </sheet>
                     <footer>
-                        <button name="dummy_save" string="Salva" type="object" class="oe_highlight" icon="gtk-save"/>
+                        <button name="dummy_save" string="Salva" type="object" class="oe_highlight" icon="gtk-save" attrs="{'invisible': [('loaded', '=', True)]}"/>
                     </footer>
                 </form>
             </field>
