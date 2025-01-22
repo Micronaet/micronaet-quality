@@ -19,8 +19,10 @@
 ###############################################################################
 import os
 import sys
-from openerp import netsvc
+import base64
+import pdb
 import logging
+from openerp import netsvc
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
 from openerp.tools import (
@@ -115,6 +117,7 @@ class quality_document(osv.osv):
         """ Generate not conformed if one problem is fount
         """
         # Technically during creation there's not check operation (automated)
+        pdb.set_trace()
         try:
             binary_file = vals['file']
         except:
@@ -137,6 +140,11 @@ class quality_document(osv.osv):
             path,
             '%s.%s' % (res_id, extension),
         )
+        binary_f = open(fullname, 'rb')
+        binary_f.write(
+            base64.b64encode(binary_file)
+        )
+        binary_f.clos()
         _logger.info('Storing file: %s' % fullname)
         return res_id
 
