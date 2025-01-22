@@ -87,6 +87,11 @@ class quality_document(osv.osv):
     # -------------------------------------------------------------------------
     # Utility:
     # -------------------------------------------------------------------------
+    def dummy_unlink(self, cr, uid, ids, context=None):
+        """ Save
+        """
+        return self.unlink(cr, uid, ids, context=None)
+
     def dummy_save(self, cr, uid, ids, context=None):
         """ Save
         """

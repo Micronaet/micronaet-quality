@@ -29,6 +29,7 @@
             <field name="model">quality.document</field>
             <field name="arch" type="xml">
                 <tree string="Documenti">
+                    <button name="dummy_unlink" type="object" string="Elimina documento" icon="gtk-clear" confirm="Confermi la cancellazione di questo documento?"/>
                     <field name="date" />
                     <field name="user_id" />
                     <field name="name" />
