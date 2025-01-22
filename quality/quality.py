@@ -118,11 +118,10 @@ class quality_document(osv.osv):
         """ Generate not conformed if one problem is fount
         """
         # Technically during creation there's not check operation (automated)
-        pdb.set_trace()
         try:
-            binary_file = vals['file']
+            document_string = vals['file']
         except:
-            binary_file = False
+            document_string = False
 
         if not binary_file:
             raise osv.except_osv(
@@ -141,11 +140,8 @@ class quality_document(osv.osv):
             path,
             '%s.%s' % (res_id, extension),
         )
-        binary_f = open(fullname, 'rb')
-        binary_f.write(
-            base64.b64encode(binary_file)
-        )
-        binary_f.clos()
+        with open(fullname, 'wb') as f:
+            f.write(base64.b64decode(document_string))
         _logger.info('Storing file: %s' % fullname)
         return res_id
 
@@ -157,6 +153,7 @@ class quality_document(osv.osv):
 
         'area': fields.char('Area', size=80),
         'note': fields.text('Note'),
+        'loaded': fields.text('Note'),
 
         'extension': fields.selection([
             ('pdf', 'Acrobat PDF'),
