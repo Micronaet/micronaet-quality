@@ -22,6 +22,7 @@ import sys
 import base64
 import pdb
 import logging
+import shutil
 from openerp import netsvc
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
@@ -127,10 +128,8 @@ class quality_document(osv.osv):
                 _(u'File non trovato nella gest. documentale!\n%s' % origin),
                 )
 
-        if not name:
-            name = 'Quality_Doc_%s' % filename
-
         # Return link for open temp file:
+        name = 'Quality_Doc_%s' % filename
         return self.get_php_return_page(
             cr, uid, destination, name, context=context)
 
@@ -164,7 +163,11 @@ class quality_document(osv.osv):
     def get_fullname(self, cr, uid, ids, context=None):
         """ Return fullname of the file
         """
-        res_id = ids[0]
+        if type(ids) == int:
+            res_id = ids
+        else:
+            res_id = ids[0]
+
         document = self.browse(cr, uid, res_id, context=context)
         path = self.get_store_path(cr, uid, context=context)
         extension = document.extension
