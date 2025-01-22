@@ -23,7 +23,8 @@ from openerp import netsvc
 import logging
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+from openerp.tools import (
+    DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -89,7 +90,31 @@ class quality_document(osv.osv):
         """
         return True
 
-    # def override create
+    # -------------------------------------------------------------------------
+    # Override function:
+    # -------------------------------------------------------------------------
+    def create(self, cr, uid, vals, context=None):
+        """ Generate not conformed if one problem is fount
+        """
+        # Technically during creation there's not check operation (automated)
+        try:
+            binary_file = vals['file']
+        except:
+            binary_file = False
+
+        if not binary_file:
+            raise osv.except_osv(
+                _('Errore'),
+                _('Necessario indicare il file per creare un documento!'),
+                )
+
+        extension = vals['extension']
+        del(vals['file'])
+        res_id = osv.osv.create(self, cr, uid, vals, context=context)
+
+        # Save file as ID.extension in Store folder
+
+        return res_id
 
     _columns = {
         'name': fields.char(

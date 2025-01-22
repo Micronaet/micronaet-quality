@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <openerp>
     <data noupdate="1">
+    <!--ir.config_parameter"-->
+    <record model="ir.config_parameter" id="ir_config_parameter_store_folder">
+        <field name="key">quality.document.store.folder</field>
+        <field name="value">~/quality/document</field>
+    </record>
+
     <!--quality.gravity-->
     <record model="quality.gravity" id="quality_gravity_secondary">
         <field name="name">Secondary</field>
@@ -115,7 +121,7 @@
     <record model="quality.comunication.type" id="quality_comunication_asl">
         <field name="name">ASL</field>
     </record>
-    
+
     <!--quality.sampling.plan-->
     <record model="quality.sampling.plan" id="quality_sampling_plan_bieta">
         <field name="name">Bieta erbetta</field>
