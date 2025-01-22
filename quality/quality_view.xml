@@ -35,7 +35,7 @@
                     <field name="area" />
                     <field name="extension" />
                     <field name="loaded" invisible="1"/>
-                    <button name="return_file_apache_php" type="object" string="Scarica documento" attrs="{'invisible': [('loaded', '=', False)]}"/>
+                    <button name="return_file_apache_php" type="object" string="Scarica documento" icon="gtk-open" attrs="{'invisible': [('loaded', '=', False)]}"/>
                 </tree>
             </field>
         </record>
@@ -46,7 +46,7 @@
                 <form string="Documento" version="7.0">
                    <header>
                         <field name="file" attrs="{'invisible': [('loaded', '=', True)]}" nolabel="1"/>
-                        <button name="return_file_apache_php" type="object" string="Scarica documento" attrs="{'invisible': [('loaded', '=', False)]}"/>
+                        <button name="return_file_apache_php" type="object" string="Scarica documento" icon="gtk-open" attrs="{'invisible': [('loaded', '=', False)]}"/>
                     </header>
                    <sheet>
                        <group col="4">
@@ -63,6 +63,9 @@
                            <field name="model_ref" invisible="1"/>
                        </group>
                     </sheet>
+                    <footer>
+                        <button name="dummy_save" string="Salva" type="object" class="oe_highlight" icon="gtk-save"/>
+                    </footer>
                 </form>
             </field>
         </record>
@@ -1017,7 +1020,7 @@
                                 <page string='Documenti'>
                                     <group colspan="4" col='4'>
                                         <separator string="Documenti collegati:" colspan="3"/> <button name="quality_document_add" type="object" icon="gtk-add" colspan="1"/>
-                                        <field name='document_ids' nolabel='1' colspan='4'/>
+                                        <field name='document_ids' nolabel='1' colspan='4' />
                                     </group>
                                 </page>
                                 <page string='Comunications'>

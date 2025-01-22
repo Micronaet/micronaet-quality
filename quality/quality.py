@@ -86,13 +86,21 @@ class quality_document(osv.osv):
     # -------------------------------------------------------------------------
     # Utility:
     # -------------------------------------------------------------------------
-    def open_quality_document_add(self, cr, uid, model, item_id, context=None):
+    def dummy_save(self, cr, uid, ids, context=None):
+        """ Save
+        """
+        return True
+
+    def open_quality_document_add(
+            self, cr, uid, model, item_id, area='', context=None):
         """ Open form with default
         """
         if context is None:
             context = {}
         ctx = context.copy()
         ctx['default_model_ref'] = '%s,%s' % (model, item_id)
+        ctx['default_area'] = area
+
         return  {
             'type': 'ir.actions.act_window',
             'name': _('Collega documento'),
@@ -1962,6 +1970,7 @@ class quality_conformed(osv.osv):
             cr, uid,
             model='quality.conformed',
             item_id=ids[0],
+            area=u'Non conformità',
             context=context)
 
     def _get_quality_document(
