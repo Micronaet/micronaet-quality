@@ -123,7 +123,7 @@ class quality_document(osv.osv):
         except:
             document_string = False
 
-        if not binary_file:
+        if not document_string:
             raise osv.except_osv(
                 _('Errore'),
                 _('Necessario indicare il file per creare un documento!'),
