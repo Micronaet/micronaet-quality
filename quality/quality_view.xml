@@ -29,16 +29,16 @@
             <field name="model">quality.document</field>
             <field name="arch" type="xml">
                 <tree string="Documenti">
-                    <button name="dummy_unlink" type="object" string="Elimina documento" icon="gtk-clear" confirm="Confermi la cancellazione di questo documento?"/>
-                    <field name="date" />
-                    <field name="user_id" />
+                    <button name="return_file_apache_php" type="object" string="Scarica documento" icon="gtk-open" attrs="{'invisible': [('loaded', '=', False)]}"/>
                     <field name="name" />
                     <button name="open_generator_document" type="object" string="Scheda collegata" icon="gtk-justify-fill" attrs="{'invisible': [('model_ref', '=', False)]}"/>
+                    <field name="date" />
+                    <field name="user_id" />
                     <field name="area" />
                     <field name="extension" />
                     <field name="loaded" invisible="1"/>
                     <field name="model_ref" invisible="1"/>
-                    <button name="return_file_apache_php" type="object" string="Scarica documento" icon="gtk-open" attrs="{'invisible': [('loaded', '=', False)]}"/>
+                    <button name="dummy_unlink" type="object" string="Elimina documento" icon="gtk-clear" confirm="Confermi la cancellazione di questo documento?"/>
                 </tree>
             </field>
         </record>
