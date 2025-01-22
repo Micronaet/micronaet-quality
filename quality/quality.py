@@ -82,6 +82,7 @@ class quality_document(osv.osv):
     """
     _name = 'quality.document'
     _description = 'Documenti'
+    _order = 'date desc'
 
     # -------------------------------------------------------------------------
     # Utility:
