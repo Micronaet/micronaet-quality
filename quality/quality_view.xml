@@ -1,6 +1,53 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <record id="view_quality_document_tree" model="ir.ui.view">
+            <field name="name">quality.document.tree</field>
+            <field name="model">quality.document</field>
+            <field name="arch" type="xml">
+                <tree string="Documenti">
+                    <field name="create_date" />
+                    <field name="create_uid" />
+                    <field name="name" />
+                    <field name="area" />
+                    <field name="extension" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_quality_document_form" model="ir.ui.view">
+            <field name="name">quality.document.form</field>
+            <field name="model">quality.document</field>
+            <field name="arch" type="xml">
+                <form string="Documento" version="7.0">
+                   <header>
+                         <field name="file" />
+                    </header>
+                   <sheet>
+                       <group col="4">
+                           <field name="name" colspan="4" />
+                           <field name="extension" />
+                           <field name="area" />
+
+                           <field name="create_date" readonly="1"/>
+                           <field name="create_id" readonly="1"/>
+
+                           <separator string="Note" colspan="4"/>
+                           <field name="note" colspan="4" nolabel="1"/>
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_view_quality_document" model="ir.actions.act_window" >
+            <field name="name">Documenti</field>
+            <field name="res_model">quality.document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_quality_document_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
         <record id="view_quality_intervent_planned_form" model="ir.ui.view">
             <field name="name">quality.intervent.planned.tree</field>
             <field name="model">quality.intervent.planned</field>
@@ -2186,6 +2233,8 @@
                 <menuitem parent="menu_quality_form" id="menu_quality_form_not_conformed" name="Not conformed" action="action_quality_conformed_form" sequence="30" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_sampling" name="Sampling" action="action_quality_sampling_form" sequence="40" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
                 <menuitem parent="menu_quality_form" id="menu_quality_form_acceptation" name="Acceptation" action="action_quality_acceptation_form" sequence="50" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+                <menuitem parent="menu_quality_form" id="menu_quality_form_document" name="Documenti" action="action_view_quality_document" sequence="60" groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA,group_quality_user"/>
+
             <menuitem parent="menu_quality_root" id="menu_quality_root_configuration" name="Configuration" sequence="99"  groups="group_quality_RDQ,group_quality_RAQ,group_quality_RCO,group_quality_SAQ,group_quality_SGO,group_quality_SFA"/>
 
                 <menuitem parent="menu_quality_root_configuration" id="menu_quality_root_configuration_customer" name="Customer" action="action_res_partner_customer_form" sequence="10"/>

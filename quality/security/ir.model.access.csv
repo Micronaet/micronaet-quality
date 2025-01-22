@@ -27,3 +27,4 @@
 "access_quality_intervent_verify_user","quality.intervent.verify","model_quality_intervent_verify","base.group_user",1,1,1,1
 "access_quality_intervent_valutation_user","quality.intervent.valutation","model_quality_intervent_valutation","base.group_user",1,1,1,1
 
+"access_quality_document_user","quality.document","model_quality_document","base.group_user",1,1,1,1

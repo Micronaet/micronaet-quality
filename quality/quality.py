@@ -30,7 +30,7 @@ from openerp.tools.translate import _
 
 
 # -----------------------------------------------------------------------------
-#           State for selecton (used for real field and related
+#           State for selection (used for real field and related
 # -----------------------------------------------------------------------------
 acceptation_state = [
     ('opened', 'Opened'),
@@ -71,6 +71,52 @@ conformed_external_state = [
     ]
 
 _logger = logging.getLogger(__name__)
+
+class quality_document(osv.osv):
+    """ Simple document management
+    """
+    _name = 'quality.document'
+    _description = 'Documenti'
+
+    def load_document(self, cr, uid, ids, context=None):
+        """ Load document from binary file
+        """
+        # Launch Wizard for load document
+        return True
+
+    def delete_document(self, cr, uid, ids, context=None):
+        """ Load document from binary file
+        """
+        return True
+
+    # def override create
+
+    _columns = {
+        'name': fields.char(
+            'Descrizione', size=120, required=True),
+        'create_date': fields.datetime('Data creazione'),
+        'user_id': fields.many2one('res.users', 'Utente'),
+
+        'area': fields.char('Area', size=80),
+        'note': fields.text('Note'),
+
+        'extension': fields.selection([
+            ('pdf', 'Acrobat PDF'),
+            ('docx', 'Word DOCX'),
+            ('doc', 'Word DOC (obsoleto)'),
+            ('xlsx', 'Excel XLSX'),
+            ('xls', 'Excel XLS (obsoleto)'),
+            ('zip', 'Cartella comprezza ZIP'),
+            ], 'Tipo file', required=True),
+        'file': fields.binary('File'),
+    }
+
+    _defaults = {
+        'extension': lambda *x: 'pdf',
+        'user_id': lambda s, cr, uid, ctx: uid,
+        'create_date':
+            lambda *x: datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+    }
 
 class mail_thread(osv.osv):
     """ Add extra function for changing state in mail.thread
