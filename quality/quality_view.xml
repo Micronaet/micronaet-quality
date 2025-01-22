@@ -1015,8 +1015,8 @@
                                     </group>
                                 </page>
                                 <page string='Documenti'>
-                                    <group colspan="4" col='3'>
-                                        <button name="quality_document_add" type="object" icon="gtk-add" colspan="1"/>
+                                    <group colspan="4" col='4'>
+                                        <separator string="Documenti collegati:" colspan="3"/> <button name="quality_document_add" type="object" icon="gtk-add" colspan="1"/>
                                         <field name='document_ids' nolabel='1' colspan='4'/>
                                     </group>
                                 </page>
