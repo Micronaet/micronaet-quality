@@ -91,6 +91,28 @@ class quality_document(osv.osv):
         """
         return True
 
+    def open_generator_document(
+            self, cr, uid, ids, context=None):
+        """ Open form with default
+        """
+        document = self.browse(cr, uid, ids, context=context)[0]
+        model_ref_part = document.model_ref.split(',')
+
+        return  {
+            'type': 'ir.actions.act_window',
+            'name': _('Collega documento'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            # 'res_id': res_id,
+            'res_model': model_ref_part[0],
+            'view_id': int(model_ref_part[1]),
+            'views': [(False, 'form')],
+            'domain': [],
+            'context': ctx,
+            'target': 'new',
+            'nodestroy': False,
+            }
+
     def open_quality_document_add(
             self, cr, uid, model, item_id, area='', context=None):
         """ Open form with default
@@ -2001,16 +2023,17 @@ class quality_conformed(osv.osv):
         'no_delivery': fields.boolean('Mancata consegna'),
         'external_material': fields.boolean('Corpi estranei'),
 
-        'gravity_id': fields.many2one('quality.gravity', 'Gravity',
+        'gravity_id': fields.many2one(
+            'quality.gravity', 'Gravity',
             required=True),
-        #'genesis':fields.selection([
+        # 'genesis':fields.selection([
             #('acceptance', 'Acceptance'),
             #('sample', 'Sample'),
             #('claim', 'Claim'),
             #('packaging', 'Packaging'),
             #('other', 'Other'),
             #   ],'Genesis', select=True),
-        #'other':fields.char('Other', size=100),
+        # 'other':fields.char('Other', size=100),
         'origin': fields.selection([
             ('acceptation', 'Acceptation'),
             ('sampling', 'Sampling'),
