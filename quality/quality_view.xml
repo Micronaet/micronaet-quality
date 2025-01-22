@@ -32,7 +32,7 @@
                     <field name="date" />
                     <field name="user_id" />
                     <field name="name" />
-                    <button name="return_file_apache_php" type="object" string="Scheda collegata" icon="gtk-justify-fill" attrs="{'invisible': [('model_ref', '=', False)]}"/>
+                    <button name="open_generator_document" type="object" string="Scheda collegata" icon="gtk-justify-fill" attrs="{'invisible': [('model_ref', '=', False)]}"/>
                     <field name="area" />
                     <field name="extension" />
                     <field name="loaded" invisible="1"/>
