@@ -103,13 +103,13 @@ class quality_document(osv.osv):
             'name': _('Collega documento'),
             'view_type': 'form',
             'view_mode': 'form',
-            # 'res_id': res_id,
+            'res_id': int(model_ref_part[1]),
             'res_model': model_ref_part[0],
-            'view_id': int(model_ref_part[1]),
+            'view_id': False,
             'views': [(False, 'form')],
             'domain': [],
             'context': context,
-            'target': 'new',
+            'target': 'current',
             'nodestroy': False,
             }
 
