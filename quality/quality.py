@@ -918,8 +918,35 @@ class quality_claim(osv.osv):
         except:
             return []
 
+    # -------------------------------------------------------------------------
+    # Document Management:
+    # -------------------------------------------------------------------------
+    def quality_document_add(self, cr, uid, ids, context=None):
+        """ Open Document add form
+        """
+        return self.pool.get('quality.document').open_quality_document_add(
+            cr, uid,
+            model='quality.claim',
+            item_id=ids[0],
+            area=u'Reclami',
+            context=context)
+
+    def _get_quality_document(
+            self, cr, uid, ids, field_name, arg, context=None):
+        """ Return quality document
+        """
+        return self.pool.get('quality.document').get_many2many(
+            cr, uid,
+            model='quality.claim',
+            item_id=ids[0],
+            context=context)
+
+
     _columns = {
         'name': fields.char('Description', size=80, required=True),
+        'document_ids': fields.function(
+            _get_quality_document, type='many2many', readonly=True,
+            relation='quality.document', string='Documenti'),
         'partner_name': fields.function(
             _get_partner_name, method=True,
             type='char', string='Nome partner',
