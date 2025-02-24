@@ -1713,6 +1713,18 @@
 
         <!--Action res.partner-->
         <record model="ir.ui.view" id="view_supplier_class_tree">
+            <field name="name">res.partner.create.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field string="Creato dal" name="create_date" filter_domain="[('create_date','&gt;=',self)]"/>
+                    <field string="Creato al" name="create_date" filter_domain="[('create_date','&lt;=',self)]"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_supplier_class_tree">
             <field name="name">res.partner.supplier.class.tree</field>
             <field name="model">res.partner</field>
             <field name="priority" eval="40" />
