@@ -1712,7 +1712,7 @@
         </record>
 
         <!--Action res.partner-->
-        <record model="ir.ui.view" id="view_supplier_class_tree">
+        <!--<record model="ir.ui.view" id="view_supplier_class_tree">
             <field name="name">res.partner.create.search</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
@@ -1722,7 +1722,7 @@
                     <field string="Creato al" name="create_date" filter_domain="[('create_date','&lt;=',self)]"/>
                 </field>
             </field>
-        </record>
+        </record>-->
 
         <record model="ir.ui.view" id="view_supplier_class_tree">
             <field name="name">res.partner.supplier.class.tree</field>
