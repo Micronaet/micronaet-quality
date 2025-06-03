@@ -295,7 +295,7 @@ class quality_document(osv.osv):
             ('doc', 'Word DOC (obsoleto)'),
             ('xlsx', 'Excel XLSX'),
             ('xls', 'Excel XLS (obsoleto)'),
-            ('zip', 'Cartella comprezza ZIP'),
+            ('zip', 'Cartella compressa ZIP'),
             ], 'Tipo file', required=True),
         'file': fields.binary('File'),
     }
