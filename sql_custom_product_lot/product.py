@@ -192,7 +192,7 @@ class product_product(osv.osv):
 
         try:
             cursor = accounting_pool.get_product(
-                cr, uid, active=False, write_date_from=write_date_from,
+                cr, uid, active=True, write_date_from=write_date_from,
                 write_date_to=write_date_to, create_date_from=create_date_from,
                 create_date_to=create_date_to, context=context)
             if not cursor:
