@@ -191,8 +191,10 @@ class product_product(osv.osv):
             return lot_id
 
         try:
+            _logger.error("Load product only active!")
             cursor = accounting_pool.get_product(
-                cr, uid, active=True, write_date_from=write_date_from,
+                cr, uid,
+                active=True, write_date_from=write_date_from,
                 write_date_to=write_date_to, create_date_from=create_date_from,
                 create_date_to=create_date_to, context=context)
             if not cursor:
@@ -205,8 +207,7 @@ class product_product(osv.osv):
                 i += 1
                 try:
                     if verbose_log_count and i % verbose_log_count == 0:
-                        _logger.info(
-                            'Import %s: record imported / updated!' % i)
+                        _logger.info('Import %s: record imported / updated!' % i)
                     default_code = record['CKY_ART']
 
                     # Less code:
@@ -215,13 +216,11 @@ class product_product(osv.osv):
 
                     # Product code:
                     elif len(default_code) == separator: # Code = separator
-                        create_update_product(
-                            self, cr, uid, record, context=context)
+                        create_update_product(self, cr, uid, record, context=context)
 
                     # Lot code:
                     elif len(default_code) > separator: # Lot
-                        create_update_lot(
-                            self, cr, uid, record, context=context)
+                        create_update_lot(self, cr, uid, record, context=context)
                 except:
                     _logger.error(
                         'Record: %s On import product/lot [%s], jumped: %s' % (
@@ -229,8 +228,7 @@ class product_product(osv.osv):
 
             _logger.info('All product is updated!')
         except:
-            _logger.error('Error generic import product: %s' % (
-                sys.exc_info()))
+            _logger.error('Error generic import product: %s' % (sys.exc_info(), ))
             return False
         return True
 
