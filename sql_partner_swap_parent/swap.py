@@ -174,7 +174,7 @@ class ResPartner(osv.osv):
                     ref = record['CKY_CNT']
                     if verbose_log_count:
                         if not i % verbose_log_count:
-                            _logger.info('Import %s: %s record imported / updated!' % (block, i, ))
+                            _logger.info('Import %s: %s record imported / updated!' % (block, i))
                     else:
                         _logger.info('%s. Block %s: Record %s!' % (i, block, ref))
 
