@@ -70,10 +70,8 @@ class ResPartner(osv.osv):
     # -------------------------------------------------------------------------
     # NOTE: Change original function schedule_sql_partner_import:
     def schedule_sql_partner_import_version_2(
-            self, cr, uid, verbose_log_count=100,
-            capital=True, write_date_from=False, write_date_to=False,
-            create_date_from=False, create_date_to=False,
-            context=None):
+            self, cr, uid, verbose_log_count=100, capital=True, write_date_from=False, write_date_to=False,
+            create_date_from=False, create_date_to=False, context=None):
         """ Import partner from external DB
             verbose_log_count: number of record for verbose log (0 = nothing)
             capital: if table has capital letters (usually with mysql in win)
@@ -93,8 +91,7 @@ class ResPartner(osv.osv):
         # ---------------------------------------------------------------------
         # Load company for parameters:
         # ---------------------------------------------------------------------
-        company_proxy = company_pool.get_from_to_dict(
-            cr, uid, context=context)
+        company_proxy = company_pool.get_from_to_dict(cr, uid, context=context)
         if not company_proxy:
             _logger.error('Company parameters not set up!')
 
@@ -129,8 +126,7 @@ class ResPartner(osv.osv):
         # ---------------------------------------------------------------------
         countries = {}
         country_ids = country_pool.search(cr, uid, [], context=context)
-        country_proxy = country_pool.browse(
-            cr, uid, country_ids, context=context)
+        country_proxy = country_pool.browse(cr, uid, country_ids, context=context)
         for item in country_proxy:
             countries[item.code] = item.id
 
@@ -151,8 +147,7 @@ class ResPartner(osv.osv):
                 parent_code = record['CKY_CNT_CLI_FATT']
                 # Swapped if present:
                 destination_parents[
-                    record['CKY_CNT']] = swap_parent.get(
-                        parent_code, parent_code)
+                    record['CKY_CNT']] = swap_parent.get(parent_code, parent_code)
 
         # ---------------------------------------------------------------------
         #                          Master import:
@@ -164,32 +159,24 @@ class ResPartner(osv.osv):
             # Master Loop:
             for order, key_field, from_code, to_code, block in import_loop:
                 cursor = accounting_pool.get_partner(
-                    cr, uid,
-                    from_code=from_code, to_code=to_code,
-                    write_date_from=write_date_from,
-                    write_date_to=write_date_to,
-                    create_date_from=create_date_from,
-                    create_date_to=create_date_to,
-                    context=context)
+                    cr, uid, from_code=from_code, to_code=to_code,
+                    write_date_from=write_date_from, write_date_to=write_date_to,
+                    create_date_from=create_date_from, create_date_to=create_date_to, context=context)
 
                 if not cursor:
                     _logger.error('Unable to connect, no partner!')
                     continue  # next block
 
-                _logger.info('Start import %s from: %s to: %s' % (
-                    block, from_code, to_code))
+                _logger.info('Start import %s from: %s to: %s' % (block, from_code, to_code))
                 i = 0
                 for record in cursor:
                     i += 1
                     ref = record['CKY_CNT']
                     if verbose_log_count:
                         if not i % verbose_log_count:
-                            _logger.info(
-                                'Import %s: %s record imported / updated!' % (
-                                    block, i, ))
+                            _logger.info('Import %s: %s record imported / updated!' % (block, i, ))
                     else:
-                        _logger.info('%s. Block %s: Record %s!' % (
-                            i, block, ref))
+                        _logger.info('%s. Block %s: Record %s!' % (i, block, ref))
 
                     try:
                         data = {
@@ -206,8 +193,7 @@ class ResPartner(osv.osv):
                             'website': record['CDS_URL_INET'] or False,
                             # 'vat': record['CSG_PIVA'] or False,
                             key_field: ref,
-                            'country_id': countries.get(
-                                record['CKY_PAESE'], False),
+                            'country_id': countries.get(record['CKY_PAESE'], False),
                             }
 
                         # -----------------------------------------------------
@@ -226,57 +212,46 @@ class ResPartner(osv.osv):
                             data['type'] = 'delivery'
                             data['is_address'] = True
 
-                            parent_code = destination_parents.get(
-                                ref, False)
+                            parent_code = destination_parents.get(ref, False)
                             if parent_code:  # Convert value with dict
                                 # Cache search:
-                                data['parent_id'] = parents.get(
-                                    parent_code, False)
+                                data['parent_id'] = parents.get(parent_code, False)
 
                                 # if not in convert dict try to search
                                 if not data['parent_id']:
                                     # Normal search:
                                     parent_ids = self.search(cr, uid, [
                                         '|',
-                                        ('sql_customer_code', '=',
-                                         parent_code),
-                                        ('sql_supplier_code', '=',
-                                         parent_code),
+                                        ('sql_customer_code', '=', parent_code),
+                                        ('sql_supplier_code', '=', parent_code),
                                         ], context=context)
                                     if parent_ids:
                                         data['parent_id'] = parent_ids[0]
 
                         # Search partner:
-                        partner_ids = self.search(cr, uid, [
-                            (key_field, '=', ref)])
+                        partner_ids = self.search(cr, uid, [(key_field, '=', ref)])
 
                         # Update / Create
                         try:
                             if partner_ids:
                                 partner_id = partner_ids[0]
-                                self.write(
-                                    cr, uid, [partner_id], data,
-                                    context=context)
+                                self.write(cr, uid, [partner_id], data, context=context)
                             else:
-                                partner_id = self.create(
-                                    cr, uid, data, context=context)
+                                partner_id = self.create(cr, uid, data, context=context)
                         except:
                             _logger.error(
-                                '%s. Error creating / update partner [%s]: '
-                                '%s' % (i, record, sys.exc_info()))
+                                '%s. Error creating / update partner [%s]: %s' % (i, record, sys.exc_info()))
                             continue
 
                         if block != 'destination':  # Cache partner ref.
                             parents[ref] = partner_id
                     except:
                         _logger.error(
-                            'Error importing partner [%s], jumped: %s' % (
-                                record['CDS_CNT'], sys.exc_info()))
+                            'Error importing partner [%s], jumped: %s' % (record['CDS_CNT'], sys.exc_info()))
                         continue
                 _logger.info('>>>> All record in block %s is updated!' % block)
         except:
-            _logger.error(
-                'Error generic import partner: %s' % (sys.exc_info(), ))
+            _logger.error('Error generic import partner: %s' % (sys.exc_info(), ))
             return False
         return True
 
