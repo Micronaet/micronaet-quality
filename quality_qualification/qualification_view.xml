@@ -69,8 +69,8 @@
             <field name="inherit_id" ref="quality.view_res_partner_form"/>
             <field name="arch" type="xml">
                 <field name="quality_end_supplier" position="after">
-                    <separator string="Auto qualification" colspan="4" />
-                    <button name="%(action_quality_supplier_qualification_wizard)d" string="Qualifica Fornitore" type="action" icon="gtk-execute" context="{'default_partner_id': active_id}"/>
+                    <separator string="Auto qualification" colspan="3" />
+                    <button name="%(action_quality_supplier_qualification_wizard)d" string="Qualifica Fornitore" type="action" icon="gtk-execute" context="{'default_partner_id': active_id}" colspan="1"/>
 
                     <field name="qualification_date" readonly="1" />
                     <newline />
