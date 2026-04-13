@@ -70,6 +70,8 @@
             <field name="arch" type="xml">
                 <field name="quality_end_supplier" position="after">
                     <separator string="Auto qualification" colspan="4" />
+                    <button name="%(action_quality_supplier_qualification_wizard)d" string="Qualifica Fornitore" type="action" icon="gtk-execute" context="{'default_partner_id': active_id}"/>
+
                     <field name="qualification_date" readonly="1" />
                     <newline />
                     <field name="qualification_claim" readonly="1"/>
