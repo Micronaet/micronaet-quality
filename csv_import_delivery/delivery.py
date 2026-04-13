@@ -66,11 +66,10 @@ class ResPartnerDelivery(orm.Model):
             value[:2],
             )
 
-    # -------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
     # Scheduled procedure:
-    # -------------------------------------------------------------------------
-    def csv_import_carrier_files(self, cr, uid, path, only_current=True,
-            context=None):
+    # ------------------------------------------------------------------------------------------------------------------
+    def csv_import_carrier_files(self, cr, uid, path, only_current=True, context=None):
         """ Schedule import procedure:
             only_current: force reimport of current year
         """
@@ -82,9 +81,9 @@ class ResPartnerDelivery(orm.Model):
 
         carrier_pool = self.pool.get('res.partner')
 
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         # Two launch mode:
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         # 1. Only this year:
         if only_current:
             year = datetime.now().year
@@ -92,6 +91,7 @@ class ResPartnerDelivery(orm.Model):
             delivery_ids = self.search(cr, uid, [
                 ('date', '>=', '%s-01-01' % year),
                 ], context=context)
+
         # 2. All year present in folder:
         else:
             csv_files = []
@@ -105,9 +105,9 @@ class ResPartnerDelivery(orm.Model):
         _logger.info('Delete all record for this importation')
         self.unlink(cr, uid, delivery_ids, context=context)
 
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         # Import procedure:
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         partner_cache = {}
         for filename in csv_files:
             fullname = os.path.expanduser(os.path.join(path, filename))
@@ -117,18 +117,22 @@ class ResPartnerDelivery(orm.Model):
                 line = line.strip()
                 row = line.split(separator)
 
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 # Read fields
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 name = self.clean_string(row[0])
+                if not name:
+                    _logger.info('Skip line: %s' % line)
+                    continue
+
                 date = self.clean_date(row[1])
                 carrier_code = self.clean_string(row[2])
                 carrier_name = self.clean_string(row[2])
                 trip = self.clean_string(row[4])[:3]
 
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 # Search carrier:
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 if carrier_code in partner_cache:
                     carrier_id = partner_cache[carrier_code]
                 else:
@@ -150,9 +154,9 @@ class ResPartnerDelivery(orm.Model):
                             }, context=context)
                     partner_cache[carrier_code] = carrier_id
 
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 # Create delivery:
-                # -------------------------------------------------------------
+                # ------------------------------------------------------------------------------------------------------
                 self.create(cr, uid, {
                     'name': name,
                     'date': date,
